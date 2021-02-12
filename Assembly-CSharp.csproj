@@ -64,22 +64,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EventsManager.cs" />
+    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\HotSeatManager.cs" />
     <Compile Include="Assets\Player.cs" />
+    <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
+    <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\Helper\Maths\VectorN.cs" />
     <Compile Include="Assets\Scripts\Helper\Utility\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryList.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryUIControl.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryUISlot.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryItem.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryList.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryUIControl.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryUISlot.cs" />
-    <Compile Include="Assets\TurnPoints.cs" />
+    <Compile Include="Assets\Scripts\~Depracated\gitTestscript.cs" />
     <Compile Include="Assets\TurnTracker.cs" />
-    <Compile Include="Assets\gitTestscript.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// added jay 12/02
+// added by jay 12/02
 
 /// <summary>
 /// Singlton base class. 
@@ -34,7 +34,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 
 
     /// <summary>
-    /// Will <c>throw</c> if instance does not exist
+    /// Will throw <see cref="SingletonDoesNotExistException"/> if instance does not exist
     /// </summary>
     public static void AssertInstanceExists() {if(!InstanceExists) throw new SingletonDoesNotExistException(); }
     

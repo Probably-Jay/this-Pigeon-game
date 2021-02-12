@@ -10,5 +10,9 @@ public class TurnTracker
     /// The current player's turn (player 0 goes first)
     /// </summary>
     public Player.PlayerEnum PlayerTurn { get => Turn % 2 == 0 ? Player.PlayerEnum.Player0 : Player.PlayerEnum.Player1 ; }
+
+    /// <summary>
+    /// Inciment the turn
+    /// </summary>
     public void ProgressTurn() => Turn++;
 }

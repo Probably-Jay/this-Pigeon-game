@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// created jay 12/02
+
 public class TurnPoints : MonoBehaviour
 {
 
@@ -46,6 +48,7 @@ public class TurnPoints : MonoBehaviour
 
 
     public int GetPoints(PointType type) => points[type];
+    public bool HasPointsLeft(PointType type) => GetPoints(type) > 0;
     private void SetPoints(PointType type, int value) => points[type] = value >= 0 ? value : 0;
     private void DecreasePoints(PointType type) => SetPoints(type, GetPoints(type) - 1);
 

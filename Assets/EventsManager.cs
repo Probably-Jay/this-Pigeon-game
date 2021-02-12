@@ -11,9 +11,12 @@ using System;
 public class EventsManager : Singleton<EventsManager>
 {
 
+    // Update this enum with new events to expand this class' functionality
     public enum EventType
     {
-          PlaceOwnObject = 0
+        EndTurn
+        , NewTurnBegin
+        , PlaceOwnObject = 0
         , PlaceCompanionObject
         , RemoveOwnObject
         , WaterOwnPlant // perhaps rename to "maintain own object"
@@ -22,7 +25,7 @@ public class EventsManager : Singleton<EventsManager>
 
 
 
-    public static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } //not needed but easier to find refs
+    protected static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
 
     public override void Awake()
     {
@@ -56,7 +59,7 @@ public class EventsManager : Singleton<EventsManager>
     }
 
     /// <summary>
-    /// Remove action from listening for an event
+    /// Remove action from listening for an event. This must be done whenever an object that is listening is disabled
     /// </summary>
     /// <param name="eventType">Event that would have triggered the action</param>
     /// <param name="action">Delegate to the function that will no longer be called when the action is triggered</param>
@@ -143,6 +146,16 @@ public class EventsManager : Singleton<EventsManager>
     }
     #endregion
 
+
+    private void ClearEvents()
+    {
+        events.Clear();
+        paramaterEvents.Clear();
+    }
+    private void OnDisable()
+    {
+        ClearEvents();
+    }
     public struct EventParams
     {
         public int IntData;
