@@ -7,7 +7,7 @@ using UnityEngine;
 public class TurnPoints : MonoBehaviour
 {
 
-    [Header("Start each round with the following number of points")]
+    [Header("Start each round with the following number of each points")]
     [SerializeField] int placeOwnPlantPointsInitial;
     [SerializeField] int placeCompanionPlantPointsInitial;
     [SerializeField] int removeOwnPlantPointsInitial;
@@ -22,6 +22,7 @@ public class TurnPoints : MonoBehaviour
 
     }
 
+    Dictionary<PointType, int> points;
 
 
     public void StartTurn()
@@ -33,7 +34,6 @@ public class TurnPoints : MonoBehaviour
     }
 
 
-    Dictionary<PointType, int> points;
 
 
 

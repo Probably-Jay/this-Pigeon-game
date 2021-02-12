@@ -22,6 +22,11 @@ public class TurnPointsUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        var activePlayerPoints = GameManager.Instance.HotSeatManager.ActivePlayer.TurnPoints;
+        placeOwnPlantPoints.text = $"Place objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.OurObjectPlace)}";
+        placeCompanionPlantPoints.text = $"Place companion's objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.CompanionPlace)}";
+        removeOwnPlantPoints.text = $"Remove objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.OurObjectRemove)}";
+        waterOwnPoints.text = $"Remove objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.OurWater)}";
+
     }
 }

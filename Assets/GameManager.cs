@@ -11,15 +11,16 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
+    public HotSeatManager HotSeatManager { get; private set; }
+
     public override void Awake()
     {
         base.InitSingleton();
-        hotSeatManager = GetComponent<HotSeatManager>();
+        HotSeatManager = GetComponent<HotSeatManager>();
     }
 
-    public HotSeatManager hotSeatManager;
-    
-    
+
+
 
 
 }

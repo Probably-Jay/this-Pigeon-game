@@ -4,7 +4,7 @@ using UnityEngine;
 
 // created jay 12/02
 
-  // uncomment when needed
+// uncomment when needed
 //[System.Obsolete("This class should no longer be useed as it was developed for MVP only")]
 /// <summary>
 /// Tempoary class for managing hotseating the players
@@ -18,9 +18,8 @@ public class HotSeatManager : MonoBehaviour
 
     TurnTracker turnTracker = new TurnTracker();
     Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
-    Player ActivePlayer;
 
-
+    public Player ActivePlayer { get; private set; }
 
     private void OnEnable()
     {
