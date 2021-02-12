@@ -37,7 +37,7 @@ public class TurnPoints : MonoBehaviour
 
 
 
-    private void Start()
+    private void Awake()
     {
         points = new Dictionary<PointType, int>();
         foreach (PointType type in System.Enum.GetValues(typeof(PointType)))

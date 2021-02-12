@@ -13,16 +13,24 @@ public class Player : MonoBehaviour
     public enum PlayerEnum { Player0 = 0, Player1 = 1 };
 
     public TurnPoints TurnPoints { get; private set; }
+    public PlayerEnum PlayerEnumValue { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        TurnPoints = GetComponent<TurnPoints>();
-    }
 
     // Update is called once per frame
     void Update()
     {
 
     }
+
+    public void StartTurn()
+    {
+        TurnPoints.StartTurn();
+    }
+
+    public void Init(PlayerEnum player)
+    {
+        PlayerEnumValue = player;
+        TurnPoints = GetComponent<TurnPoints>();
+    }
+
 }

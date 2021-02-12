@@ -20,17 +20,22 @@ public class HotSeatManager : MonoBehaviour
     Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
 
     public Player ActivePlayer { get; private set; }
+    public bool TurnActive => turnTracker.TurnActive;
+
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, ProgressTurn);
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, BeginNewTurn);
+        EventsManager.BindEvent(EventsManager.EventType.EndTurn, EndTurn);
+
+
+
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, ProgressTurn);
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, BeginNewTurn);
+        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, EndTurn);
+
+
 
     }
 
@@ -39,10 +44,12 @@ public class HotSeatManager : MonoBehaviour
     {
         foreach (Player.PlayerEnum playerNumber in System.Enum.GetValues(typeof(Player.PlayerEnum)))
         {
-            var player = Instantiate(playerPrefab);
-            players.Add(playerNumber, player.GetComponent<Player>());
+            var playerObject = Instantiate(playerPrefab);
+            var player = playerObject.GetComponent<Player>();
+            player.Init(playerNumber);
+            players.Add(playerNumber,player);
         }
-        SetActivePlayer();
+        BeginNewTurn();
     }
 
     private void SetActivePlayer() => ActivePlayer = players[turnTracker.PlayerTurn];
@@ -52,16 +59,19 @@ public class HotSeatManager : MonoBehaviour
     {
         turnTracker.ProgressTurn();
         SetActivePlayer();
+        ActivePlayer.StartTurn();
+        EventsManager.InvokeEvent(EventsManager.EventType.NewTurnBegin);
     }
 
-    void ProgressTurn()
+    void EndTurn()
     {
+        turnTracker.EndTurn();
         StartCoroutine(nameof(PauseBeforeStartingNextTurn));
     }
 
     IEnumerator PauseBeforeStartingNextTurn()
     {
         yield return new WaitForSeconds(hotseatSwapTime);
-        EventsManager.InvokeEvent(EventsManager.EventType.NewTurnBegin);
+        BeginNewTurn();
     }
 }

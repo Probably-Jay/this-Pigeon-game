@@ -11,17 +11,31 @@ using System;
 public class EventsManager : Singleton<EventsManager>
 {
 
-    // Update this enum with new events to expand this class' functionality
+    // Update these enum with new events to expand this class' functionality
+
+    // events with no paramaters
     public enum EventType
     {
         EndTurn
-        , NewTurnBegin
+        ,  NewTurnBegin
         , PlaceOwnObject = 0
         , PlaceCompanionObject
         , RemoveOwnObject
         , WaterOwnPlant // perhaps rename to "maintain own object"
     }
 
+    // events with paramaters
+    public enum ParamaterEventType 
+    {
+
+    }
+
+    // update thsese with more data as needed
+    public struct EventParams
+    {
+        public int IntData;
+        public Enum EnumData;
+    }
 
 
 
@@ -31,7 +45,7 @@ public class EventsManager : Singleton<EventsManager>
     {
         base.InitSingleton();
         if(events != null) Instance.events = new Dictionary<EventType, Action>();
-        if(paramaterEvents!= null) Instance.paramaterEvents = new Dictionary<EventType, Action<EventParams>>();
+        if(paramaterEvents!= null) Instance.paramaterEvents = new Dictionary<ParamaterEventType, Action<EventParams>>();
     }
 
 
@@ -82,7 +96,7 @@ public class EventsManager : Singleton<EventsManager>
     /// <param name="eventType">Type of event to trigger</param>
     public static void InvokeEvent(EventType eventType)
     {
-        if (Instance.paramaterEvents.ContainsKey(eventType))
+        if (Instance.events.ContainsKey(eventType))
         {
             Instance.events[eventType]?.Invoke();
         }
@@ -92,14 +106,14 @@ public class EventsManager : Singleton<EventsManager>
 
 
     #region Paramatized Events
-    Dictionary<EventType, Action<EventParams>> paramaterEvents;
+    Dictionary<ParamaterEventType, Action<EventParams>> paramaterEvents;
 
     /// <summary>
     /// Add a new action to be triggered when an event is invoked 
     /// </summary>
     /// <param name="eventType">Event that will trigger the action</param>
     /// <param name="action">Delegate to the function that will be called when the action is triggered</param>
-    public static void BindEvent(EventType eventType, Action<EventParams> action)
+    public static void BindEvent(ParamaterEventType eventType, Action<EventParams> action)
     {
         Action<EventParams> newEvent;
         if (Instance.paramaterEvents.TryGetValue(eventType, out newEvent))
@@ -119,7 +133,7 @@ public class EventsManager : Singleton<EventsManager>
     /// </summary>
     /// <param name="eventType">Event that would have triggered the action</param>
     /// <param name="action">Delegate to the function that will no longer be called when the action is triggered</param>
-    public static void UnbindEvent(EventType eventType, Action<EventParams> action)
+    public static void UnbindEvent(ParamaterEventType eventType, Action<EventParams> action)
     {
         if (!InstanceExists) { WarnInstanceDoesNotExist(); return; }
         Action<EventParams> thisEvent;
@@ -136,8 +150,9 @@ public class EventsManager : Singleton<EventsManager>
     /// </summary>
     /// <param name="eventType">Type of event to trigger</param>
     /// <param name="paramaters">Optional: Additional paramaters to be passed to the function</param>
-    public static void InvokeEvent(EventType eventType, EventParams paramaters)
+    public static void InvokeEvent(ParamaterEventType eventType, EventParams paramaters)
     {
+        //InvokeEvent(eventType);
         if (Instance.paramaterEvents.ContainsKey(eventType))
         {
             Instance.paramaterEvents[eventType]?.Invoke(paramaters);
@@ -156,10 +171,6 @@ public class EventsManager : Singleton<EventsManager>
     {
         ClearEvents();
     }
-    public struct EventParams
-    {
-        public int IntData;
-        public Enum EnumData;
-    }
+
 
 }
