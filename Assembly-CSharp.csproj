@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{904B399C-C367-AC81-7571-387CFD55C456}</ProjectGuid>
+    <ProjectGuid>{63CF9250-6E88-D8DF-A35C-95F0F225C73B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -63,17 +63,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EventsManager.cs" />
+    <Compile Include="Assets\GameManager.cs" />
+    <Compile Include="Assets\HotSeatManager.cs" />
+    <Compile Include="Assets\InputFaker.cs" />
+    <Compile Include="Assets\Player.cs" />
+    <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
+    <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\Helper\Maths\VectorN.cs" />
+    <Compile Include="Assets\Scripts\Helper\Utility\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryList.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryUIControl.cs" />
+    <Compile Include="Assets\Scripts\Inventory\InventoryUISlot.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryItem.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryList.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryUIControl.cs" />
-    <Compile Include="Assets\Scripts\UI_System\InventoryUISlot.cs" />
-    <Compile Include="Assets\gitTestscript.cs" />
+    <Compile Include="Assets\Scripts\~Depracated\gitTestscript.cs" />
+    <Compile Include="Assets\TurnDisplayControl.cs" />
+    <Compile Include="Assets\TurnTracker.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -258,13 +268,13 @@
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -612,124 +622,124 @@
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Monetization">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Runtime">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Advertisements">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Path.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Triangle.Runtime">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="PsdPlugin">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Psdimporter.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Advertisements.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Editor">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
-      <HintPath>D:/MyDocuments/Uni 20-21/DES310-project/DES301-Social-Isolation/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+      <HintPath>C:/Users/JakeBretherton/Documents/Working/this Pigeon game/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
