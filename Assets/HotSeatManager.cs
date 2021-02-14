@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // created jay 12/02
 
@@ -12,15 +13,19 @@ using UnityEngine;
 public class HotSeatManager : MonoBehaviour
 {
 
+    [SerializeField] Button EndTurnButton;
+
+
     [SerializeField, Range(0, 5)] float hotseatSwapTime;
 
     [SerializeField] GameObject playerPrefab;
 
-    TurnTracker turnTracker = new TurnTracker();
+    public TurnTracker TurnTracker { get; private set; } = new TurnTracker();
+
     Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
 
     public Player ActivePlayer { get; private set; }
-    public bool TurnActive => turnTracker.TurnActive;
+    public bool TurnActive => TurnTracker.TurnActive;
 
 
     private void OnEnable()
@@ -47,25 +52,36 @@ public class HotSeatManager : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        Init();
+
+    }
+
     // Start is called before the first frame update
     void Start()
+    {
+
+    }
+
+    private void Init()
     {
         foreach (Player.PlayerEnum playerNumber in System.Enum.GetValues(typeof(Player.PlayerEnum)))
         {
             var playerObject = Instantiate(playerPrefab);
             var player = playerObject.GetComponent<Player>();
             player.Init(playerNumber);
-            players.Add(playerNumber,player);
+            players.Add(playerNumber, player);
         }
-        BeginNewTurn();
+        SetActivePlayer();
     }
 
-    private void SetActivePlayer() => ActivePlayer = players[turnTracker.PlayerTurn];
+    private void SetActivePlayer() => ActivePlayer = players[TurnTracker.PlayerTurn];
 
 
     void BeginNewTurn()
     {
-        turnTracker.ProgressTurn();
+        TurnTracker.ProgressTurn();
         SetActivePlayer();
         ActivePlayer.StartTurn();
         EventsManager.InvokeEvent(EventsManager.EventType.NewTurnBegin);
@@ -73,17 +89,20 @@ public class HotSeatManager : MonoBehaviour
 
     void EndTurn()
     {
-        turnTracker.EndTurn();
+        TurnTracker.EndTurn();
         StartCoroutine(nameof(PauseBeforeStartingNextTurn));
     }
 
     IEnumerator PauseBeforeStartingNextTurn()
     {
+        EndTurnButton.enabled = false;
         yield return new WaitForSeconds(hotseatSwapTime);
+        EndTurnButton.enabled = true;
+
         BeginNewTurn();
     }
 
-    // This can all be moveed anywhere after MVP but right now neeeds to know who the active player is
+    // This can all be moved anywhere after MVP but right now neeeds to know who the active player is
     #region Attempt to complete action
 
     void TryPlaceOwnObject() => AttemptAction(TurnPoints.PointType.OurObjectPlace, EventsManager.EventType.PlacedOwnObject);
@@ -93,7 +112,7 @@ public class HotSeatManager : MonoBehaviour
 
     private void AttemptAction(TurnPoints.PointType pointType, EventsManager.EventType action)
     {
-        if (ActivePlayer.TurnPoints.HasPointsLeft(pointType))
+        if (TurnActive && ActivePlayer.TurnPoints.HasPointsLeft(pointType))
             EventsManager.InvokeEvent(action);
         else
             EventsManager.InvokeEvent(EventsManager.ParamaterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = pointType }); // invoke event to inform player they are out of this kind of point
@@ -104,15 +123,6 @@ public class HotSeatManager : MonoBehaviour
 
 
 
-    //bool HasPointsLeft(TurnPoints.PointType pointType)
-    //{
-    //    if(!ActivePlayer.TurnPoints.HasPointsLeft(pointType))
-    //        return false;
-    //    else
-    //    {
-    //        ActivePlayer.TurnPoints.Dec
-    //    }
-
-    //}
+  
 
 }

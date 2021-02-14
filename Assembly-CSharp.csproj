@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
     <Compile Include="Assets\Scripts\~Depracated\gitTestscript.cs" />
+    <Compile Include="Assets\TurnDisplayControl.cs" />
     <Compile Include="Assets\TurnTracker.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
