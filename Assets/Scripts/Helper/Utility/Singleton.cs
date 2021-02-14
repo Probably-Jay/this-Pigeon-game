@@ -43,7 +43,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// <summary>
     /// Will output warning if instance doesnt exist
     /// </summary>d
-    protected static void WarnInstanceDoesNotExist()  {if (!InstanceExists && Application.isPlaying) Debug.LogWarning(DoesNotExistMessage);}
+    protected static void WarnInstanceDoesNotExist()  {if (!InstanceExists && Application.isPlaying && !quitting) Debug.LogWarning(DoesNotExistMessage);}
 
 
 
@@ -80,6 +80,12 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         AssertInstanceExists();
 
     }
+
+    private void OnApplicationQuit()
+    {
+        quitting = true;
+    }
+    static bool  quitting = false;
 
     private static string DoesNotExistMessage { get=> $"{typeof(Singleton<T>)} is required by a script, but does not exist in (or has not been initialised in) scene \"{ UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}\"."; } 
 

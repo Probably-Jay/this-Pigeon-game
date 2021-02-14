@@ -88,9 +88,9 @@ public class EventsManager : Singleton<EventsManager>
     /// <param name="action">Delegate to the function that will no longer be called when the action is triggered</param>
     public static void UnbindEvent(EventType eventType, Action action)
     {
+        if (!InstanceExists) { WarnInstanceDoesNotExist(); return; }
         Action thisEvent;
         Dictionary<EventType, Action> events1 = Instance.events;
-        if (!InstanceExists) { WarnInstanceDoesNotExist(); return; }
         if (events1.TryGetValue(eventType, out thisEvent))
         {
             thisEvent -= action;
