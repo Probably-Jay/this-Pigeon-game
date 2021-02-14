@@ -18,16 +18,25 @@ public class EventsManager : Singleton<EventsManager>
     {
         EndTurn
         ,  NewTurnBegin
-        , PlaceOwnObject = 0
-        , PlaceCompanionObject
-        , RemoveOwnObject
-        , WaterOwnPlant // perhaps rename to "maintain own object"
+
+
+        , PlacedOwnObject
+        , PlacedCompanionObject
+        , RemovedOwnObject
+        , WateredOwnPlant // perhaps rename to "maintained own object"
+
+        , triedToPlaceOwnObject
+        , triedToPlaceCompanionObject
+        , triedToRemoveOwnObject
+        , triedToWaterOwnPlant 
+
+
     }
 
     // events with paramaters
     public enum ParamaterEventType 
     {
-
+        NotEnoughPointsForAction
     }
 
     // update thsese with more data as needed
@@ -37,15 +46,15 @@ public class EventsManager : Singleton<EventsManager>
         public Enum EnumData;
     }
 
+    public static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
 
 
-    protected static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
 
     public override void Awake()
     {
         base.InitSingleton();
-        if(events != null) Instance.events = new Dictionary<EventType, Action>();
-        if(paramaterEvents!= null) Instance.paramaterEvents = new Dictionary<ParamaterEventType, Action<EventParams>>();
+        if(events == null) Instance.events = new Dictionary<EventType, Action>();
+        if(paramaterEvents == null) Instance.paramaterEvents = new Dictionary<ParamaterEventType, Action<EventParams>>();
     }
 
 
@@ -100,7 +109,7 @@ public class EventsManager : Singleton<EventsManager>
         {
             Instance.events[eventType]?.Invoke();
         }
-        else Debug.LogError($"Invoke failed. Event {eventType.ToString()} is not a member of the events list");
+        else Debug.LogWarning($"Event {eventType.ToString()} was invoked but is unused (no listeners have ever subscribed to it)");
     }
     #endregion
 
@@ -157,7 +166,7 @@ public class EventsManager : Singleton<EventsManager>
         {
             Instance.paramaterEvents[eventType]?.Invoke(paramaters);
         }
-        else Debug.LogError($"Invoke failed. Event {eventType.ToString()} is not a member of the events list");
+        else Debug.LogWarning($"Event {eventType.ToString()} was invoked but is unused (no listeners have ever subscribed to it)");
     }
     #endregion
 

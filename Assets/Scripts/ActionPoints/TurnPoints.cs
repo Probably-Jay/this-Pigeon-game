@@ -55,18 +55,18 @@ public class TurnPoints : MonoBehaviour
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.PlaceOwnObject, DecreaseOurPlacePoints);
-        EventsManager.BindEvent(EventsManager.EventType.PlaceCompanionObject, DecreaseCompanionPlacePoints);
-        EventsManager.BindEvent(EventsManager.EventType.RemoveOwnObject, DecreaseOurRemovePoints);
-        EventsManager.BindEvent(EventsManager.EventType.WaterOwnPlant, DecreaseOurWaterPoints);
+        EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, DecreaseOurPlacePoints);
+        EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, DecreaseCompanionPlacePoints);
+        EventsManager.BindEvent(EventsManager.EventType.RemovedOwnObject, DecreaseOurRemovePoints);
+        EventsManager.BindEvent(EventsManager.EventType.WateredOwnPlant, DecreaseOurWaterPoints);
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.PlaceOwnObject, DecreaseOurPlacePoints);
-        EventsManager.UnbindEvent(EventsManager.EventType.PlaceCompanionObject, DecreaseCompanionPlacePoints);
-        EventsManager.UnbindEvent(EventsManager.EventType.RemoveOwnObject, DecreaseOurRemovePoints);
-        EventsManager.UnbindEvent(EventsManager.EventType.WaterOwnPlant, DecreaseOurWaterPoints);
+        EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, DecreaseOurPlacePoints);
+        EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, DecreaseCompanionPlacePoints);
+        EventsManager.UnbindEvent(EventsManager.EventType.RemovedOwnObject, DecreaseOurRemovePoints);
+        EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, DecreaseOurWaterPoints);
     }
 
 

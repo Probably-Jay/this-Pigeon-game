@@ -28,6 +28,10 @@ public class HotSeatManager : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.EndTurn, EndTurn);
 
 
+        EventsManager.BindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
+        EventsManager.BindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
+        EventsManager.BindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
+        EventsManager.BindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
 
     }
 
@@ -36,6 +40,10 @@ public class HotSeatManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, EndTurn);
 
 
+        EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
+        EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
+        EventsManager.UnbindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
+        EventsManager.UnbindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
 
     }
 
@@ -74,4 +82,37 @@ public class HotSeatManager : MonoBehaviour
         yield return new WaitForSeconds(hotseatSwapTime);
         BeginNewTurn();
     }
+
+    // This can all be moveed anywhere after MVP but right now neeeds to know who the active player is
+    #region Attempt to complete action
+
+    void TryPlaceOwnObject() => AttemptAction(TurnPoints.PointType.OurObjectPlace, EventsManager.EventType.PlacedOwnObject);
+    void TryPlaceCompanionObject() => AttemptAction(TurnPoints.PointType.CompanionPlace, EventsManager.EventType.PlacedCompanionObject);
+    void TryRemoveOwnObject() => AttemptAction(TurnPoints.PointType.OurObjectRemove, EventsManager.EventType.RemovedOwnObject);
+    void TryWaterOwnObject() => AttemptAction(TurnPoints.PointType.OurWater, EventsManager.EventType.WateredOwnPlant);
+
+    private void AttemptAction(TurnPoints.PointType pointType, EventsManager.EventType action)
+    {
+        if (ActivePlayer.TurnPoints.HasPointsLeft(pointType))
+            EventsManager.InvokeEvent(action);
+        else
+            EventsManager.InvokeEvent(EventsManager.ParamaterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = pointType }); // invoke event to inform player they are out of this kind of point
+     }
+
+    #endregion
+
+
+
+
+    //bool HasPointsLeft(TurnPoints.PointType pointType)
+    //{
+    //    if(!ActivePlayer.TurnPoints.HasPointsLeft(pointType))
+    //        return false;
+    //    else
+    //    {
+    //        ActivePlayer.TurnPoints.Dec
+    //    }
+
+    //}
+
 }

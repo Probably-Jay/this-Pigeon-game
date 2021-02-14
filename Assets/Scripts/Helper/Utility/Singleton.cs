@@ -36,7 +36,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// <summary>
     /// Will throw <see cref="SingletonDoesNotExistException"/> if instance does not exist
     /// </summary>
-    public static void AssertInstanceExists() {if(!InstanceExists) throw new SingletonDoesNotExistException(); }
+    public static void AssertInstanceExists() {if(!InstanceExists && Application.isPlaying) throw new SingletonDoesNotExistException(); }
     
 
     /// <summary>

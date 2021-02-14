@@ -66,6 +66,7 @@
     <Compile Include="Assets\EventsManager.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\HotSeatManager.cs" />
+    <Compile Include="Assets\InputFaker.cs" />
     <Compile Include="Assets\Player.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
