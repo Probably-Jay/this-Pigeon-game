@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+      //  EventsManager.BindEvent(,)
     }
 
     public void StartTurn()
