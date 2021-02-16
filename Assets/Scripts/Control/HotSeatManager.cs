@@ -61,7 +61,7 @@ public class HotSeatManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        EventsManager.InvokeEvent
     }
 
     private void Init()
@@ -92,6 +92,9 @@ public class HotSeatManager : MonoBehaviour
         TurnTracker.EndTurn();
         StartCoroutine(nameof(PauseBeforeStartingNextTurn));
     }
+
+
+    
 
     IEnumerator PauseBeforeStartingNextTurn()
     {

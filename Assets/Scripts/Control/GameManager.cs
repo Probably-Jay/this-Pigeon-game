@@ -12,7 +12,6 @@ using UnityEngine.UI;
 public class GameManager : Singleton<GameManager>
 {
 
-
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
 
