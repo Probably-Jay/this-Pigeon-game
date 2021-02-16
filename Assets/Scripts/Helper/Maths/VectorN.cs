@@ -8,7 +8,7 @@ using UnityEngine;
 public class VectorN : IEnumerable
 {
 
-   [HideInInspector] public float[] values;
+    [HideInInspector] public float[] values;
     public float[] Values { get => values; protected set => values = value; }
 
     public int Length => Values.Length;

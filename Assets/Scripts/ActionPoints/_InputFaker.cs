@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputFaker : MonoBehaviour
+public class _InputFaker : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

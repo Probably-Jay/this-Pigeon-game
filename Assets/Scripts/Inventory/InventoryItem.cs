@@ -18,7 +18,7 @@ public class InventoryItem : ScriptableObject
 
 
 
-
+    // for xander to change
     public void SpawnObjectRandomPos()
     {
         var size = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);

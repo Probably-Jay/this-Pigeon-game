@@ -33,7 +33,8 @@ public class InventoryUISlot : MonoBehaviour
 
     }
 
-    public void SpawnItemObjectAtRandomPosition() => item.SpawnObjectRandomPos();
+    // for xander to change
+    public void ItemSelected() => item.SpawnObjectRandomPos();
 
 
 }

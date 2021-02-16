@@ -90,6 +90,7 @@ public class HotSeatManager : MonoBehaviour
     {
         TurnTracker.EndTurn();
         StartCoroutine(nameof(PauseBeforeStartingNextTurn));
+
     }
 
 
