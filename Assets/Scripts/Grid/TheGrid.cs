@@ -4,17 +4,12 @@ using UnityEngine;
 
 [System.Serializable]
 public class TheGrid
-{
-    
+{   
    private GameObject[,] tileGrid;
-   private int[,] gridArray;
    public Spawner spawner = GameObject.FindObjectOfType<Spawner>();
 
-
     public TheGrid(Vector3 startingPosition, float tilesize, int gridColumns, int gridRows)
-    {
-        
-        gridArray = new int[gridColumns,gridRows];
+    {    
         tileGrid = new GameObject[gridColumns, gridRows];
 
         for (int row = 0; row < gridRows; row++)

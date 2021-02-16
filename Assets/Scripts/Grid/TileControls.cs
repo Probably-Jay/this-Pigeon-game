@@ -30,7 +30,7 @@ public class TileControls : MonoBehaviour
         curentState = tileStates.OPEN;
     }
 
-    public void occupyTile()
+    public void OccupyTile()
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = tileTaken;
         curentState = tileStates.TAKEN;
