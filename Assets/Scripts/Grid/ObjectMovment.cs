@@ -16,19 +16,21 @@ public class ObjectMovment : MonoBehaviour
         // pixel coordinates(xy)
         Vector3 mousePosition = Input.mousePosition;
 
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
         mousePosition.z = 2;
 
         return mousePosition;
     }
 
   
-
     // Update is called once per frame
     void Update()
     {
         if (moving)
-        {        
-            transform.position = GetMouseWorldPosition();
+        {
+           
+            transform.localPosition = GetMouseWorldPosition();
         }       
     }
 }
