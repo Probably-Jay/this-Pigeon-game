@@ -29,7 +29,6 @@ public class GetDropdownValue : MonoBehaviour
     {
         //Keep the current index of the Dropdown in a variable
         dropdownIndex = dropdownObj.value;
-        Debug.Log("Dropdown Value : " + dropdownIndex);
 
         Color color;
 
