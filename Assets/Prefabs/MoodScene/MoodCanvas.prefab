@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 8633043831580457665}
   - component: {fileID: 2975169820547075119}
   - component: {fileID: 5673291394005799826}
+  - component: {fileID: 1308597048}
   m_Layer: 5
   m_Name: MoodDrop
   m_TagString: Untagged
@@ -330,7 +331,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -361,15 +362,27 @@ MonoBehaviour:
   m_Options:
     m_Options:
     - m_Text: Pride
-      m_Image: {fileID: 0}
+      m_Image: {fileID: 21300000, guid: f6c19d3671fcf9344a52b3bcb41f7836, type: 3}
     - m_Text: Care
-      m_Image: {fileID: 0}
+      m_Image: {fileID: 21300000, guid: fb7013b9e57192b4f8997466cb8e8f19, type: 3}
     - m_Text: Anxiety
-      m_Image: {fileID: 0}
+      m_Image: {fileID: 21300000, guid: 172ced7bf59a80a4bbc8c8fcb304131b, type: 3}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
+--- !u!114 &1308597048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106817320042365828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f45d0bb3a20f646b30fc53d5eafccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1153873834816932803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,17 +1238,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: cc2751fb23e9fee49b9206a982a21a63, type: 3}
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 0}
+        m_MethodName: GoToScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: LoadScene
+          m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!1 &5712930761849174139
 GameObject:
   m_ObjectHideFlags: 0
