@@ -5,12 +5,7 @@ using UnityEngine.UI;
 
 // Scott Jarvis, 16/02/2021
 
-// Saves data to external file - can be added to later to store information about garden beyond "big mood"
-public class GardenInfo
-{
-    public int bigMoodGoal;
-    
-}
+
 
 public class GetDropdownValue : MonoBehaviour
 {
@@ -18,8 +13,8 @@ public class GetDropdownValue : MonoBehaviour
     //Attach to Dropdown GameObject
     Dropdown dropdownObj;
 
-    //Attach to Camera GameObject
-    Camera cameraObj;
+    //Background image to be dragged in
+    [SerializeField] Image background;
 
     //This is the index value of the Dropdown
     static int dropdownIndex;
@@ -28,7 +23,6 @@ public class GetDropdownValue : MonoBehaviour
     {
         //Fetch the DropDown component from the GameObject
         dropdownObj = GetComponent<Dropdown>();
-        cameraObj = GetComponent<Camera>();
     }
 
     void Update()
@@ -46,6 +40,13 @@ public class GetDropdownValue : MonoBehaviour
             default: color = Color.red; break;
         }
 
-        cameraObj.backgroundColor = color;
+        //background.color = color;
     }
 }
+
+// Saves data to external file - can be added to later to store information about garden beyond "big mood"
+//public class GardenInfo
+//{
+//    public int bigMoodGoal;
+
+//}

@@ -17,8 +17,11 @@ public class EventsManager : Singleton<EventsManager>
     public enum EventType
     {
         EndTurn
-        ,  NewTurnBegin
+        , NewTurnBegin
 
+        , BeginSceneLoad
+        , SceneLoadComplete
+        
 
         , PlacedOwnObject
         , PlacedCompanionObject
