@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GetDropdownValue.cs" />
     <Compile Include="Assets\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
     <Compile Include="Assets\Scripts\Turn_Points\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
+    <Compile Include="Assets\getDropdownValue.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
