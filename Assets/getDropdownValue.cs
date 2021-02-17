@@ -12,7 +12,7 @@ public class GardenInfo
     
 }
 
-public class getDropdownValue : MonoBehaviour
+public class GetDropdownValue : MonoBehaviour
 {
 
     //Attach to Dropdown GameObject
