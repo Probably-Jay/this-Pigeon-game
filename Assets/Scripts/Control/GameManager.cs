@@ -6,7 +6,7 @@ using UnityEngine.UI;
 // created jay 12/02
 
 /// <summary>
-/// <see cref="Singleton{}"/> class to allow for easy referancing of important objects 
+/// <see cref="Singleton{}"/> class to allow for easy referencing of important objects 
 /// </summary>
 [RequireComponent(typeof(HotSeatManager))]
 public class GameManager : Singleton<GameManager>
