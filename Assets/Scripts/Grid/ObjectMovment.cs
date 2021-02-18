@@ -9,8 +9,7 @@ public class ObjectMovment : MonoBehaviour
     // used to turn moving on and off
     public bool moving = false;
 
-    // public bool resetting = false;
-    // public bool isplace = false;
+    public bool isplace = false;
 
     // returns a vector 3 that is the position of the mouse converted from pixel coordinates to world coordinates
     private Vector3 GetMouseWorldPosition()
@@ -21,7 +20,7 @@ public class ObjectMovment : MonoBehaviour
         // converts the mouse pos to world pos
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         //sets the zed value to 2 so that the object moving wiil be infrount on any other objects in the scene 
-        mousePosition.z = 2;
+        mousePosition.z = -2;
 
         return mousePosition;
     }

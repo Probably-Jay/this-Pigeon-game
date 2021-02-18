@@ -12,8 +12,6 @@ public class InputControls : MonoBehaviour
     GameObject moveableObject;
     ObjectMovment objectMovment;
    
-
-
     // Update is called once per frame
     void Update()
     {
