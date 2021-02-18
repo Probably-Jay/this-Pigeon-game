@@ -32,7 +32,6 @@ public class HotSeatManager : MonoBehaviour
     {
         EventsManager.BindEvent(EventsManager.EventType.EndTurn, EndTurn);
 
-
         EventsManager.BindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
         EventsManager.BindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
         EventsManager.BindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);

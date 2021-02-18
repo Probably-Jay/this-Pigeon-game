@@ -18,26 +18,49 @@ public class PlantManager : MonoBehaviour
     public int curMoodEnergy;
     public int curMoodSocial;
 
+    Text text;
+
     private void Awake()
     {
- 
+        text = GetComponent<Text>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         UpdateList();
-        LogAllPlants();
+        //LogAllPlants();
+        UpdateScore();
     }
 
-    public void LogPlant(int i) {
+    void Update() {
+        UpdateScore();
+        UpdateList();
+        if (text) { 
+            text.text = $"Current Mood Values: P {curMoodPride.ToString()},  E {curMoodEnergy.ToString()},  S {curMoodSocial.ToString()}, \n Goal: P {goalMoodPride.ToString()},  E {goalMoodEnergy.ToString()},  S {goalMoodSocial.ToString()}";
+        }
+    }
+
+    private void OnEnable()
+    {
+        EventsManager.BindEvent(EventsManager.EventType.UpdateScore, UpdateScore);
+        EventsManager.BindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.UpdateScore, UpdateScore);
+        EventsManager.UnbindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
+    }
+
+    private void LogPlant(int i) {
         Debug.Log("Item #" + i + ":" + gardenPlants[i].objectName);
         Debug.Log("Mood (Energy): " + gardenPlants[i].moodEnergy);
         Debug.Log("Mood (Social): " + gardenPlants[i].moodSocial);
         Debug.Log("Mood (Pride): " + gardenPlants[i].moodPride);
     }
 
-    public void LogAllPlants()
+    private void LogAllPlants()
     {
         for (int i = 0; i < gardenPlants.Count; i++)
         {
@@ -53,12 +76,18 @@ public class PlantManager : MonoBehaviour
     private void GetPlants()
     {
         var foundPlants = FindObjectsOfType<Item>();
+        gardenPlants.Clear();
         for (int i = 0; i < foundPlants.Length; i++) {
             gardenPlants.Add(foundPlants[i]);
         };
     }
 
-    public void updateScore() {
+    public void UpdateScore() {
+
+        curMoodEnergy = 0;
+        curMoodSocial = 0;
+        curMoodPride = 0;
+
         for (int i = 0; i < gardenPlants.Count; i++)
         {
             curMoodEnergy += gardenPlants[i].moodEnergy;
@@ -68,6 +97,7 @@ public class PlantManager : MonoBehaviour
 
         if ((curMoodEnergy == goalMoodEnergy) && (curMoodPride == goalMoodPride) && (curMoodSocial == goalMoodSocial)) {
             Debug.Log("Mood Condition Met!");
+            // Add actual user feedback here
         }
     }
 }
