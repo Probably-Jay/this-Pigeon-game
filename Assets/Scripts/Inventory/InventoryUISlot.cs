@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// jay 05/02
+
 [RequireComponent(typeof(Button))]
 public class InventoryUISlot : MonoBehaviour
 {

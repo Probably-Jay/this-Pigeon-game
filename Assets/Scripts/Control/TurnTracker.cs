@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TurnTracker
 {
-    public int Turn { get; private set; } = 1;
+    public int Turn { get; private set; } = 0;
 
     public bool TurnActive { get; private set; }
     /// <summary>
