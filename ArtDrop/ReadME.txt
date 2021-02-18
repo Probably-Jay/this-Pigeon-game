@@ -1,0 +1,1 @@
+It would be best if art could add their work to the game directly but if that is not possible then drop it off here
