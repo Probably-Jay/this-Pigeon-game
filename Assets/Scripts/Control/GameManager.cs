@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
+       // EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
     }
 
     public Player ActivePlayer => HotSeatManager.ActivePlayer;

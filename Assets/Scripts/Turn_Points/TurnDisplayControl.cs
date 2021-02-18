@@ -17,17 +17,17 @@ public class TurnDisplayControl : MonoBehaviour
     }
     private void Start()
     {
-        FadeInText();
+      //  FadeInText();
     }
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, FadeInText);
+        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, FadeInText);
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, FadeInText);
+        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, FadeInText);
     }
 
 
