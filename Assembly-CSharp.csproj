@@ -63,7 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\SceneSwap.cs" />
+    <Compile Include="Assets\CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\_InputFaker.cs" />
@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
     <Compile Include="Assets\Scripts\Control\Player.cs" />
+    <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\TurnTracker.cs" />
     <Compile Include="Assets\Scripts\Grid\GridControls.cs" />
     <Compile Include="Assets\Scripts\Grid\InputControls.cs" />
@@ -88,10 +89,12 @@
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
     <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
+    <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
+    <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
+    <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
     <Compile Include="Assets\Scripts\Turn_Points\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
-    <Compile Include="Assets\getDropdownValue.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

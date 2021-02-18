@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventsManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2512573484810897439, guid: c84eed56b1c4a6140a2a53a2304f796c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c84eed56b1c4a6140a2a53a2304f796c, type: 3}
 --- !u!1001 &211000366
