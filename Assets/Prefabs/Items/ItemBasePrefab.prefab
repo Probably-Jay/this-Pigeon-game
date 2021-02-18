@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5338728253027717409}
   - component: {fileID: 1936932529159023181}
-  - component: {fileID: 8734143522900806282}
   - component: {fileID: 2582716019616440060}
   - component: {fileID: 7988083200418419794}
   m_Layer: 0
@@ -46,21 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a17f1abd5523546b113a9fdb748fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
-  reallyCoolData: 0
---- !u!114 &8734143522900806282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1075781219223283227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0312c308e129ab5458d0eda70182087a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomType: 0
+  objectName: <ITEMNAME>
+  moodEnergy: 0
+  moodPride: 0
+  moodSocial: 0
 --- !u!114 &2582716019616440060
 MonoBehaviour:
   m_ObjectHideFlags: 0
