@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +11,11 @@ public class PlantManager : MonoBehaviour
 {
     public List<Item> gardenPlants = new List<Item>();
 
-    [SerializeField] int goalMoodPride;
-    [SerializeField] int goalMoodEnergy;
-    [SerializeField] int goalMoodSocial;
+    // todo make this a little neater
+    /*[SerializeField]*/ int goalMoodPride;
+    /*[SerializeField]*/ int goalMoodEnergy;
+    /*[SerializeField]*/ int goalMoodSocial;
+    GameManager.Goal goal;
 
     public int curMoodPride;
     public int curMoodEnergy;
@@ -33,11 +36,13 @@ public class PlantManager : MonoBehaviour
         UpdateScore();
     }
 
+
+
     void Update() {
         UpdateScore();
         UpdateList();
         if (text) { 
-            text.text = $"Current Mood Values: P {curMoodPride.ToString()},  E {curMoodEnergy.ToString()},  S {curMoodSocial.ToString()}, \n Goal: P {goalMoodPride.ToString()},  E {goalMoodEnergy.ToString()},  S {goalMoodSocial.ToString()}";
+            text.text = $"Current Mood Values:\nP {curMoodPride.ToString()},  E {curMoodEnergy.ToString()},  S {curMoodSocial.ToString()}, \nGoal: {GameManager.Instance.CurrentGoal.ToString()}";
         }
     }
 
@@ -73,6 +78,7 @@ public class PlantManager : MonoBehaviour
         GetPlants();
     }
 
+    // xander interface here
     private void GetPlants()
     {
         var foundPlants = FindObjectsOfType<Item>();
