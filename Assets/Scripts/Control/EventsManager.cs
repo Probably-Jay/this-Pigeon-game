@@ -21,6 +21,9 @@ public class EventsManager : Singleton<EventsManager>
 
         , BeginSceneLoad
         , SceneLoadComplete
+        , EnterNewScene
+        //, CrossfadeAnimationBegin
+        , CrossfadeAnimationEnd
         
 
         , PlacedOwnObject

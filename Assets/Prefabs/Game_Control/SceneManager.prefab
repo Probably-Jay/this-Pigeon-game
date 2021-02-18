@@ -159,6 +159,8 @@ GameObject:
   - component: {fileID: 1342758161939195106}
   - component: {fileID: 1342758161939195108}
   - component: {fileID: 1342758161939195109}
+  - component: {fileID: 2738138198509905394}
+  - component: {fileID: 3152609943920402305}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -224,6 +226,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2738138198509905394
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342758161939195107}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!95 &3152609943920402305
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342758161939195107}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 17ffd7ed7202d4b4684f0b9c82f3be4b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1342758162877350577
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,6 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1342758162877350576}
   - component: {fileID: 1342758162877350579}
+  - component: {fileID: 7471786279282339378}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -272,6 +306,20 @@ MonoBehaviour:
   GameBuildIndex: 1
   LoadingScreen: {fileID: 1342758163303399546}
   progressBar: {fileID: 1342758163148460407}
+--- !u!114 &7471786279282339378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342758162877350577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c70ed359998a440bc750e8751bbb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3152609943920402305}
+  transitionTime: 1
 --- !u!1 &1342758162937845308
 GameObject:
   m_ObjectHideFlags: 0

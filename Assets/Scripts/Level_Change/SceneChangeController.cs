@@ -24,6 +24,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
     [SerializeField] Slider progressBar;
 
     AsyncOperation loadingScene;
+    bool transitionAnimationDone;
 
     public bool CurrentlyChangingScene { get => loadingScene != null; }
 
@@ -48,6 +49,19 @@ public class SceneChangeController : Singleton<SceneChangeController>
     }
 
     new public static SceneChangeController Instance { get => Singleton<SceneChangeController>.Instance; }
+
+    private void OnEnable()
+    {
+        EventsManager.BindEvent(EventsManager.EventType.CrossfadeAnimationEnd, TransitionAnimationDone);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.CrossfadeAnimationEnd, TransitionAnimationDone);
+    }
+
+    private void TransitionAnimationDone() => transitionAnimationDone = true;
+
 
     public override void Awake()
     {
@@ -77,23 +91,40 @@ public class SceneChangeController : Singleton<SceneChangeController>
         while (LoadingSceneProgress < 1)
         {
             progressBar.value = LoadingSceneProgress;
-            yield return null;
+            yield return null; // wait for load to end
         }
         progressBar.value = LoadingSceneProgress;
+        while (!transitionAnimationDone)
+        {
+            yield return null; // wait for transition to end
+        }
         EndLoad();
+        while (!transitionAnimationDone) // load will alos need to be done to reach here
+        {
+            yield return null; // wait for enter scene transition to end
+        }
+        EnterScene();
     }
+
 
 
     private void BeginLoad(int buildInxed)
     {
-        EventsManager.InvokeEvent(EventsManager.EventType.BeginSceneLoad);
         LoadingScreen.SetActive(true);
+        EventsManager.InvokeEvent(EventsManager.EventType.BeginSceneLoad);
         loadingScene = SceneManager.LoadSceneAsync(buildInxed);
         loadingScene.allowSceneActivation = false; // wait to finish scene load until we tell it to
+        transitionAnimationDone = false;
     }
     private void EndLoad()
     {
+        EventsManager.InvokeEvent(EventsManager.EventType.SceneLoadComplete);
         loadingScene.allowSceneActivation = true; // wait to finish scene load until we tell it to
+        transitionAnimationDone = false; // transition into new scene
+    }
+    private void EnterScene()
+    {
         LoadingScreen.SetActive(false);
+        EventsManager.InvokeEvent(EventsManager.EventType.EnterNewScene);
     }
 }
