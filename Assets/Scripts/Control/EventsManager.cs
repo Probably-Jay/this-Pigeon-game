@@ -36,7 +36,8 @@ public class EventsManager : Singleton<EventsManager>
         , triedToRemoveOwnObject
         , triedToWaterOwnPlant 
 
-
+        , UpdateScore
+        , UpdatePlants
     }
 
     // events with paramaters

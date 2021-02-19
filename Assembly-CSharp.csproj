@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GoalStore.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\_InputFaker.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
+    <Compile Include="Assets\Scripts\Control\PlantManager.cs" />
     <Compile Include="Assets\Scripts\Control\Player.cs" />
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\TurnTracker.cs" />
