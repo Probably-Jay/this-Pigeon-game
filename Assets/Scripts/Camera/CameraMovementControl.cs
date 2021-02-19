@@ -36,11 +36,9 @@ public class CameraMovementControl : MonoBehaviour
         switch (GameManager.Instance.ActivePlayer.PlayerEnumValue)
         {
             case Player.PlayerEnum.Player0:
-                Debug.Log("1to2");
                 animator.SetTrigger("SwapToPlayerTwo");
                 break;
             case Player.PlayerEnum.Player1:
-                Debug.Log("TwoToOne");
                 animator.SetTrigger("SwapToPlayerOne");
                 break;
         }
