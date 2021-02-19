@@ -9,7 +9,7 @@ public class CrossfadeController : MonoBehaviour
 {
 
     [SerializeField] Animator animator;
-    [SerializeField,Range(0,1)] float transitionTime = 1;
+    //[SerializeField,Range(0,1)] float transitionTime = 1;
 
 
     private void OnEnable()

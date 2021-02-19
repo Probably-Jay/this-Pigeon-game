@@ -20,6 +20,8 @@ public class SceneChangeController : Singleton<SceneChangeController>
     [SerializeField] int MainMenuBuildIndex;
     [SerializeField] int GameBuildIndex;
 
+    [SerializeField] Dropdown dropdown;
+
     [SerializeReference] GameObject LoadingScreen;
     [SerializeField] Slider progressBar;
 
@@ -99,7 +101,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
             yield return null; // wait for transition to end
         }
         EndLoad();
-        while (!transitionAnimationDone) // load will alos need to be done to reach here
+        while (!transitionAnimationDone) // load will always need to be done to reach here
         {
             yield return null; // wait for enter scene transition to end
         }
@@ -110,12 +112,20 @@ public class SceneChangeController : Singleton<SceneChangeController>
 
     private void BeginLoad(int buildInxed)
     {
+        PassValuesToOtherScene();
         LoadingScreen.SetActive(true);
         EventsManager.InvokeEvent(EventsManager.EventType.BeginSceneLoad);
         loadingScene = SceneManager.LoadSceneAsync(buildInxed);
         loadingScene.allowSceneActivation = false; // wait to finish scene load until we tell it to
         transitionAnimationDone = false;
     }
+
+    private void PassValuesToOtherScene()
+    {
+        var value = dropdown.value;
+        GoalStore.Instance.StoreGoal((GameManager.Goal)value);
+    }
+
     private void EndLoad()
     {
         EventsManager.InvokeEvent(EventsManager.EventType.SceneLoadComplete);

@@ -15,6 +15,9 @@ public class GetDropdownValue : MonoBehaviour
 
     //Background image to be dragged in
     [SerializeField] Image background;
+    [SerializeField] Color prideColour;
+    [SerializeField] Color anxiosColour;
+    [SerializeField] Color contentColour;
 
     //This is the index value of the Dropdown
     static int dropdownIndex;
@@ -33,13 +36,13 @@ public class GetDropdownValue : MonoBehaviour
         Color color;
 
         switch (dropdownIndex) {
-            case 0: color = Color.yellow; break; // Pride
-            case 1: color = Color.green; break; // Care
-            case 2: color = Color.blue; break; // Calm
+            case 0: color = prideColour; break; // Pride
+            case 1: color = anxiosColour; break; // Care
+            case 2: color = contentColour; break; // Calm
             default: color = Color.red; break;
         }
 
-        //background.color = color;
+        background.color = color;
     }
 }
 

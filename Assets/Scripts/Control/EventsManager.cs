@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.Events;
 
 // created by jay 12/02, adapted from https://learn.unity.com/tutorial/create-a-simple-messaging-system-with-events" and https://stackoverflow.com/a/42034899/7711148
 
@@ -36,7 +38,11 @@ public class EventsManager : Singleton<EventsManager>
         , triedToRemoveOwnObject
         , triedToWaterOwnPlant 
 
+        , UpdateScore
+        , UpdatePlants
 
+
+        , QuitGame
     }
 
     // events with paramaters
@@ -177,15 +183,22 @@ public class EventsManager : Singleton<EventsManager>
     #endregion
 
 
-    private void ClearEvents()
-    {
-        events.Clear();
-        paramaterEvents.Clear();
-    }
-    private void OnDisable()
-    {
-        ClearEvents();
-    }
+    //private void ClearEvents()
+    //{
+    //    events.Clear();
+    //    paramaterEvents.Clear();
+    //}
+
+
+    //private void OnEnable()
+    //{
+    //    SceneManager.sceneLoaded += DisableDuplicateObjects;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    ClearEvents();
+    //}
 
 
 }
