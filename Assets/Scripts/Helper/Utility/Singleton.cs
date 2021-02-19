@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+
 
 // added by jay 12/02
 
@@ -85,10 +88,24 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         quitting = true;
     }
+
+    public void DisableDuplicateObjects(Scene s, LoadSceneMode m)
+    {
+        Singleton<T>[] duplicates = (Singleton<T>[])Resources.FindObjectsOfTypeAll(typeof(Singleton<T>));
+        foreach (var singleton in duplicates)
+        {
+            if (singleton.GetInstanceID() != Instance.GetInstanceID())
+            {
+                singleton.gameObject.SetActive(false);
+            }
+        }
+    }
     /// <summary>
     /// The application has begin to quit
     /// </summary>
     static bool quitting = false;
+
+    
 
     private static string DoesNotExistMessage { get=> $"{typeof(Singleton<T>)} is required by a script, but does not exist in (or has not been initialised in) scene \"{ UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}\"."; } 
 

@@ -101,7 +101,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
             yield return null; // wait for transition to end
         }
         EndLoad();
-        while (!transitionAnimationDone) // load will alos need to be done to reach here
+        while (!transitionAnimationDone) // load will always need to be done to reach here
         {
             yield return null; // wait for enter scene transition to end
         }

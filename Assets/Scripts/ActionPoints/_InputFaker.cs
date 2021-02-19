@@ -29,5 +29,10 @@ public class _InputFaker : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.triedToWaterOwnPlant);
         }
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            EventsManager.InvokeEvent(EventsManager.EventType.QuitGame);
+        }
+
     }
 }
