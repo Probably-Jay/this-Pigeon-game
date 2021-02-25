@@ -15,7 +15,7 @@ public class EventsManager : Singleton<EventsManager>
 
     // Update these enum with new events to expand this class' functionality
 
-    // events with no paramaters
+    // events with no parameters
     public enum EventType
     {
         EndTurn
@@ -27,7 +27,7 @@ public class EventsManager : Singleton<EventsManager>
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
         
-
+        /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
         , PlacedOwnObject
         , PlacedCompanionObject
         , RemovedOwnObject
@@ -45,10 +45,11 @@ public class EventsManager : Singleton<EventsManager>
         , QuitGame
     }
 
-    // events with paramaters
-    public enum ParamaterEventType 
+    // events with parameters
+    public enum ParameterEventType 
     {
-        NotEnoughPointsForAction
+        NotEnoughPointsForAction // enum variable
+        , SwappedGardenVeiw // enum variable
     }
 
     // update thsese with more data as needed
@@ -66,7 +67,7 @@ public class EventsManager : Singleton<EventsManager>
     {
         base.InitSingleton();
         if(events == null) Instance.events = new Dictionary<EventType, Action>();
-        if(paramaterEvents == null) Instance.paramaterEvents = new Dictionary<ParamaterEventType, Action<EventParams>>();
+        if(parameterEvents == null) Instance.parameterEvents = new Dictionary<ParameterEventType, Action<EventParams>>();
     }
 
 
@@ -127,25 +128,25 @@ public class EventsManager : Singleton<EventsManager>
 
 
     #region Paramatized Events
-    Dictionary<ParamaterEventType, Action<EventParams>> paramaterEvents;
+    Dictionary<ParameterEventType, Action<EventParams>> parameterEvents;
 
     /// <summary>
     /// Add a new action to be triggered when an event is invoked 
     /// </summary>
     /// <param name="eventType">Event that will trigger the action</param>
     /// <param name="action">Delegate to the function that will be called when the action is triggered</param>
-    public static void BindEvent(ParamaterEventType eventType, Action<EventParams> action)
+    public static void BindEvent(ParameterEventType eventType, Action<EventParams> action)
     {
         Action<EventParams> newEvent;
-        if (Instance.paramaterEvents.TryGetValue(eventType, out newEvent))
+        if (Instance.parameterEvents.TryGetValue(eventType, out newEvent))
         {
             newEvent += action;
-            Instance.paramaterEvents[eventType] = newEvent;
+            Instance.parameterEvents[eventType] = newEvent;
         }
         else
         {
             newEvent += action;
-            Instance.paramaterEvents.Add(eventType, newEvent);
+            Instance.parameterEvents.Add(eventType, newEvent);
         }
     }
 
@@ -154,14 +155,14 @@ public class EventsManager : Singleton<EventsManager>
     /// </summary>
     /// <param name="eventType">Event that would have triggered the action</param>
     /// <param name="action">Delegate to the function that will no longer be called when the action is triggered</param>
-    public static void UnbindEvent(ParamaterEventType eventType, Action<EventParams> action)
+    public static void UnbindEvent(ParameterEventType eventType, Action<EventParams> action)
     {
         if (!InstanceExists) { WarnInstanceDoesNotExist(); return; }
         Action<EventParams> thisEvent;
-        if (Instance.paramaterEvents.TryGetValue(eventType, out thisEvent))
+        if (Instance.parameterEvents.TryGetValue(eventType, out thisEvent))
         {
             thisEvent -= action;
-            Instance.paramaterEvents[eventType] = thisEvent;
+            Instance.parameterEvents[eventType] = thisEvent;
         }
         else Debug.LogWarning($"Unsubscribe failed. Event {eventType.ToString()} is not a member of the events list");
     }
@@ -170,13 +171,13 @@ public class EventsManager : Singleton<EventsManager>
     /// Call every function listening for this event
     /// </summary>
     /// <param name="eventType">Type of event to trigger</param>
-    /// <param name="paramaters">Optional: Additional paramaters to be passed to the function</param>
-    public static void InvokeEvent(ParamaterEventType eventType, EventParams paramaters)
+    /// <param name="parameters">Optional: Additional parameters to be passed to the function</param>
+    public static void InvokeEvent(ParameterEventType eventType, EventParams parameters)
     {
         //InvokeEvent(eventType);
-        if (Instance.paramaterEvents.ContainsKey(eventType))
+        if (Instance.parameterEvents.ContainsKey(eventType))
         {
-            Instance.paramaterEvents[eventType]?.Invoke(paramaters);
+            Instance.parameterEvents[eventType]?.Invoke(parameters);
         }
         else Debug.LogWarning($"Event {eventType.ToString()} was invoked but is unused (no listeners have ever subscribed to it)");
     }
@@ -186,7 +187,7 @@ public class EventsManager : Singleton<EventsManager>
     //private void ClearEvents()
     //{
     //    events.Clear();
-    //    paramaterEvents.Clear();
+    //    parameterEvents.Clear();
     //}
 
 

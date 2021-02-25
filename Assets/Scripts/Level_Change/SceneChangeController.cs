@@ -89,6 +89,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
 
     IEnumerator LoadSceneAsyncCoroutine(int buildInxed)
     {
+        if (CurrentlyChangingScene) yield break;
         BeginLoad(buildInxed);
         while (LoadingSceneProgress < 1)
         {

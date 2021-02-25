@@ -23,13 +23,17 @@ public class InventoryUIControl : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Set the item slots in the ui ribbon
+    /// </summary>
     private void SetInventoryUI()
     {
-        List<GameObject> toDestroy = new List<GameObject>();
-        List<GameObject> toAdd = new List<GameObject>();
+        List<GameObject> toDestroy = new List<GameObject>(); // items that are no longer visible
+        List<GameObject> toAdd = new List<GameObject>(); // items that have just become visible
         for (int i = 0; i < canvas.transform.childCount; i++)
         {
-  
+            if (i >= itemList.list.Count) break;
+
             var previousChild = canvas.transform.GetChild(i);
             var pos = previousChild.transform.position;
             toDestroy.Add(previousChild.gameObject);

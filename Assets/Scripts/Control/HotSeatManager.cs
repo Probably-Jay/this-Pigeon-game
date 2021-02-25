@@ -8,7 +8,7 @@ using UnityEngine.UI;
 // uncomment when needed
 //[System.Obsolete("This class should no longer be useed as it was developed for MVP only")]
 /// <summary>
-/// Tempoary class for managing hotseating the players
+/// Tempoary class for managing hotseating the players, managed by <see cref="GameManager"/>
 /// </summary>
 public class HotSeatManager : MonoBehaviour
 {
@@ -54,7 +54,6 @@ public class HotSeatManager : MonoBehaviour
     private void Awake()
     {
         Init();
-
     }
 
     // Start is called before the first frame update
@@ -90,11 +89,8 @@ public class HotSeatManager : MonoBehaviour
     {
         TurnTracker.EndTurn();
         StartCoroutine(nameof(PauseBeforeStartingNextTurn));
-
     }
 
-
-    
 
     IEnumerator PauseBeforeStartingNextTurn()
     {
@@ -107,19 +103,36 @@ public class HotSeatManager : MonoBehaviour
 
     // This can all be moved anywhere after MVP but right now neeeds to know who the active player is
     #region Attempt to complete action
+    // Edited Scott 25/02 - Changed attempt to return whether successful or not
+    void TryPlaceOwnObject()
+    {
+        AttemptAction(TurnPoints.PointType.SelfObjectPlace, EventsManager.EventType.PlacedOwnObject);
+    }
+    void TryPlaceCompanionObject()
+    {
+        AttemptAction(TurnPoints.PointType.OtherObjectPlace, EventsManager.EventType.PlacedCompanionObject);
+    }
+    void TryRemoveOwnObject()
+    {
+        AttemptAction(TurnPoints.PointType.SelfObjectRemove, EventsManager.EventType.RemovedOwnObject);
+    }
+    void TryWaterOwnObject()
+    {
+        AttemptAction(TurnPoints.PointType.SelfAddWater, EventsManager.EventType.WateredOwnPlant);
+    }
 
-    void TryPlaceOwnObject() => AttemptAction(TurnPoints.PointType.OurObjectPlace, EventsManager.EventType.PlacedOwnObject);
-    void TryPlaceCompanionObject() => AttemptAction(TurnPoints.PointType.CompanionPlace, EventsManager.EventType.PlacedCompanionObject);
-    void TryRemoveOwnObject() => AttemptAction(TurnPoints.PointType.OurObjectRemove, EventsManager.EventType.RemovedOwnObject);
-    void TryWaterOwnObject() => AttemptAction(TurnPoints.PointType.OurWater, EventsManager.EventType.WateredOwnPlant);
-
-    private void AttemptAction(TurnPoints.PointType pointType, EventsManager.EventType action)
+    public void AttemptAction(TurnPoints.PointType pointType, EventsManager.EventType action)
     {
         if (TurnActive && ActivePlayer.TurnPoints.HasPointsLeft(pointType))
+        {
             EventsManager.InvokeEvent(action);
+        }
         else
-            EventsManager.InvokeEvent(EventsManager.ParamaterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = pointType }); // invoke event to inform player they are out of this kind of point
-     }
+        {
+            EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = pointType }); // invoke event to inform player they are out of this kind of point
+        }
+
+    }
 
     #endregion
 

@@ -9,6 +9,10 @@ public class CameraMovementControl : MonoBehaviour
 {
 
     Animator animator;
+    public Player.PlayerEnum CurrentGardenVeiw { get; private set; }
+
+    public Player.PlayerEnum OtherGardenVeiw { get { return CurrentGardenVeiw == Player.PlayerEnum.Player0 ? Player.PlayerEnum.Player1 : Player.PlayerEnum.Player0; } }
+
 
     private void Awake()
     {
@@ -17,31 +21,56 @@ public class CameraMovementControl : MonoBehaviour
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, SwapPlayers);
+        EventsManager.BindEvent(EventsManager.EventType.EndTurn, SwitchToActivePlayer);
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, SwapPlayers);
+        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, SwitchToActivePlayer);
     }
 
+
+    private void Start()
+    {
+        CurrentGardenVeiw = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+    }
     void DoNotingFirstTime()
     {
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, SwapPlayers);
+        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, SwitchToActivePlayer);
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, DoNotingFirstTime);
     }
 
-    void SwapPlayers()
+    void SwitchToActivePlayer()
     {
-        switch (GameManager.Instance.ActivePlayer.PlayerEnumValue)
+
+        //  if(currentGardenVeiw == Player.PlayerEnum.Player0 &&)
+
+
+        Player.PlayerEnum player = GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0? Player.PlayerEnum.Player1 : Player.PlayerEnum.Player0; ;
+        SwapVeiwTo(player);
+    }
+
+    public void SwapPlayers() => SwapVeiwTo(OtherGardenVeiw);
+
+    private void SwapVeiwTo(Player.PlayerEnum player)
+    {
+        if (player == CurrentGardenVeiw) return;
+
+        switch (player)
         {
             case Player.PlayerEnum.Player0:
-                animator.SetTrigger("SwapToPlayerTwo");
+                animator.SetTrigger("SwapToPlayerOne");
+                CurrentGardenVeiw = Player.PlayerEnum.Player0;
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenVeiw, new EventsManager.EventParams() { EnumData = CurrentGardenVeiw });
                 break;
             case Player.PlayerEnum.Player1:
-                animator.SetTrigger("SwapToPlayerOne");
+                animator.SetTrigger("SwapToPlayerTwo");
+                CurrentGardenVeiw = Player.PlayerEnum.Player1;
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenVeiw, new EventsManager.EventParams() { EnumData = CurrentGardenVeiw });
                 break;
         }
     }
+
+  
 
 }
