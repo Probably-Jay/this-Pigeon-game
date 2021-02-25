@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Created Jay 05/02
+// Created Jay 05/02
+// Edited Scott 24/02
+
 /// <summary>
 /// Script all items will have
 /// </summary>
-/// 
-/// Edited Scott 24/02
-/// 
 public class Item : MonoBehaviour
 {
     [SerializeField] public string objectName;

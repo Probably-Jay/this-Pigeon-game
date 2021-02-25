@@ -147,7 +147,7 @@ public class PlantManager : MonoBehaviour
         for (int n = 0; n < 2; n++) { 
             if ((curMood[n, 0] == goalMoodEnergy) && (curMood[n, 1] == goalMoodSocial) && (curMood[n, 2] == goalMoodPride))
             {
-                Debug.Log("Garden #" + n + "Mood Condition Met!");
+               // Debug.Log("Garden #" + n + "Mood Condition Met!");
                 // Add actual user feedback here later
                 // Right now, both gardens share same mood goal - will be changed
             }
