@@ -14,9 +14,9 @@ public class GameManager : Singleton<GameManager>
 {
     public enum Goal
     {
-        Proud
-     , Anxious
-     , Content
+            Proud
+         , Anxious
+         , Content
     }
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }

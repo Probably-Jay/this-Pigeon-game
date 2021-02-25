@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Script created by Alexander Purvis 11/02/2021
 
-public class ObjectMovment : MonoBehaviour
+public class ObjectMovement : MonoBehaviour
 {
     // used to turn moving on and off
     public bool moving = false;

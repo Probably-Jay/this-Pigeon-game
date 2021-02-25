@@ -102,6 +102,12 @@ public class InputControls : MonoBehaviour
                                 }
                             }
                         }
+                    }else if (hit.transform.gameObject.tag == "Object")
+                    {                       
+                        // turns moving on for the object you hit
+                        moveableObject = hit.transform.gameObject;
+                        objectMovment = moveableObject.GetComponent<ObjectMovment>();
+                        objectMovment.moving = true;
                     }
                 }
             }
