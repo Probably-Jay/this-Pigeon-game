@@ -19,13 +19,26 @@ public class GridControls : MonoBehaviour
     int columnsGrid2 = 10;
     int rowsGrid2 = 7;
 
+    GameObject gridP1Gameobject;
+    GameObject gridP2Gameobject;
+
     // Update is called once per frame
     void Awake()
-    {      
-            // creates a new grid passing it the starting information
-            TheGrid gridP1 = new TheGrid(startingPositionGrid1, tileSizeGrid1, columnsGrid1, rowsGrid1);
+    {
+
+        gridP1Gameobject = new GameObject("Grid Player one");
+        gridP2Gameobject = new GameObject("Grid Player one");
+
+        var gridP1 = gridP1Gameobject.AddComponent<TheGrid>();
+        var gridP2 = gridP2Gameobject.AddComponent<TheGrid>();
+
+        gridP1.Init(startingPositionGrid1, tileSizeGrid1, columnsGrid1, rowsGrid1);
+        gridP2.Init(startingPositionGrid2, tileSizeGrid2, columnsGrid2, rowsGrid2);
+
+            //// creates a new grid passing it the starting information
+            //TheGrid gridP1 = new TheGrid(startingPositionGrid1, tileSizeGrid1, columnsGrid1, rowsGrid1);
        
-            TheGrid gridP2 = new TheGrid(startingPositionGrid2, tileSizeGrid2, columnsGrid2, rowsGrid2);
+            //TheGrid gridP2 = new TheGrid(startingPositionGrid2, tileSizeGrid2, columnsGrid2, rowsGrid2);
 
     }
 }
