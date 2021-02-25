@@ -4,6 +4,7 @@ using UnityEngine;
 
 // Script created by Alexander Purvis 03/02/2021
 
+
 public class GridControls : MonoBehaviour
 {
     // starting information for first grid
@@ -11,7 +12,6 @@ public class GridControls : MonoBehaviour
    [SerializeField] float tileSize = 1.0f;
    [SerializeField] int columns = 10;
    [SerializeField] int rows = 8;
-
 
     // Update is called once per frame
     void Update()
