@@ -15,13 +15,15 @@ public class TheGrid
    // used to store all grids 
    public GridManager gridManager = GameObject.FindObjectOfType<GridManager>();
 
+    int SpriteNumber = 0;
+
     // theGrid fuction  is called by other script whenever a new grid is required
     // it is passed a Vector 3 to know where to start spawning the tiles that make up the grid, a size for the tiles and both the number of rows and columns that make up the grid
     public TheGrid(Vector3 startingPosition, float tilesize, int gridColumns, int gridRows)
     {    
         // creates a new array that is the size fo the new grid to store the new grid
         tileGrid = new GameObject[gridColumns, gridRows];
-
+        SpriteNumber = 0;
         // nested for loop that will run for the number of rows and colums 
         for (int row = 0; row < gridRows; row++)
         {
@@ -32,10 +34,18 @@ public class TheGrid
                 
                // calls spawnTile on the spawner then stores that new tile in the grid array
                tileGrid[column, row] = spawner.SpawnTile();
-
+               
                 tileGrid[column, row].GetComponent<TileControls>().gridID = gridManager.gridID;
                     tileGrid[column, row].GetComponent<TileControls>().thisTilesRow = row;
                     tileGrid[column, row].GetComponent<TileControls>().thisTilesColumn = column;
+
+                tileGrid[column, row].GetComponent<TileControls>().SetSprite(SpriteNumber);
+
+                SpriteNumber++;
+                if (SpriteNumber >= 5)
+                {
+                    SpriteNumber = 0;
+                }
             }
         }
 

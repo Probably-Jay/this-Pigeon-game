@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3a6ce87a44214c24d8a1a88d8d2f7096, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b6aca223bf062c34aa7a3c9a2871156f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,11 +108,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6754f8e97f1e2c4d923861dacbc23a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileLightBorder01: {fileID: 21300000, guid: bb3b0f70aa798e246857ed4b992e32c6, type: 3}
-  TileLightBorder02: {fileID: 21300000, guid: ba590efd948010f46828ca39bb8f348a, type: 3}
-  TileLightBorder03: {fileID: 21300000, guid: 18ff2410091b30042a18227b7b405ebb, type: 3}
-  TileLightBorder04: {fileID: 21300000, guid: 33e029776d496934cad7d6429e6bb946, type: 3}
-  TileLightBorder05: {fileID: 21300000, guid: a39d47f036ff2fe47aa443fb812cc9f6, type: 3}
+  TileLightBorder01: {fileID: 21300000, guid: b6aca223bf062c34aa7a3c9a2871156f, type: 3}
+  TileLightBorder02: {fileID: 21300000, guid: 5cfbea743f70c774485a56b0311d7f60, type: 3}
+  TileLightBorder03: {fileID: 21300000, guid: 6e4047096370d844c830d189b226663f, type: 3}
+  TileLightBorder04: {fileID: 21300000, guid: 68286438310f54d4aacae862cd9abf02, type: 3}
+  TileLightBorder05: {fileID: 21300000, guid: 7979f8e98e2046c41a84073fd3513895, type: 3}
   curentState: 2
   gridID: 0
   thisTilesRow: 0

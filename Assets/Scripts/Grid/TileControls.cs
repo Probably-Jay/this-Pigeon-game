@@ -140,25 +140,26 @@ public class TileControls : MonoBehaviour
         curentState = tileStates.Occupied;     
     }
 
+
     public void SetSprite(int SpriteNumber)
     {
 
         switch (SpriteNumber)
         {
             case 0:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder01;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder03;
                 break;
             case 1:
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder02;
                 break;
-            case 2:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder03;
+            case 2:    
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder01;
                 break;
             case 3:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder04;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder05;
                 break;
             case 4:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder05;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder04;         
                 break;
             default:
 
