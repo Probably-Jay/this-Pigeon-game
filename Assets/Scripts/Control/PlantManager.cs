@@ -6,20 +6,27 @@ using UnityEngine.UI;
 
 // created Scott 18/02
 // Class to handle items in garden (mostly plants)
+// Updated 24/02
 
 public class PlantManager : MonoBehaviour
 {
-    public List<Item> gardenPlants = new List<Item>();
+    public List<Item>[] gardenPlants = new List<Item>[2]; // Holds both gardens in same var
 
+    
     // todo make this a little neater
-    /*[SerializeField]*/ int goalMoodPride;
-    /*[SerializeField]*/ int goalMoodEnergy;
-    /*[SerializeField]*/ int goalMoodSocial;
+    /*[SerializeField]*/
+    int goalMoodPride;
+    /*[SerializeField]*/
+    int goalMoodEnergy;
+    /*[SerializeField]*/
+    int goalMoodSocial;
     GameManager.Goal goal;
 
-    public int curMoodPride;
-    public int curMoodEnergy;
-    public int curMoodSocial;
+    // public int curMoodPride;
+    // public int curMoodEnergy;
+    // public int curMoodSocial;
+
+    public int[,] curMood = new int[2, 3];
 
     Text text;
 
@@ -31,6 +38,10 @@ public class PlantManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = 0; i < 2; i++)
+        {
+            gardenPlants[i] = new List<Item>();
+        }
         UpdateList();
         //LogAllPlants();
         UpdateScore();
@@ -38,11 +49,16 @@ public class PlantManager : MonoBehaviour
 
 
 
-    void Update() {
+    void Update()
+    {
         UpdateScore();
         UpdateList();
-        if (text) { 
-            text.text = $"Current Mood Values:\nP {curMoodPride.ToString()},  E {curMoodEnergy.ToString()},  S {curMoodSocial.ToString()}, \nGoal: {GameManager.Instance.CurrentGoal.ToString()}";
+        if (text)
+        {
+            text.text = $"Current Mood Values:\n" +
+                        $"Garden 1: P {curMood[0, 0].ToString()},  E {curMood[0, 1].ToString()},  S {curMood[0, 2].ToString()}, \n" +
+                        $"Garden 2: P {curMood[1, 0].ToString()},  E {curMood[1, 1].ToString()},  S {curMood[1, 2].ToString()}, \n" +
+                        $"G1 Goal: {GameManager.Instance.CurrentGoal.ToString()}";
         }
     }
 
@@ -58,20 +74,25 @@ public class PlantManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
     }
 
-    private void LogPlant(int i) {
-        Debug.Log("Item #" + i + ":" + gardenPlants[i].objectName);
-        Debug.Log("Mood (Energy): " + gardenPlants[i].moodEnergy);
-        Debug.Log("Mood (Social): " + gardenPlants[i].moodSocial);
-        Debug.Log("Mood (Pride): " + gardenPlants[i].moodPride);
-    }
-
     private void LogAllPlants()
     {
-        for (int i = 0; i < gardenPlants.Count; i++)
+        for (int c = 0; c < 2; c++)
         {
-            LogPlant(i);
+            for (int i = 0; i < gardenPlants[c].Count; i++)
+            {
+                LogPlant(i);
+            };
         };
     }
+
+    private void LogPlant(int i)
+    {
+        Debug.Log("Item #" + i + ":" + gardenPlants[0][i].objectName);
+        Debug.Log("Mood (Energy): "  + gardenPlants[0][i].moodEnergy);
+        Debug.Log("Mood (Social): "  + gardenPlants[0][i].moodSocial);
+        Debug.Log("Mood (Pride): "   + gardenPlants[0][i].moodPride);
+    }
+
 
     public void UpdateList()
     {
@@ -82,28 +103,52 @@ public class PlantManager : MonoBehaviour
     private void GetPlants()
     {
         var foundPlants = FindObjectsOfType<Item>();
-        gardenPlants.Clear();
-        for (int i = 0; i < foundPlants.Length; i++) {
-            gardenPlants.Add(foundPlants[i]);
+
+        gardenPlants[0].Clear();
+        gardenPlants[1].Clear();
+
+        for (int i = 0; i < foundPlants.Length; i++)
+        {
+            if (foundPlants[i].inLocalGarden == true)
+            {
+                gardenPlants[0].Add(foundPlants[i]);
+            }
+            else
+            {
+                gardenPlants[1].Add(foundPlants[i]);
+            }
         };
     }
 
-    public void UpdateScore() {
+    public void UpdateScore()
+    {
 
-        curMoodEnergy = 0;
-        curMoodSocial = 0;
-        curMoodPride = 0;
-
-        for (int i = 0; i < gardenPlants.Count; i++)
+        for (int c = 0; c < 2; c++)
         {
-            curMoodEnergy += gardenPlants[i].moodEnergy;
-            curMoodSocial += gardenPlants[i].moodSocial;
-            curMoodPride += gardenPlants[i].moodPride;
-        };
+            int tempEnergy = 0;
+            int tempSocial = 0;
+            int tempPride = 0;
 
-        if ((curMoodEnergy == goalMoodEnergy) && (curMoodPride == goalMoodPride) && (curMoodSocial == goalMoodSocial)) {
-            Debug.Log("Mood Condition Met!");
-            // Add actual user feedback here
+            for (int i = 0; i < gardenPlants[c].Count; i++)
+            {
+                tempEnergy += gardenPlants[c][i].moodEnergy;
+                tempSocial += gardenPlants[c][i].moodSocial;
+                tempPride  += gardenPlants[c][i].moodPride;
+            };
+
+            curMood[c, 0] = tempEnergy;
+            curMood[c, 1] = tempSocial;
+            curMood[c, 2] = tempPride;
+
+        }
+
+        for (int n = 0; n < 2; n++) { 
+            if ((curMood[n, 0] == goalMoodEnergy) && (curMood[n, 1] == goalMoodSocial) && (curMood[n, 2] == goalMoodPride))
+            {
+                Debug.Log("Garden #" + n + "Mood Condition Met!");
+                // Add actual user feedback here later
+                // Right now, both gardens share same mood goal - will be changed
+            }
         }
     }
 }

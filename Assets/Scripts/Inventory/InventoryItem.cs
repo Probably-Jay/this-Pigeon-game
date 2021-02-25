@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Created Jay 05/02
 
 
-// object that exists in the project's Assets, used by UI to instanciate the correct object, stores metadata about the object
+// object that exists in the project's assets, used by UI to create the correct object, stores metadata about the object
 [System.Serializable]
 [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item", order = 1)]
 public class InventoryItem : ScriptableObject
@@ -27,8 +27,6 @@ public class InventoryItem : ScriptableObject
         var pos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -Camera.main.transform.position.z));
         Instantiate(gameObject, pos, Quaternion.identity);  
     }
-
-
 
     // apply the name to internals
     private void OnEnable()

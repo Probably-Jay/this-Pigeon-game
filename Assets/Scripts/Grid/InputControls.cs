@@ -10,7 +10,7 @@ public class InputControls : MonoBehaviour
     TileControls tileControls;
 
     GameObject moveableObject;
-    ObjectMovment objectMovment;
+    ObjectMovement objectMovement;
    
     // Update is called once per frame
     void Update()
@@ -44,8 +44,8 @@ public class InputControls : MonoBehaviour
                     {                       
                         // turns moving on for the object you hit
                         moveableObject = hit.transform.gameObject;
-                        objectMovment = moveableObject.GetComponent<ObjectMovment>();
-                        objectMovment.moving = true;
+                        objectMovement = moveableObject.GetComponent<ObjectMovement>();
+                        objectMovement.moving = true;
                     }
                 }
             }           
