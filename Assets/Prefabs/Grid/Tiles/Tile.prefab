@@ -110,5 +110,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileActive: {fileID: 21300000, guid: 1d9661bc9a31c1e4db68f10828fb40a7, type: 3}
   tileDefault: {fileID: 21300000, guid: 3a6ce87a44214c24d8a1a88d8d2f7096, type: 3}
-  tileTaken: {fileID: 21300000, guid: 4a58841a028539a488e6fd73531308c7, type: 3}
+  tileOccupied: {fileID: 21300000, guid: 4a58841a028539a488e6fd73531308c7, type: 3}
+  tileBlocked: {fileID: 21300000, guid: fd4d1290b66d27746bd088cc5071a3c5, type: 3}
   curentState: 2
+  gridID: 0
+  thisTilesRow: 0
+  thisTilesColumn: 0
