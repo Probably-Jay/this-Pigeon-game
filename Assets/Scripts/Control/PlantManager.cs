@@ -32,16 +32,17 @@ public class PlantManager : MonoBehaviour
 
     private void Awake()
     {
+        for (int i = 0; i < 2; i++)
+        {
+            gardenPlants[i] = new List<Item>();
+        }
         text = GetComponent<Text>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            gardenPlants[i] = new List<Item>();
-        }
+       
         UpdateList();
         //LogAllPlants();
         UpdateScore();
@@ -129,11 +130,12 @@ public class PlantManager : MonoBehaviour
             int tempSocial = 0;
             int tempPride = 0;
 
-            for (int i = 0; i < gardenPlants[c].Count; i++)
+
+            for (int x = 0; x < gardenPlants[c].Count; x++)
             {
-                tempEnergy += gardenPlants[c][i].moodEnergy;
-                tempSocial += gardenPlants[c][i].moodSocial;
-                tempPride  += gardenPlants[c][i].moodPride;
+                tempEnergy += gardenPlants[c][x].moodEnergy;
+                tempSocial += gardenPlants[c][x].moodSocial;
+                tempPride  += gardenPlants[c][x].moodPride;
             };
 
             curMood[c, 0] = tempEnergy;

@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 751c8e2dddab9fb429fea5c51ef1f3df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeOwnPlantPointsInitial: 1
-  placeCompanionPlantPointsInitial: 1
-  removeOwnPlantPointsInitial: 0
-  waterOwnPlantPointsInitial: 999
+  placeOwnPlantPointsInitial: 3
+  placeCompanionPlantPointsInitial: 3
+  removeOwnPlantPointsInitial: 3
+  waterOwnPlantPointsInitial: 3
 --- !u!114 &841971683211561168
 MonoBehaviour:
   m_ObjectHideFlags: 0
