@@ -135,8 +135,8 @@ public class InputControls : MonoBehaviour
                                                                currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth);
 
                                 newObjectLocation = currentTile.transform.position;
-                                newObjectLocation.x += (objectSize.x / 2);
-                                newObjectLocation.y -= (objectSize.y / 2.5f);
+                                newObjectLocation.x += (objectSize.x / 2.6f);
+                                newObjectLocation.y -= (objectSize.y / 2.9f);
                                 newObjectLocation.z = -2;
 
                                 currentObjectMoving.transform.position = newObjectLocation;
