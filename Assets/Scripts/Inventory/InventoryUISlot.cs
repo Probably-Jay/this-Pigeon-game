@@ -57,7 +57,7 @@ public class InventoryUISlot : MonoBehaviour
 
     void SpawnObject()
     {
-        item.SpawnObjectRandomPos();
+        item.SpawnObjectMiddleOfScreen();
     }
 
 }

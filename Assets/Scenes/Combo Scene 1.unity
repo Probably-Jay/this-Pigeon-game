@@ -1327,6 +1327,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScreenSpaceCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6286904307568191499, guid: ba281f030bce86942a5de9a5f631cbe1,
+        type: 3}
+      propertyPath: itemList
+      value: 
+      objectReference: {fileID: 11400000, guid: 6bb4253ba0412324a804d5a537d8032d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba281f030bce86942a5de9a5f631cbe1, type: 3}
 --- !u!1001 &6979607847764759933
@@ -1472,6 +1478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: _gridTestObjects
+      objectReference: {fileID: 0}
+    - target: {fileID: 6979607849067382903, guid: 9abe7f28914836849a2d01f531414f12,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9192751545223502358, guid: 9abe7f28914836849a2d01f531414f12,
         type: 3}

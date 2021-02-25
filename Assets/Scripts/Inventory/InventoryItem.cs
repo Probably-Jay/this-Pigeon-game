@@ -18,7 +18,6 @@ public class InventoryItem : ScriptableObject
 
 
 
-    // for xander to change
     public void SpawnObjectRandomPos()
     {
        
@@ -26,6 +25,16 @@ public class InventoryItem : ScriptableObject
         Rect screnDim = new Rect(Vector2.zero, size );
         var screenPos = new Vector2(Random.Range(screnDim.x, screnDim.width), Random.Range(screnDim.y, screnDim.height));
         var pos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -Camera.main.transform.position.z));
+        Instantiate(gameObject, pos, Quaternion.identity);  
+    } 
+    
+    public void SpawnObjectMiddleOfScreen()
+    {
+       
+        var size = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
+        Rect screnDim = new Rect(Vector2.zero, size );
+        var screenPos = new Vector2(screnDim.width*0.8f, screnDim.height/2f);
+        var pos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -Camera.main.transform.position.z-1f));
         Instantiate(gameObject, pos, Quaternion.identity);  
     }
 
