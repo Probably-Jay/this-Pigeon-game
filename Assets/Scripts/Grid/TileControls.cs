@@ -24,6 +24,11 @@ public class TileControls : MonoBehaviour
     // sets the current state to open as default
     public tileStates curentState = tileStates.Open;
 
+    // to change the alpha of the object that is moving
+    SpriteRenderer objectsSprite;
+    Color objectColourValues;
+
+
     public int gridID = 0;
     public int thisTilesRow;
     public int thisTilesColumn;
@@ -72,6 +77,16 @@ public class TileControls : MonoBehaviour
 
     public void FreeTile()
     {
+        objectsSprite = this.GetComponent<SpriteRenderer>();
+        objectColourValues = objectsSprite.material.color;
+
+        objectColourValues.r = 1.0f;
+        objectColourValues.g = 0.0f;
+        objectColourValues.b = 0.0f;
+
+        objectsSprite.material.color = objectColourValues;
+
+
         // switches out the sprite to reflect the that this tile is free
         this.gameObject.GetComponent<SpriteRenderer>().sprite = tileDefault;
         // sets the tile state to open

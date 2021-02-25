@@ -161,7 +161,6 @@ public class InputControls : MonoBehaviour
                     ResetObject();
                 }
 
-
                 currentObjectMoving.moving = false;
                 currentObjectMoving.ObjectNotTransparent();
                 moveableObject = null;
