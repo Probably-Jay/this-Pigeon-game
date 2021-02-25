@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 776328344}
   - component: {fileID: 776328343}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: UIEventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,6 +644,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlantManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9008297784384260007, guid: b18efc4cb51e1b9469852ac2a2aa5315,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b18efc4cb51e1b9469852ac2a2aa5315, type: 3}
 --- !u!114 &1413896522 stripped
@@ -915,7 +920,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1825950207, guid: 819ebb282f51a334981d1100e8f5dc74, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1532883404319789537, guid: 819ebb282f51a334981d1100e8f5dc74,
         type: 3}
