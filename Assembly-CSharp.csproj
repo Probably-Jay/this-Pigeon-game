@@ -64,9 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\ApplicationManager.cs" />
-    <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
-    <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
-    <Compile Include="Assets\Scripts\ActionPoints\_InputFaker.cs" />
+    <Compile Include="Assets\Scripts\Action_Points\TurnPoints.cs" />
+    <Compile Include="Assets\Scripts\Action_Points\TurnPointsUI.cs" />
+    <Compile Include="Assets\Scripts\Action_Points\_InputFaker.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
     <Compile Include="Assets\Scripts\Control\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
-    <Compile Include="Assets\Scripts\Turn_Points\TurnDisplayControl.cs" />
+    <Compile Include="Assets\Scripts\Turns\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />

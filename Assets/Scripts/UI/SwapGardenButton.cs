@@ -18,6 +18,11 @@ public class SwapGardenButton : MonoBehaviour
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenVeiw, RotateButton);
     }
 
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenVeiw, RotateButton);
+    }
+
     private void RotateButton(EventsManager.EventParams paramaters)
     {
         switch ((Player.PlayerEnum)paramaters.EnumData)

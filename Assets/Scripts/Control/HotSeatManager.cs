@@ -8,7 +8,7 @@ using UnityEngine.UI;
 // uncomment when needed
 //[System.Obsolete("This class should no longer be useed as it was developed for MVP only")]
 /// <summary>
-/// Tempoary class for managing hotseating the players
+/// Tempoary class for managing hotseating the players, managed by <see cref="GameManager"/>
 /// </summary>
 public class HotSeatManager : MonoBehaviour
 {
@@ -126,10 +126,12 @@ public class HotSeatManager : MonoBehaviour
         if (TurnActive && ActivePlayer.TurnPoints.HasPointsLeft(pointType))
         {
             EventsManager.InvokeEvent(action);
-            
         }
         else
+        {
             EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = pointType }); // invoke event to inform player they are out of this kind of point
+        }
+
     }
 
     #endregion

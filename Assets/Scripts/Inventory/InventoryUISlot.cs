@@ -35,13 +35,29 @@ public class InventoryUISlot : MonoBehaviour
 
     }
 
-    // for xander to change
     public void ItemSelected()
     {
-        if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) {
-            item.SpawnObjectRandomPos();
+        if(GameManager.Instance.CurrentVisibleGarden == GameManager.Instance.ActivePlayer.PlayerEnumValue) // our turn
+        {
+            if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) 
+            {
+                SpawnObject();
+            }
+            EventsManager.InvokeEvent(EventsManager.EventType.triedToPlaceOwnObject);
         }
-        EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+        else
+        {
+            if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace))
+            {
+                SpawnObject();
+            }
+            EventsManager.InvokeEvent(EventsManager.EventType.triedToPlaceCompanionObject);
+        }
+    }
+
+    void SpawnObject()
+    {
+        item.SpawnObjectRandomPos();
     }
 
 }

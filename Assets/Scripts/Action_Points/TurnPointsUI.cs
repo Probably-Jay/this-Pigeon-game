@@ -75,7 +75,7 @@ public class TurnPointsUI : MonoBehaviour
         textPlaceOwnPlantPoints.text = $"Place objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace)}";
         textPlaceCompanionPlantPoints.text = $"Place companion's objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.OtherObjectPlace)}";
         textRemoveOwnPlantPoints.text = $"Remove objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectRemove)}";
-        textWaterOwnPoints.text = $"Remove objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfAddWater)}";
+        textWaterOwnPoints.text = $"Water objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfAddWater)}";
     }
 
     void FlashGreen()
@@ -93,7 +93,6 @@ public class TurnPointsUI : MonoBehaviour
 
     private void Pop(Animator animator)
     {
-        animator.ResetTrigger("Pop");
         animator.SetTrigger("Pop");
     }
 
@@ -102,19 +101,15 @@ public class TurnPointsUI : MonoBehaviour
         switch ((TurnPoints.PointType)param.EnumData)
         {
             case TurnPoints.PointType.SelfObjectPlace:
-                animatorPlaceOwnPlantPoints.ResetTrigger("FlashRed");
                 animatorPlaceOwnPlantPoints.SetTrigger("FlashRed");
                 break;
             case TurnPoints.PointType.OtherObjectPlace:
-                animatorPlaceCompanionPlantPoints.ResetTrigger("FlashRed");
                 animatorPlaceCompanionPlantPoints.SetTrigger("FlashRed");
                 break;
             case TurnPoints.PointType.SelfObjectRemove:
-                animatorRemoveOwnPlantPoints.ResetTrigger("FlashRed");
                 animatorRemoveOwnPlantPoints.SetTrigger("FlashRed");
                 break;
             case TurnPoints.PointType.SelfAddWater:
-                animatorWaterOwnPoints.ResetTrigger("FlashRed");
                 animatorWaterOwnPoints.SetTrigger("FlashRed");
                 break;
             default:

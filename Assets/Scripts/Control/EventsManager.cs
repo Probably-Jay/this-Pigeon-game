@@ -27,7 +27,7 @@ public class EventsManager : Singleton<EventsManager>
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
         
-
+        /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
         , PlacedOwnObject
         , PlacedCompanionObject
         , RemovedOwnObject
