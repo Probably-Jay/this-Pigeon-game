@@ -19,8 +19,8 @@ public class GridControls : MonoBehaviour
     int columnsGrid2 = 10;
     int rowsGrid2 = 7;
 
-    GameObject gridP1Gameobject;
-    GameObject gridP2Gameobject;
+    [SerializeField] GameObject gridP1Gameobject;
+    [SerializeField] GameObject gridP2Gameobject;
 
     // Update is called once per frame
     void Awake()
