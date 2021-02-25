@@ -9,7 +9,7 @@ public class InputControls : MonoBehaviour
     TileControls tileControls;
 
     GameObject moveableObject;
-    ObjectMovment currentObjectMoving;
+    ObjectMovement currentObjectMoving;
 
     public GridManager gridManager;
 
@@ -68,7 +68,7 @@ public class InputControls : MonoBehaviour
                         {
                             // turns moving on for the object you hit
                             moveableObject = hit.transform.gameObject;
-                            currentObjectMoving = moveableObject.GetComponent<ObjectMovment>();
+                            currentObjectMoving = moveableObject.GetComponent<ObjectMovement>();
                             currentObjectMoving.moving = true;
                             currentObjectMoving.isPickedUp = false;
                             holdingObject = true;
@@ -106,14 +106,14 @@ public class InputControls : MonoBehaviour
                     {                       
                         // turns moving on for the object you hit
                         moveableObject = hit.transform.gameObject;
-                        objectMovment = moveableObject.GetComponent<ObjectMovment>();
-                        objectMovment.moving = true;
+                        currentObjectMoving = moveableObject.GetComponent<ObjectMovement>();
+                        currentObjectMoving.moving = true;
                     }
                 }
             }
             else if(holdingObject == true)
             {
-                currentObjectMoving = moveableObject.GetComponent<ObjectMovment>();
+                currentObjectMoving = moveableObject.GetComponent<ObjectMovement>();
 
                 newRayOriginPoint = currentObjectMoving.transform.position;
 
