@@ -64,12 +64,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AplicationManager.cs" />
-    <Compile Include="Assets\GoalStore.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\ActionPoints\_InputFaker.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
+    <Compile Include="Assets\Scripts\Control\AplicationManager.cs" />
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
@@ -98,10 +97,13 @@
     <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
+    <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
     <Compile Include="Assets\Scripts\Turn_Points\TurnDisplayControl.cs" />
+    <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
+    <None Include="Assets\Art\_Test\MyText.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
