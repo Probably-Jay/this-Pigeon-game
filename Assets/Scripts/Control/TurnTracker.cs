@@ -18,10 +18,4 @@ public class TurnTracker
     /// </summary>
     public void ProgressTurn() { Turn++; TurnActive = true; }
     public void EndTurn() => TurnActive = false;
-
-    private void Update()
-    {
-        Debug.Log("FRAME");
-
-    }
 }

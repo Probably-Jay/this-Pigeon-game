@@ -36,7 +36,12 @@ public class InventoryUISlot : MonoBehaviour
     }
 
     // for xander to change
-    public void ItemSelected() => item.SpawnObjectRandomPos();
-
+    public void ItemSelected()
+    {
+        if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) {
+            item.SpawnObjectRandomPos();
+        }
+        EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+    }
 
 }

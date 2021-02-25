@@ -51,7 +51,7 @@ public class TurnPointsUI : MonoBehaviour
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, FlashGreen);
-        EventsManager.BindEvent(EventsManager.ParamaterEventType.NotEnoughPointsForAction, FlashRed);
+        EventsManager.BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, FlashRed);
 
         EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
         EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
@@ -61,7 +61,7 @@ public class TurnPointsUI : MonoBehaviour
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, FlashGreen);
-        EventsManager.UnbindEvent(EventsManager.ParamaterEventType.NotEnoughPointsForAction, FlashRed);
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, FlashRed);
 
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
@@ -72,10 +72,10 @@ public class TurnPointsUI : MonoBehaviour
     private void UpdateText()
     {
         var activePlayerPoints = GameManager.Instance.HotSeatManager.ActivePlayer.TurnPoints;
-        textPlaceOwnPlantPoints.text = $"Place objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.OurObjectPlace)}";
-        textPlaceCompanionPlantPoints.text = $"Place companion's objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.CompanionPlace)}";
-        textRemoveOwnPlantPoints.text = $"Remove objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.OurObjectRemove)}";
-        textWaterOwnPoints.text = $"Remove objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.OurWater)}";
+        textPlaceOwnPlantPoints.text = $"Place objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace)}";
+        textPlaceCompanionPlantPoints.text = $"Place companion's objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.OtherObjectPlace)}";
+        textRemoveOwnPlantPoints.text = $"Remove objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectRemove)}";
+        textWaterOwnPoints.text = $"Remove objects points:\n{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfAddWater)}";
     }
 
     void FlashGreen()
@@ -101,19 +101,19 @@ public class TurnPointsUI : MonoBehaviour
     {
         switch ((TurnPoints.PointType)param.EnumData)
         {
-            case TurnPoints.PointType.OurObjectPlace:
+            case TurnPoints.PointType.SelfObjectPlace:
                 animatorPlaceOwnPlantPoints.ResetTrigger("FlashRed");
                 animatorPlaceOwnPlantPoints.SetTrigger("FlashRed");
                 break;
-            case TurnPoints.PointType.CompanionPlace:
+            case TurnPoints.PointType.OtherObjectPlace:
                 animatorPlaceCompanionPlantPoints.ResetTrigger("FlashRed");
                 animatorPlaceCompanionPlantPoints.SetTrigger("FlashRed");
                 break;
-            case TurnPoints.PointType.OurObjectRemove:
+            case TurnPoints.PointType.SelfObjectRemove:
                 animatorRemoveOwnPlantPoints.ResetTrigger("FlashRed");
                 animatorRemoveOwnPlantPoints.SetTrigger("FlashRed");
                 break;
-            case TurnPoints.PointType.OurWater:
+            case TurnPoints.PointType.SelfAddWater:
                 animatorWaterOwnPoints.ResetTrigger("FlashRed");
                 animatorWaterOwnPoints.SetTrigger("FlashRed");
                 break;

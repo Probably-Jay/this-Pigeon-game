@@ -21,6 +21,7 @@ public class InventoryItem : ScriptableObject
     // for xander to change
     public void SpawnObjectRandomPos()
     {
+       
         var size = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
         Rect screnDim = new Rect(Vector2.zero, size );
         var screenPos = new Vector2(Random.Range(screnDim.x, screnDim.width), Random.Range(screnDim.y, screnDim.height));

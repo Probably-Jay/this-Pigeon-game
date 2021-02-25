@@ -15,10 +15,10 @@ public class TurnPoints : MonoBehaviour
 
     public enum PointType
     {
-        OurObjectPlace
-        , CompanionPlace
-        , OurObjectRemove
-        , OurWater
+          SelfObjectPlace
+        , OtherObjectPlace
+        , SelfObjectRemove
+        , SelfAddWater
 
     }
 
@@ -27,15 +27,11 @@ public class TurnPoints : MonoBehaviour
 
     public void StartTurn()
     {
-        points[PointType.OurObjectPlace] = placeOwnPlantPointsInitial;
-        points[PointType.CompanionPlace] = placeCompanionPlantPointsInitial;
-        points[PointType.OurObjectRemove] = removeOwnPlantPointsInitial;
-        points[PointType.OurWater] = waterOwnPlantPointsInitial;
+        points[PointType.SelfObjectPlace] = placeOwnPlantPointsInitial;
+        points[PointType.OtherObjectPlace] = placeCompanionPlantPointsInitial;
+        points[PointType.SelfObjectRemove] = removeOwnPlantPointsInitial;
+        points[PointType.SelfAddWater] = waterOwnPlantPointsInitial;
     }
-
-
-
-
 
     private void Awake()
     {
@@ -49,8 +45,8 @@ public class TurnPoints : MonoBehaviour
 
     public int GetPoints(PointType type) => points[type];
     public bool HasPointsLeft(PointType type) => GetPoints(type) > 0;
-    private void SetPoints(PointType type, int value) => points[type] = value >= 0 ? value : 0;
-    private void DecreasePoints(PointType type) => SetPoints(type, GetPoints(type) - 1);
+    public void SetPoints(PointType type, int value) => points[type] = value >= 0 ? value : 0;
+    public void DecreasePoints(PointType type) => SetPoints(type, GetPoints(type) - 1);
 
 
     private void OnEnable()
@@ -69,12 +65,10 @@ public class TurnPoints : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, DecreaseOurWaterPoints);
     }
 
-
-
-    private void DecreaseOurPlacePoints() => DecreasePoints(PointType.OurObjectPlace);
-    private void DecreaseCompanionPlacePoints() => DecreasePoints(PointType.CompanionPlace);
-    private void DecreaseOurRemovePoints() => DecreasePoints(PointType.OurObjectRemove);
-    private void DecreaseOurWaterPoints() => DecreasePoints(PointType.OurWater);
+    private void DecreaseOurPlacePoints() => DecreasePoints(PointType.SelfObjectPlace);
+    private void DecreaseCompanionPlacePoints() => DecreasePoints(PointType.OtherObjectPlace);
+    private void DecreaseOurRemovePoints() => DecreasePoints(PointType.SelfObjectRemove);
+    private void DecreaseOurWaterPoints() => DecreasePoints(PointType.SelfAddWater);
 
 
 
