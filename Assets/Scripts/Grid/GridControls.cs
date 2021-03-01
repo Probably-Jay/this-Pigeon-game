@@ -14,8 +14,7 @@ public class GridControls : MonoBehaviour
     int columnsGrid1 = 2;
     int rowsGrid1 = 5;
 
-    Vector3 startingPositionGrid2 = new Vector3(0.8f, 2.2f, 0.0f);
-    
+    Vector3 startingPositionGrid2 = new Vector3(0.9f, 2.2f, 0.0f);   
     float tileSizeGrid2 = 1.0f;
     int columnsGrid2 = 2;
     int rowsGrid2 = 6;
@@ -25,7 +24,7 @@ public class GridControls : MonoBehaviour
     int columnsGrid3 = 2;
     int rowsGrid3 = 5;
 
-    Vector3 startingPositionGrid4 = new Vector3(-1.8f, 12.0f, 0.0f);
+    Vector3 startingPositionGrid4 = new Vector3(-1.9f, 12.3f, 0.0f);
     float tileSizeGrid4 = 1.0f;
     int columnsGrid4 = 2;
     int rowsGrid4 = 6;
