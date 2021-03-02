@@ -43,7 +43,7 @@ public class GameManager : Singleton<GameManager>
         //EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
         EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore);
 
-        CurrentGoal = GoalStore.Instance.GetGoal();
+        CurrentGoal = GoalStore.GetGoal();
 
     }
 
