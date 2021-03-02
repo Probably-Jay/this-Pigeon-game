@@ -72,6 +72,8 @@
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
+    <Compile Include="Assets\Scripts\Control\Mood_Select\MoodSelectController.cs" />
+    <Compile Include="Assets\Scripts\Control\Personal_Garden\PersonalGardenController.cs" />
     <Compile Include="Assets\Scripts\Control\PlantManager.cs" />
     <Compile Include="Assets\Scripts\Control\Player.cs" />
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />

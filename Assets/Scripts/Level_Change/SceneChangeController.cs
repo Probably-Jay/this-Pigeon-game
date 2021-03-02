@@ -13,15 +13,15 @@ public class SceneChangeController : Singleton<SceneChangeController>
     [System.Serializable]
     public enum Scenes 
     {
-        MainMenu
+        MoodSelectScreen
         , PersonalGarden
         , Game
     }
 
-    [SerializeField] int MainMenuBuildIndex;
+    [SerializeField] int PersonalGardenBuildIndex;  
+    [SerializeField] int MoodSelectBuildIndex;
     [SerializeField] int GameBuildIndex;
 
-    [SerializeField] Dropdown dropdown;
 
     [SerializeReference] GameObject LoadingScreen;
     [SerializeField] Slider progressBar;
@@ -47,7 +47,8 @@ public class SceneChangeController : Singleton<SceneChangeController>
 
     private void CreateBuildIndexDictionary()
     {
-        sceneBuildIndexesDictionary.Add(Scenes.MainMenu, MainMenuBuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen, MoodSelectBuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.PersonalGarden, PersonalGardenBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.Game, GameBuildIndex);
     }
 
@@ -73,16 +74,16 @@ public class SceneChangeController : Singleton<SceneChangeController>
     }
 
     /// <summary>
-    /// Will asynchornously load the scene at the enumvalue provided
+    /// Will asynchornously load the scene at the enumvalue provided and enter that scene
     /// </summary>
     /// <param name="scene">Enum value of the scene to load</param>
-    public void LoadSceneAsync(Scenes scene) => StartCoroutine(LoadSceneAsyncCoroutine(sceneBuildIndexesDictionary[scene]));
+    public void ChangeScene(Scenes scene) => StartCoroutine(LoadSceneAsyncCoroutine(sceneBuildIndexesDictionary[scene]));
 
     /// <summary>
-    /// Prefer <see cref="LoadSceneAsync"/> for saftey, but this overload allows passing build indexes directly
+    /// Prefer <see cref="ChangeScene"/> for saftey, but this overload allows passing build indexes directly
     /// </summary>
     /// <param name="scene">Build index</param>
-    public void LoadSceneAsync(int scene) {
+    public void ChangeScene(int scene) {
         Debug.Assert(scene <= SceneManager.sceneCountInBuildSettings,$"Invalid scene index {scene} attampted to load");
         StartCoroutine(LoadSceneAsyncCoroutine(scene)); 
     }
@@ -114,7 +115,6 @@ public class SceneChangeController : Singleton<SceneChangeController>
 
     private void BeginLoad(int buildInxed)
     {
-        PassValuesToOtherScene();
         LoadingScreen.SetActive(true);
         EventsManager.InvokeEvent(EventsManager.EventType.BeginSceneLoad);
         loadingScene = SceneManager.LoadSceneAsync(buildInxed);
@@ -122,11 +122,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
         transitionAnimationDone = false;
     }
 
-    private void PassValuesToOtherScene()
-    {
-        var value = dropdown.value;
-        GoalStore.Instance.StoreGoal((GameManager.Goal)value);
-    }
+
 
     private void EndLoad()
     {
@@ -134,9 +130,11 @@ public class SceneChangeController : Singleton<SceneChangeController>
         loadingScene.allowSceneActivation = true; // wait to finish scene load until we tell it to
         transitionAnimationDone = false; // transition into new scene
     }
+
     private void EnterScene()
     {
         LoadingScreen.SetActive(false);
         EventsManager.InvokeEvent(EventsManager.EventType.EnterNewScene);
+        loadingScene = null;
     }
 }
