@@ -1,27 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class GoalStore : Singleton<GoalStore>
+public class GoalStore : MonoBehaviour
 {
+    private const string goalKeyPlayer1 = "Goal_Player1";
+    private const string goalKeyPlayer2 = "Goal_Player2";
 
- 
 
-    public override void Awake()
+
+    //public override void Awake()
+    //{
+    //    InitSingleton();
+    //}
+
+    [SerializeField] Dropdown dropdownPlayer1;
+    [SerializeField] Dropdown dropdownPlayer2;
+    private void OnEnable()
     {
-        InitSingleton();
+        EventsManager.BindEvent(EventsManager.EventType.BeginSceneLoad, StoreGoal);
     }
 
-    public void StoreGoal(GameManager.Goal goal)
+    private void OnDisable()
     {
-        PlayerPrefs.SetInt("Goal", (int)goal);
+        EventsManager.UnbindEvent(EventsManager.EventType.BeginSceneLoad, StoreGoal);
+    }
+
+    public void StoreGoal()
+    {
+        var value1 = dropdownPlayer1.value;
+        var value2 = dropdownPlayer2.value;
+        StoreGoal(Player.PlayerEnum.Player0,(GameManager.Goal)value1);
+        StoreGoal(Player.PlayerEnum.Player1, (GameManager.Goal)value2);
+    }
+
+    public static void StoreGoal(Player.PlayerEnum player, GameManager.Goal goal)
+    {
+        switch (player)
+        {
+            case Player.PlayerEnum.Player0:
+                PlayerPrefs.SetInt(goalKeyPlayer1, (int)goal);
+                break;
+            case Player.PlayerEnum.Player1:
+                PlayerPrefs.SetInt(goalKeyPlayer2, (int)goal);
+                break;
+        }
         PlayerPrefs.Save();
     }
 
-    public GameManager.Goal GetGoal()
+    public static GameManager.Goal GetGoal()
     {
-        return (GameManager.Goal)PlayerPrefs.GetInt("Goal");
+        return (GameManager.Goal)PlayerPrefs.GetInt(goalKeyPlayer1);
     }
 
 
