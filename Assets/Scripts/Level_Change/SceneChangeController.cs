@@ -135,5 +135,6 @@ public class SceneChangeController : Singleton<SceneChangeController>
     {
         LoadingScreen.SetActive(false);
         EventsManager.InvokeEvent(EventsManager.EventType.EnterNewScene);
+        loadingScene = null;
     }
 }

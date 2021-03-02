@@ -246,7 +246,7 @@ PrefabInstance:
     - target: {fileID: 2512573484810897439, guid: c84eed56b1c4a6140a2a53a2304f796c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c84eed56b1c4a6140a2a53a2304f796c, type: 3}
@@ -696,6 +696,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneChangeManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1342758162877350577, guid: 246665e9bc82e0d469ac07b97ef85873,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1342758162877350579, guid: 246665e9bc82e0d469ac07b97ef85873,
         type: 3}
       propertyPath: dropdown
@@ -769,6 +774,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AplicationManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836806109814383078, guid: 05fcf3c2bf65483489546472fec987a8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05fcf3c2bf65483489546472fec987a8, type: 3}
