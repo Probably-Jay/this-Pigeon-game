@@ -50,4 +50,5 @@ public class GameManager : Singleton<GameManager>
     public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
 
 
+
 }

@@ -15,10 +15,19 @@ public class InventoryUIControl : MonoBehaviour
 
     [SerializeField] int listOffset = 0;
 
+    List<Transform> slots;
+
     const int numberOfSlots = 5;
 
     private void Awake()
     {
+
+        // get all slots from children
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            slots.Add(transform.GetChild(i));
+        }
+
         SetInventoryUI();
 
     }
