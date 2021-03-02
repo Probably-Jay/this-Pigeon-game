@@ -128,7 +128,7 @@ MonoBehaviour:
   itemList: {fileID: 11400000, guid: 6bb4253ba0412324a804d5a537d8032d, type: 2}
   UISlotPrefab: {fileID: 4846323598871467373, guid: 622e2f41c66671b438cb9ad3b79e6bad,
     type: 3}
-  canvas: {fileID: 3707083342972880157}
+  inventoryDisplay: {fileID: 3707083342972880157}
   spacing: 1
   padding: 0.1
   listOffset: 0
