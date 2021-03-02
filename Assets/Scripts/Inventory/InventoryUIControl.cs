@@ -15,7 +15,7 @@ public class InventoryUIControl : MonoBehaviour
 
     [SerializeField] int listOffset = 0;
 
-    List<Transform> slots;
+    List<Transform> slots = new List<Transform>();
 
     const int numberOfSlots = 5;
 
