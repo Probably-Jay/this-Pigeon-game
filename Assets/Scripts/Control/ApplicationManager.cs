@@ -21,6 +21,15 @@ public class ApplicationManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.QuitGame, QuitGame);
     }
 
+    // todo remove this for the actual build
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            EventsManager.InvokeEvent(EventsManager.EventType.QuitGame);
+        }
+    }
+
+
     private void QuitGame()
     {
 #if UNITY_EDITOR
