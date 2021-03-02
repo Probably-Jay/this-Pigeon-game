@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class HotSeatManager : MonoBehaviour
 {
 
-    [SerializeField] Button EndTurnButton; // todo refactor away this ref
+   // [SerializeField] Button EndTurnButton; // todo refactor away this ref
 
 
     [SerializeField, Range(0, 5)] float hotseatSwapTime;
@@ -94,9 +94,9 @@ public class HotSeatManager : MonoBehaviour
 
     IEnumerator PauseBeforeStartingNextTurn()
     {
-        EndTurnButton.enabled = false; // todo refactor away this ref
+      //  EndTurnButton.enabled = false; // todo refactor away this ref
         yield return new WaitForSeconds(hotseatSwapTime);
-        EndTurnButton.enabled = true;
+       // EndTurnButton.enabled = true;
 
         BeginNewTurn();
     }
