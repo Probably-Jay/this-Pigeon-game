@@ -10,6 +10,7 @@ public class TurnDisplayControl : MonoBehaviour
 {
     Animator animator;
     Text text;
+    [SerializeField, Range(0, 1)] float turnUpdateDelay;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -35,8 +36,13 @@ public class TurnDisplayControl : MonoBehaviour
     {
         Player.PlayerEnum player = GameManager.Instance.ActivePlayer.PlayerEnumValue;
         int turnCount = GameManager.Instance.TurnCount;
-        text.text = $"Turn {turnCount.ToString()}\nPlayer {(player == Player.PlayerEnum.Player0 ? "One" : "Two")}'s turn";
         animator.SetTrigger("FadeInOut");
+        StartCoroutine(UpdateTurnDisplay(player, turnCount));
     }
 
+    private IEnumerator UpdateTurnDisplay(Player.PlayerEnum player, int turnCount)
+    {
+        yield return new WaitForSeconds(turnUpdateDelay);
+        text.text = $"Turn {turnCount.ToString()}\nPlayer {(player == Player.PlayerEnum.Player0 ? "One" : "Two")}'s turn";
+    }
 }
