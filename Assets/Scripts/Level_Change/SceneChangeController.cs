@@ -14,6 +14,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
     public enum Scenes 
     {
         MainMenu
+        , PersonalGarden
         , Game
     }
 
