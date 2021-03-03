@@ -33,45 +33,67 @@ public class TileControls : MonoBehaviour
     float timePassedForOccupiedTiles = 0;
     float triggerTime = 0.1f;
 
+    bool tilesVisable = false;
+
     private void Awake()
     {
         objectsSprite = this.GetComponent<SpriteRenderer>();
-       
         objectColourValues = objectsSprite.material.color;
-
-        objectColourValues.a = 0.6f;
- 
-
+        objectColourValues.a = 0.0f;
         objectsSprite.material.color = objectColourValues;
     }
 
 
     private void Update()
     {
-        if (curentState == tileStates.Active)
-        {
-            if (timePassedForActiveTiles >= triggerTime)
-            {
-                FreeTile();
-            }
-            else
-            {
-                timePassedForActiveTiles += Time.deltaTime;            
-            }
-        }
+       if (tilesVisable) {
+           if (curentState == tileStates.Active)
+           {
+               if (timePassedForActiveTiles >= triggerTime)
+               {
+                   FreeTile();
+               }
+               else
+               {
+                   timePassedForActiveTiles += Time.deltaTime;
+               }
+           }
 
-        if (curentState == tileStates.Blocked)
-        {
-            if (timePassedForOccupiedTiles >= triggerTime)
-            {
-                FreeTile();
-            }
-            else
-            {              
-                timePassedForOccupiedTiles += Time.deltaTime;
-            }
-        }
+           if (curentState == tileStates.Blocked)
+           {
+               if (timePassedForOccupiedTiles >= triggerTime)
+               {
+                   FreeTile();
+               }
+               else
+               {
+                   timePassedForOccupiedTiles += Time.deltaTime;
+               }
+           }
+       }
     }
+
+
+    public void ShowTile()
+    {
+        objectColourValues = objectsSprite.material.color;
+        objectColourValues.a = 0.6f;
+        objectsSprite.material.color = objectColourValues;
+
+        tilesVisable = true;
+    }
+
+    public void HideTiles()
+    {
+        objectColourValues = objectsSprite.material.color;
+        objectColourValues.a = 0.0f;
+        objectsSprite.material.color = objectColourValues;
+
+        tilesVisable = false;
+    }
+
+
+
 
     public void ActivateTile()
     {

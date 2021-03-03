@@ -28,11 +28,11 @@ public class InputControls : MonoBehaviour
         gridManager = GameObject.FindObjectOfType<GridManager>();
     }
 
-    void ResetObject()
-    {
-        // needs better reset position but possible to just delete object instead in next build
-        currentObjectMoving.transform.position = new Vector3(6.5f, -3, 2);
-    }
+    //void ResetObject()
+    //{
+    //    // needs better reset position but possible to just delete object instead in next build
+    //    currentObjectMoving.transform.position = new Vector3(6.5f, -3, 2);
+    //}
 
     // Update is called once per frame
     void Update()
@@ -74,8 +74,9 @@ public class InputControls : MonoBehaviour
                             currentObjectMoving.moving = true;
                             currentObjectMoving.isPickedUp = false;
                             holdingObject = true;
-                          
-                            newRayOriginPoint = currentObjectMoving.transform.position;
+                            gridManager.ShowGrids();
+
+                              newRayOriginPoint = currentObjectMoving.transform.position;
 
                             objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
 
@@ -147,6 +148,8 @@ public class InputControls : MonoBehaviour
                                 currentObjectMoving.ObjectNotTransparent();
                                 moveableObject = null;
                                 holdingObject = false;
+
+                                gridManager.HideGrids();
                             }
                                 //    else
                                 //    {
