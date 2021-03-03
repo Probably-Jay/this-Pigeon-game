@@ -49,7 +49,7 @@ public class EventsManager : Singleton<EventsManager>
     public enum ParameterEventType 
     {
         NotEnoughPointsForAction // enum variable
-        , SwappedGardenVeiw // enum variable
+        , SwappedGardenView // enum variable
     }
 
     // update thsese with more data as needed

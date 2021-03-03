@@ -56,10 +56,22 @@ public class PlantManager : MonoBehaviour
         UpdateList();
         if (text)
         {
+            Player.PlayerEnum turnPlayer;
+            GameManager.Goal turnGoal;
+            turnPlayer = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+
+            if (turnPlayer == 0)
+            {
+                turnGoal = GameManager.Instance.CurrentGoal;
+            }
+            else {
+                turnGoal = GameManager.Instance.AlternateGoal;
+            }
+
             text.text = $"Current Mood Values:\n" +
                         $"Garden 1: P {curMood[0, 0].ToString()},  E {curMood[0, 1].ToString()},  S {curMood[0, 2].ToString()}, \n" +
                         $"Garden 2: P {curMood[1, 0].ToString()},  E {curMood[1, 1].ToString()},  S {curMood[1, 2].ToString()}, \n" +
-                        $"G1 Goal: {GameManager.Instance.CurrentGoal.ToString()}";
+                        $"Mood Goal: {turnGoal.ToString()}";
         }
     }
 
@@ -148,7 +160,7 @@ public class PlantManager : MonoBehaviour
             if ((curMood[n, 0] == goalMoodEnergy) && (curMood[n, 1] == goalMoodSocial) && (curMood[n, 2] == goalMoodPride))
             {
                // Debug.Log("Garden #" + n + "Mood Condition Met!");
-                // Add actual user feedback here later
+                // Add actual user feedback, end condition here later
                 // Right now, both gardens share same mood goal - will be changed
             }
         }
