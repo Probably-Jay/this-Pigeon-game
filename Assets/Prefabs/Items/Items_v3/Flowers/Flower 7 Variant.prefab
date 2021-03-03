@@ -73,5 +73,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f3f3d6dfb3f46f44f9ab8d67c91966b8,
         type: 3}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: moodPride
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: moodEnergy
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0587ff78d9e11a04c8e8b10d7b54eb94, type: 3}

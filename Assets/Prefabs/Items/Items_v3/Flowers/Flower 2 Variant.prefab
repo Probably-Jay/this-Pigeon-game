@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 2798752532413861212, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_Name
-      value: Flower 2
+      value: Flower 2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4035896031826186124, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
@@ -73,5 +73,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 81dfa3eca38dc924facf8ababb3bc0a3,
         type: 3}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: moodEnergy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: moodSocial
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0587ff78d9e11a04c8e8b10d7b54eb94, type: 3}
