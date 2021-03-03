@@ -9,11 +9,7 @@ public class InventoryUIControl : MonoBehaviour
 {
     [SerializeField] InventoryList itemList;
     [SerializeField] GameObject UISlotPrefab;
-    //[SerializeField] GameObject canvas;
     [SerializeField] GameObject inventoryDisplay;
-
-    [SerializeField, Range(0, 200)] float spacing;
-    [SerializeField, Range(0, 50)] float padding;
 
     [SerializeField] int listOffset = 0;
 
@@ -23,7 +19,6 @@ public class InventoryUIControl : MonoBehaviour
 
     private void Awake()
     {
-
         // get all slots from children
         for (int i = 0; i < inventoryDisplay.transform.childCount; i++)
         {
@@ -31,49 +26,49 @@ public class InventoryUIControl : MonoBehaviour
         }
 
         SetInventoryUI();
-
     }
+    /*
+    /// <summary>
+    /// Set the item slots in the ui ribbon
+    /// </summary>
+    [System.Obsolete("Use " + nameof(InventoryUIControl.SetInventoryUI),false)]
+    private void SetInventoryUIOld()
+    {
+        //List<GameObject> toDestroy = new List<GameObject>(); // items that are no longer visible
+        //List<GameObject> toAdd = new List<GameObject>(); // items that have just become visible
+        //for (int i = 0; i < canvas.transform.childCount; i++)
+        //{
+        //    if (i >= itemList.list.Count) break; // don't overflow the list
 
-    ///// <summary>
-    ///// Set the item slots in the ui ribbon
-    ///// </summary>
-    //private void SetInventoryUIOld()
-    //{
-    //    List<GameObject> toDestroy = new List<GameObject>(); // items that are no longer visible
-    //    List<GameObject> toAdd = new List<GameObject>(); // items that have just become visible
-    //    for (int i = 0; i < canvas.transform.childCount; i++)
-    //    {
-    //        if (i >= itemList.list.Count) break; // don't overflow the list
+        //    var previousChild = canvas.transform.GetChild(i);
+        //    var pos = previousChild.transform.position;
+        //    toDestroy.Add(previousChild.gameObject);
 
-    //        var previousChild = canvas.transform.GetChild(i);
-    //        var pos = previousChild.transform.position;
-    //        toDestroy.Add(previousChild.gameObject);
+        //    var slot = GameObject.Instantiate(UISlotPrefab, pos, Quaternion.identity) as GameObject;
 
-    //        var slot = GameObject.Instantiate(UISlotPrefab, pos, Quaternion.identity) as GameObject;
+        //    slot.GetComponent<InventoryUISlot>().Init(itemList.list[i + listOffset]);
 
-    //        slot.GetComponent<InventoryUISlot>().Init(itemList.list[i+ listOffset]);
+        //    toAdd.Add(slot);
 
-    //        toAdd.Add(slot);
+        //}
 
-    //    }
+        //foreach (var child in toDestroy)
+        //{
+        //    Destroy(child);
+        //}
 
-    //    foreach (var child in toDestroy)
-    //    {
-    //        Destroy(child);
-    //    }
+        //foreach (var item in toAdd)
+        //{
+        //    item.transform.SetParent(canvas.transform, true);
+        //    item.transform.SetAsLastSibling();
+        //}
 
-    //    foreach (var item in toAdd)
-    //    {
-    //        item.transform.SetParent(canvas.transform, true);
-    //        item.transform.SetAsLastSibling();
-    //    }
+    }*/
 
-    //}
-    
     private void SetInventoryUI()
     {
-        List<GameObject> toDestroy = new List<GameObject>(); // items that are no longer visible
-        List<GameObject> toAdd = new List<GameObject>(); // items that have just become visible
+
+        List<GameObject> toDestroy = new List<GameObject>(); // items that are no longer visible (seperate loops for seftey)
 
         for (int i = 0; i < slots.Count; i++)
         {
@@ -87,33 +82,10 @@ public class InventoryUIControl : MonoBehaviour
         }
 
 
-        //for (int i = 0; i < canvas.transform.childCount; i++)
-        //{
-        //    if (i >= itemList.list.Count) break; // don't overflow the list
-
-        //    var previousChild = canvas.transform.GetChild(i);
-        //    var pos = previousChild.transform.position;
-        //    toDestroy.Add(previousChild.gameObject);
-
-        //    var slot = GameObject.Instantiate(UISlotPrefab, pos, Quaternion.identity) as GameObject;
-
-        //    slot.GetComponent<InventoryUISlot>().Init(itemList.list[i+ listOffset]);
-
-        //    toAdd.Add(slot);
-
-        //}
-
         foreach (var child in toDestroy)
         {
             Destroy(child);
         }
-
-        //foreach (var item in toAdd)
-        //{
-        //    item.transform.SetParent(canvas.transform, true);
-        //    item.transform.SetAsLastSibling();
-        //}
-
     }
 
     private static void DestroyChildren(List<GameObject> toDestroy, Transform slot)
@@ -128,11 +100,14 @@ public class InventoryUIControl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Used by the buttons to move the visible buttons
+    /// </summary>
+    /// <param name="value"></param>
     public void ModifyListOffset(int value)
     {
         listOffset = Mathf.Clamp(listOffset + value, 0, itemList.list.Count - numberOfSlots);
         SetInventoryUI();
     }
-   // public void DecreaseListOffset() => listOffset = Mathf.Clamp(listOffset-1, 0, itemList.list.Count - numberOfSlots);
 
 }

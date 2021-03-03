@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Inventory
   m_EditorClassIdentifier: 
   list:
-  - {fileID: 11400000, guid: fbdb43f338ee5464c939846b2de1468e, type: 2}
-  - {fileID: 11400000, guid: fdf0676ff9708af4a8824a47e689e33e, type: 2}
+  - {fileID: 11400000, guid: 345e212641a53ff4186feb23dfaef1b6, type: 2}
+  - {fileID: 11400000, guid: 0f065241d456d03419e57c5c488ee9b8, type: 2}
+  - {fileID: 11400000, guid: a1485755b008916469db472aa0fa04f3, type: 2}
+  - {fileID: 11400000, guid: 2dd9b367093e6d945811d4a23466f0b9, type: 2}
+  - {fileID: 11400000, guid: a5cec1b14f1db5447b3f23d5b42dabe0, type: 2}
+  - {fileID: 11400000, guid: f8e30e591035e094db725778adc9c0e0, type: 2}
+  - {fileID: 11400000, guid: 5b834efbe0c002147826944fdaefdaa6, type: 2}
+  - {fileID: 11400000, guid: a8e853eaf867e7e4b861d31584c2433f, type: 2}
+  - {fileID: 11400000, guid: 8d3c6ee52fe6c8741b71991958ad400c, type: 2}
