@@ -49,22 +49,24 @@ public class InputControls : MonoBehaviour
                 {
                     if (hit.transform != null)
                     {
-                        // checks to see if the object hit has the tag istile
-                        if (hit.transform.gameObject.tag == "IsTile")
-                        {
-                            currentTile = hit.transform.gameObject;
-                            // checks the current state and if it is open the activate tile
-                            if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Open)
-                            {
-                                tileControls = currentTile.GetComponent<TileControls>();
-                                tileControls.TileOccupied();
-                            } // checks the current state and if it is active open the tile
-                            else if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Occupied)
-                            {
-                                tileControls = currentTile.GetComponent<TileControls>();
-                                tileControls.FreeTile();
-                            }
-                        } else if (hit.transform.gameObject.tag == "Object")
+                        //// checks to see if the object hit has the tag istile
+                        //if (hit.transform.gameObject.tag == "IsTile")
+                        //{
+                        //    currentTile = hit.transform.gameObject;
+                        //    // checks the current state and if it is open the activate tile
+                        //    if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Open)
+                        //    {
+                        //        tileControls = currentTile.GetComponent<TileControls>();
+                        //        tileControls.TileOccupied();
+                        //    } // checks the current state and if it is active open the tile
+                        //    else if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Occupied)
+                        //    {
+                        //        tileControls = currentTile.GetComponent<TileControls>();
+                        //        tileControls.FreeTile();
+                        //    }
+                        //} 
+
+                        if (hit.transform.gameObject.tag == "Object")
                         {
                             // turns moving on for the object you hit
                             moveableObject = hit.transform.gameObject;
@@ -102,12 +104,6 @@ public class InputControls : MonoBehaviour
                                 }
                             }
                         }
-                    }else if (hit.transform.gameObject.tag == "Object")
-                    {                       
-                        // turns moving on for the object you hit
-                        moveableObject = hit.transform.gameObject;
-                        currentObjectMoving = moveableObject.GetComponent<ObjectMovement>();
-                        currentObjectMoving.moving = true;
                     }
                 }
             }
@@ -146,31 +142,31 @@ public class InputControls : MonoBehaviour
                                 newObjectLocation.z = -2;
 
                                 currentObjectMoving.transform.position = newObjectLocation;
-                            }
-                            else
-                            {
-                                ResetObject();
-                            }
-                        }
-                        else
-                        {
-                            ResetObject();
-                        }
-                    }
-                    else
-                    {
-                        ResetObject();
-                    }
-                }
-                else
-                {
-                    ResetObject();
-                }
 
-                currentObjectMoving.moving = false;
-                currentObjectMoving.ObjectNotTransparent();
-                moveableObject = null;
-                holdingObject = false;
+                                currentObjectMoving.moving = false;
+                                currentObjectMoving.ObjectNotTransparent();
+                                moveableObject = null;
+                                holdingObject = false;
+                            }
+                                //    else
+                                //    {
+                                //        ResetObject();
+                                //    }
+                        }
+                            //else
+                            //{
+                            //    ResetObject();
+                            //}
+                    }
+                        //else
+                        //{
+                        //    ResetObject();
+                        //}
+                }
+                    //else
+                    //{
+                    //    ResetObject();
+                    //}              
             }
         }
     }

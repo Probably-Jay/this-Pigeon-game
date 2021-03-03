@@ -15,6 +15,8 @@ public class TheGrid : MonoBehaviour
     // used to store all grids 
     public GridManager gridManager;
 
+    TileControls newTileControls;
+
     int SpriteNumber = 0;
 
     private void Awake()
@@ -40,13 +42,14 @@ public class TheGrid : MonoBehaviour
                 
                // calls spawnTile on the spawner then stores that new tile in the grid array
                 tileGrid[column, row] = spawner.SpawnTile(gameObject);
-               
+
+               // newTileControls = tileGrid[column, row].GetComponent<TileControls>();
+
                 tileGrid[column, row].GetComponent<TileControls>().gridID = gridManager.gridID;
                 tileGrid[column, row].GetComponent<TileControls>().thisTilesRow = row;
                 tileGrid[column, row].GetComponent<TileControls>().thisTilesColumn = column;
 
-                tileGrid[column, row].GetComponent<TileControls>().SetSprite(SpriteNumber);
-
+              
                 SpriteNumber++;
                 if (SpriteNumber >= 5)
                 {
