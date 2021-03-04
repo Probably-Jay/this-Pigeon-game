@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1770791999113693298, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: ObjectWidth
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2477246301109765834, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_RootOrder
@@ -82,6 +87,16 @@ PrefabInstance:
         type: 3}
       propertyPath: moodSocial
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0587ff78d9e11a04c8e8b10d7b54eb94, type: 3}

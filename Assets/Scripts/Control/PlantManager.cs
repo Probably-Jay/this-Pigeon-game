@@ -75,6 +75,7 @@ public class PlantManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
     }
 
+
     private void LogAllPlants()
     {
         for (int c = 0; c < 2; c++)
@@ -94,11 +95,11 @@ public class PlantManager : MonoBehaviour
         Debug.Log("Mood (Pride): "   + gardenPlants[0][i].moodPride);
     }
 
-
     public void UpdateList()
     {
         GetPlants();
     }
+
 
     // xander interface here
     private void GetPlants()
@@ -121,6 +122,7 @@ public class PlantManager : MonoBehaviour
         };
     }
 
+
     public void UpdateScore()
     {
 
@@ -141,7 +143,6 @@ public class PlantManager : MonoBehaviour
             curMood[c, 0] = tempEnergy;
             curMood[c, 1] = tempSocial;
             curMood[c, 2] = tempPride;
-
         }
 
         for (int n = 0; n < 2; n++) { 
