@@ -25,7 +25,7 @@ public class GoalManagerScript : MonoBehaviour
     {
     }
 
-    void GetGoals()
+    void GetGoals() // BUG  what's going on here?  why is goalMood[1,...] never used? 
     {
         g1v = (int)GameManager.Instance.CurrentGoal;
         g2v = (int)GameManager.Instance.AlternateGoal;
