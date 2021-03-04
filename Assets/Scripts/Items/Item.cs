@@ -4,6 +4,7 @@ using UnityEngine;
 
 // Created Jay 05/02
 // Edited Scott 24/02
+// Edited Alexander Purvis 04/03
 
 /// <summary>
 /// Script all items will have
@@ -18,6 +19,10 @@ public class Item : MonoBehaviour
 
     public Player plantOwner;
     public bool inLocalGarden;
+
+    public bool isPlanted = false;
+    public int gardenID = 0;
+
 
     private void OnEnable()
     {
@@ -36,5 +41,11 @@ public class Item : MonoBehaviour
         }
 
         Debug.Log("Plant is in Garden #" + inLocalGarden);
+    }
+
+    // Alexander Purvis fuction for retreaving the plants mood values
+    public Vector3 GetPlantStats()
+    {
+        return new Vector3(moodEnergy, moodPride, moodSocial);
     }
 }

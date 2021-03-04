@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// <see cref="Singleton{}"/> class to allow for easy referencing of important objects
 /// </summary>
 [RequireComponent(typeof(HotSeatManager))]
-[RequireComponent(typeof(PlantManager))]
+[RequireComponent(typeof(DisplayManager))]
 public class GameManager : Singleton<GameManager>
 {
     public enum Goal
@@ -21,7 +21,7 @@ public class GameManager : Singleton<GameManager>
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
-    public PlantManager PlantManager { get; private set; }
+    public DisplayManager PlantManager { get; private set; }
 
     public Goal CurrentGoal { get; private set; }
 
@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager>
     {
         base.InitSingleton();
         HotSeatManager = GetComponent<HotSeatManager>();
-        PlantManager = GetComponent<PlantManager>();
+        PlantManager = GetComponent<DisplayManager>();
     }
 
     private void Start()
