@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
-  inventoryImage: {fileID: 21300000, guid: a228f695df8a84e478901eb5bc703fe1, type: 3}
+  inventoryImage: {fileID: 21300000, guid: a847da5b926729f4f83f06eedea79509, type: 3}
   gameObject: {fileID: 6040866991414553841, guid: 42a01baef0f40214c939b3acf71bbb4f,
     type: 3}
