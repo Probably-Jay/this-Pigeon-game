@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 public class DisplayManager : MonoBehaviour
 {      
-    int currentGarden1MoodPride = 0;
+    int currentGarden1MoodPleasant = 0;
     int currentGarden1MoodEnergy = 0;
     int currentGarden1Social = 0;
 
-    int currentGarden2MoodPride = 0;
+    int currentGarden2MoodPleasant = 0;
     int currentGarden2MoodEnergy = 0;
     int currentGarden2Social = 0;
 
@@ -31,7 +31,7 @@ public class DisplayManager : MonoBehaviour
 
     public void AddtoGarden1Stats(Vector3 UpdateToStats) {
 
-        currentGarden1MoodPride += Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden1MoodPleasant += Mathf.FloorToInt(UpdateToStats.x);
         currentGarden1MoodEnergy += Mathf.FloorToInt(UpdateToStats.y);
         currentGarden1Social += Mathf.FloorToInt(UpdateToStats.z);
 
@@ -40,7 +40,7 @@ public class DisplayManager : MonoBehaviour
 
     public void AddtoGarden2Stats(Vector3 UpdateToStats)
     {
-        currentGarden2MoodPride += Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden2MoodPleasant += Mathf.FloorToInt(UpdateToStats.x);
         currentGarden2MoodEnergy += Mathf.FloorToInt(UpdateToStats.y);
         currentGarden2Social += Mathf.FloorToInt(UpdateToStats.z);
 
@@ -50,7 +50,7 @@ public class DisplayManager : MonoBehaviour
     public void SubtractFromGarden1Stats(Vector3 UpdateToStats)
     {
 
-        currentGarden1MoodPride -= Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden1MoodPleasant -= Mathf.FloorToInt(UpdateToStats.x);
         currentGarden1MoodEnergy -= Mathf.FloorToInt(UpdateToStats.y);
         currentGarden1Social -= Mathf.FloorToInt(UpdateToStats.z);
 
@@ -59,7 +59,7 @@ public class DisplayManager : MonoBehaviour
 
     public void ASubtractFromGarden2Stats(Vector3 UpdateToStats)
     {
-        currentGarden2MoodPride -= Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden2MoodPleasant -= Mathf.FloorToInt(UpdateToStats.x);
         currentGarden2MoodEnergy -= Mathf.FloorToInt(UpdateToStats.y);
         currentGarden2Social -= Mathf.FloorToInt(UpdateToStats.z);
 
@@ -69,8 +69,8 @@ public class DisplayManager : MonoBehaviour
     void DisplayCurrentGardenMood()
     {
         displayText.text = $"Current Mood Values:\n" +
-                       $"Garden 1: Unpleasant/Pleasant { currentGarden1MoodPride.ToString()},  Personal/Social  { currentGarden1MoodEnergy.ToString()},  Calm/ Energised { currentGarden1Social.ToString()}, \n" +
-                        $"Garden 2: Unpleasant/Pleasant {currentGarden2MoodPride.ToString()},  Personal/Social {currentGarden2MoodEnergy.ToString()},   Calm/ Energised {currentGarden2Social.ToString()}, \n";     
+                       $"Garden 1: Unpleasant/Pleasant { currentGarden1MoodPleasant.ToString()},  Personal/Social  { currentGarden1MoodEnergy.ToString()},  Calm/ Energised { currentGarden1Social.ToString()}, \n" +
+                        $"Garden 2: Unpleasant/Pleasant {currentGarden2MoodPleasant.ToString()},  Personal/Social {currentGarden2MoodEnergy.ToString()},   Calm/ Energised {currentGarden2Social.ToString()}, \n";     
    
     }
 
@@ -82,8 +82,8 @@ public class DisplayManager : MonoBehaviour
 
         gardenMoodarray = new Vector3[2];
 
-        gardenMoodarray[0] = new Vector3(currentGarden1MoodPride, currentGarden1MoodEnergy,currentGarden1Social);
-        gardenMoodarray[1] = new Vector3(currentGarden2MoodPride, currentGarden2MoodEnergy, currentGarden2Social);
+        gardenMoodarray[0] = new Vector3(currentGarden1MoodPleasant, currentGarden1MoodEnergy,currentGarden1Social);
+        gardenMoodarray[1] = new Vector3(currentGarden2MoodPleasant, currentGarden2MoodEnergy, currentGarden2Social);
 
         return gardenMoodarray;     
     }

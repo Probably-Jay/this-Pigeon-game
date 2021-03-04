@@ -13,8 +13,8 @@ public class Item : MonoBehaviour
 {
     [SerializeField] public string objectName;
  
+    [SerializeField, Range(-1, 1)] public int moodPleasant  = 0;
     [SerializeField, Range(-1, 1)] public int moodEnergy = 0;
-    [SerializeField, Range(-1, 1)] public int moodPride  = 0;
     [SerializeField, Range(-1, 1)] public int moodSocial = 0;
 
     public Player plantOwner;
@@ -44,8 +44,5 @@ public class Item : MonoBehaviour
     }
 
     // Alexander Purvis fuction for retreaving the plants mood values
-    public Vector3 GetPlantStats()
-    {
-        return new Vector3(moodEnergy, moodPride, moodSocial);
-    }
+    public Vector3 PlantStats => new Vector3(moodPleasant, moodEnergy, moodSocial);
 }

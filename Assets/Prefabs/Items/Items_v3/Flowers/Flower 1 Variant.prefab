@@ -81,7 +81,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a4e5750cbc180e64192d7b7db29b1233,
+      objectReference: {fileID: 21300000, guid: 4474717f952c5534f86f3766dbc679e0,
         type: 3}
     - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
@@ -91,6 +91,11 @@ PrefabInstance:
     - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: moodEnergy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: moodPleasant
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,

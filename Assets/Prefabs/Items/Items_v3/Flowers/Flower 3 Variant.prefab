@@ -85,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
+      propertyPath: moodEnergy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
       propertyPath: moodSocial
       value: 1
       objectReference: {fileID: 0}
