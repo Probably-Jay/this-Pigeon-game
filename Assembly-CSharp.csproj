@@ -105,8 +105,8 @@
     <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
     <Compile Include="Assets\Scripts\Turns\TurnDisplayControl.cs" />
-    <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\CallChangeScene.cs" />
+    <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
