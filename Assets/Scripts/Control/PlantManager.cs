@@ -41,13 +41,13 @@ public class PlantManager : MonoBehaviour
             gardenPlants[i] = new List<Item>();
         }
         text = GetComponent<Text>();
-        if (GameManager.Instance.CurrentGoal == GameManager.Goal.Anxious) { goalMood[0, 0] = 4; goalMood[0, 1] = 0; goalMood[0, 2] = 7; }
+             if (GameManager.Instance.CurrentGoal == GameManager.Goal.Anxious) { goalMood[0, 0] = 4; goalMood[0, 1] = 0; goalMood[0, 2] = 7; }
         else if (GameManager.Instance.CurrentGoal == GameManager.Goal.Content) { goalMood[0, 0] = 0; goalMood[0, 1] = 5; goalMood[0, 2] = 5; }
-        else if (GameManager.Instance.CurrentGoal == GameManager.Goal.Proud) { goalMood[0, 0] = 3; goalMood[0, 1] = 10; goalMood[0, 2] = 0; }
+        else if (GameManager.Instance.CurrentGoal == GameManager.Goal.Proud)   { goalMood[0, 0] = 3; goalMood[0, 1] = 10; goalMood[0, 2] = 0; }
 
-        if (GameManager.Instance.AlternateGoal == GameManager.Goal.Anxious) { goalMood[1, 0] = 4; goalMood[1, 1] = 0; goalMood[1, 2] = 7; }
+             if (GameManager.Instance.AlternateGoal == GameManager.Goal.Anxious) { goalMood[1, 0] = 4; goalMood[1, 1] = 0; goalMood[1, 2] = 7; }
         else if (GameManager.Instance.AlternateGoal == GameManager.Goal.Content) { goalMood[1, 0] = 0; goalMood[1, 1] = 5; goalMood[1, 2] = 5; }
-        else if (GameManager.Instance.AlternateGoal == GameManager.Goal.Proud) { goalMood[1, 0] = 3; goalMood[1, 1] = 10; goalMood[1, 2] = 0; }
+        else if (GameManager.Instance.AlternateGoal == GameManager.Goal.Proud)   { goalMood[1, 0] = 3; goalMood[1, 1] = 10; goalMood[1, 2] = 0; }
     }
 
     // Start is called before the first frame update
@@ -55,7 +55,9 @@ public class PlantManager : MonoBehaviour
     {
     }
 
-
+    public int[,] getGardenMood() {
+        return curMood;
+    }
 
     void Update()
     {
@@ -90,7 +92,6 @@ public class PlantManager : MonoBehaviour
     {
         EventsManager.BindEvent(EventsManager.EventType.UpdateScore, UpdateScore);
         EventsManager.BindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
-        gameWon = false;
     }
 
     private void OnDisable()
