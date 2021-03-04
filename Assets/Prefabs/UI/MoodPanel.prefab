@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 779217422432650883}
   - component: {fileID: 779217422432650881}
   - component: {fileID: 779217422432650882}
-  - component: {fileID: 779217422432650880}
+  - component: {fileID: 8621725919754131874}
   m_Layer: 5
   m_Name: MoodText
   m_TagString: Untagged
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Text: 'template text
 
 '
---- !u!114 &779217422432650880
+--- !u!114 &8621725919754131874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 779217422432650884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a747fdf8be6a734d90e9df7185e5e30, type: 3}
+  m_Script: {fileID: 11500000, guid: f4c8fa1ad4d79fb41adc348c0c76125b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1615955487387817795
