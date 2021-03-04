@@ -90,7 +90,7 @@ public class GoalManagerScript : MonoBehaviour
         }
         if (goalDisplay)
         {
-            goalDisplay.text = $"Mood Goal:\n{turnGoal.ToString()}";
+            goalDisplay.text = $"Mood Goal: {turnGoal.ToString()}";
         }
     }
 
