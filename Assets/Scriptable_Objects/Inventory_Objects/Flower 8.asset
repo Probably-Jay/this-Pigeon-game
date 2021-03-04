@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1d3c98b1d98b5e439e5f19a64e0d976, type: 3}
-  m_Name: Flower 8
+  m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
   inventoryImage: {fileID: 21300000, guid: 7e70c53e09cdc77479f6cc261fb80e3d, type: 3}
