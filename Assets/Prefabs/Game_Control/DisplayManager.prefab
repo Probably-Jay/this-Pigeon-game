@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4647620263233993085}
-  - component: {fileID: 4188688805578181146}
+  - component: {fileID: -4295729849151944449}
   m_Layer: 0
-  m_Name: PlantManager
+  m_Name: DisplayManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4188688805578181146
+--- !u!114 &-4295729849151944449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,14 +40,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9008297784384260007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a747fdf8be6a734d90e9df7185e5e30, type: 3}
+  m_Script: {fileID: 11500000, guid: f4c8fa1ad4d79fb41adc348c0c76125b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gardenPlants: []
-  goalMoodPride: 0
-  goalMoodEnergy: 0
-  goalMoodSocial: 0
-  outp: {fileID: 0}
-  curMoodPride: 0
-  curMoodEnergy: 0
-  curMoodSocial: 0

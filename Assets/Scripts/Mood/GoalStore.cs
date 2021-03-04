@@ -29,10 +29,15 @@ public class GoalStore : MonoBehaviour
 
     public void StoreGoal()
     {
-        var value1 = dropdownPlayer1.value;
-        var value2 = dropdownPlayer2.value;
-        StoreGoal(Player.PlayerEnum.Player0,(GameManager.Goal)value1);
-        StoreGoal(Player.PlayerEnum.Player1, (GameManager.Goal)value2);
+        if (dropdownPlayer1) { 
+            var value1 = dropdownPlayer1.value;
+            StoreGoal(Player.PlayerEnum.Player0,(GameManager.Goal)value1);
+        }
+        if (dropdownPlayer2)
+        {
+            var value2 = dropdownPlayer2.value;
+            StoreGoal(Player.PlayerEnum.Player1, (GameManager.Goal)value2);
+        }
     }
 
     public static void StoreGoal(Player.PlayerEnum player, GameManager.Goal goal)
@@ -52,6 +57,11 @@ public class GoalStore : MonoBehaviour
     public static GameManager.Goal GetGoal()
     {
         return (GameManager.Goal)PlayerPrefs.GetInt(goalKeyPlayer1);
+    }
+
+    public static GameManager.Goal GetAltGoal()
+    {
+        return (GameManager.Goal)PlayerPrefs.GetInt(goalKeyPlayer2);
     }
 
 

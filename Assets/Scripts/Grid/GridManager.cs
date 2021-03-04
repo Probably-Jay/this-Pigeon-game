@@ -7,17 +7,18 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
    public int gridID = 0; 
-   public List<GridInList> gridList = new List<GridInList>();
-  
-   TileControls tileControls;
-
+   public List<GridInList> gridList = new List<GridInList>();  
    bool abortObjectPlacement = false;
 
-   public void RegisterNewGrid(GameObject [,]grid, int gridColumns, int gridRows)
+    public GameObject PlayerOneGarden;
+    public GameObject PlayerTwoGarden;
+
+    public void RegisterNewGrid(GameObject [,]grid, int gridColumns, int gridRows)
     {
        gridList.Add(new GridInList(grid, gridColumns, gridRows));
+
         gridID++;
-   }
+    }
 
     public void HoveringOverTiles(int gridNumber, int tileCoordinateX, int tileCoordinateY, 
                                     int objectHeight, int objectWidth)
@@ -52,8 +53,6 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-
-
 
     void SignalInappropriatePlacement(int gridNumber, int tileCoordinateX, int tileCoordinateY,
                                     int objectHeight, int objectWidth)
@@ -98,4 +97,33 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    public void ShowGrids()
+    {
+        for (int gridNumber = 0; gridNumber < gridList.Count; gridNumber++)
+        {          
+            for (int rows = 0; rows < gridList[gridNumber].thisGridsHeight; rows++)
+            {
+                for (int columns = 0; columns < gridList[gridNumber].thisGridsWidth; columns++)
+                {
+                    gridList[gridNumber].tile[columns, rows ].GetComponent<TileControls>().ShowTile();
+                }
+            }                    
+        }
+    }
+
+    public void HideGrids()
+    {
+        for (int gridNumber = 0; gridNumber < gridList.Count; gridNumber++)
+        {           
+            for (int rows = 0; rows < gridList[gridNumber].thisGridsHeight; rows++)
+            {
+                for (int columns = 0; columns < gridList[gridNumber].thisGridsWidth; columns++)
+                {
+                    gridList[gridNumber].tile[columns, rows].GetComponent<TileControls>().HideTiles();
+                }
+            }
+        }
+    }
+
 }
