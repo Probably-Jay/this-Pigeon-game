@@ -8,6 +8,8 @@ using UnityEngine.UI;
 // Class to handle items in garden (mostly plants)
 // Updated 24/02
 
+
+[System.Obsolete("This class has been replaced by " + nameof(DisplayManager) ,true)]
 public class PlantManager : MonoBehaviour
 {
     public List<Item>[] gardenPlants = new List<Item>[2]; // Holds both gardens in same var

@@ -213,6 +213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &278727665 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3760452875640416492, guid: eb418fbe92e9b1148b640c7a305a75e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1234940769431050025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &303843853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,7 +229,7 @@ PrefabInstance:
     - target: {fileID: 2645726518076585920, guid: 8dc8e4501112b84478cfbb8dbe3412f6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2645726518076585920, guid: 8dc8e4501112b84478cfbb8dbe3412f6,
         type: 3}
@@ -282,12 +288,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dc8e4501112b84478cfbb8dbe3412f6, type: 3}
---- !u!1 &278727665 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3760452875640416492, guid: eb418fbe92e9b1148b640c7a305a75e5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1234940769431050025}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &776328342
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +352,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &835849353
 GameObject:
@@ -395,7 +395,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1122158103
 PrefabInstance:
@@ -481,7 +481,7 @@ PrefabInstance:
     - target: {fileID: 4647620263233993085, guid: b18efc4cb51e1b9469852ac2a2aa5315,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4647620263233993085, guid: b18efc4cb51e1b9469852ac2a2aa5315,
         type: 3}
@@ -577,7 +577,7 @@ PrefabInstance:
     - target: {fileID: 7006889893987043435, guid: 498466a8d83709347b98d8b0b3fdaaae,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7006889893987043435, guid: 498466a8d83709347b98d8b0b3fdaaae,
         type: 3}
@@ -651,7 +651,7 @@ PrefabInstance:
     - target: {fileID: 1342758162877350576, guid: 246665e9bc82e0d469ac07b97ef85873,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1342758162877350576, guid: 246665e9bc82e0d469ac07b97ef85873,
         type: 3}
@@ -777,7 +777,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1921575106
 PrefabInstance:
@@ -864,6 +864,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5035736042118234757}
     m_Modifications:
+    - target: {fileID: 5366816980233304639, guid: 819ebb282f51a334981d1100e8f5dc74,
+        type: 3}
+      propertyPath: EndTurnButton
+      value: 
+      objectReference: {fileID: 236168966}
+    - target: {fileID: 8936058246443212445, guid: 819ebb282f51a334981d1100e8f5dc74,
+        type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8936058246443212445, guid: 819ebb282f51a334981d1100e8f5dc74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 645764016971191951, guid: 24b07afc8d083074dbbb86b6f29b50a7,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -982,21 +997,6 @@ PrefabInstance:
     - target: {fileID: 645764018148891758, guid: 24b07afc8d083074dbbb86b6f29b50a7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5366816980233304639, guid: 819ebb282f51a334981d1100e8f5dc74,
-        type: 3}
-      propertyPath: EndTurnButton
-      value: 
-      objectReference: {fileID: 236168966}
-    - target: {fileID: 8936058246443212445, guid: 819ebb282f51a334981d1100e8f5dc74,
-        type: 3}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8936058246443212445, guid: 819ebb282f51a334981d1100e8f5dc74,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1231,7 +1231,7 @@ PrefabInstance:
     - target: {fileID: 5035736041114505222, guid: ba281f030bce86942a5de9a5f631cbe1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5035736041114505222, guid: ba281f030bce86942a5de9a5f631cbe1,
         type: 3}
