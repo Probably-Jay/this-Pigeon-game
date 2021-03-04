@@ -48,11 +48,15 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
+
         //EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
-        EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore);
+        EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore); // Maybe here for a reason?
 
         CurrentGoal = GoalStore.GetGoal();
         AlternateGoal = GoalStore.GetAltGoal();
+
+
 
     }
 
