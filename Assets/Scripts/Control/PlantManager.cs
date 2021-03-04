@@ -12,7 +12,7 @@ public class PlantManager : MonoBehaviour
 {
     public List<Item>[] gardenPlants = new List<Item>[2]; // Holds both gardens in same var
 
-    
+
     // todo make this a little neater
     /*[SerializeField]*/
     int goalMoodPride;
@@ -22,11 +22,13 @@ public class PlantManager : MonoBehaviour
     int goalMoodSocial;
     GameManager.Goal goal;
 
+    public bool gameWon = false;
     // public int curMoodPride;
     // public int curMoodEnergy;
     // public int curMoodSocial;
 
     public int[,] curMood = new int[2, 3];
+    public int[,] goalMood = new int[2, 3];
 
     Text text;
 
@@ -37,41 +39,48 @@ public class PlantManager : MonoBehaviour
             gardenPlants[i] = new List<Item>();
         }
         text = GetComponent<Text>();
+        if (GameManager.Instance.CurrentGoal == GameManager.Goal.Anxious) { goalMood[0, 0] = 4; goalMood[0, 1] = 0; goalMood[0, 2] = 7; }
+        else if (GameManager.Instance.CurrentGoal == GameManager.Goal.Content) { goalMood[0, 0] = 0; goalMood[0, 1] = 5; goalMood[0, 2] = 5; }
+        else if (GameManager.Instance.CurrentGoal == GameManager.Goal.Proud) { goalMood[0, 0] = 3; goalMood[0, 1] = 10; goalMood[0, 2] = 0; }
+
+        if (GameManager.Instance.AlternateGoal == GameManager.Goal.Anxious) { goalMood[1, 0] = 4; goalMood[1, 1] = 0; goalMood[1, 2] = 7; }
+        else if (GameManager.Instance.AlternateGoal == GameManager.Goal.Content) { goalMood[1, 0] = 0; goalMood[1, 1] = 5; goalMood[1, 2] = 5; }
+        else if (GameManager.Instance.AlternateGoal == GameManager.Goal.Proud) { goalMood[1, 0] = 3; goalMood[1, 1] = 10; goalMood[1, 2] = 0; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-       
-        UpdateList();
-        //LogAllPlants();
-        UpdateScore();
     }
 
 
 
     void Update()
     {
-        UpdateScore();
-        UpdateList();
-        if (text)
+        if (!gameWon)
         {
-            Player.PlayerEnum turnPlayer;
-            GameManager.Goal turnGoal;
-            turnPlayer = GameManager.Instance.ActivePlayer.PlayerEnumValue;
-
-            if (turnPlayer == 0)
+            UpdateList();
+            if (text)
             {
-                turnGoal = GameManager.Instance.CurrentGoal;
-            }
-            else {
-                turnGoal = GameManager.Instance.AlternateGoal;
-            }
+                Player.PlayerEnum turnPlayer;
+                GameManager.Goal turnGoal;
+                turnPlayer = GameManager.Instance.ActivePlayer.PlayerEnumValue;
 
-            text.text = $"Current Mood Values:\n" +
-                        $"Garden 1: P {curMood[0, 0].ToString()},  E {curMood[0, 1].ToString()},  S {curMood[0, 2].ToString()}, \n" +
-                        $"Garden 2: P {curMood[1, 0].ToString()},  E {curMood[1, 1].ToString()},  S {curMood[1, 2].ToString()}, \n" +
-                        $"Mood Goal: {turnGoal.ToString()}";
+                if (turnPlayer == 0)
+                {
+                    turnGoal = GameManager.Instance.CurrentGoal;
+                }
+                else
+                {
+                    turnGoal = GameManager.Instance.AlternateGoal;
+                }
+
+                text.text = $"Current Mood Values:\n" +
+                            $"Garden 1: P {curMood[0, 0].ToString()},  E {curMood[0, 1].ToString()},  S {curMood[0, 2].ToString()}, \n" +
+                            $"Garden 2: P {curMood[1, 0].ToString()},  E {curMood[1, 1].ToString()},  S {curMood[1, 2].ToString()}, \n" +
+                            $"Mood Goal: {turnGoal.ToString()}";
+            }
+            UpdateScore();
         }
     }
 
@@ -79,6 +88,7 @@ public class PlantManager : MonoBehaviour
     {
         EventsManager.BindEvent(EventsManager.EventType.UpdateScore, UpdateScore);
         EventsManager.BindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
+        gameWon = false;
     }
 
     private void OnDisable()
@@ -101,9 +111,9 @@ public class PlantManager : MonoBehaviour
     private void LogPlant(int i)
     {
         Debug.Log("Item #" + i + ":" + gardenPlants[0][i].objectName);
-        Debug.Log("Mood (Energy): "  + gardenPlants[0][i].moodEnergy);
-        Debug.Log("Mood (Social): "  + gardenPlants[0][i].moodSocial);
-        Debug.Log("Mood (Pride): "   + gardenPlants[0][i].moodPride);
+        Debug.Log("Mood (Energy): " + gardenPlants[0][i].moodEnergy);
+        Debug.Log("Mood (Social): " + gardenPlants[0][i].moodSocial);
+        Debug.Log("Mood (Pride): " + gardenPlants[0][i].moodPride);
     }
 
 
@@ -135,7 +145,6 @@ public class PlantManager : MonoBehaviour
 
     public void UpdateScore()
     {
-
         for (int c = 0; c < 2; c++)
         {
             int tempEnergy = 0;
@@ -147,7 +156,7 @@ public class PlantManager : MonoBehaviour
             {
                 tempEnergy += gardenPlants[c][x].moodEnergy;
                 tempSocial += gardenPlants[c][x].moodSocial;
-                tempPride  += gardenPlants[c][x].moodPride;
+                tempPride += gardenPlants[c][x].moodPride;
             };
 
             curMood[c, 0] = tempEnergy;
@@ -156,13 +165,11 @@ public class PlantManager : MonoBehaviour
 
         }
 
-        for (int n = 0; n < 2; n++) { 
-            if ((curMood[n, 0] == goalMoodEnergy) && (curMood[n, 1] == goalMoodSocial) && (curMood[n, 2] == goalMoodPride))
-            {
-               // Debug.Log("Garden #" + n + "Mood Condition Met!");
-                // Add actual user feedback, end condition here later
-                // Right now, both gardens share same mood goal - will be changed
-            }
+        if (curMood == goalMood || Input.GetKeyDown("space"))
+        {
+            gameWon = true;
+            // Add actual user feedback, end condition here later
+            // Right now, both gardens share same mood goal - will be changed
         }
     }
 }

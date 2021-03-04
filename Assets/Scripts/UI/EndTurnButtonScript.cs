@@ -15,6 +15,10 @@ public class EndTurnButtonScript : MonoBehaviour
         button = GetComponent<Button>();
     }
 
+   public void tempPress() {
+        GameManager.Instance.PlantManager.gameWon = true;
+    }
+
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.EndTurn, DisableButton);

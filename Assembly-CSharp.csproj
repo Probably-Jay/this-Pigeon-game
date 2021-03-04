@@ -55,8 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\MenuController.cs" />
-     <Compile Include="Assets\MenuSwap.cs" />
      <Compile Include="Assets\Scripts\Action_Points\TurnPoints.cs" />
      <Compile Include="Assets\Scripts\Action_Points\TurnPointsUI.cs" />
      <Compile Include="Assets\Scripts\Action_Points\_InputFaker.cs" />
@@ -66,6 +64,7 @@
      <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
      <Compile Include="Assets\Scripts\Control\GameManager.cs" />
      <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
+     <Compile Include="Assets\Scripts\Control\MenuController.cs" />
      <Compile Include="Assets\Scripts\Control\Mood_Select\MoodSelectController.cs" />
      <Compile Include="Assets\Scripts\Control\Personal_Garden\PersonalGardenController.cs" />
      <Compile Include="Assets\Scripts\Control\PlantManager.cs" />
@@ -91,11 +90,13 @@
      <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
      <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
      <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
+     <Compile Include="Assets\Scripts\Level_Change\MenuSwap.cs" />
      <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
      <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
      <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
      <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
      <Compile Include="Assets\Scripts\Turns\TurnDisplayControl.cs" />
+     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
      <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
      <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
      <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />

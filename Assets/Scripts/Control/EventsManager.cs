@@ -41,6 +41,8 @@ public class EventsManager : Singleton<EventsManager>
         , UpdateScore
         , UpdatePlants
 
+        , GameOver
+
 
         , QuitGame
     }
