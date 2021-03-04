@@ -57,21 +57,21 @@ public class GoalManagerScript : MonoBehaviour
         switch (goalG2)
         {
             case Goal.Proud:                     // Proud
-                goalMood[0, 0] = 3;
-                goalMood[0, 1] = 10;
-                goalMood[0, 2] = 0;
+                goalMood[1, 0] = 3;
+                goalMood[1, 1] = 10;
+                goalMood[1, 2] = 0;
                 break;
 
             case Goal.Anxious:                     // Anxious
-                goalMood[0, 0] = 4;
-                goalMood[0, 1] = 0;
-                goalMood[0, 2] = 7;
+                goalMood[1, 0] = 4;
+                goalMood[1, 1] = 0;
+                goalMood[1, 2] = 7;
                 break;
 
             case Goal.Content:                     // Content
-                goalMood[0, 0] = 0;
-                goalMood[0, 1] = 5;
-                goalMood[0, 2] = 5;
+                goalMood[1, 0] = 0;
+                goalMood[1, 1] = 5;
+                goalMood[1, 2] = 5;
                 break;
         }
     }
