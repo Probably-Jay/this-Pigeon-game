@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class InventoryItem : ScriptableObject
 {
 
-    public string itemName; // easily edit name
+    [HideInInspector] public string itemName; 
     public Sprite inventoryImage; // image shown in the inventory UI
     public GameObject gameObject; // prefab of actual object
 
@@ -20,7 +20,6 @@ public class InventoryItem : ScriptableObject
 
     public void SpawnObjectRandomPos()
     {
-       
         var size = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
         Rect screnDim = new Rect(Vector2.zero, size );
         var screenPos = new Vector2(Random.Range(screnDim.x, screnDim.width), Random.Range(screnDim.y, screnDim.height));
@@ -30,7 +29,6 @@ public class InventoryItem : ScriptableObject
     
     public void SpawnObjectMiddleOfScreen()
     {
-       
         var size = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
         Rect screnDim = new Rect(Vector2.zero, size );
         var screenPos = new Vector2(screnDim.width*0.8f, screnDim.height/2f);

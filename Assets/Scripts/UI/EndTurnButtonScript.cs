@@ -15,6 +15,8 @@ public class EndTurnButtonScript : MonoBehaviour
         button = GetComponent<Button>();
     }
 
+
+
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.EndTurn, DisableButton);

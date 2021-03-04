@@ -6,12 +6,6 @@ using UnityEngine;
 
 public class TileControls : MonoBehaviour
 {
-    // sprites that reflect the current state of this tile
-    public Sprite TileLightBorder01;
-    public Sprite TileLightBorder02;
-    public Sprite TileLightBorder03;
-    public Sprite TileLightBorder04;
-    public Sprite TileLightBorder05;
 
     // enums that control the state of this tile
     public enum tileStates
@@ -39,40 +33,74 @@ public class TileControls : MonoBehaviour
     float timePassedForOccupiedTiles = 0;
     float triggerTime = 0.1f;
 
+    bool tilesVisable = false;
+
+    private void Awake()
+    {
+        objectsSprite = this.GetComponent<SpriteRenderer>();
+        objectColourValues = objectsSprite.material.color;
+        objectColourValues.a = 0.0f;
+        objectsSprite.material.color = objectColourValues;
+    }
+
 
     private void Update()
     {
-        if (curentState == tileStates.Active)
-        {
-            if (timePassedForActiveTiles >= triggerTime)
-            {
-                FreeTile();
-            }
-            else
-            {
-                timePassedForActiveTiles += Time.deltaTime;            
-            }
-        }
+       if (tilesVisable) {
+           if (curentState == tileStates.Active)
+           {
+               if (timePassedForActiveTiles >= triggerTime)
+               {
+                   FreeTile();
+               }
+               else
+               {
+                   timePassedForActiveTiles += Time.deltaTime;
+               }
+           }
 
-        if (curentState == tileStates.Blocked)
-        {
-            if (timePassedForOccupiedTiles >= triggerTime)
-            {
-                FreeTile();
-            }
-            else
-            {              
-                timePassedForOccupiedTiles += Time.deltaTime;
-            }
-        }
+           if (curentState == tileStates.Blocked)
+           {
+               if (timePassedForOccupiedTiles >= triggerTime)
+               {
+                   FreeTile();
+               }
+               else
+               {
+                   timePassedForOccupiedTiles += Time.deltaTime;
+               }
+           }
+       }
     }
+
+
+    public void ShowTile()
+    {
+        objectColourValues = objectsSprite.material.color;
+        objectColourValues.a = 0.6f;
+        objectsSprite.material.color = objectColourValues;
+
+        tilesVisable = true;
+    }
+
+    public void HideTiles()
+    {
+        objectColourValues = objectsSprite.material.color;
+        objectColourValues.a = 0.0f;
+        objectsSprite.material.color = objectColourValues;
+
+        tilesVisable = false;
+    }
+
+
+
 
     public void ActivateTile()
     {
         // switches out the sprite to reflect the that this tile is now active
         //this.gameObject.GetComponent<SpriteRenderer>().sprite = tileActive;
 
-        objectsSprite = this.GetComponent<SpriteRenderer>();
+        
         objectColourValues = objectsSprite.material.color;
 
         objectColourValues.r = 0.3f;
@@ -88,7 +116,7 @@ public class TileControls : MonoBehaviour
 
     public void FreeTile()
     {
-        objectsSprite = this.GetComponent<SpriteRenderer>();
+       
         objectColourValues = objectsSprite.material.color;
 
         objectColourValues.r = 1.0f;
@@ -97,9 +125,8 @@ public class TileControls : MonoBehaviour
 
         objectsSprite.material.color = objectColourValues;
 
-
         // switches out the sprite to reflect the that this tile is free
-        //this.gameObject.GetComponent<SpriteRenderer>().sprite = tileDefault;
+        // this.gameObject.GetComponent<SpriteRenderer>().sprite = tileDefault;
         // sets the tile state to open
         curentState = tileStates.Open;
     }
@@ -109,7 +136,7 @@ public class TileControls : MonoBehaviour
         // switches out the sprite to reflect the that this tile is occupied
         // this.gameObject.GetComponent<SpriteRenderer>().sprite = tileBlocked;
 
-        objectsSprite = this.GetComponent<SpriteRenderer>();
+       
         objectColourValues = objectsSprite.material.color;
 
         objectColourValues.r = 2.5f;
@@ -127,7 +154,7 @@ public class TileControls : MonoBehaviour
     {
         // switches out the sprite to reflect the that this tile is occupied
         //this.gameObject.GetComponent<SpriteRenderer>().sprite = tileOccupied;
-        objectsSprite = this.GetComponent<SpriteRenderer>();
+       
         objectColourValues = objectsSprite.material.color;
 
         objectColourValues.r = 3.5f;
@@ -138,33 +165,5 @@ public class TileControls : MonoBehaviour
 
         // sets the tile state to taken
         curentState = tileStates.Occupied;     
-    }
-
-
-    public void SetSprite(int SpriteNumber)
-    {
-
-        switch (SpriteNumber)
-        {
-            case 0:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder03;
-                break;
-            case 1:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder02;
-                break;
-            case 2:    
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder01;
-                break;
-            case 3:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder05;
-                break;
-            case 4:
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = TileLightBorder04;         
-                break;
-            default:
-
-                break;
-
-        }
     }
 }

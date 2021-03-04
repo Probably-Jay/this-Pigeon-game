@@ -15,12 +15,12 @@ public class SwapGardenButton : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenVeiw, RotateButton);
+        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, RotateButton);
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenVeiw, RotateButton);
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, RotateButton);
     }
 
     private void RotateButton(EventsManager.EventParams paramaters)

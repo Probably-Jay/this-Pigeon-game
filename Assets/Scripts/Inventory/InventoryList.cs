@@ -40,7 +40,7 @@ public class InventoryListEditor : Editor
 
         element.objectReferenceValue = EditorGUI.ObjectField(
             new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight)
-            , new GUIContent ($"Item {index}: {(element.objectReferenceValue != null ? element.objectReferenceValue.name : "(Empty)") }")
+            , new GUIContent ($"Item {index}: {(element.objectReferenceValue != null ? ((InventoryItem)element.objectReferenceValue).ToString() : "(Empty)") }")
             , element.objectReferenceValue
             , typeof(InventoryItem)
             , false
