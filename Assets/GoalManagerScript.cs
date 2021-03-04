@@ -36,7 +36,7 @@ public class GoalManagerScript : MonoBehaviour
         switch (goalG1)
         {
             case Goal.Proud:                       // Proud
-                goalMood[0, 0] = 2;
+                goalMood[0, 0] = 1;
                 goalMood[0, 1] = 3;
                 goalMood[0, 2] = 0;
                 break;
@@ -57,7 +57,7 @@ public class GoalManagerScript : MonoBehaviour
         switch (goalG2)
         {
             case Goal.Proud:                     // Proud
-                goalMood[1, 0] = 2;
+                goalMood[1, 0] = 1;
                 goalMood[1, 1] = 3;
                 goalMood[1, 2] = 0;
                 break;
