@@ -15,11 +15,13 @@ public class SceneChangeController : Singleton<SceneChangeController>
     {
         MoodSelectScreen
         , PersonalGarden
+        , Tutorial
         , Game
     }
 
     [SerializeField] int PersonalGardenBuildIndex;  
     [SerializeField] int MoodSelectBuildIndex;
+    [SerializeField] int TutorialBuildIndex;
     [SerializeField] int GameBuildIndex;
 
 
@@ -49,6 +51,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
     {
         sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen, MoodSelectBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.PersonalGarden, PersonalGardenBuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.Tutorial, TutorialBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.Game, GameBuildIndex);
     }
 
