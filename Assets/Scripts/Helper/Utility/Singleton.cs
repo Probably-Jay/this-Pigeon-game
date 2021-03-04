@@ -53,7 +53,13 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// <summary>
     /// *The deriving class must impliment a <see cref="InitSingleton"/> call inside <see cref="T.Awake"/>*
     /// </summary>
-    public abstract void Awake();
+    // public abstract void Awake(); // this was causing execution order issues
+
+
+    /// <summary>
+    /// *The deriving class must impliment a <see cref="InitSingleton"/> call inside <see cref="T.Initialise"/>*
+    /// </summary>
+    public abstract void Initialise();
 
 
     /// <summary>

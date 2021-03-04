@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2512573484810897439
+--- !u!1 &4638883095172333217
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2512573484810897436}
-  - component: {fileID: 2512573484810897437}
+  - component: {fileID: 2645726518076585920}
+  - component: {fileID: 7354923957171318923}
   m_Layer: 0
-  m_Name: EventsManager
+  m_Name: SingletonInitialiser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2512573484810897436
+--- !u!4 &2645726518076585920
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2512573484810897439}
+  m_GameObject: {fileID: 4638883095172333217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,15 +31,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2512573484810897437
+--- !u!114 &7354923957171318923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2512573484810897439}
+  m_GameObject: {fileID: 4638883095172333217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 366138a535c0d3d49b4b7bff14cd7dd2, type: 3}
+  m_Script: {fileID: 11500000, guid: e866edcffbdb9ae458e468f6a884bad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventsManager: {fileID: 2512573484810897439, guid: c84eed56b1c4a6140a2a53a2304f796c,
+    type: 3}
+  applicationManager: {fileID: 6836806109814383078, guid: 05fcf3c2bf65483489546472fec987a8,
+    type: 3}
+  sceneChangeController: {fileID: 1342758162877350577, guid: 246665e9bc82e0d469ac07b97ef85873,
+    type: 3}
+  gameManager: {fileID: 8936058246443212445, guid: 819ebb282f51a334981d1100e8f5dc74,
+    type: 3}

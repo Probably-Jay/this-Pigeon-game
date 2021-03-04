@@ -67,7 +67,18 @@ public class SceneChangeController : Singleton<SceneChangeController>
     private void TransitionAnimationDone() => transitionAnimationDone = true;
 
 
-    public override void Awake()
+    //public override void Awake()
+    //{
+    //    InitSingleton();
+    //    CreateBuildIndexDictionary();
+    //}
+
+    //private void Awake()
+    //{
+
+    //}
+
+    public override void Initialise()
     {
         InitSingleton();
         CreateBuildIndexDictionary();

@@ -3,12 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ApplicationManager : MonoBehaviour
+[System.Obsolete("Use " +nameof(ApplicationManager),true)]
+public class AplicationManagerOld : MonoBehaviour
 {
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+    //public override void Awake()
+    //{
+    //    InitSingleton();
+
+    //}
+
+    //public override void Initialise()
+    //{
+    //    InitSingleton();
+    //}
 
     private void OnEnable()
     {
@@ -21,16 +28,7 @@ public class ApplicationManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.QuitGame, QuitGame);
     }
 
-    // todo remove this for the actual build
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape)){
-            EventsManager.InvokeEvent(EventsManager.EventType.QuitGame);
-        }
-    }
-
-
-    private void QuitGame()
+    public void QuitGame()
     {
 #if UNITY_EDITOR
         Debug.Log("Attempted to quit game");

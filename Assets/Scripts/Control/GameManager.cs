@@ -31,7 +31,14 @@ public class GameManager : Singleton<GameManager>
     public Player.PlayerEnum CurrentVisibleGarden => Camera.main.GetComponent<CameraMovementControl>().CurrentGardenVeiw; // OPTIMISE
 
 
-    public override void Awake()
+    //public override void Awake()
+    //{
+    //    base.InitSingleton();
+    //    HotSeatManager = GetComponent<HotSeatManager>();
+    //    PlantManager = GetComponent<PlantManager>();
+    //}
+
+    public override void Initialise()
     {
         base.InitSingleton();
         HotSeatManager = GetComponent<HotSeatManager>();

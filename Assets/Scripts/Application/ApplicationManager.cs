@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AplicationManager : MonoBehaviour
+public class ApplicationManager : Singleton<ApplicationManager>
 {
-    private void Awake()
+    public override void Initialise()
     {
-        DontDestroyOnLoad(gameObject);
+        InitSingleton();
     }
 
     private void OnEnable()
@@ -21,7 +20,7 @@ public class AplicationManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.QuitGame, QuitGame);
     }
 
-    private void QuitGame()
+    public void QuitGame()
     {
 #if UNITY_EDITOR
         Debug.Log("Attempted to quit game");
@@ -29,5 +28,5 @@ public class AplicationManager : MonoBehaviour
         Application.Quit();
 #endif
     }
-
 }
+

@@ -63,11 +63,18 @@ public class EventsManager : Singleton<EventsManager>
 
 
 
-    public override void Awake()
+    //public override void Awake()
+    //{
+    //    base.InitSingleton();
+    //    if (events == null) Instance.events = new Dictionary<EventType, Action>();
+    //    if (parameterEvents == null) Instance.parameterEvents = new Dictionary<ParameterEventType, Action<EventParams>>();
+    //}
+
+    public override void Initialise()
     {
         base.InitSingleton();
-        if(events == null) Instance.events = new Dictionary<EventType, Action>();
-        if(parameterEvents == null) Instance.parameterEvents = new Dictionary<ParameterEventType, Action<EventParams>>();
+        if (events == null) Instance.events = new Dictionary<EventType, Action>();
+        if (parameterEvents == null) Instance.parameterEvents = new Dictionary<ParameterEventType, Action<EventParams>>();
     }
 
 

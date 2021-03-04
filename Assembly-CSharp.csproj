@@ -67,8 +67,8 @@
     <Compile Include="Assets\Scripts\Action_Points\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\Action_Points\_InputFaker.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
+    <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
-    <Compile Include="Assets\Scripts\Control\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
+    <Compile Include="Assets\SingletonInitialiser.cs" />
     <None Include="Assets\Art\_Test\MyText.txt" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
