@@ -302,8 +302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba60646cf2b0c67438990d0fc20c7815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PersonalGardenBuildIndex: 0
+  MainMenuIndex: 0
   MoodSelectBuildIndex: 1
+  PersonalGardenBuildIndex: 0
   GameBuildIndex: 2
   LoadingScreen: {fileID: 1342758163303399546}
   progressBar: {fileID: 1342758163148460407}
