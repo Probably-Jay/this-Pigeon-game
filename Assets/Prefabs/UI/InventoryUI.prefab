@@ -129,8 +129,6 @@ MonoBehaviour:
   UISlotPrefab: {fileID: 4846323598871467373, guid: 622e2f41c66671b438cb9ad3b79e6bad,
     type: 3}
   inventoryDisplay: {fileID: 3707083342972880157}
-  spacing: 1
-  padding: 0.1
   listOffset: 0
 --- !u!1 &2010009779987286178
 GameObject:
@@ -271,7 +269,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7af6641f2df9b674a87ff1ef0e494d63, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 994d730860885c4469b1c0d895d382c7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -479,7 +477,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a98e47a98293fec4c8f3ff24afe586f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c0921fbac50653746b96bf32ed3a5c8a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
