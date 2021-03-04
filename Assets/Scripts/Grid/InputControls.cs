@@ -100,10 +100,6 @@ public class InputControls : MonoBehaviour
 
                             }
 
-
-                           
-
-
                             gridManager.ShowGrids();
 
                             newRayOriginPoint = currentObjectMoving.transform.position;

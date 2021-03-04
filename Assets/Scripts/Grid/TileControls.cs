@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class TileControls : MonoBehaviour
 {
-
     // enums that control the state of this tile
     public enum tileStates
     {
