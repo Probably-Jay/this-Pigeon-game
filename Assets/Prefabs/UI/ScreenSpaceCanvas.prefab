@@ -338,10 +338,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5035736041114505222}
     m_Modifications:
+    - target: {fileID: 779217422432650882, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Garden1: Unpleasant/Pleasant 1,     Personal/Social  2,     Calm/ Energised
+        3
+
+
+        Garden2: Unpleasant/Pleasant 1,     Personal/Social 2,      
+        Calm/ Energised 3, '
+      objectReference: {fileID: 0}
+    - target: {fileID: 779217422432650882, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 779217422432650882, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 779217422432650882, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1615955487387817795, guid: a7626db088b9c5047b0e19f164b5e942,
         type: 3}
       propertyPath: m_Name
       value: MoodPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511900561943478145, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511900561943478145, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5511900561943478145, guid: a7626db088b9c5047b0e19f164b5e942,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5904560282099767163, guid: a7626db088b9c5047b0e19f164b5e942,
         type: 3}

@@ -82,13 +82,25 @@ public class DisplayManager : MonoBehaviour
 
     void DisplayCurrentGardenMood()
     {
-        displayText.text = $"Current Mood Values:\n" +
-                       $"Garden1: Unpleasant/Pleasant { currentGarden1MoodPride.ToString()},     Personal/Social  { currentGarden1MoodEnergy.ToString()},     Calm/ Energised { currentGarden1Social.ToString()},\n\n" +
-                        $"Garden2: Unpleasant/Pleasant {currentGarden2MoodPride.ToString()},     Personal/Social {currentGarden2MoodEnergy.ToString()},       Calm/ Energised {currentGarden2Social.ToString()}, \n";
+        displayText.text = $"P1: Unpleasant/Pleasant {GetDisplayValue(currentGarden1MoodPride)},    Personal/Social {currentGarden1MoodEnergy.ToString()},    Calm/Energised {currentGarden1Social.ToString()}\n" +
+                           $"P2: Unpleasant/Pleasant {currentGarden2MoodPride.ToString()},    Personal/Social {currentGarden2MoodEnergy.ToString()},    Calm/Energised {currentGarden2Social.ToString()}";
 
         UpdateGarden1MoodIndicators();
 
         UpdateGarden1MoodIndicators2();
+    }
+
+    private string GetDisplayValue(int val)
+    {
+        string ret = "";
+        if(val < 0)
+        {
+            return "-" + Mathf.Abs(val).ToString();
+        }
+        else
+        {
+            return "+" + Mathf.Abs(val).ToString();
+        }
     }
 
     void UpdateGarden1MoodIndicators()
