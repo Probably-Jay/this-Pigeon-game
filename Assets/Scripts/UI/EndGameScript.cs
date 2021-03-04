@@ -18,35 +18,33 @@ public class EndGameScript : MonoBehaviour
 
     void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.GameOver, makeVisible);
-        EventsManager.BindEvent(EventsManager.EventType.EnterNewScene, hideScreen);
+        EventsManager.BindEvent(EventsManager.EventType.GameOver, MakeVisible);
+        EventsManager.BindEvent(EventsManager.EventType.EnterNewScene, HideScreen);
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.GameOver, makeVisible);
-        EventsManager.UnbindEvent(EventsManager.EventType.EnterNewScene, hideScreen);
+        EventsManager.UnbindEvent(EventsManager.EventType.GameOver, MakeVisible);
+        EventsManager.UnbindEvent(EventsManager.EventType.EnterNewScene, HideScreen);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (GameManager.Instance.PlantManager.gameWon)
-        {
-            makeVisible();
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (GameManager.Instance.PlantManager.gameWon)
+    //    {
+    //        makeVisible();
 
-            squadGoals.text =
-           $"Garden 1 Goal: {GameManager.Instance.CurrentGoal.ToString()},\n" +
-           $"Garden 2 Goal: {GameManager.Instance.AlternateGoal.ToString()}";
+          
 
-        }
-        else
-        {
-            hideScreen();
-        }
-    }
+    //    }
+    //    else
+    //    {
+    //        hideScreen();
+    //    }
+    //}
 
-    void makeVisible()
+    void MakeVisible()
     {
         if (!hideBuffer.activeSelf)
         {
@@ -56,9 +54,13 @@ public class EndGameScript : MonoBehaviour
         {
             hideBuffer.transform.Rotate(-1, 0, 0);
         }
+
+        squadGoals.text =
+         $"Garden 1 Goal: {GameManager.Instance.CurrentGoal.ToString()},\n" +
+         $"Garden 2 Goal: {GameManager.Instance.AlternateGoal.ToString()}";
     }
 
-    void hideScreen()
+    void HideScreen()
     {
         if (hideBuffer.activeSelf)
         {
