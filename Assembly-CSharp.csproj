@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
+    <Compile Include="Assets\SingletonInitialiser.cs" />
     <None Include="Assets\Art\_Test\MyText.txt" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
