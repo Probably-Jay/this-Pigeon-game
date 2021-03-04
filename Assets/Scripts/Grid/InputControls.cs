@@ -86,7 +86,7 @@ public class InputControls : MonoBehaviour
                             if (PlantPlaced.isPlanted == true)
                             {
                                 // gets the plants scores that should be subtracted
-                                PlantStats = PlantPlaced.GetPlantStats();
+                                PlantStats = PlantPlaced.PlantStats;
 
                                 // subtreacts the plants stats from the apropriote garden
                                 if (PlantPlaced.gardenID < 2)
@@ -186,7 +186,7 @@ public class InputControls : MonoBehaviour
 
 
                                 // adds the plants scores to the display
-                                PlantStats = PlantPlaced.GetPlantStats();
+                                PlantStats = PlantPlaced.PlantStats;
 
                                 if (tileControls.gridID < 2)
                                 {
