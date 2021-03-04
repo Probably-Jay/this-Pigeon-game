@@ -9,7 +9,7 @@ using UnityEngine.UI;
 // Updated 24/02
 
 
-[System.Obsolete("This class has been replaced by " + nameof(DisplayManager) ,true)]
+[System.Obsolete("This class has been replaced by " + nameof(DisplayManager) +" and " + nameof(GoalManagerScript) ,true)]
 public class PlantManager : MonoBehaviour
 {
     public List<Item>[] gardenPlants = new List<Item>[2]; // Holds both gardens in same var
@@ -116,7 +116,7 @@ public class PlantManager : MonoBehaviour
         Debug.Log("Item #" + i + ":" + gardenPlants[0][i].objectName);
         Debug.Log("Mood (Energy): " + gardenPlants[0][i].moodEnergy);
         Debug.Log("Mood (Social): " + gardenPlants[0][i].moodSocial);
-        Debug.Log("Mood (Pride): " + gardenPlants[0][i].moodPride);
+        Debug.Log("Mood (Pride): " + gardenPlants[0][i].moodPleasant);
     }
 
 
@@ -159,7 +159,7 @@ public class PlantManager : MonoBehaviour
             {
                 tempEnergy += gardenPlants[c][x].moodEnergy;
                 tempSocial += gardenPlants[c][x].moodSocial;
-                tempPride += gardenPlants[c][x].moodPride;
+                tempPride += gardenPlants[c][x].moodPleasant;
             };
 
             curMood[c, 0] = tempEnergy;
