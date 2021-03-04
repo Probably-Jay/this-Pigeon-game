@@ -67,8 +67,8 @@
     <Compile Include="Assets\Scripts\Action_Points\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\Action_Points\_InputFaker.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
+    <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
-    <Compile Include="Assets\Scripts\Control\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />

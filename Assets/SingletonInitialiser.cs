@@ -21,13 +21,18 @@ public class SingletonInitialiser : MonoBehaviour
     private void CreateSingletons()
     {
         var e = Instantiate(eventsManager);
-        var a = Instantiate(applicationManager);
-        var s = Instantiate(sceneChangeController);
-        var g = Instantiate(gameManager);
-
         e.GetComponent<EventsManager>().Initialise();
-        a.GetComponent<AplicationManager>().Initialise();
+
+        var app = Instantiate(applicationManager);
+        ApplicationManager acomp = app.GetComponent<ApplicationManager>();
+        acomp.Initialise();
+
+        var s = Instantiate(sceneChangeController);
         s.GetComponent<SceneChangeController>().Initialise();
-        g.GetComponent<GameManager>().Initialise();
+
+        var g = Instantiate(gameManager);
+        GameManager gcomp = g.GetComponent<GameManager>();
+        gcomp.Initialise();
+
     }
 }

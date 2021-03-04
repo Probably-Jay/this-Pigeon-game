@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AplicationManager : Singleton<AplicationManager>
+public class ApplicationManager : Singleton<ApplicationManager>
 {
-    //public override void Awake()
-    //{
-    //    InitSingleton();
-
-    //}
-
     public override void Initialise()
     {
         InitSingleton();
@@ -35,5 +28,5 @@ public class AplicationManager : Singleton<AplicationManager>
         Application.Quit();
 #endif
     }
-
 }
+
