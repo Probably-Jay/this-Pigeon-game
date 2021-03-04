@@ -91,17 +91,17 @@ PrefabInstance:
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_Size.y
-      value: 1.4
+      value: 1.64
       objectReference: {fileID: 0}
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_Center.y
-      value: 0.82
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0587ff78d9e11a04c8e8b10d7b54eb94, type: 3}
