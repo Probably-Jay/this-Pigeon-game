@@ -31,9 +31,12 @@ public class InventoryItem : ScriptableObject
     {
         var size = new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight);
         Rect screnDim = new Rect(Vector2.zero, size );
-        var screenPos = new Vector2(screnDim.width*0.8f, screnDim.height/2f);
+        var screenPos = new Vector2(screnDim.width /2f, screnDim.height/2f);
         var pos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -Camera.main.transform.position.z-1f));
         Instantiate(gameObject, pos, Quaternion.identity);  
+
+
+
     }
 
     // apply the name to internals

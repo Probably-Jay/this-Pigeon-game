@@ -106,8 +106,28 @@ public class InputControls : MonoBehaviour
 
                             objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
 
-                            newRayOriginPoint.x -= (objectSize.x / 5);
-                            newRayOriginPoint.y += (objectSize.y / 5);
+                            //newRayOriginPoint.x -= (objectSize.x / 5);
+                            //newRayOriginPoint.y += (objectSize.y / 5);
+
+
+                            if (currentObjectMoving.ObjectWidth > 1)
+                            {
+                                newRayOriginPoint.x -= (objectSize.x / 5);
+                            }
+                            else
+                            {
+                                newRayOriginPoint.x -= (objectSize.x / 8);
+                            }
+
+                            if (currentObjectMoving.ObjectHeight > 1)
+                            {
+                                newRayOriginPoint.y += (objectSize.y / 5);
+                            }
+                            else
+                            {
+                                newRayOriginPoint.y += (objectSize.y / 8);
+                            }
+
 
                             // fires a raycast downward from the mouse 
                             RaycastHit hit2;
