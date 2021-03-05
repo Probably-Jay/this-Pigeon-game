@@ -8,13 +8,7 @@ public class GameSceneControl : MonoBehaviour
     public void Quit() => ApplicationManager.Instance.QuitGame();
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
 
-        }
-    }
 
 
 }
