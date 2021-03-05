@@ -35,14 +35,17 @@ public class GoalManagerScript : MonoBehaviour
     /// int[,] curMood = new int[2, 3];
 
 
-    Dictionary<Goal, int[]> allGoals = new Dictionary<Goal, int[]>()
+    Dictionary<Goal, int[]> allGoals;
+
+    private void Awake()
     {
-         {Goal.Proud,   new int[3]{2,-1,-1 } } // pleasant, energy, social
-        ,{Goal.Anxious, new int[3]{-1,2,-1 } }
-        ,{Goal.Content, new int[3]{1,2,1 } }
-    };
-
-
+        allGoals = new Dictionary<Goal, int[]>()
+        {
+             {Goal.Proud,   new int[3]{2,-1,-1 } } // pleasant, energy, social
+            ,{Goal.Anxious, new int[3]{-1,2,-1 } }
+            ,{Goal.Content, new int[3]{1,2,1 } }
+        };
+    }
 
     private void GeCurrentGoals()
     {
@@ -145,12 +148,14 @@ public class GoalManagerScript : MonoBehaviour
     {
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
         EventsManager.BindEvent(EventsManager.EventType.StartGame, GeCurrentGoals);
+        EventsManager.BindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
         EventsManager.UnbindEvent(EventsManager.EventType.StartGame, GeCurrentGoals);
+        EventsManager.UnbindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
     }
 
 
@@ -161,14 +166,15 @@ public class GoalManagerScript : MonoBehaviour
        // GetGoals();
         GeCurrentGoals();
         UpdateText();
-        CheckIfWin();
+
+       // CheckIfWin();
     }
 
  
 
     void CheckIfWin()
     {
-        if (MoodMatches() || Input.GetKeyDown("space"))
+        if (MoodMatches() || Input.GetKeyDown(KeyCode.Space))
         {
             EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
         }
@@ -177,18 +183,22 @@ public class GoalManagerScript : MonoBehaviour
 
     bool MoodMatches()
     {
+        if(goalMood.Count == 0) return false;
         var curmood = gardenScoreCalculator.GetMoodValuesGardens();
+        bool win = false;
         foreach (Player.PlayerEnum player in System.Enum.GetValues(typeof(Player.PlayerEnum)))
         {
-            for (int i = 0; i < goalMood[Player.PlayerEnum.Player0].Length; i++)
-            {
-                if(curmood[player][i] != goalMood[player][i])
+            if (win) return true;
+            win = true;
+            for (int i = 0; i < goalMood[player].Length; i++)
+            { 
+                if(curmood[player][i] != CurentPlayerGoalValues[i])
                 {
-                    return false;
+                    win = false;
                 }
             }
         }
 
-        return true; // if reached here then all match
+        return false; // if reached here then no match
     }
 }
