@@ -12,9 +12,9 @@ public class DisplayManager : MonoBehaviour
     int currentGarden1MoodEnergy = 0;
     int currentGarden1Social = 0;
 
-    int currentGarden2MoodPride = -1;
-    int currentGarden2MoodEnergy = 1;
-    int currentGarden2Social = -1;
+    int currentGarden2MoodPride = 0;
+    int currentGarden2MoodEnergy = 0;
+    int currentGarden2Social = 0;
 
     Text displayText;
 
@@ -22,8 +22,8 @@ public class DisplayManager : MonoBehaviour
 
     // indicators for player 1
     public GameObject PlesentUnplesentIndicator;
-   public GameObject PersonalSocialIndicator;
-   public GameObject CalmEnergisedIndicator;
+    public GameObject PersonalSocialIndicator;
+    public GameObject CalmEnergisedIndicator;
 
     // indicators for player 2
     public GameObject PlesentUnplesentIndicator2;
@@ -203,14 +203,14 @@ public class DisplayManager : MonoBehaviour
     }
 
 
-    public Vector3[] GetMoodValuesGarden1()
+    public Dictionary<Player.PlayerEnum, int[]> GetMoodValuesGardens()
     {
-        Vector3[] gardenMoodarray;
+        Dictionary<Player.PlayerEnum, int[]> gardenMoodarray;
 
-        gardenMoodarray = new Vector3[2];
+        gardenMoodarray = new Dictionary<Player.PlayerEnum, int[]>();
 
-        gardenMoodarray[0] = new Vector3(currentGarden1MoodPride, currentGarden1MoodEnergy,currentGarden1Social);
-        gardenMoodarray[1] = new Vector3(currentGarden2MoodPride, currentGarden2MoodEnergy, currentGarden2Social);
+        gardenMoodarray[Player.PlayerEnum.Player0] = new int[3] { currentGarden1MoodPride, currentGarden1MoodEnergy, currentGarden1Social };
+        gardenMoodarray[Player.PlayerEnum.Player1] = new int[3] { currentGarden2MoodPride, currentGarden2MoodEnergy, currentGarden2Social };
 
         return gardenMoodarray;     
     }

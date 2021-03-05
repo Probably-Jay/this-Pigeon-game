@@ -12,19 +12,14 @@ using UnityEngine.UI;
 [RequireComponent(typeof(DisplayManager))]
 public class GameManager : Singleton<GameManager>
 {
-    public enum Goal
-    {
-            Proud
-         , Anxious
-         , Content
-    }
+   
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
     public DisplayManager PlantManager { get; private set; }
 
-    public Goal CurrentGoal { get; private set; }
-    public Goal AlternateGoal { get; private set; }
+    public GoalManagerScript.Goal CurrentGoal { get; private set; }
+    public GoalManagerScript.Goal AlternateGoal { get; private set; }
 
     public Player ActivePlayer => HotSeatManager.ActivePlayer;
     public int TurnCount => HotSeatManager.TurnTracker.Turn;
