@@ -52,12 +52,22 @@ public class EndGameScript : MonoBehaviour
         }
         if (hideBuffer.transform.rotation.x >= 0)
         {
-            hideBuffer.transform.Rotate(-1, 0, 0);
+            StartCoroutine(RotateIn());
         }
 
         squadGoals.text =
          $"Garden 1 Goal: {GameManager.Instance.CurrentGoal.ToString()},\n" +
          $"Garden 2 Goal: {GameManager.Instance.AlternateGoal.ToString()}";
+    }
+
+    private IEnumerator RotateIn()
+    {
+        while(hideBuffer.transform.rotation.eulerAngles.x > 0)
+        {
+            var angle = hideBuffer.transform.rotation.eulerAngles.x;
+            hideBuffer.transform.eulerAngles = new Vector3(Mathf.LerpAngle(angle,0,Time.deltaTime), 0, 0);
+            yield return null;
+        }
     }
 
     void HideScreen()

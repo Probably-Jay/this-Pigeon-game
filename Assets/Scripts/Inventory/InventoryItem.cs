@@ -14,7 +14,7 @@ public class InventoryItem : ScriptableObject
 
     [HideInInspector] public string itemName; 
     public Sprite inventoryImage; // image shown in the inventory UI
-    public GameObject gameObject; // prefab of actual object
+    public GameObject itemGameObject; // prefab of actual object
 
 
 
@@ -24,7 +24,7 @@ public class InventoryItem : ScriptableObject
         Rect screnDim = new Rect(Vector2.zero, size );
         var screenPos = new Vector2(Random.Range(screnDim.x, screnDim.width), Random.Range(screnDim.y, screnDim.height));
         var pos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -Camera.main.transform.position.z));
-        Instantiate(gameObject, pos, Quaternion.identity);  
+        Instantiate(itemGameObject, pos, Quaternion.identity);  
     } 
     
     public void SpawnObjectMiddleOfScreen()
@@ -33,7 +33,7 @@ public class InventoryItem : ScriptableObject
         Rect screnDim = new Rect(Vector2.zero, size );
         var screenPos = new Vector2(screnDim.width /2f, screnDim.height/2f);
         var pos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, -Camera.main.transform.position.z-1f));
-        Instantiate(gameObject, pos, Quaternion.identity);  
+        Instantiate(itemGameObject, pos, Quaternion.identity);  
 
 
 

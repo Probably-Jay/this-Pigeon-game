@@ -37,9 +37,9 @@ public class GoalManagerScript : MonoBehaviour
 
     Dictionary<Goal, int[]> allGoals = new Dictionary<Goal, int[]>()
     {
-         {Goal.Proud,   new int[3]{1,3,0 } }
-        ,{Goal.Anxious, new int[3]{1,0,3 } }
-        ,{Goal.Content, new int[3]{0,2,2 } }
+         {Goal.Proud,   new int[3]{2,-1,-1 } } // pleasant, energy, social
+        ,{Goal.Anxious, new int[3]{-1,2,-1 } }
+        ,{Goal.Content, new int[3]{1,2,1 } }
     };
 
 

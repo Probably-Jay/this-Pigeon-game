@@ -30,7 +30,6 @@ public class Item : MonoBehaviour
         plantOwner = GameManager.Instance.ActivePlayer;
 
         // Set if in local or other garden
-        // TODO: Change later - if I understand correctly, players can place plants in each other's gardens too
         if (plantOwner.PlayerEnumValue == 0)
         { // = true if local (placed by player 1)
             inLocalGarden = true;
@@ -40,7 +39,7 @@ public class Item : MonoBehaviour
             inLocalGarden = false;
         }
 
-        Debug.Log("Plant is in Garden #" + inLocalGarden);
+       // Debug.Log("Plant is in Garden #" + inLocalGarden);
     }
 
     // Alexander Purvis fuction for retreaving the plants mood values
