@@ -771,6 +771,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 779217422799246415}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9040642092032298477 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8621725919754131874, guid: a7626db088b9c5047b0e19f164b5e942,
+    type: 3}
+  m_PrefabInstance: {fileID: 779217422799246415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c8fa1ad4d79fb41adc348c0c76125b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3100186531457397429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1523,7 +1535,28 @@ PrefabInstance:
     - target: {fileID: 2348001227981637803, guid: fea9e07c96356ea4797fa8db7042c49c,
         type: 3}
       propertyPath: m_Text
-      value: 'Mood Goal: Content'
+      value: "Goal: \nUnpleasant/Pleasant 1,      Personal/Social 2,      Calm/Energised
+        3"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2348001227981637803, guid: fea9e07c96356ea4797fa8db7042c49c,
+        type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2348001227981637803, guid: fea9e07c96356ea4797fa8db7042c49c,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2348001227981637803, guid: fea9e07c96356ea4797fa8db7042c49c,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2348001227981637803, guid: fea9e07c96356ea4797fa8db7042c49c,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2348001228915189210, guid: fea9e07c96356ea4797fa8db7042c49c,
         type: 3}
@@ -1635,6 +1668,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3839499093900320803, guid: fea9e07c96356ea4797fa8db7042c49c,
+        type: 3}
+      propertyPath: gardenScoreCalculator
+      value: 
+      objectReference: {fileID: 9040642092032298477}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fea9e07c96356ea4797fa8db7042c49c, type: 3}
 --- !u!224 &8946719969338556261 stripped

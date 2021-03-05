@@ -34,4 +34,22 @@ public class GardenEmotionIndicatorControls : MonoBehaviour
                 break;
         }       
     }
+
+    public void UpdateIndicator(int value)
+    {
+        if(value > 0)
+        {
+            gameObject.GetComponent<Image>().sprite = leftOfScaleSprite;
+        }
+        else if(value < 0)
+        {
+            gameObject.GetComponent<Image>().sprite = rightOfScaleSprite;
+        }
+        else
+        {
+            gameObject.GetComponent<Image>().sprite = neutralSprite;
+        }
+    }
+
+
 }
