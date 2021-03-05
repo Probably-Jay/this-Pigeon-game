@@ -22,8 +22,8 @@ public class DisplayManager : MonoBehaviour
 
     // indicators for player 1
     public GameObject pleasantUnplesentIndicator;
-    public GameObject personalSocialIndicator;
     public GameObject calmEnergisedIndicator;
+    public GameObject personalSocialIndicator;
 
     // indicators for player 2
     public GameObject pleasantUnplesentIndicator2;
@@ -82,8 +82,8 @@ public class DisplayManager : MonoBehaviour
 
     void DisplayCurrentGardenMood()
     {
-        displayText.text = $"P1: {GetDisplayText("Pleasant", "Unpleasant", currentGarden1MoodPleasant)},      {GetDisplayText("Personal", "Social", currentGarden1MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden1Social)}\n" +
-                           $"P2: {GetDisplayText("Pleasant", "Unpleasant", currentGarden2MoodPleasant)},      {GetDisplayText("Personal", "Social", currentGarden2MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden2Social)}";
+        displayText.text = $"P1: {GetDisplayText("Pleasant", "Unpleasant", currentGarden1MoodPleasant)},      {GetDisplayText("Personal", "Social", currentGarden1Social)},      {GetDisplayText("Calm", "Energised", currentGarden1MoodEnergy)}\n" +
+                           $"P2: {GetDisplayText("Pleasant", "Unpleasant", currentGarden2MoodPleasant)},      {GetDisplayText("Personal", "Social", currentGarden2Social)},      {GetDisplayText("Calm", "Energised", currentGarden2MoodEnergy)}";
 
         UpdateGarden1MoodIndicators();
 
