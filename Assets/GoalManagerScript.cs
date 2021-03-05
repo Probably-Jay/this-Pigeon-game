@@ -18,10 +18,8 @@ public class GoalManagerScript : MonoBehaviour
     [SerializeField] GardenEmotionIndicatorControls social;
     [SerializeField] GardenEmotionIndicatorControls energy;
 
-    Goal goalG1;
-    Goal goalG2;
 
-    Goal CurentPlayerGoal => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? goalG1 : goalG2;
+    Goal CurentPlayerGoal => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? GameManager.Instance.CurrentGoal : GameManager.Instance.AlternateGoal;
     int[] CurentPlayerGoalValues => allGoals[CurentPlayerGoal];
 
 
