@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameSceneControl.cs" />
     <Compile Include="Assets\GoalManagerScript.cs" />
     <Compile Include="Assets\Scripts\Action_Points\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\Action_Points\TurnPointsUI.cs" />

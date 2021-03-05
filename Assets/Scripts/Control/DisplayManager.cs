@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 public class DisplayManager : MonoBehaviour
 {      
-    int currentGarden1MoodPride = 0;
+    int currentGarden1MoodPleasant = 0;
     int currentGarden1MoodEnergy = 0;
     int currentGarden1Social = 0;
 
-    int currentGarden2MoodPride = 0;
+    int currentGarden2MoodPleasant = 0;
     int currentGarden2MoodEnergy = 0;
     int currentGarden2Social = 0;
 
@@ -21,14 +21,14 @@ public class DisplayManager : MonoBehaviour
     GardenEmotionIndicatorControls indicatorControls;
 
     // indicators for player 1
-    public GameObject PlesentUnplesentIndicator;
-    public GameObject PersonalSocialIndicator;
-    public GameObject CalmEnergisedIndicator;
+    public GameObject pleasantUnplesentIndicator;
+    public GameObject personalSocialIndicator;
+    public GameObject calmEnergisedIndicator;
 
     // indicators for player 2
-    public GameObject PlesentUnplesentIndicator2;
-    public GameObject PersonalSocialIndicator2;
-    public GameObject CalmEnergisedIndicator2;
+    public GameObject pleasantUnplesentIndicator2;
+    public GameObject personalSocialIndicator2;
+    public GameObject calmEnergisedIndicator2;
 
   
 
@@ -45,7 +45,7 @@ public class DisplayManager : MonoBehaviour
 
     public void AddtoGarden1Stats(Vector3 UpdateToStats) {
 
-        currentGarden1MoodPride += Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden1MoodPleasant += Mathf.FloorToInt(UpdateToStats.x);
         currentGarden1MoodEnergy += Mathf.FloorToInt(UpdateToStats.y);
         currentGarden1Social += Mathf.FloorToInt(UpdateToStats.z);
 
@@ -54,7 +54,7 @@ public class DisplayManager : MonoBehaviour
 
     public void AddtoGarden2Stats(Vector3 UpdateToStats)
     {
-        currentGarden2MoodPride += Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden2MoodPleasant += Mathf.FloorToInt(UpdateToStats.x);
         currentGarden2MoodEnergy += Mathf.FloorToInt(UpdateToStats.y);
         currentGarden2Social += Mathf.FloorToInt(UpdateToStats.z);
 
@@ -64,7 +64,7 @@ public class DisplayManager : MonoBehaviour
     public void SubtractFromGarden1Stats(Vector3 UpdateToStats)
     {
 
-        currentGarden1MoodPride -= Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden1MoodPleasant -= Mathf.FloorToInt(UpdateToStats.x);
         currentGarden1MoodEnergy -= Mathf.FloorToInt(UpdateToStats.y);
         currentGarden1Social -= Mathf.FloorToInt(UpdateToStats.z);
 
@@ -73,7 +73,7 @@ public class DisplayManager : MonoBehaviour
 
     public void ASubtractFromGarden2Stats(Vector3 UpdateToStats)
     {
-        currentGarden2MoodPride -= Mathf.FloorToInt(UpdateToStats.x);
+        currentGarden2MoodPleasant -= Mathf.FloorToInt(UpdateToStats.x);
         currentGarden2MoodEnergy -= Mathf.FloorToInt(UpdateToStats.y);
         currentGarden2Social -= Mathf.FloorToInt(UpdateToStats.z);
 
@@ -82,8 +82,8 @@ public class DisplayManager : MonoBehaviour
 
     void DisplayCurrentGardenMood()
     {
-        displayText.text = $"P1: {GetDisplayText("Pleasant", "Unpleasant", currentGarden1MoodPride)},      {GetDisplayText("Personal", "Social", currentGarden1MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden1Social)}\n" +
-                           $"P2: {GetDisplayText("Pleasant", "Unpleasant", currentGarden2MoodPride)},      {GetDisplayText("Personal", "Social", currentGarden2MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden2Social)}";
+        displayText.text = $"P1: {GetDisplayText("Pleasant", "Unpleasant", currentGarden1MoodPleasant)},      {GetDisplayText("Personal", "Social", currentGarden1MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden1Social)}\n" +
+                           $"P2: {GetDisplayText("Pleasant", "Unpleasant", currentGarden2MoodPleasant)},      {GetDisplayText("Personal", "Social", currentGarden2MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden2Social)}";
 
         UpdateGarden1MoodIndicators();
 
@@ -118,23 +118,23 @@ public class DisplayManager : MonoBehaviour
     {
 
         // update the First scale 
-        indicatorControls = PlesentUnplesentIndicator.GetComponent<GardenEmotionIndicatorControls>();
+        indicatorControls = pleasantUnplesentIndicator.GetComponent<GardenEmotionIndicatorControls>();
 
-        if (currentGarden1MoodPride < 0)
+        if (currentGarden1MoodPleasant < 0)
         {
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.LeftOfScale);
         }
-        else if (currentGarden1MoodPride > 0)
+        else if (currentGarden1MoodPleasant > 0)
         {
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.RightOfScale);
         }
-        else if (currentGarden1MoodPride == 0)
+        else if (currentGarden1MoodPleasant == 0)
         {
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
         }
 
         // update the Second scale 
-        indicatorControls = PersonalSocialIndicator.GetComponent<GardenEmotionIndicatorControls>();
+        indicatorControls = personalSocialIndicator.GetComponent<GardenEmotionIndicatorControls>();
 
         if (currentGarden1MoodEnergy < 0)
         {
@@ -150,7 +150,7 @@ public class DisplayManager : MonoBehaviour
         }
 
         // update the Third scale 
-        indicatorControls = CalmEnergisedIndicator.GetComponent<GardenEmotionIndicatorControls>();
+        indicatorControls = calmEnergisedIndicator.GetComponent<GardenEmotionIndicatorControls>();
 
         if (currentGarden1Social < 0)
         {
@@ -171,23 +171,23 @@ public class DisplayManager : MonoBehaviour
     {
 
         // update the First scale 
-        indicatorControls = PlesentUnplesentIndicator2.GetComponent<GardenEmotionIndicatorControls>();
+        indicatorControls = pleasantUnplesentIndicator2.GetComponent<GardenEmotionIndicatorControls>();
 
-        if (currentGarden2MoodPride < 0)
+        if (currentGarden2MoodPleasant < 0)
         {
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.LeftOfScale);
         }
-        else if (currentGarden2MoodPride > 0)
+        else if (currentGarden2MoodPleasant > 0)
         {
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.RightOfScale);
         }
-        else if (currentGarden2MoodPride == 0)
+        else if (currentGarden2MoodPleasant == 0)
         {
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
         }
 
         // update the Second scale 
-        indicatorControls = PersonalSocialIndicator2.GetComponent<GardenEmotionIndicatorControls>();
+        indicatorControls = personalSocialIndicator2.GetComponent<GardenEmotionIndicatorControls>();
 
         if (currentGarden2MoodEnergy < 0)
         {
@@ -203,7 +203,7 @@ public class DisplayManager : MonoBehaviour
         }
 
         // update the Third scale 
-        indicatorControls = CalmEnergisedIndicator2.GetComponent<GardenEmotionIndicatorControls>();
+        indicatorControls = calmEnergisedIndicator2.GetComponent<GardenEmotionIndicatorControls>();
 
         if (currentGarden2Social < 0)
         {
@@ -226,8 +226,8 @@ public class DisplayManager : MonoBehaviour
 
         gardenMoodarray = new Dictionary<Player.PlayerEnum, int[]>();
 
-        gardenMoodarray[Player.PlayerEnum.Player0] = new int[3] { currentGarden1MoodPride, currentGarden1MoodEnergy, currentGarden1Social };
-        gardenMoodarray[Player.PlayerEnum.Player1] = new int[3] { currentGarden2MoodPride, currentGarden2MoodEnergy, currentGarden2Social };
+        gardenMoodarray[Player.PlayerEnum.Player0] = new int[3] { currentGarden1MoodPleasant, currentGarden1MoodEnergy, currentGarden1Social };
+        gardenMoodarray[Player.PlayerEnum.Player1] = new int[3] { currentGarden2MoodPleasant, currentGarden2MoodEnergy, currentGarden2Social };
 
         return gardenMoodarray;     
     }
