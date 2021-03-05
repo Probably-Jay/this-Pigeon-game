@@ -41,18 +41,32 @@ public class GameManager : Singleton<GameManager>
         PlantManager = GetComponent<DisplayManager>();
     }
 
+    private void OnEnable()
+    {
+        EventsManager.BindEvent(EventsManager.EventType.StartGame, BeginGame);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, BeginGame);
+    }
+
     private void Start()
     {
-        EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
+       // EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
 
         //EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
-        EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore); // Maybe here for a reason?
+      //  EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore); // Maybe here for a reason?
 
+
+
+
+    }
+
+    void BeginGame()
+    {
         CurrentGoal = GoalStore.GetGoal();
         AlternateGoal = GoalStore.GetAltGoal();
-
-
-
     }
 
     public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);

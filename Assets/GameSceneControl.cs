@@ -8,7 +8,10 @@ public class GameSceneControl : MonoBehaviour
     public void Quit() => ApplicationManager.Instance.QuitGame();
 
 
-
+    private void Start()
+    {
+        EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
+    }
 
 
 }

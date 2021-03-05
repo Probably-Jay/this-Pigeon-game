@@ -49,6 +49,7 @@ public class DisplayManager : MonoBehaviour
         currentGarden1MoodEnergy += Mathf.FloorToInt(UpdateToStats.y);
         currentGarden1Social += Mathf.FloorToInt(UpdateToStats.z);
 
+
         DisplayCurrentGardenMood();
     }
 
@@ -88,6 +89,8 @@ public class DisplayManager : MonoBehaviour
         UpdateGarden1MoodIndicators();
 
         UpdateGarden1MoodIndicators2();
+
+        EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore);
     }
 
 
