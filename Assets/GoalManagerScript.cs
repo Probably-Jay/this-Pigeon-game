@@ -14,14 +14,13 @@ public class GoalManagerScript : MonoBehaviour
 
     [SerializeField] DisplayManager gardenScoreCalculator;
 
-    [SerializeField] GardenEmotionIndicatorControls plasant;
-    [SerializeField] GardenEmotionIndicatorControls social;
+    [SerializeField] GardenEmotionIndicatorControls pleasant;
     [SerializeField] GardenEmotionIndicatorControls energy;
+    [SerializeField] GardenEmotionIndicatorControls social;
 
 
-    Goal CurentPlayerGoal => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? GameManager.Instance.CurrentGoal : GameManager.Instance.AlternateGoal;
-    int[] CurentPlayerGoalValues => allGoals[CurentPlayerGoal];
-
+    Goal CurrentPlayerGoal => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? GameManager.Instance.CurrentGoal : GameManager.Instance.AlternateGoal;
+    int[] CurrentPlayerGoalValues => allGoals[CurrentPlayerGoal];
 
 
     int g1v;
@@ -39,13 +38,13 @@ public class GoalManagerScript : MonoBehaviour
     {
         allGoals = new Dictionary<Goal, int[]>()
         {
-             {Goal.Proud,   new int[3]{2,-1,-1 } } // pleasant, energy, social
-            ,{Goal.Anxious, new int[3]{-1,2,-1 } }
-            ,{Goal.Content, new int[3]{1,2,1 } }
+             {Goal.Proud,   new int[3]{ 2,-1,-1 } } // pleasant, energy, social
+            ,{Goal.Anxious, new int[3]{-1, 2,-1 } }
+            ,{Goal.Content, new int[3]{ 1, 2, 1 } }
         };
     }
 
-    private void GeCurrentGoals()
+    private void GetCurrentGoals()
     {
         var player1Goal = GameManager.Instance.CurrentGoal;
         var player2Goal = GameManager.Instance.AlternateGoal;
@@ -53,15 +52,15 @@ public class GoalManagerScript : MonoBehaviour
         goalMood[Player.PlayerEnum.Player0] = allGoals[player1Goal];
         goalMood[Player.PlayerEnum.Player1] = allGoals[player2Goal];
 
-        plasant.UpdateIndicator(CurentPlayerGoalValues[0]);
-        social.UpdateIndicator(CurentPlayerGoalValues[1]);
-        energy.UpdateIndicator(CurentPlayerGoalValues[2]);
+        pleasant.UpdateIndicator(CurrentPlayerGoalValues[0]);   // Ple
+        energy.UpdateIndicator(CurrentPlayerGoalValues[1]);     // En
+        social.UpdateIndicator(CurrentPlayerGoalValues[2]);     // So
 
     }
 
 
-    [System.Obsolete("Replaced by " + nameof(GeCurrentGoals), true)]
-    void GetGoals() // BUG  what's going on here?  why is goalMood[1,...] never used? 
+    [System.Obsolete("Replaced by " + nameof(GetCurrentGoals), true)]
+    void GetGoals()  
     {
         //g1v = (int)GameManager.Instance.CurrentGoal;
         //g2v = (int)GameManager.Instance.AlternateGoal;
@@ -114,9 +113,8 @@ public class GoalManagerScript : MonoBehaviour
 
     void UpdateText()
     {
-
-        var goal = CurentPlayerGoalValues;
-        goalDisplay.text = $"<b>Goal: {CurentPlayerGoal.ToString()}</b>\n{GetDisplayText("Pleasant","Unpleasant",goal[0])},      {GetDisplayText("Personal","Social" ,goal[1])},      {GetDisplayText("Calm","Energised",goal[2])}\n";
+        var goal = CurrentPlayerGoalValues;
+        goalDisplay.text = $"<b>Goal: {CurrentPlayerGoal.ToString()}</b>\n{GetDisplayText("Pleasant","Unpleasant",goal[0])},      {GetDisplayText("Personal","Social" ,goal[2])},      {GetDisplayText("Calm","Energised",goal[1])}\n"; // Swapped for convenience on Unity scene
 
     }
 
@@ -145,14 +143,14 @@ public class GoalManagerScript : MonoBehaviour
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
-        EventsManager.BindEvent(EventsManager.EventType.StartGame, GeCurrentGoals);
+        EventsManager.BindEvent(EventsManager.EventType.StartGame, GetCurrentGoals);
         EventsManager.BindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
-        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, GeCurrentGoals);
+        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, GetCurrentGoals);
         EventsManager.UnbindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
     }
 
@@ -162,10 +160,10 @@ public class GoalManagerScript : MonoBehaviour
     {
         // Move to Events for later build
        // GetGoals();
-        GeCurrentGoals();
+        GetCurrentGoals();
         UpdateText();
 
-       // CheckIfWin();
+        CheckIfWin();
     }
 
  
@@ -190,7 +188,7 @@ public class GoalManagerScript : MonoBehaviour
             win = true;
             for (int i = 0; i < goalMood[player].Length; i++)
             { 
-                if(curmood[player][i] != CurentPlayerGoalValues[i])
+                if(curmood[player][i] != CurrentPlayerGoalValues[i])
                 {
                     win = false;
                 }
