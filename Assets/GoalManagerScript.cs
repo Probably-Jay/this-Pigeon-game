@@ -23,8 +23,8 @@ public class GoalManagerScript : MonoBehaviour
 
     Goal CurentPlayerGoal => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? goalG1 : goalG2;
     int[] CurentPlayerGoalValues => allGoals[CurentPlayerGoal];
-        
-    
+
+
 
     int g1v;
     int g2v;
@@ -32,7 +32,7 @@ public class GoalManagerScript : MonoBehaviour
     public Text goalDisplay;
 
     Dictionary<Player.PlayerEnum, int[]> goalMood = new Dictionary<Player.PlayerEnum, int[]>();
-   /// int[,] curMood = new int[2, 3];
+    /// int[,] curMood = new int[2, 3];
 
 
     Dictionary<Goal, int[]> allGoals = new Dictionary<Goal, int[]>()
@@ -59,7 +59,7 @@ public class GoalManagerScript : MonoBehaviour
     }
 
 
-    [System.Obsolete("Replaced by " + nameof(GeCurrentGoals),true)]
+    [System.Obsolete("Replaced by " + nameof(GeCurrentGoals), true)]
     void GetGoals() // BUG  what's going on here?  why is goalMood[1,...] never used? 
     {
         //g1v = (int)GameManager.Instance.CurrentGoal;
@@ -115,9 +115,26 @@ public class GoalManagerScript : MonoBehaviour
     {
 
         var goal = CurentPlayerGoalValues;
-        goalDisplay.text = $"Goal: {CurentPlayerGoal.ToString()}\nUnpleasant/Pleasant {GetDisplayValue(goal[0])},      Personal/Social {GetDisplayValue(goal[1])},      Calm/Energised {GetDisplayValue(goal[2])}\n";
-        
+        goalDisplay.text = $"<b>Goal: {CurentPlayerGoal.ToString()}</b>\n{GetDisplayText("Pleasant","Unpleasant",goal[0])},      {GetDisplayText("Personal","Social" ,goal[1])},      {GetDisplayText("Calm","Energised",goal[2])}\n";
+
     }
+
+    string GetDisplayText(string srt1, string str2, int value)
+    {
+        if(value > 0)
+        {
+            return $"<b>{srt1}</b>/{str2} {Mathf.Abs(value).ToString()}";
+        }
+        else if(value < 0)
+        {
+            return $"{srt1}/<b>{str2}</b> {Mathf.Abs(value).ToString()}";
+        }
+        else
+        {
+            return $"{srt1}/{str2} {Mathf.Abs(value).ToString()}";
+        }
+    }
+
 
     private string GetDisplayValue(int value)
     {

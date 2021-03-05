@@ -82,12 +82,29 @@ public class DisplayManager : MonoBehaviour
 
     void DisplayCurrentGardenMood()
     {
-        displayText.text = $"P1: Unpleasant/Pleasant {GetDisplayValue(currentGarden1MoodPride)},      Personal/Social {GetDisplayValue(currentGarden1MoodEnergy)},      Calm/Energised {GetDisplayValue(currentGarden1Social)}\n" +
-                           $"P2: Unpleasant/Pleasant {GetDisplayValue(currentGarden2MoodPride)},      Personal/Social {GetDisplayValue(currentGarden2MoodEnergy)},      Calm/Energised {GetDisplayValue(currentGarden2Social)}";
+        displayText.text = $"P1: {GetDisplayText("Pleasant", "Unpleasant", currentGarden1MoodPride)},      {GetDisplayText("Personal", "Social", currentGarden1MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden1Social)}\n" +
+                           $"P2: {GetDisplayText("Pleasant", "Unpleasant", currentGarden2MoodPride)},      {GetDisplayText("Personal", "Social", currentGarden2MoodEnergy)},      {GetDisplayText("Calm", "Energised", currentGarden2Social)}";
 
         UpdateGarden1MoodIndicators();
 
         UpdateGarden1MoodIndicators2();
+    }
+
+
+    string GetDisplayText(string srt1, string str2, int value)
+    {
+        if (value > 0)
+        {
+            return $"<b>{srt1}</b>/{str2} {Mathf.Abs(value).ToString()}";
+        }
+        else if (value < 0)
+        {
+            return $"{srt1}/<b>{str2}</b> {Mathf.Abs(value).ToString()}";
+        }
+        else
+        {
+            return $"{srt1}/{str2} {Mathf.Abs(value).ToString()}";
+        }
     }
 
     private string GetDisplayValue(int val)
