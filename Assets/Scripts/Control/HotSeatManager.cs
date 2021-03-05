@@ -67,6 +67,7 @@ public class HotSeatManager : MonoBehaviour
         foreach (Player.PlayerEnum playerNumber in System.Enum.GetValues(typeof(Player.PlayerEnum)))
         {
             var playerObject = Instantiate(playerPrefab);
+            playerObject.transform.SetParent(transform);
             var player = playerObject.GetComponent<Player>();
             player.Init(playerNumber);
             players.Add(playerNumber, player);

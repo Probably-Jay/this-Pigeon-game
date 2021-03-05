@@ -132,7 +132,7 @@ public class EventsManager : Singleton<EventsManager>
         {
             Instance.events[eventType]?.Invoke();
         }
-        else Debug.LogWarning($"Event {eventType.ToString()} was invoked but is unused (no listeners have ever subscribed to it)");
+        else Debug.LogWarning($"Event {eventType.ToString()} was invoked in scene {SceneManager.GetActiveScene().name} but is unused (no listeners have ever subscribed to it)");
     }
     #endregion
 
@@ -189,7 +189,7 @@ public class EventsManager : Singleton<EventsManager>
         {
             Instance.parameterEvents[eventType]?.Invoke(parameters);
         }
-        else Debug.LogWarning($"Event {eventType.ToString()} was invoked but is unused (no listeners have ever subscribed to it)");
+        else Debug.LogWarning($"Event {eventType.ToString()} was invoked in scene {SceneManager.GetActiveScene().name} but is unused (no listeners have ever subscribed to it)");
     }
     #endregion
 
