@@ -106,8 +106,8 @@ public class InputControls : MonoBehaviour
 
                             objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
 
-                            newRayOriginPoint.x -= (objectSize.x / 2);
-                            newRayOriginPoint.y += (objectSize.y / 2);
+                            newRayOriginPoint.x -= (objectSize.x / 5);
+                            newRayOriginPoint.y += (objectSize.y / 5);
 
                             // fires a raycast downward from the mouse 
                             RaycastHit hit2;
@@ -142,8 +142,25 @@ public class InputControls : MonoBehaviour
 
                 objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
 
-                newRayOriginPoint.x -= (objectSize.x / 2);
-                newRayOriginPoint.y += (objectSize.y / 2);
+                if (currentObjectMoving.ObjectWidth > 1)
+                {
+                    newRayOriginPoint.x -= (objectSize.x / 2);
+                }
+                else
+                {
+                    newRayOriginPoint.x -= (objectSize.x / 6);
+                }
+
+                if (currentObjectMoving.ObjectHeight > 1)
+                {
+                    newRayOriginPoint.y += (objectSize.y / 2);
+                }
+                else
+                {
+                    newRayOriginPoint.y += (objectSize.y / 6);
+                }
+
+               
 
                 // fires a raycast downward from the Plant 
                 RaycastHit hit;
@@ -164,8 +181,21 @@ public class InputControls : MonoBehaviour
                                                                currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth);
 
                                 newObjectLocation = currentTile.transform.position;
-                                newObjectLocation.x += (objectSize.x / 2.6f);
-                                newObjectLocation.y -= (objectSize.y / 2.9f);
+
+                                //  currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth
+                                if (currentObjectMoving.ObjectWidth  > 1)
+                                {
+                                    newObjectLocation.x += (objectSize.x / 4);
+                                }
+
+
+                                if (currentObjectMoving.ObjectHeight > 1)
+                                {
+                                    newObjectLocation.y -= (objectSize.y / 4);
+                                }
+
+                                                        
+
                                 newObjectLocation.z = -2;
 
                                 currentObjectMoving.transform.position = newObjectLocation;
