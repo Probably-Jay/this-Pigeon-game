@@ -579,6 +579,11 @@ PrefabInstance:
       propertyPath: plasant
       value: 
       objectReference: {fileID: 1637302217}
+    - target: {fileID: 7634798535625816733, guid: ba281f030bce86942a5de9a5f631cbe1,
+        type: 3}
+      propertyPath: pleasant
+      value: 
+      objectReference: {fileID: 1637302217}
     - target: {fileID: 8946719970574471701, guid: ba281f030bce86942a5de9a5f631cbe1,
         type: 3}
       propertyPath: m_FontData.m_FontStyle
