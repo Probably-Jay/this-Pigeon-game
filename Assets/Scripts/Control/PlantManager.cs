@@ -114,9 +114,9 @@ public class PlantManager : MonoBehaviour
     private void LogPlant(int i)
     {
         Debug.Log("Item #" + i + ":" + gardenPlants[0][i].objectName);
-        Debug.Log("Mood (Energy): " + gardenPlants[0][i].moodEnergy);
-        Debug.Log("Mood (Social): " + gardenPlants[0][i].moodSocial);
-        Debug.Log("Mood (Pride): " + gardenPlants[0][i].moodPleasant);
+        Debug.Log("Mood (Energy): " + gardenPlants[0][i].scale3CalmEnergised);
+        Debug.Log("Mood (Social): " + gardenPlants[0][i].scale2PersonalSocial);
+        Debug.Log("Mood (Pride): " + gardenPlants[0][i].scale1UnpleasantPleasant);
     }
 
 

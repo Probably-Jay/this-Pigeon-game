@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 // created scott 05/03
 // altered jay 05/03
+// altered Alexander Purvis 06/03
+
 
 public class GoalManagerScript : MonoBehaviour
 {
@@ -15,8 +17,10 @@ public class GoalManagerScript : MonoBehaviour
     [SerializeField] DisplayManager gardenScoreCalculator;
 
     [SerializeField] GardenEmotionIndicatorControls pleasant;
-    [SerializeField] GardenEmotionIndicatorControls energy;
     [SerializeField] GardenEmotionIndicatorControls social;
+    [SerializeField] GardenEmotionIndicatorControls energy;
+   
+
 
 
     Goal CurrentPlayerGoal => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? GameManager.Instance.CurrentGoal : GameManager.Instance.AlternateGoal;
@@ -27,22 +31,25 @@ public class GoalManagerScript : MonoBehaviour
     int g2v;
 
     public Text goalDisplay;
+    public Text UnpleasantPleasantDisplay;
+    public Text PersonalSocialDisplay;
+    public Text CalmEnergisedDisplay;
+
 
     Dictionary<Player.PlayerEnum, int[]> goalMood = new Dictionary<Player.PlayerEnum, int[]>();
-    /// int[,] curMood = new int[2, 3];
-
-
+    
     Dictionary<Goal, int[]> allGoals;
 
     private void Awake()
     {
         allGoals = new Dictionary<Goal, int[]>()
         {
-             {Goal.Proud,   new int[3]{ 2,-1,-1 } } // pleasant, energy, social
-            ,{Goal.Anxious, new int[3]{-1, 2,-1 } }
-            ,{Goal.Content, new int[3]{ 1, 2, 1 } }
+             {Goal.Proud,   new int[3]{ 2, -1, -1 } }, // Unpleasant/Pleasant, Personal/Social, Calm/Energised
+             {Goal.Anxious, new int[3]{-1, -1, 2 } },
+             {Goal.Content, new int[3]{ 1, 1, 2 } }
         };
     }
+
 
     private void GetCurrentGoals()
     {
@@ -52,10 +59,50 @@ public class GoalManagerScript : MonoBehaviour
         goalMood[Player.PlayerEnum.Player0] = allGoals[player1Goal];
         goalMood[Player.PlayerEnum.Player1] = allGoals[player2Goal];
 
-        pleasant.UpdateIndicator(CurrentPlayerGoalValues[0]);   // Ple
-        energy.UpdateIndicator(CurrentPlayerGoalValues[1]);     // En
-        social.UpdateIndicator(CurrentPlayerGoalValues[2]);     // So
 
+        // Unpleasant/Pleasant
+        if (CurrentPlayerGoalValues[0] < 0)
+        {
+            pleasant.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.LeftOfScale);
+        }
+        else if (CurrentPlayerGoalValues[0] > 0)
+        {
+            pleasant.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.RightOfScale);
+        }
+        else if (CurrentPlayerGoalValues[0] == 0)
+        {
+            pleasant.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
+        }
+
+
+        // Personal/Social
+        if (CurrentPlayerGoalValues[1] < 0)
+        {
+            social.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.LeftOfScale);
+        }
+        else if (CurrentPlayerGoalValues[1] > 0)
+        {
+            social.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.RightOfScale);
+        }
+        else if (CurrentPlayerGoalValues[1] == 0)
+        {
+            social.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
+        }
+
+
+        // Calm/Energised
+        if (CurrentPlayerGoalValues[2] < 0)
+        {
+            energy.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.LeftOfScale);
+        }
+        else if (CurrentPlayerGoalValues[2] > 0)
+        {
+            energy.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.RightOfScale);
+        }
+        else if (CurrentPlayerGoalValues[2] == 0)
+        {
+            energy.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
+        }
     }
 
 
@@ -114,24 +161,73 @@ public class GoalManagerScript : MonoBehaviour
     void UpdateText()
     {
         var goal = CurrentPlayerGoalValues;
-        goalDisplay.text = $"<b>Goal: {CurrentPlayerGoal.ToString()}</b>\n{GetDisplayText("Pleasant","Unpleasant",goal[0])},      {GetDisplayText("Personal","Social" ,goal[2])},      {GetDisplayText("Calm","Energised",goal[1])}\n"; // Swapped for convenience on Unity scene
 
+
+
+        // set Unpleasant/Pleasant text
+        string UnpleasantPleasant_Text = "      ";
+
+        if (goal[0] < 0)
+        {
+            UnpleasantPleasant_Text = "Unpleasant";
+        }
+        else if (goal[0] > 0)
+        {
+            UnpleasantPleasant_Text = "Pleasant";
+        }
+        else if (goal[0] == 0)
+        {
+            UnpleasantPleasant_Text = "Neutral";
+        }
+
+        // set Personal/Social text
+
+        string PersonalSocial_Text = " "; 
+
+        if (goal[1] < 0)
+        {
+            PersonalSocial_Text = "Personal";
+        }
+        else if (goal[1] > 0)
+        {
+            PersonalSocial_Text = "Social";
+        }
+        else if (goal[1] == 0)
+        {
+            PersonalSocial_Text = "Neutral";
+        }
+
+        // set Calm/Energised text
+
+        string CalmEnergised_Text = " "; 
+
+        if (goal[2] < 0)
+        {
+            CalmEnergised_Text = "Calm";
+        }
+        else if (goal[2] > 0)
+        {
+            CalmEnergised_Text = "Energised";
+        }
+        else if (goal[2] == 0)
+        {
+            CalmEnergised_Text = "Neutral";
+        }
+
+        goalDisplay.text = $"<b>Goal: {CurrentPlayerGoal.ToString()}</b>";
+
+        UnpleasantPleasantDisplay.text = GetDisplayText(UnpleasantPleasant_Text, goal[0]);
+        PersonalSocialDisplay.text = GetDisplayText(PersonalSocial_Text, goal[1]);
+        CalmEnergisedDisplay.text =  GetDisplayText(CalmEnergised_Text, goal[2]);
     }
 
-    string GetDisplayText(string srt1, string str2, int value)
+
+
+
+    string GetDisplayText(string srt1, int value)
     {
-        if(value > 0)
-        {
-            return $"<b>{srt1}</b>/{str2} {Mathf.Abs(value).ToString()}";
-        }
-        else if(value < 0)
-        {
-            return $"{srt1}/<b>{str2}</b> {Mathf.Abs(value).ToString()}";
-        }
-        else
-        {
-            return $"{srt1}/{str2} {Mathf.Abs(value).ToString()}";
-        }
+        
+            return $" <b>{srt1}</b> {Mathf.Abs(value).ToString()}";    
     }
 
 

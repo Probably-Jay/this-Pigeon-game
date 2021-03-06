@@ -31,7 +31,7 @@ Transform:
   - {fileID: 6230553252883421980}
   - {fileID: 7747224233285656639}
   - {fileID: 1234940769431788937}
-  - {fileID: 8283749059230249038}
+  - {fileID: 5074912573172075829}
   - {fileID: 4651735315382684857}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -80,6 +80,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridID: 0
+  PlayerOneGarden: {fileID: 6873788866986083812}
+  PlayerTwoGarden: {fileID: 3760452875640416492}
 --- !u!1 &3129517900359142312
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,8 +152,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3760452875640416492}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: -5}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: -0.17, y: 10.18, z: 5}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 1234940769241134875}
   m_RootOrder: 5
@@ -197,7 +199,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7edea00dfd831ac42aca88812c2af3d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 7.52, y: 13.36}
@@ -250,7 +252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid1P1Gameobject: {fileID: 0}
+  grid2P1Gameobject: {fileID: 0}
   grid1P2Gameobject: {fileID: 0}
+  grid2P2Gameobject: {fileID: 0}
 --- !u!1 &6873788866986083812
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,8 +263,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8283749059230249038}
+  - component: {fileID: 5074912573172075829}
   - component: {fileID: 2931386331993817602}
+  - component: {fileID: 6521028299663547392}
   m_Layer: 0
   m_Name: Garden1
   m_TagString: Untagged
@@ -268,8 +273,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8283749059230249038
-Transform:
+--- !u!224 &5074912573172075829
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -277,11 +282,16 @@ Transform:
   m_GameObject: {fileID: 6873788866986083812}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 1234940769241134875}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.2, y: -0.23}
+  m_SizeDelta: {x: 7.5915265, y: 13.487075}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2931386331993817602
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -332,6 +342,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!222 &6521028299663547392
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6873788866986083812}
+  m_CullTransparentMesh: 0
 --- !u!1 &7369604350869582451
 GameObject:
   m_ObjectHideFlags: 0

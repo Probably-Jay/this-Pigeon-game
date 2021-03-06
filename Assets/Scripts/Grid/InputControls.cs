@@ -12,7 +12,7 @@ public class InputControls : MonoBehaviour
     ObjectMovement currentObjectMoving;
 
     Item PlantPlaced;
-    DisplayManager plantManager;
+    DisplayManager displayManager;
 
     Vector3 PlantStats;
 
@@ -30,7 +30,7 @@ public class InputControls : MonoBehaviour
     private void Awake()
     {
         gridManager = GameObject.FindObjectOfType<GridManager>();
-        plantManager = GameObject.FindObjectOfType<DisplayManager>();
+        displayManager = GameObject.FindObjectOfType<DisplayManager>();
     }
 
     //void ResetObject()
@@ -91,43 +91,24 @@ public class InputControls : MonoBehaviour
                                 // subtreacts the plants stats from the apropriote garden
                                 if (PlantPlaced.gardenID < 2)
                                 {
-                                    plantManager.SubtractFromGarden1Stats(PlantStats);
+                                    displayManager.SubtractFromGarden1Stats(PlantStats);
                                 }
                                 else
                                 {
-                                    plantManager.ASubtractFromGarden2Stats(PlantStats);
+                                    displayManager.ASubtractFromGarden2Stats(PlantStats);
                                 }
 
                             }
-
                             gridManager.ShowGrids();
-
+                           
+                            // should consider adding an if object planted condition for below
                             newRayOriginPoint = currentObjectMoving.transform.position;
 
                             objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
 
-                            //newRayOriginPoint.x -= (objectSize.x / 5);
-                            //newRayOriginPoint.y += (objectSize.y / 5);
-
-
-                            if (currentObjectMoving.ObjectWidth > 1)
-                            {
-                                newRayOriginPoint.x -= (objectSize.x / 5);
-                            }
-                            else
-                            {
-                                newRayOriginPoint.x -= (objectSize.x / 8);
-                            }
-
-                            if (currentObjectMoving.ObjectHeight > 1)
-                            {
-                                newRayOriginPoint.y += (objectSize.y / 5);
-                            }
-                            else
-                            {
-                                newRayOriginPoint.y += (objectSize.y / 8);
-                            }
-
+                            newRayOriginPoint.x -= (objectSize.x / 3);
+                            newRayOriginPoint.y += (objectSize.y / 3);
+                         
 
                             // fires a raycast downward from the mouse 
                             RaycastHit hit2;
@@ -215,7 +196,6 @@ public class InputControls : MonoBehaviour
                                 }
 
                                                         
-
                                 newObjectLocation.z = -2;
 
                                 currentObjectMoving.transform.position = newObjectLocation;
@@ -236,11 +216,11 @@ public class InputControls : MonoBehaviour
 
                                 if (tileControls.gridID < 2)
                                 {
-                                    plantManager.AddtoGarden1Stats(PlantStats);
+                                    displayManager.AddtoGarden1Stats(PlantStats);
                                 }
                                 else
                                 {
-                                    plantManager.AddtoGarden2Stats(PlantStats);
+                                    displayManager.AddtoGarden2Stats(PlantStats);
                                 }
                                                                                                
                                 moveableObject = null;

@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 /// Created Jay 05/02
+
+
 
 public class InventoryUIControl : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class InventoryUIControl : MonoBehaviour
     [SerializeField] int listOffset = 0;
 
     List<Transform> slots = new List<Transform>();
+
+    
 
     const int numberOfSlots = 5;
 
@@ -78,7 +82,7 @@ public class InventoryUIControl : MonoBehaviour
             DestroyChildren(toDestroy, slot);
 
             var itemButton = GameObject.Instantiate(UISlotPrefab, slot) as GameObject;
-            itemButton.GetComponent<InventoryUISlot>().Init(itemList.list[i + listOffset]); // call init to set the item this itemButton holds
+            itemButton.GetComponent<InventoryUISlot>().Init(itemList.list[i + listOffset]); // call init to set the item this itemButton holds          
         }
 
 
@@ -109,5 +113,6 @@ public class InventoryUIControl : MonoBehaviour
         listOffset = Mathf.Clamp(listOffset + value, 0, itemList.list.Count - numberOfSlots);
         SetInventoryUI();
     }
+
 
 }

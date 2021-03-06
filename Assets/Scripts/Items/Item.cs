@@ -12,13 +12,14 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField] public string objectName;
- 
-    [SerializeField, Range(-1, 1)] public int moodPleasant  = 0;
-    [SerializeField, Range(-1, 1)] public int moodEnergy = 0;
-    [SerializeField, Range(-1, 1)] public int moodSocial = 0;
+
+    [SerializeField, Range(-1, 1)] public int scale1UnpleasantPleasant = 0;
+    [SerializeField, Range(-1, 1)] public int scale2PersonalSocial = 0;
+    [SerializeField, Range(-1, 1)] public int scale3CalmEnergised = 0;
 
     public Player plantOwner;
     public bool inLocalGarden;
+
 
     public bool isPlanted = false;
     public int gardenID = 0;
@@ -42,6 +43,6 @@ public class Item : MonoBehaviour
        // Debug.Log("Plant is in Garden #" + inLocalGarden);
     }
 
-    // Alexander Purvis fuction for retreaving the plants mood values
-    public Vector3 PlantStats => new Vector3(moodPleasant, moodEnergy, moodSocial);
+   
+    public Vector3 PlantStats => new Vector3(scale1UnpleasantPleasant, scale2PersonalSocial, scale3CalmEnergised);
 }

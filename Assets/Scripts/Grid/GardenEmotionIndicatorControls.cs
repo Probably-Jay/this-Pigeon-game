@@ -50,6 +50,4 @@ public class GardenEmotionIndicatorControls : MonoBehaviour
             gameObject.GetComponent<Image>().sprite = neutralSprite;
         }
     }
-
-
 }

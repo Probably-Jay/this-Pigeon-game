@@ -91,22 +91,32 @@ PrefabInstance:
     - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: moodEnergy
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: moodPleasant
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: scale3CalmEnergised
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116130211891363765, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
+        type: 3}
+      propertyPath: scale1UnpleasantPleasant
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
       propertyPath: m_Center.x
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8208442081896556622, guid: 0587ff78d9e11a04c8e8b10d7b54eb94,
         type: 3}
