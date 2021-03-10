@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // created by Alexander Purvis 04/03
+// Edited SJ 10/03
 
 public class DisplayManager : MonoBehaviour
-{      
+{
     int garden1MoodUnpleasantPleasant = 0;
     int garden1MoodPersonalSocial = 0;
     int garden1CalmEnergised = 0;
@@ -16,31 +18,29 @@ public class DisplayManager : MonoBehaviour
     int garden2MoodPersonalSocial = 0;
     int garden2CalmEnergised = 0;
 
-    Text displayText;
+    TMP_Text displayText;
 
-    GardenEmotionIndicatorControls indicatorControls;
+    //GardenEmotionIndicatorControls indicatorControls;
 
     // indicators for player 1
-    public GameObject pleasantUnplesentIndicator;
-    public GameObject personalSocialIndicator;
-    public GameObject calmEnergisedIndicator;
+    //public GameObject pleasantUnplesentIndicator;
+    // public GameObject personalSocialIndicator;
+    //public GameObject calmEnergisedIndicator;
 
     // indicators for player 2
-    public GameObject pleasantUnplesentIndicator2;
-    public GameObject personalSocialIndicator2;
-    public GameObject calmEnergisedIndicator2;
+    // public GameObject pleasantUnplesentIndicator2;
+    //public GameObject personalSocialIndicator2;
+    //public GameObject calmEnergisedIndicator2;
 
 
-    
-    public Text P1UnpleasantPleasantTextDisplay;
-    public Text P1PersonalSocialTextDisplay;
-    public Text P1CalmEnergisedTextDisplay;
 
+    public TMP_Text P1UnpleasantPleasantTextDisplay;
+    public TMP_Text P1PersonalSocialTextDisplay;
+    public TMP_Text P1CalmEnergisedTextDisplay;
 
-    
-    public Text P2UnpleasantPleasantDisplay;
-    public Text P2PersonalSocialDisplay;
-    public Text P2CalmEnergisedDisplay;
+    public TMP_Text P2UnpleasantPleasantTextDisplay;
+    public TMP_Text P2PersonalSocialTextDisplay;
+    public TMP_Text P2CalmEnergisedTextDisplay;
 
 
 
@@ -55,7 +55,7 @@ public class DisplayManager : MonoBehaviour
 
     private void Awake()
     {
-        displayText = GetComponent<Text>();
+        displayText = GetComponent<TMP_Text>();
     }
 
     //Start is called before the first frame update
@@ -64,7 +64,8 @@ public class DisplayManager : MonoBehaviour
         DisplayCurrentGardenMood();
     }
 
-    public void AddtoGarden1Stats(Vector3 UpdateToStats) {
+    public void AddtoGarden1Stats(Vector3 UpdateToStats)
+    {
 
         garden1MoodUnpleasantPleasant += Mathf.FloorToInt(UpdateToStats.x);
         garden1MoodPersonalSocial += Mathf.FloorToInt(UpdateToStats.y);
@@ -102,35 +103,47 @@ public class DisplayManager : MonoBehaviour
         DisplayCurrentGardenMood();
     }
 
+    /// Mood Index Sprites
+    /// 0 = Energetic
+    /// 1 = NeutPleasant
+    /// 2 = Pleasant
+    /// 3 = Sad (TEMP, ONLY FOR TESTING)
+    /// 4 = NeutSocial
+    /// 5 = Social
+    /// 6 = Calm
+    /// 7 = Unpleasant
+    /// 8 = Personal
+    /// 9 = NeutEnergy
+
     void getUnpleasantPleasanttext()
     {
-        
+
         // set player 1 Unpleasant/Pleasant text        
         if (garden1MoodUnpleasantPleasant < 0)
         {
-             P1UnpleasantPleasantTextDisplay.text = $"Unpleasant {Mathf.Abs(garden1MoodUnpleasantPleasant).ToString()}";
+            P1UnpleasantPleasantTextDisplay.text = $"Unpleasant: {Mathf.Abs(garden1MoodUnpleasantPleasant).ToString()} <sprite=3>";
         }
         else if (garden1MoodUnpleasantPleasant > 0)
         {
-            P1UnpleasantPleasantTextDisplay.text = $"Pleasant {Mathf.Abs(garden1MoodUnpleasantPleasant).ToString()}";
+            P1UnpleasantPleasantTextDisplay.text = $"Pleasant: {Mathf.Abs(garden1MoodUnpleasantPleasant).ToString()} <sprite=2>";
         }
         else if (garden1MoodUnpleasantPleasant == 0)
         {
-            P1UnpleasantPleasantTextDisplay.text = $"Neutral {Mathf.Abs(garden1MoodUnpleasantPleasant).ToString()}";
+            P1UnpleasantPleasantTextDisplay.text = $"Neutral: {Mathf.Abs(garden1MoodUnpleasantPleasant).ToString()} <sprite=1>";
         }
 
         // set player 2 Unpleasant/Pleasant text        
         if (garden2MoodUnpleasantPleasant < 0)
         {
-            P2UnpleasantPleasantDisplay.text = $"Unpleasant {Mathf.Abs(garden2MoodUnpleasantPleasant).ToString()}";
+            P2UnpleasantPleasantTextDisplay.text = $"Unpleasant: {Mathf.Abs(garden2MoodUnpleasantPleasant).ToString()} <sprite=3>";
         }
         else if (garden2MoodUnpleasantPleasant > 0)
         {
-            P2UnpleasantPleasantDisplay.text = $"Pleasant {Mathf.Abs(garden2MoodUnpleasantPleasant).ToString()}";
+            P2UnpleasantPleasantTextDisplay.text = $"Pleasant: {Mathf.Abs(garden2MoodUnpleasantPleasant).ToString()} <sprite=2>";
         }
         else if (garden2MoodUnpleasantPleasant == 0)
         {
-            P2UnpleasantPleasantDisplay.text = $"Neutral {Mathf.Abs(garden2MoodUnpleasantPleasant).ToString()}";
+            P2UnpleasantPleasantTextDisplay.text = $"Neutral: {Mathf.Abs(garden2MoodUnpleasantPleasant).ToString()} <sprite=1>";
         }
     }
 
@@ -139,68 +152,66 @@ public class DisplayManager : MonoBehaviour
         // set player 1 Personal/Social text
         if (garden1MoodPersonalSocial < 0)
         {
-            P1PersonalSocialTextDisplay.text = $"Personal {Mathf.Abs(garden1MoodPersonalSocial).ToString()}";
+            P1PersonalSocialTextDisplay.text = $"Personal: {Mathf.Abs(garden1MoodPersonalSocial).ToString()} <sprite=8>";
         }
         else if (garden1MoodPersonalSocial > 0)
         {
-            P1PersonalSocialTextDisplay.text = $"Social {Mathf.Abs(garden1MoodPersonalSocial).ToString()}";
+            P1PersonalSocialTextDisplay.text = $"Social: {Mathf.Abs(garden1MoodPersonalSocial).ToString()} <sprite=5>";
         }
         else if (garden1MoodPersonalSocial == 0)
         {
-            P1PersonalSocialTextDisplay.text = $"Neutral {Mathf.Abs(garden1MoodPersonalSocial).ToString()}";
+            P1PersonalSocialTextDisplay.text = $"Neutral: {Mathf.Abs(garden1MoodPersonalSocial).ToString()} <sprite=4>";
         }
 
         // set player 2 Personal/Social text
         if (garden2MoodPersonalSocial < 0)
         {
-            P2PersonalSocialDisplay.text = $"Personal {Mathf.Abs(garden2MoodPersonalSocial).ToString()}";
+            P2PersonalSocialTextDisplay.text = $"Personal: {Mathf.Abs(garden2MoodPersonalSocial).ToString()} <sprite=8>";
         }
         else if (garden2MoodPersonalSocial > 0)
         {
-            P2PersonalSocialDisplay.text = $"Social {Mathf.Abs(garden2MoodPersonalSocial).ToString()}";
+            P2PersonalSocialTextDisplay.text = $"Social: {Mathf.Abs(garden2MoodPersonalSocial).ToString()} <sprite=5>";
         }
         else if (garden2MoodPersonalSocial == 0)
         {
-            P2PersonalSocialDisplay.text = $"Neutral {Mathf.Abs(garden2MoodPersonalSocial).ToString()}";
+            P2PersonalSocialTextDisplay.text = $"Neutral: {Mathf.Abs(garden2MoodPersonalSocial).ToString()} <sprite=4>";
         }
     }
+
     void getCalmEnergisedtext()
     {
         // set player 1 Calm/Energised text
         if (garden1CalmEnergised < 0)
         {
-            P1CalmEnergisedTextDisplay.text = $"Calm {Mathf.Abs(garden1CalmEnergised).ToString()}";
+            P1CalmEnergisedTextDisplay.text = $"Calm: {Mathf.Abs(garden1CalmEnergised).ToString()} <sprite=6>";
         }
         else if (garden1CalmEnergised > 0)
         {
-            P1CalmEnergisedTextDisplay.text = $"Energised {Mathf.Abs(garden1CalmEnergised).ToString()}";
+            P1CalmEnergisedTextDisplay.text = $"Energised: {Mathf.Abs(garden1CalmEnergised).ToString()} <sprite=0>";
         }
         else if (garden1CalmEnergised == 0)
         {
-            P1CalmEnergisedTextDisplay.text = $"Neutral {Mathf.Abs(garden1CalmEnergised).ToString()}";
+            P1CalmEnergisedTextDisplay.text = $"Neutral: {Mathf.Abs(garden1CalmEnergised).ToString()} <sprite=9>";
         }
 
-
         // set player 2 Calm/Energised text
-
         if (garden2CalmEnergised < 0)
         {
-            P2CalmEnergisedDisplay.text = $"Calm {Mathf.Abs(garden2CalmEnergised).ToString()}";
+            P2CalmEnergisedTextDisplay.text = $"Calm: {Mathf.Abs(garden2CalmEnergised).ToString()} <sprite=6>";
         }
         else if (garden2CalmEnergised > 0)
         {
-            P2CalmEnergisedDisplay.text = $"Energised {Mathf.Abs(garden2CalmEnergised).ToString()}";
+            P2CalmEnergisedTextDisplay.text = $"Energised: {Mathf.Abs(garden2CalmEnergised).ToString()} <sprite=0>";
         }
         else if (garden2CalmEnergised == 0)
         {
-            P2CalmEnergisedDisplay.text = $"Neutral {Mathf.Abs(garden2CalmEnergised).ToString()}";
+            P2CalmEnergisedTextDisplay.text = $"Neutral: {Mathf.Abs(garden2CalmEnergised).ToString()} <sprite=9>";
         }
     }
-  
 
-     void DisplayCurrentGardenMood()
-     {
-        displayText.text = $"P1:\n\n P2:";
+    void DisplayCurrentGardenMood()
+    {
+        displayText.text = $"P1:\n\nP2:";
 
 
 
@@ -208,12 +219,8 @@ public class DisplayManager : MonoBehaviour
         getPersonalSocialtext();
         getCalmEnergisedtext();
 
- 
-        UpdateGarden1MoodIndicators();
-        UpdateGarden1MoodIndicators2();
-
         EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore);
-     }
+    }
 
 
     string GetDisplayText(string srt1, int value)
@@ -239,6 +246,9 @@ public class DisplayManager : MonoBehaviour
 
     }
 
+    /*
+    
+    
     void UpdateGarden1MoodIndicators()
     {
 
@@ -290,7 +300,6 @@ public class DisplayManager : MonoBehaviour
             indicatorControls.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
         }
     }
-
 
     void UpdateGarden1MoodIndicators2()
     {
@@ -344,6 +353,8 @@ public class DisplayManager : MonoBehaviour
         }
     }
 
+     */
+
 
     public Dictionary<Player.PlayerEnum, int[]> GetMoodValuesGardens()
     {
@@ -354,7 +365,7 @@ public class DisplayManager : MonoBehaviour
         gardenMoodarray[Player.PlayerEnum.Player0] = new int[3] { garden1MoodUnpleasantPleasant, garden1MoodPersonalSocial, garden1CalmEnergised };
         gardenMoodarray[Player.PlayerEnum.Player1] = new int[3] { garden2MoodUnpleasantPleasant, garden2MoodPersonalSocial, garden2CalmEnergised };
 
-        return gardenMoodarray;     
+        return gardenMoodarray;
     }
 
 }

@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // created scott 05/03
 // altered jay 05/03
 // altered Alexander Purvis 06/03
+// altered again SJ 10/03
 
 
 public class GoalManagerScript : MonoBehaviour
@@ -16,9 +18,9 @@ public class GoalManagerScript : MonoBehaviour
 
     [SerializeField] DisplayManager gardenScoreCalculator;
 
-    [SerializeField] GardenEmotionIndicatorControls pleasant;
-    [SerializeField] GardenEmotionIndicatorControls social;
-    [SerializeField] GardenEmotionIndicatorControls energy;
+   // [SerializeField] GardenEmotionIndicatorControls pleasant;
+    //[SerializeField] GardenEmotionIndicatorControls social;
+    //[SerializeField] GardenEmotionIndicatorControls energy;
    
 
 
@@ -31,9 +33,9 @@ public class GoalManagerScript : MonoBehaviour
     int g2v;
 
     public Text goalDisplay;
-    public Text UnpleasantPleasantDisplay;
-    public Text PersonalSocialDisplay;
-    public Text CalmEnergisedDisplay;
+    public TMP_Text UnpleasantPleasantDisplay;
+    public TMP_Text PersonalSocialDisplay;
+    public TMP_Text CalmEnergisedDisplay;
 
 
     Dictionary<Player.PlayerEnum, int[]> goalMood = new Dictionary<Player.PlayerEnum, int[]>();
@@ -60,7 +62,8 @@ public class GoalManagerScript : MonoBehaviour
         goalMood[Player.PlayerEnum.Player1] = allGoals[player2Goal];
 
 
-        // Unpleasant/Pleasant
+        /*
+         // Unpleasant/Pleasant
         if (CurrentPlayerGoalValues[0] < 0)
         {
             pleasant.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.LeftOfScale);
@@ -103,6 +106,7 @@ public class GoalManagerScript : MonoBehaviour
         {
             energy.UpdateIndicator(GardenEmotionIndicatorControls.EmotionState.Neutral);
         }
+         */
     }
 
 
@@ -162,22 +166,32 @@ public class GoalManagerScript : MonoBehaviour
     {
         var goal = CurrentPlayerGoalValues;
 
-
-
+        /// Mood Index Sprites
+        /// 0 = Energetic
+        /// 1 = NeutPleasant
+        /// 2 = Pleasant
+        /// 3 = Sad (TEMP, ONLY FOR TESTING)
+        /// 4 = NeutSocial
+        /// 5 = Social
+        /// 6 = Calm
+        /// 7 = Unpleasant
+        /// 8 = Personal
+        /// 9 = NeutEnergy
+        
         // set Unpleasant/Pleasant text
-        string UnpleasantPleasant_Text = "      ";
+        string UnpleasantPleasant_Text = " ";
 
         if (goal[0] < 0)
         {
-            UnpleasantPleasant_Text = "Unpleasant";
+            UnpleasantPleasant_Text = "Unpleasant: <sprite=3>";
         }
         else if (goal[0] > 0)
         {
-            UnpleasantPleasant_Text = "Pleasant";
+            UnpleasantPleasant_Text = "Pleasant: <sprite=2>";
         }
         else if (goal[0] == 0)
         {
-            UnpleasantPleasant_Text = "Neutral";
+            UnpleasantPleasant_Text = "Neutral: <sprite=1>";
         }
 
         // set Personal/Social text
@@ -186,15 +200,15 @@ public class GoalManagerScript : MonoBehaviour
 
         if (goal[1] < 0)
         {
-            PersonalSocial_Text = "Personal";
+            PersonalSocial_Text = "Personal: <sprite=8>";
         }
         else if (goal[1] > 0)
         {
-            PersonalSocial_Text = "Social";
+            PersonalSocial_Text = "Social: <sprite=5>";
         }
         else if (goal[1] == 0)
         {
-            PersonalSocial_Text = "Neutral";
+            PersonalSocial_Text = "Neutral: <sprite=4>";
         }
 
         // set Calm/Energised text
@@ -203,15 +217,15 @@ public class GoalManagerScript : MonoBehaviour
 
         if (goal[2] < 0)
         {
-            CalmEnergised_Text = "Calm";
+            CalmEnergised_Text = "Calm: <sprite=6>";
         }
         else if (goal[2] > 0)
         {
-            CalmEnergised_Text = "Energised";
+            CalmEnergised_Text = "Energised: <sprite=0>";
         }
         else if (goal[2] == 0)
         {
-            CalmEnergised_Text = "Neutral";
+            CalmEnergised_Text = "Neutral: <sprite=9>";
         }
 
         goalDisplay.text = $"<b>Goal: {CurrentPlayerGoal.ToString()}</b>";
