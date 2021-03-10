@@ -90,7 +90,7 @@
     <Compile Include="Assets\Scripts\Grid\ObjectMovement.cs" />
     <Compile Include="Assets\Scripts\Grid\Spawner.cs" />
     <Compile Include="Assets\Scripts\Grid\TheGrid.cs" />
-    <Compile Include="Assets\Scripts\Grid\TileControls.cs" />
+    <Compile Include="Assets\Scripts\Grid\Tile.cs" />
     <Compile Include="Assets\Scripts\Helper\Maths\VectorN.cs" />
     <Compile Include="Assets\Scripts\Helper\Utility\Singleton.cs" />
     <Compile Include="Assets\Scripts\Inventory\HideShowInventory.cs" />

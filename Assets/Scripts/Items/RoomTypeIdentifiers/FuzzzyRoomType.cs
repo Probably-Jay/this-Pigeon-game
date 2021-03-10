@@ -80,7 +80,7 @@ public class FuzzzyRoomTypeUI : Editor
 
 
 
-[RequireComponent(typeof(Item))]
+[RequireComponent(typeof(PlantItem))]
 public class FuzzzyRoomType : MonoBehaviour
 {
    [HideInInspector] public VectorN rawValues = new VectorN(System.Enum.GetNames(typeof(RoomData.RoomType)).Length);

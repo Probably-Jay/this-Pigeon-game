@@ -5,21 +5,20 @@ using UnityEngine;
 // Script created by Alexander Purvis 04/02/2021
 public class InputControls : MonoBehaviour
 {
-    GameObject currentTile;
-    TileControls tileControls;
 
-    GameObject moveableObject;
+
+    GameObject heldObject;
     ObjectMovement currentObjectMoving;
 
-    Item PlantPlaced;
+    //PlantItem plantPlaced;
     DisplayManager displayManager;
 
-    Vector3 PlantStats;
+   // MoodAtributes PlantStats;
 
     public GridManager gridManager;
 
     // pont at which the object should fire its ray from
-    Vector3 newRayOriginPoint;
+    //Vector3 newRayOriginPoint;
     // for storing the demensions of this object to let the tiles know how many of them this object requires
     Vector3 objectSize;
 
@@ -33,11 +32,6 @@ public class InputControls : MonoBehaviour
         displayManager = GameObject.FindObjectOfType<DisplayManager>();
     }
 
-    //void ResetObject()
-    //{
-    //    // needs better reset position but possible to just delete object instead in next build
-    //    currentObjectMoving.transform.position = new Vector3(6.5f, -3, 2);
-    //}
 
     // Update is called once per frame
     void Update()
@@ -46,209 +40,177 @@ public class InputControls : MonoBehaviour
 
             if (holdingObject == false)
             {
-                // fires a raycast downward from the mouse 
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out hit, 100.0f))
-                {
-                    if (hit.transform != null)
-                    {
-                        //// checks to see if the object hit has the tag istile
-                        //if (hit.transform.gameObject.tag == "IsTile")
-                        //{
-                        //    currentTile = hit.transform.gameObject;
-                        //    // checks the current state and if it is open the activate tile
-                        //    if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Open)
-                        //    {
-                        //        tileControls = currentTile.GetComponent<TileControls>();
-                        //        tileControls.TileOccupied();
-                        //    } // checks the current state and if it is active open the tile
-                        //    else if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Occupied)
-                        //    {
-                        //        tileControls = currentTile.GetComponent<TileControls>();
-                        //        tileControls.FreeTile();
-                        //    }
-                        //} 
-
-                        if (hit.transform.gameObject.tag == "Object")
-                        {
-                            // turns moving on for the object you hit
-                            moveableObject = hit.transform.gameObject;
-                            currentObjectMoving = moveableObject.GetComponent<ObjectMovement>();
-                            currentObjectMoving.moving = true;
-                            currentObjectMoving.isPickedUp = false;
-                            holdingObject = true;
-
-                            PlantPlaced = moveableObject.GetComponent<Item>();
-
-                            // if the plant we picked up was in a garden
-                            if (PlantPlaced.isPlanted == true)
-                            {
-                                // gets the plants scores that should be subtracted
-                                PlantStats = PlantPlaced.PlantStats;
-
-                                // subtreacts the plants stats from the apropriote garden
-                                if (PlantPlaced.gardenID < 2)
-                                {
-                                    displayManager.SubtractFromGarden1Stats(PlantStats);
-                                }
-                                else
-                                {
-                                    displayManager.ASubtractFromGarden2Stats(PlantStats);
-                                }
-
-                            }
-                            gridManager.ShowGrids();
-                           
-                            // should consider adding an if object planted condition for below
-                            newRayOriginPoint = currentObjectMoving.transform.position;
-
-                            objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
-
-                            newRayOriginPoint.x -= (objectSize.x / 3);
-                            newRayOriginPoint.y += (objectSize.y / 3);
-                         
-
-                            // fires a raycast downward from the mouse 
-                            RaycastHit hit2;
-
-                            if (Physics.Raycast(newRayOriginPoint, Camera.main.transform.forward, out hit2, 100.0f))
-                            {
-                                if (hit2.transform != null)
-                                {
-                                    // checks to see if the object hit has the tag istile
-                                    if (hit2.transform.gameObject.tag == "IsTile")
-                                    {
-                                        currentTile = hit2.transform.gameObject;
-
-                                        if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Occupied)
-                                        {
-                                            tileControls = currentTile.GetComponent<TileControls>();
-                                            gridManager.VacateTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
-                                                                           currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                PickUpObject();
             }
-            else if(holdingObject == true)
+            else if (holdingObject == true)
+                PutDownObject();
+        }
+    }
+
+    private void PickUpObject()
+    {
+        // fires a raycast downward from the mouse 
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 100.0f))
+        {
+            if (hit.transform != null && hit.transform.gameObject.tag == "Object")
             {
-                currentObjectMoving = moveableObject.GetComponent<ObjectMovement>();
 
-                newRayOriginPoint = currentObjectMoving.transform.position;
+                // turns moving on for the object you hit
+                heldObject = hit.transform.gameObject;
+                currentObjectMoving = heldObject.GetComponent<ObjectMovement>();
+                currentObjectMoving.moving = true;
+                currentObjectMoving.isPickedUp = false;
+                holdingObject = true;
 
-                objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
+                var plantPlaced = heldObject.GetComponent<PlantItem>();
 
-                if (currentObjectMoving.ObjectWidth > 1)
-                {
-                    newRayOriginPoint.x -= (objectSize.x / 2);
-                }
-                else
-                {
-                    newRayOriginPoint.x -= (objectSize.x / 6);
-                }
 
-                if (currentObjectMoving.ObjectHeight > 1)
+                // if the plant we picked up was in a garden
+                if (plantPlaced.gardenID != Player.PlayerEnum.Unnasigned)
                 {
-                    newRayOriginPoint.y += (objectSize.y / 2);
-                }
-                else
-                {
-                    newRayOriginPoint.y += (objectSize.y / 6);
+                    displayManager.SubtractFromGardenStats(plantPlaced.gardenID, plantPlaced.PlantStats);
+                    plantPlaced.gardenID = Player.PlayerEnum.Unnasigned; // plant is now not in a garden
+
                 }
 
-               
-
-                // fires a raycast downward from the Plant 
-                RaycastHit hit;
-
-                if (Physics.Raycast(newRayOriginPoint, Camera.main.transform.forward, out hit, 100.0f))
-                {
-                    if (hit.transform != null)
-                    {
-                        // checks to see if the object hit has the tag istile
-                        if (hit.transform.gameObject.tag == "IsTile")
-                        {
-                            currentTile = hit.transform.gameObject;
-                          
-                            if (currentTile.GetComponent<TileControls>().curentState == TileControls.tileStates.Active)
-                            {
-                                tileControls = currentTile.GetComponent<TileControls>();
-                                gridManager.OccupyTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
-                                                               currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth);
-
-                                newObjectLocation = currentTile.transform.position;
-
-                                //  currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth
-                                if (currentObjectMoving.ObjectWidth  > 1)
-                                {
-                                    newObjectLocation.x += (objectSize.x / 4);
-                                }
+                gridManager.ShowGrids(); // make the grid visable
 
 
-                                if (currentObjectMoving.ObjectHeight > 1)
-                                {
-                                    newObjectLocation.y -= (objectSize.y / 4);
-                                }
-
-                                                        
-                                newObjectLocation.z = -2;
-
-                                currentObjectMoving.transform.position = newObjectLocation;
-
-                                currentObjectMoving.moving = false;
-                                currentObjectMoving.ObjectNotTransparent();
-
-                            
-                                PlantPlaced = moveableObject.GetComponent<Item>();
-                                // sets is planted to true so that if it is removed its values can be subtracted from the garden
-                                PlantPlaced.isPlanted = true;
-
-                                PlantPlaced.gardenID = tileControls.gridID;
-
-
-                                // adds the plants scores to the display
-                                PlantStats = PlantPlaced.PlantStats;
-
-                                if (tileControls.gridID < 2)
-                                {
-                                    displayManager.AddtoGarden1Stats(PlantStats);
-                                }
-                                else
-                                {
-                                    displayManager.AddtoGarden2Stats(PlantStats);
-                                }
-                                                                                               
-                                moveableObject = null;
-                                holdingObject = false;
-
-                                gridManager.HideGrids();
-                            }
-                                //    else
-                                //    {
-                                //        ResetObject();
-                                //    }
-                        }
-                            //else
-                            //{
-                            //    ResetObject();
-                            //}
-                    }
-                        //else
-                        //{
-                        //    ResetObject();
-                        //}
-                }
-                    //else
-                    //{
-                    //    ResetObject();
-                    //}              
+                VacateTiles();
 
             }
         }
+    }
+
+    private void VacateTiles()
+    {
+
+        // should consider adding an if object planted condition for below
+        var newRayOriginPoint = currentObjectMoving.transform.position;
+
+        objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
+
+        newRayOriginPoint.x -= (objectSize.x / 3);
+        newRayOriginPoint.y += (objectSize.y / 3);
+
+
+        // fires a raycast downward from the mouse 
+        RaycastHit hit2;
+
+        if (Physics.Raycast(newRayOriginPoint, Camera.main.transform.forward, out hit2, 100.0f))
+        {
+            if (hit2.transform != null)
+            {
+                // checks to see if the object hit has the tag istile
+                if (hit2.transform.gameObject.tag == "IsTile")
+                {
+                    var currentTile = hit2.transform.gameObject;
+
+                    if (currentTile.GetComponent<Tile>().curentState == Tile.TileStates.Occupied)
+                    {
+                        var tileControls = currentTile.GetComponent<Tile>();
+                        gridManager.VacateTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
+                                                        currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth);
+                    }
+                }
+            }
+        }
+    }
+
+    private void PutDownObject()
+    {
+        currentObjectMoving = heldObject.GetComponent<ObjectMovement>();
+        Vector3 newRayOriginPoint = GetRayOriginPoint();
+
+        // fires a raycast downward from the Plant 
+        RaycastHit hit;
+
+        if (Physics.Raycast(newRayOriginPoint, Camera.main.transform.forward, out hit, 100.0f))
+        {
+            if (hit.transform != null && hit.transform.gameObject.tag == "IsTile")
+            {
+                // checks to see if the object hit has the tag istile
+              
+                var currentTile = hit.transform.gameObject;
+
+                if (currentTile.GetComponent<Tile>().curentState == Tile.TileStates.Active)
+                {
+                    var tileControls = currentTile.GetComponent<Tile>();
+                    gridManager.OccupyTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
+                                                    currentObjectMoving.ObjectHeight, currentObjectMoving.ObjectWidth);
+
+                    newObjectLocation = currentTile.transform.position;
+
+                    if (currentObjectMoving.ObjectWidth > 1)
+                    {
+                        newObjectLocation.x += (objectSize.x / 4);
+                    }
+
+
+                    if (currentObjectMoving.ObjectHeight > 1)
+                    {
+                        newObjectLocation.y -= (objectSize.y / 4);
+                    }
+
+
+                    newObjectLocation.z = -2;
+
+                    currentObjectMoving.transform.position = newObjectLocation;
+
+                    currentObjectMoving.moving = false;
+                    currentObjectMoving.ObjectNotTransparent();
+
+
+                    var plantPlaced = heldObject.GetComponent<PlantItem>();
+                    // sets is planted to true so that if it is removed its values can be subtracted from the garden
+
+                    plantPlaced.gardenID = GameManager.Instance.CurrentVisibleGarden;
+
+                    displayManager.AddToGardenStats(plantPlaced.gardenID, plantPlaced.PlantStats);
+        
+
+                    heldObject = null;
+                    holdingObject = false;
+
+                    gridManager.HideGrids();
+                }
+
+                
+
+            }
+
+        }
+               
+
+    }
+
+    private Vector3 GetRayOriginPoint()
+    {
+        var newRayOriginPoint = currentObjectMoving.transform.position;
+
+        objectSize = currentObjectMoving.GetComponent<Collider>().bounds.size;
+
+        if (currentObjectMoving.ObjectWidth > 1)
+        {
+            newRayOriginPoint.x -= (objectSize.x / 2);
+        }
+        else
+        {
+            newRayOriginPoint.x -= (objectSize.x / 6);
+        }
+
+        if (currentObjectMoving.ObjectHeight > 1)
+        {
+            newRayOriginPoint.y += (objectSize.y / 2);
+        }
+        else
+        {
+            newRayOriginPoint.y += (objectSize.y / 6);
+        }
+
+        return newRayOriginPoint;
     }
 }

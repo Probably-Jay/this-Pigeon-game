@@ -16,6 +16,9 @@ public class DisplayManager : MonoBehaviour
     int garden2MoodPersonalSocial = 0;
     int garden2CalmEnergised = 0;
 
+    MoodAtributes garden1;
+    MoodAtributes garden2;
+
     Text displayText;
 
     GardenEmotionIndicatorControls indicatorControls;
@@ -63,6 +66,35 @@ public class DisplayManager : MonoBehaviour
     {
         DisplayCurrentGardenMood();
     }
+
+    public void AddToGardenStats(Player.PlayerEnum player, MoodAtributes moodAtributes)
+    {
+        switch (player)
+        {
+            case Player.PlayerEnum.Player0:
+                garden1 += moodAtributes;
+                break;
+            case Player.PlayerEnum.Player1:
+                garden2 += moodAtributes;
+                break;
+        }
+        DisplayCurrentGardenMood();
+    }
+
+    public void SubtractFromGardenStats(Player.PlayerEnum player, MoodAtributes moodAtributes)
+    {
+        switch (player)
+        {
+            case Player.PlayerEnum.Player0:
+                garden1 -= moodAtributes;
+                break;
+            case Player.PlayerEnum.Player1:
+                garden2 -= moodAtributes;
+                break;
+        }
+        DisplayCurrentGardenMood();
+    }
+
 
     public void AddtoGarden1Stats(Vector3 UpdateToStats) {
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// jay 07/03
+
 public class GameSceneControl : MonoBehaviour
 {
     public void Menu() => SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);

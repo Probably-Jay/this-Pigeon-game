@@ -4,10 +4,13 @@ using UnityEngine;
 
 // Script created by Alexander Purvis 05/02/2021
 
-public class TileControls : MonoBehaviour
+/// <summary>
+/// Controlls each tile
+/// </summary>
+public class Tile : MonoBehaviour
 {
     // enums that control the state of this tile
-    public enum tileStates
+    public enum TileStates
     {
         Active,
         Occupied,
@@ -16,12 +19,13 @@ public class TileControls : MonoBehaviour
     };
 
     // sets the current state to open as default
-    public tileStates curentState = tileStates.Open;
+    public TileStates curentState = TileStates.Open;
 
     // to change the alpha of the object that is moving
     SpriteRenderer objectsSprite;
     Color objectColourValues;
 
+    
 
     public int gridID = 0;
     public int thisTilesRow;
@@ -46,7 +50,7 @@ public class TileControls : MonoBehaviour
     private void Update()
     {
        if (tilesVisable) {
-           if (curentState == tileStates.Active)
+           if (curentState == TileStates.Active)
            {
                if (timePassedForActiveTiles >= triggerTime)
                {
@@ -58,7 +62,7 @@ public class TileControls : MonoBehaviour
                }
            }
 
-           if (curentState == tileStates.Blocked)
+           if (curentState == TileStates.Blocked)
            {
                if (timePassedForOccupiedTiles >= triggerTime)
                {
@@ -109,7 +113,7 @@ public class TileControls : MonoBehaviour
         objectsSprite.material.color = objectColourValues;
 
         // sets the tile state to tile
-        curentState = tileStates.Active;
+        curentState = TileStates.Active;
         timePassedForActiveTiles = 0.0f;
     }
 
@@ -127,7 +131,7 @@ public class TileControls : MonoBehaviour
         // switches out the sprite to reflect the that this tile is free
         // this.gameObject.GetComponent<SpriteRenderer>().sprite = tileDefault;
         // sets the tile state to open
-        curentState = tileStates.Open;
+        curentState = TileStates.Open;
     }
 
     public void TileDenied()
@@ -145,7 +149,7 @@ public class TileControls : MonoBehaviour
         objectsSprite.material.color = objectColourValues;
 
         // sets the tile state to taken
-        curentState = tileStates.Blocked;
+        curentState = TileStates.Blocked;
         timePassedForOccupiedTiles = 0.0f;
     }
 
@@ -163,6 +167,6 @@ public class TileControls : MonoBehaviour
         objectsSprite.material.color = objectColourValues;
 
         // sets the tile state to taken
-        curentState = tileStates.Occupied;     
+        curentState = TileStates.Occupied;     
     }
 }

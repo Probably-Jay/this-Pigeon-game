@@ -8,13 +8,16 @@ public class GridInList
 
     public int thisGridsWidth = 0;
     public int thisGridsHeight = 0;
+    Player.PlayerEnum playersGarden;
 
-    public GridInList(GameObject[,] newGrid, int gridColumns, int gridRows)
+    public GridInList(GameObject[,] newGrid, int gridColumns, int gridRows, Player.PlayerEnum garden)
     {
         tile = new GameObject[gridColumns, gridRows];
         tile = newGrid;
        
         thisGridsWidth = gridColumns;
         thisGridsHeight = gridRows;
+
+        playersGarden = garden;
     }
 }

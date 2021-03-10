@@ -27,12 +27,6 @@ public class GameManager : Singleton<GameManager>
     public Player.PlayerEnum CurrentVisibleGarden => Camera.main.GetComponent<CameraMovementControl>().CurrentGardenView; // OPTIMISE
 
 
-    //public override void Awake()
-    //{
-    //    base.InitSingleton();
-    //    HotSeatManager = GetComponent<HotSeatManager>();
-    //    PlantManager = GetComponent<PlantManager>();
-    //}
 
     public override void Initialise()
     {
@@ -51,17 +45,7 @@ public class GameManager : Singleton<GameManager>
         EventsManager.UnbindEvent(EventsManager.EventType.StartGame, BeginGame);
     }
 
-    private void Start()
-    {
-       // EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
 
-        //EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
-      //  EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore); // Maybe here for a reason?
-
-
-
-
-    }
 
     void BeginGame()
     {

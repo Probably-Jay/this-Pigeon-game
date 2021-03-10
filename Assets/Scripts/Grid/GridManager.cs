@@ -13,9 +13,9 @@ public class GridManager : MonoBehaviour
     public GameObject PlayerOneGarden;
     public GameObject PlayerTwoGarden;
 
-    public void RegisterNewGrid(GameObject [,]grid, int gridColumns, int gridRows)
+    public void RegisterNewGrid(GameObject [,]grid, int gridColumns, int gridRows, Player.PlayerEnum garden)
     {
-       gridList.Add(new GridInList(grid, gridColumns, gridRows));
+       gridList.Add(new GridInList(grid, gridColumns, gridRows,garden));
 
         gridID++;
     }
@@ -31,13 +31,13 @@ public class GridManager : MonoBehaviour
                 {
                     SignalInappropriatePlacement(gridNumber, tileCoordinateX, tileCoordinateY, objectHeight, objectWidth);
                 }
-                else if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<TileControls>().curentState == TileControls.tileStates.Occupied)
+                else if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().curentState == Tile.TileStates.Occupied)
                 {
                     SignalInappropriatePlacement(gridNumber, tileCoordinateX, tileCoordinateY, objectHeight, objectWidth);
                 }
                 else
                 {
-                    gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<TileControls>().ActivateTile();                                  
+                    gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().ActivateTile();                                  
                 }
 
                 if (abortObjectPlacement)
@@ -64,9 +64,9 @@ public class GridManager : MonoBehaviour
 
                 if (tileCoordinateX + row < gridList[gridNumber].thisGridsHeight && tileCoordinateY + column < gridList[gridNumber].thisGridsWidth)
                 {
-                    if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<TileControls>().curentState != TileControls.tileStates.Occupied)
+                    if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().curentState != Tile.TileStates.Occupied)
                     {
-                        gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<TileControls>().TileDenied();
+                        gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().TileDenied();
                     }
                 }
             }
@@ -81,7 +81,7 @@ public class GridManager : MonoBehaviour
         {
             for (int column = 0; column < objectWidth; column++)
             {              
-                        gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<TileControls>().TileOccupied();                
+                        gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().TileOccupied();                
             }
         }
     }
@@ -93,7 +93,7 @@ public class GridManager : MonoBehaviour
         {
             for (int column = 0; column < objectWidth; column++)
             {
-                gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<TileControls>().FreeTile();
+                gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().FreeTile();
             }
         }
     }
@@ -106,7 +106,7 @@ public class GridManager : MonoBehaviour
             {
                 for (int columns = 0; columns < gridList[gridNumber].thisGridsWidth; columns++)
                 {
-                    gridList[gridNumber].tile[columns, rows ].GetComponent<TileControls>().ShowTile();
+                    gridList[gridNumber].tile[columns, rows ].GetComponent<Tile>().ShowTile();
                 }
             }                    
         }
@@ -120,7 +120,7 @@ public class GridManager : MonoBehaviour
             {
                 for (int columns = 0; columns < gridList[gridNumber].thisGridsWidth; columns++)
                 {
-                    gridList[gridNumber].tile[columns, rows].GetComponent<TileControls>().HideTiles();
+                    gridList[gridNumber].tile[columns, rows].GetComponent<Tile>().HideTiles();
                 }
             }
         }
