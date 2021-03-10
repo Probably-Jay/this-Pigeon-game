@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 // created scott 05/03
 // altered jay 05/03
 // altered Alexander Purvis 06/03
+// altered again SJ 10/03
 
 
 public class GoalManagerScript : MonoBehaviour
@@ -16,9 +18,9 @@ public class GoalManagerScript : MonoBehaviour
 
     [SerializeField] DisplayManager gardenScoreCalculator;
 
-    [SerializeField] GardenEmotionIndicatorControls pleasant;
-    [SerializeField] GardenEmotionIndicatorControls social;
-    [SerializeField] GardenEmotionIndicatorControls energy;
+   // [SerializeField] GardenEmotionIndicatorControls pleasant;
+    //[SerializeField] GardenEmotionIndicatorControls social;
+    //[SerializeField] GardenEmotionIndicatorControls energy;
    
 
 
@@ -30,9 +32,9 @@ public class GoalManagerScript : MonoBehaviour
 
 
     public Text goalDisplay;
-    public Text UnpleasantPleasantDisplay;
-    public Text PersonalSocialDisplay;
-    public Text CalmEnergisedDisplay;
+    public TMP_Text UnpleasantPleasantDisplay;
+    public TMP_Text PersonalSocialDisplay;
+    public TMP_Text CalmEnergisedDisplay;
 
 
     Dictionary<Player.PlayerEnum, MoodAtributes> goalMood = new Dictionary<Player.PlayerEnum, MoodAtributes>();
@@ -120,11 +122,36 @@ public class GoalManagerScript : MonoBehaviour
     void UpdateText()
     {
 
+        /// Mood Index Sprites
+        /// 0 = Energetic
+        /// 1 = NeutPleasant
+        /// 2 = Pleasant
+        /// 3 = Sad (TEMP, ONLY FOR TESTING)
+        /// 4 = NeutSocial
+        /// 5 = Social
+        /// 6 = Calm
+        /// 7 = Unpleasant
+        /// 8 = Personal
+        /// 9 = NeutEnergy
+        
         // set Unpleasant/Pleasant text
+        string UnpleasantPleasant_Text = " ";
         string UnpleasantPleasant_Text = MoodAtributes.GetName(MoodAtributes.Scales.Pleasance, CurrentPlayerGoal.Pleasance);
         string PersonalSocial_Text = MoodAtributes.GetName(MoodAtributes.Scales.Sociability, CurrentPlayerGoal.Sociability);
         string CalmEnergised_Text = MoodAtributes.GetName(MoodAtributes.Scales.Energy, CurrentPlayerGoal.Energy);
 
+        if (goal[0] < 0)
+        {
+            UnpleasantPleasant_Text = "Unpleasant: <sprite=3>";
+        }
+        else if (goal[0] > 0)
+        {
+            UnpleasantPleasant_Text = "Pleasant: <sprite=2>";
+        }
+        else if (goal[0] == 0)
+        {
+            UnpleasantPleasant_Text = "Neutral: <sprite=1>";
+        }
 
         goalDisplay.text = $"<b>Goal: {CurrentPlayerGoalName.ToString()}</b>";
 
