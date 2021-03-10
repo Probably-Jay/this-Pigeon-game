@@ -15,7 +15,7 @@ public class TheGrid : MonoBehaviour
     // used to store all grids 
     public GridManager gridManager;
 
-    Tile newTileControls;
+   // Tile newTileControls;
 
     Player.PlayerEnum playersGarden; 
 
@@ -34,6 +34,7 @@ public class TheGrid : MonoBehaviour
         // creates a new array that is the size fo the new grid to store the new grid
         tileGrid = new GameObject[gridColumns, gridRows];
         SpriteNumber = 0;
+        playersGarden = garden;
         // nested for loop that will run for the number of rows and colums 
         for (int row = 0; row < gridRows; row++)
         {
@@ -59,6 +60,8 @@ public class TheGrid : MonoBehaviour
                 }
             }
         }
+
+        
 
         gridManager.RegisterNewGrid(tileGrid, gridColumns, gridRows, garden);
     }

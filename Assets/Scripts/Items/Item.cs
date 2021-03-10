@@ -60,6 +60,20 @@ public struct MoodAtributes
         , Energy
     }
 
+    private static string[,] names = new string[,] 
+    { 
+        {"Unpleasant","Neutral","Pleasant"}
+        ,  { "Personal", "Neutral","Social" }
+        , {"Calm","Neutral","Energised" }
+    };
+
+    public static string GetName(Scales scale, int value)
+    {
+        int valueIndex = (value < 0) ? 0 : (value == 0 ? 1 :/*value > 0*/ 2);
+        return names[(int)scale, valueIndex];
+    }
+
+
     /// <summary>
     /// An unambiguous way to store the mood atributes: <see cref="Pleasance"/>, <see cref="Sociability"/>, and <see cref="Energy"/>
     /// </summary>
@@ -122,3 +136,15 @@ public struct MoodAtributes
    // public static bool operator !=(MoodAtributes a, MoodAtributes b) => !(a == b);
 
 }
+
+//public struct Attrribute
+//{
+//    public static implicit operator int(Attrribute a) => a.value; 
+//    Attribute(MoodAtributes.Scales type, int _value)
+//    {
+//        scale = type;
+//        value = _value;
+//    }
+//    MoodAtributes.Scales scale;
+//    int value;
+//}

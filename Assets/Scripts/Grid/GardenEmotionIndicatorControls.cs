@@ -17,7 +17,7 @@ public class GardenEmotionIndicatorControls : MonoBehaviour
         Neutral
     }
    
-    public void UpdateIndicator(GardenEmotionIndicatorControls.EmotionState newEmotionState)
+    private void UpdateIndicator(GardenEmotionIndicatorControls.EmotionState newEmotionState)
     {
         switch (newEmotionState)
         {

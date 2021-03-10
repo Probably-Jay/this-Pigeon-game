@@ -95,7 +95,8 @@ public class DisplayManager : MonoBehaviour
         DisplayCurrentGardenMood();
     }
 
-
+    // depracated add and subtract
+    /*
     public void AddtoGarden1Stats(Vector3 UpdateToStats) {
 
         garden1MoodUnpleasantPleasant += Mathf.FloorToInt(UpdateToStats.x);
@@ -133,6 +134,7 @@ public class DisplayManager : MonoBehaviour
 
         DisplayCurrentGardenMood();
     }
+    */
 
     void getUnpleasantPleasanttext()
     {
@@ -377,14 +379,14 @@ public class DisplayManager : MonoBehaviour
     }
 
 
-    public Dictionary<Player.PlayerEnum, int[]> GetMoodValuesGardens()
+    public Dictionary<Player.PlayerEnum, MoodAtributes> GetMoodValuesGardens()
     {
-        Dictionary<Player.PlayerEnum, int[]> gardenMoodarray;
+        Dictionary<Player.PlayerEnum, MoodAtributes> gardenMoodarray;
 
-        gardenMoodarray = new Dictionary<Player.PlayerEnum, int[]>();
+        gardenMoodarray = new Dictionary<Player.PlayerEnum, MoodAtributes>();
 
-        gardenMoodarray[Player.PlayerEnum.Player0] = new int[3] { garden1MoodUnpleasantPleasant, garden1MoodPersonalSocial, garden1CalmEnergised };
-        gardenMoodarray[Player.PlayerEnum.Player1] = new int[3] { garden2MoodUnpleasantPleasant, garden2MoodPersonalSocial, garden2CalmEnergised };
+        gardenMoodarray[Player.PlayerEnum.Player0] = new MoodAtributes( garden1MoodUnpleasantPleasant, garden1MoodPersonalSocial, garden1CalmEnergised );
+        gardenMoodarray[Player.PlayerEnum.Player1] = new MoodAtributes( garden2MoodUnpleasantPleasant, garden2MoodPersonalSocial, garden2CalmEnergised );
 
         return gardenMoodarray;     
     }
