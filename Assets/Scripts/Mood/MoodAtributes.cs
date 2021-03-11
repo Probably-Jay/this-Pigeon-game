@@ -82,29 +82,29 @@ public struct MoodAtributes
     /// </summary>
     /// <param name="scale">The atribute scale you want to display</param>
     /// <returns></returns>
-    public string GetDisplayWithImage(Scales scale) => $"<b>{GetName(scale, this[scale])}</b>: {Mathf.Abs(this[scale])}{GetImage(scale, this[scale])}";
+    public string GetDisplayWithImage(Scales scale) => $"<b>{GetName(scale)}</b>: {Mathf.Abs(this[scale])}{GetImage(scale)}";
 
     /// <summary>
-    /// The printable names of each <see cref="AttributeValues"/>
+    /// Returns the printable names for this scale at the current value
     /// </summary>
     /// <param name="scale">The scale the atribute is in</param>
-    /// <param name="value">The value of the attribute</param>
     /// <returns></returns>
-    public static string GetName(Scales scale, int value) => names[(int)scale, GetIndexFromValue(value)];
+    public string GetName(Scales scale) => names[(int)scale, GetIndexFromValue(this[scale])];
 
     /// <summary>
-    /// The image of the atribute
+    /// Returns image for this scale at the current value as rich text markup
     /// </summary>
     /// <param name="scale">The scale the atribute is in</param>
-    /// <param name="value">The value of the attribute<param>
     /// <returns></returns>
-    public static string GetImage(Scales scale, int value) => $"<sprite={attributeToSpriteIndex[GetAttributeValue(scale, value)]}>";
+    public string GetImage(Scales scale) => $"<sprite={attributeToSpriteIndex[GetAttributeValue(scale, this[scale])]}>";
 
 
-    private static AttributeValues GetAttributeValue(Scales scale, int value) => atributes[scale][GetIndexFromValue(value)];
-    private static int GetIndexFromValue(int value) => (value < 0) ? 0 : (value == 0 ? 1 :/*value > 0*/ 2);
+    private static AttributeValues GetAttributeValue(Scales scale, int value) => atributes[scale][GetIndexFromValue(value)]; // get the AttributeValue enum of a scale and value
+    private static int GetIndexFromValue(int value) => (value < 0) ? 0 : (value == 0 ? 1 :/*value > 0*/ 2); // 0 if negative, 1 if 0, 2 if poitive
 
     #endregion
+
+
 
     /// <summary>
     /// An unambiguous way to store the mood atributes: <see cref="Pleasance"/>, <see cref="Sociability"/>, and <see cref="Energy"/>
