@@ -43,6 +43,6 @@ public class TurnDisplayControl : MonoBehaviour
     private IEnumerator UpdateTurnDisplay(Player.PlayerEnum player, int turnCount)
     {
         yield return new WaitForSeconds(turnUpdateDelay);
-        text.text = $"Turn {turnCount.ToString()}\nPlayer {(player == Player.PlayerEnum.Player0 ? "One" : "Two")}'s turn";
+        text.text = $"Turn {turnCount.ToString()}\nPlayer {(player == Player.PlayerEnum.Player0 ? "One" : "Two")}";
     }
 }
