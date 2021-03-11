@@ -165,8 +165,29 @@ public struct MoodAtributes
     public static MoodAtributes operator -(MoodAtributes a, MoodAtributes b) => a + (-b);
 
 
-     public static bool operator ==(MoodAtributes a, MoodAtributes b) => a[0] == b[0] && a[1] == b[1] && a[2] == b[2];
-     public static bool operator !=(MoodAtributes a, MoodAtributes b) => !(a == b);
+    public static bool operator ==(MoodAtributes a, MoodAtributes b) => a.Equals(b);
+    public static bool operator !=(MoodAtributes a, MoodAtributes b) => !(a == b);
+
+
+    // unity warns if these two are not created
+
+    public override bool Equals(object obj)
+    {
+        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            MoodAtributes o = (MoodAtributes)obj;
+            return this[0] == o[0] && this[1] == o[1] && this[2] == o[2];
+        }
+    }
+
+    public override int GetHashCode()
+    {
+        return values.GetHashCode();
+    }
 
     #endregion
 

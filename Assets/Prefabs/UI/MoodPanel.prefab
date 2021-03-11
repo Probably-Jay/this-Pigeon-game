@@ -791,7 +791,7 @@ GameObject:
   - component: {fileID: 7416777372135221178}
   - component: {fileID: 8886028167073825053}
   - component: {fileID: 2384343273074998205}
-  - component: {fileID: 72237056080207852}
+  - component: {fileID: 6632226996736217235}
   m_Layer: 5
   m_Name: Mood Text Manager
   m_TagString: Untagged
@@ -866,7 +866,7 @@ MonoBehaviour:
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 11400000, guid: 5da8b63cfe14e0048bb7dcde0568e62f, type: 2}
   m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
+  m_StyleSheet: {fileID: 11400000, guid: f952c082cb03451daed3ee968ac6c63e, type: 2}
   m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
@@ -914,7 +914,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &72237056080207852
+--- !u!114 &6632226996736217235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -923,15 +923,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7660263266983764206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c8fa1ad4d79fb41adc348c0c76125b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f5c8b5c86819e643a70d1d1bac9226f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1PlesanceDisplay: {fileID: 0}
-  P1SociabilityDisplay: {fileID: 0}
-  P1EnergyTextDisplay: {fileID: 0}
-  P2PlesanceDisplay: {fileID: 0}
-  P2SociabilityDisplay: {fileID: 0}
-  P2EnergyTextDisplay: {fileID: 0}
+  P1PlesanceDisplay: {fileID: 8568052215755777846}
+  P1SociabilityDisplay: {fileID: 505529981025778806}
+  P1EnergyTextDisplay: {fileID: 6818877242618747988}
+  P2PlesanceDisplay: {fileID: 236814503674420419}
+  P2SociabilityDisplay: {fileID: 4007962412087913260}
+  P2EnergyTextDisplay: {fileID: 747100661279718154}
 --- !u!1 &8564984782063654966
 GameObject:
   m_ObjectHideFlags: 0
