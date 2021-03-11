@@ -172,7 +172,7 @@ MonoBehaviour:
       m_Height: 50
       m_HorizontalBearingX: 0
       m_HorizontalBearingY: 40
-      m_HorizontalAdvance: 0
+      m_HorizontalAdvance: 50
     m_GlyphRect:
       m_X: 101
       m_Y: 0
