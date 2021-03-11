@@ -9,18 +9,12 @@ using TMPro;
 // Edited SJ 10/03
 // Edited again Jay 10/03 
 
-public class DisplayManager : MonoBehaviour
+public class CurrentMood : MonoBehaviour // re-named from DisplayManager
 {
-    //int garden1MoodUnpleasantPleasant = 0;
-    //int garden1MoodPersonalSocial = 0;
-    //int garden1CalmEnergised = 0;
+ 
 
-    //int garden2MoodUnpleasantPleasant = 0;
-    //int garden2MoodPersonalSocial = 0;
-    //int garden2CalmEnergised = 0;
-
-    MoodAtributes gardenMood1;
-    MoodAtributes gardenMood2;
+    MoodAtributes gardenMood1 = new MoodAtributes(0,0,0);
+    MoodAtributes gardenMood2 = new MoodAtributes(0, 0, 0);
 
     TMP_Text displayText;
 

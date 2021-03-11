@@ -9,14 +9,14 @@ using UnityEngine.UI;
 /// <see cref="Singleton{}"/> class to allow for easy referencing of important objects
 /// </summary>
 [RequireComponent(typeof(HotSeatManager))]
-[RequireComponent(typeof(DisplayManager))]
+[RequireComponent(typeof(CurrentMood))]
 public class GameManager : Singleton<GameManager>
 {
    
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
-    public DisplayManager PlantManager { get; private set; }
+    public CurrentMood PlantManager { get; private set; }
 
     public GoalManagerScript.Goal CurrentGoal { get; private set; }
     public GoalManagerScript.Goal AlternateGoal { get; private set; }
@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
     {
         base.InitSingleton();
         HotSeatManager = GetComponent<HotSeatManager>();
-        PlantManager = GetComponent<DisplayManager>();
+        PlantManager = GetComponent<CurrentMood>();
     }
 
     private void OnEnable()

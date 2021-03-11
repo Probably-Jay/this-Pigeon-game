@@ -11,7 +11,7 @@ public class InputControls : MonoBehaviour
     ObjectMovement currentObjectMoving;
 
     //PlantItem plantPlaced;
-    DisplayManager displayManager;
+    CurrentMood displayManager;
 
    // MoodAtributes PlantStats;
 
@@ -29,7 +29,7 @@ public class InputControls : MonoBehaviour
     private void Awake()
     {
         gridManager = GameObject.FindObjectOfType<GridManager>();
-        displayManager = GameObject.FindObjectOfType<DisplayManager>();
+        displayManager = GameObject.FindObjectOfType<CurrentMood>();
     }
 
 

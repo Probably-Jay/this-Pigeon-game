@@ -16,7 +16,7 @@ public class GoalManagerScript : MonoBehaviour
     // Vars ---------------------
     public enum Goal { Proud, Anxious, Content }
 
-    [SerializeField] DisplayManager gardenScoreCalculator;
+    [SerializeField] CurrentMood gardenScoreCalculator;
 
    // [SerializeField] GardenEmotionIndicatorControls pleasant;
     //[SerializeField] GardenEmotionIndicatorControls social;
@@ -116,7 +116,6 @@ public class GoalManagerScript : MonoBehaviour
         if(goalMood.Count == 0) return false; // goal not set
 
         var currentMood = gardenScoreCalculator.GetMoodValuesGardens();
-
         return currentMood[player] == goalMood[player]; // this is an overloaded operator
     }
 }
