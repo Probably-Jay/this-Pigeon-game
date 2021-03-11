@@ -75,9 +75,6 @@ public class GoalManagerScript : MonoBehaviour
 
 
 
-
- 
-
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
@@ -96,8 +93,6 @@ public class GoalManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Move to Events for later build
-       // GetGoals();
         GetCurrentGoals();
         UpdateText();
 
@@ -108,33 +103,11 @@ public class GoalManagerScript : MonoBehaviour
 
     void CheckIfWin()
     {
-        if (BothMoodMatchesGoal() || Input.GetKeyDown(KeyCode.Space))
+        if ((GoalMatches(Player.PlayerEnum.Player0) && GoalMatches(Player.PlayerEnum.Player1)) || Input.GetKeyDown(KeyCode.Space))
         {
             EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
         }
     }
-
-
-    //bool BothMoodMatchesGoal()
-    //{
-    //    if(goalMood.Count == 0) return false;
-    //    var curmood = gardenScoreCalculator.GetMoodValuesGardens();
-    //    bool win = false;
-    //    foreach (Player.PlayerEnum player in Enum.GetValues(typeof(Player.PlayerEnum)))
-    //    {
-    //        if (win) return true; // win was never set to false after the last loop
-    //        win = true;
-    //        foreach (MoodAtributes.Scales scale in Enum.GetValues(typeof(MoodAtributes.Scales)))
-    //        { 
-    //            if(curmood[player][scale] != CurrentPlayerGoal[scale])
-    //            {
-    //                win = false;
-    //            }
-    //        }
-    //    }
-
-    //    return false; // if reached here then no match
-    //}  
     
 
 
@@ -144,7 +117,6 @@ public class GoalManagerScript : MonoBehaviour
 
         var currentMood = gardenScoreCalculator.GetMoodValuesGardens();
 
-        return currentMood[player] = goalMood[player];
-
+        return currentMood[player] == goalMood[player]; // this is an overloaded operator
     }
 }

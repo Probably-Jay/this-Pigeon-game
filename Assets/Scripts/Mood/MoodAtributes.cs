@@ -56,13 +56,13 @@ public struct MoodAtributes
         , {AttributeValues.Energetic, 0 }
     };
 
-    public const int NumberOfAtributes = 3;
+    public const int NumberOfAtributeScales = 3;
 
     private static Dictionary<Scales, AttributeValues[]> atributes = new Dictionary<Scales, AttributeValues[]>
     {
-        {Scales.Pleasance,      new AttributeValues[NumberOfAtributes] {AttributeValues.Unpleasant, AttributeValues.NeutPleasance,      AttributeValues.Pleasant } }
-        ,{Scales.Sociability,   new AttributeValues[NumberOfAtributes] {AttributeValues.Personal,   AttributeValues.NeutSociability,    AttributeValues.Social }}
-        ,{Scales.Energy,        new AttributeValues[NumberOfAtributes] {AttributeValues.Calm,       AttributeValues.NeutEnergy,         AttributeValues.Energetic }}
+        {Scales.Pleasance,      new AttributeValues[NumberOfAtributeScales] {AttributeValues.Unpleasant, AttributeValues.NeutPleasance,      AttributeValues.Pleasant } }
+        ,{Scales.Sociability,   new AttributeValues[NumberOfAtributeScales] {AttributeValues.Personal,   AttributeValues.NeutSociability,    AttributeValues.Social }}
+        ,{Scales.Energy,        new AttributeValues[NumberOfAtributeScales] {AttributeValues.Calm,       AttributeValues.NeutEnergy,         AttributeValues.Energetic }}
 
     };
 
@@ -90,11 +90,7 @@ public struct MoodAtributes
     /// <param name="scale">The scale the atribute is in</param>
     /// <param name="value">The value of the attribute</param>
     /// <returns></returns>
-    public static string GetName(Scales scale, int value)
-    {
-        int valueIndex = (value < 0) ? 0 : (value == 0 ? 1 :/*value > 0*/ 2);
-        return names[(int)scale, valueIndex];
-    }
+    public static string GetName(Scales scale, int value) => names[(int)scale, GetIndexFromValue(value)];
 
     /// <summary>
     /// The image of the atribute
@@ -104,7 +100,9 @@ public struct MoodAtributes
     /// <returns></returns>
     public static string GetImage(Scales scale, int value) => $"<sprite={attributeToSpriteIndex[GetAttributeValue(scale, value)]}>";
 
-    private static AttributeValues GetAttributeValue(Scales scale, int value) => atributes[scale][value];
+
+    private static AttributeValues GetAttributeValue(Scales scale, int value) => atributes[scale][GetIndexFromValue(value)];
+    private static int GetIndexFromValue(int value) => (value < 0) ? 0 : (value == 0 ? 1 :/*value > 0*/ 2);
 
     #endregion
 
@@ -116,7 +114,7 @@ public struct MoodAtributes
     /// <param name="energy">The value on the scale of calm (<see cref="-"/>negative) to energised (<see cref="+"/>positive). See <see cref="Energy"/></param>
     public MoodAtributes(int plesance, int sociability, int energy)
     {
-        values = new int[System.Enum.GetValues(typeof(Scales)).Length];
+        values = new int[NumberOfAtributeScales];
         Pleasance = plesance;
         Sociability = sociability;
         Energy = energy;
