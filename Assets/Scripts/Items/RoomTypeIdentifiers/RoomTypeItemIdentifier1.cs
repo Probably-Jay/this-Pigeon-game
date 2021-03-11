@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// Created Jay 07/02
 
-[RequireComponent(typeof(Item))]
+[RequireComponent(typeof(PlantItem))]
 public class RoomTypeItemIdentifier1 : MonoBehaviour
 {
     [SerializeField] private RoomData.RoomTypeFlags roomType;

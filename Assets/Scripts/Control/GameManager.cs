@@ -9,14 +9,14 @@ using UnityEngine.UI;
 /// <see cref="Singleton{}"/> class to allow for easy referencing of important objects
 /// </summary>
 [RequireComponent(typeof(HotSeatManager))]
-[RequireComponent(typeof(DisplayManager))]
+[RequireComponent(typeof(CurrentMood))]
 public class GameManager : Singleton<GameManager>
 {
    
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
-    public DisplayManager PlantManager { get; private set; }
+    public CurrentMood PlantManager { get; private set; }
 
     public GoalManagerScript.Goal CurrentGoal { get; private set; }
     public GoalManagerScript.Goal AlternateGoal { get; private set; }
@@ -27,18 +27,12 @@ public class GameManager : Singleton<GameManager>
     public Player.PlayerEnum CurrentVisibleGarden => Camera.main.GetComponent<CameraMovementControl>().CurrentGardenView; // OPTIMISE
 
 
-    //public override void Awake()
-    //{
-    //    base.InitSingleton();
-    //    HotSeatManager = GetComponent<HotSeatManager>();
-    //    PlantManager = GetComponent<PlantManager>();
-    //}
 
     public override void Initialise()
     {
         base.InitSingleton();
         HotSeatManager = GetComponent<HotSeatManager>();
-        PlantManager = GetComponent<DisplayManager>();
+        PlantManager = GetComponent<CurrentMood>();
     }
 
     private void OnEnable()
@@ -51,17 +45,7 @@ public class GameManager : Singleton<GameManager>
         EventsManager.UnbindEvent(EventsManager.EventType.StartGame, BeginGame);
     }
 
-    private void Start()
-    {
-       // EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
 
-        //EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
-      //  EventsManager.InvokeEvent(EventsManager.EventType.UpdateScore); // Maybe here for a reason?
-
-
-
-
-    }
 
     void BeginGame()
     {

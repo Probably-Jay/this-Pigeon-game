@@ -17,7 +17,7 @@ public class GardenEmotionIndicatorControls : MonoBehaviour
         Neutral
     }
    
-    public void UpdateIndicator(GardenEmotionIndicatorControls.EmotionState newEmotionState)
+    private void UpdateIndicator(GardenEmotionIndicatorControls.EmotionState newEmotionState)
     {
         switch (newEmotionState)
         {
@@ -37,11 +37,11 @@ public class GardenEmotionIndicatorControls : MonoBehaviour
 
     public void UpdateIndicator(int value)
     {
-        if(value > 0)
+        if(value < 0)
         {
             gameObject.GetComponent<Image>().sprite = leftOfScaleSprite;
         }
-        else if(value < 0)
+        else if(value > 0)
         {
             gameObject.GetComponent<Image>().sprite = rightOfScaleSprite;
         }

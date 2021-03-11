@@ -9,10 +9,10 @@ using UnityEngine.UI;
 // Updated 24/02
 
 
-[System.Obsolete("This class has been replaced by " + nameof(DisplayManager) +" and " + nameof(GoalManagerScript) ,true)]
+[System.Obsolete("This class has been replaced by " + nameof(CurrentMood) +" and " + nameof(GoalManagerScript) ,true)]
 public class PlantManager : MonoBehaviour
 {
-    public List<Item>[] gardenPlants = new List<Item>[2]; // Holds both gardens in same var
+    public List<PlantItem>[] gardenPlants = new List<PlantItem>[2]; // Holds both gardens in same var
 
 
     // todo make this a little neater
@@ -128,7 +128,7 @@ public class PlantManager : MonoBehaviour
     // xander interface here
     private void GetPlants()
     {
-        var foundPlants = FindObjectsOfType<Item>();
+        var foundPlants = FindObjectsOfType<PlantItem>();
 
         gardenPlants[0].Clear();
         gardenPlants[1].Clear();

@@ -21,7 +21,7 @@ public class ObjectMovement : MonoBehaviour
     Vector3 newRayOriginPoint;
 
     // used for knowing the state of the tiles that are under it 
-    TileControls tileControls;
+    Tile tileControls;
     // for know what tile this object is on
     GameObject currentTile;
 
@@ -92,7 +92,7 @@ public class ObjectMovement : MonoBehaviour
                         if (hit.transform.gameObject.tag == "IsTile")
                         {
                             currentTile = hit.transform.gameObject;
-                            tileControls = currentTile.GetComponent<TileControls>();
+                            tileControls = currentTile.GetComponent<Tile>();
                                 
                                 gridManager.HoveringOverTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
                                                                 ObjectHeight, ObjectWidth);                          
