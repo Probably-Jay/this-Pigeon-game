@@ -6,9 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: 463ef2034173a4b46a72c1976a0d0ee7
+  - enabled: 1
+    path: Assets/Scenes/MoodSelectScreen.unity
     guid: 09e059fbb9703dd4282d00d4ef2864a0
   - enabled: 1
-    path: Assets/Scenes/Combo Scene 1.unity
-    guid: 2dfe8455f5ad81e4ea011529836d6a8d
+    path: Assets/Scenes/Tutorial.unity
+    guid: df7a9da3e2dade64b82e7e9128ef42b8
+  - enabled: 1
+    path: Assets/Scenes/ComboScene 2.unity
+    guid: 8d9e1bc626ebcbb4293a77e27131f20a
   m_configObjects: {}

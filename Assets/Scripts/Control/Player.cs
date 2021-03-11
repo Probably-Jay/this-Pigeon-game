@@ -10,7 +10,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    public enum PlayerEnum { Player0 = 0, Player1 = 1 };
+    public enum PlayerEnum {Unnasigned = -1, Player0 = 0, Player1 = 1 };
 
     public TurnPoints TurnPoints { get; private set; }
     public PlayerEnum PlayerEnumValue { get; set; }

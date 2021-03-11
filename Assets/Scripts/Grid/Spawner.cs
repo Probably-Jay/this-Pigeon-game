@@ -10,10 +10,11 @@ public class Spawner : MonoBehaviour
     private GameObject newTile;
   
 
-    public GameObject SpawnTile()
+    public GameObject SpawnTile(GameObject parent)
     {
         // instantiates a tile with the position and rotation of the spawner
         newTile = Instantiate(tilePrefab, this.transform.position, this.transform.rotation);
+        newTile.transform.SetParent(parent.transform);
         // returns the new tile so that it can be added to an array of all tiles that make up the grid
         return newTile;
     }

@@ -19,6 +19,10 @@ public class GetDropdownValue : MonoBehaviour
     [SerializeField] Color anxiosColour;
     [SerializeField] Color contentColour;
 
+    // Which Garden are you choosing a mood goal for?
+    // Only temporary, as when we switch from hotseat play to networked play you won't have multiple players on the same instance of the game
+    [SerializeField] bool gardenToggle;
+
     //This is the index value of the Dropdown
     static int dropdownIndex;
 

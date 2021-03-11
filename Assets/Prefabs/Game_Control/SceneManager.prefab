@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 2738138198509905394}
   - component: {fileID: 3152609943920402305}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: FadeWipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,8 +184,8 @@ RectTransform:
   m_Father: {fileID: 1342758163303399549}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: -1}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -267,7 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1342758162877350576}
   - component: {fileID: 1342758162877350579}
-  - component: {fileID: 7471786279282339378}
+  - component: {fileID: 1586798845}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -302,11 +302,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba60646cf2b0c67438990d0fc20c7815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuBuildIndex: 0
-  GameBuildIndex: 1
+  MainMenuIndex: 0
+  MoodSelectBuildIndex: 1
+  TutorialBuildIndex: 2
+  GameBuildIndex: 3
   LoadingScreen: {fileID: 1342758163303399546}
   progressBar: {fileID: 1342758163148460407}
---- !u!114 &7471786279282339378
+--- !u!114 &1586798845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,11 +317,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342758162877350577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c70ed359998a440bc750e8751bbb94, type: 3}
+  m_Script: {fileID: 11500000, guid: 0805b6d004108da4a97935dab51d710f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3152609943920402305}
-  transitionTime: 1
 --- !u!1 &1342758162937845308
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1342758163303399549
 RectTransform:
   m_ObjectHideFlags: 0
@@ -577,7 +578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 14.9}
+  m_AnchoredPosition: {x: 0, y: 14.900024}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8348454438509598826

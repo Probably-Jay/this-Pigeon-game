@@ -5,20 +5,28 @@ using UnityEngine.UI;
 
 // jay 05/02
 
+// Edited By Alexander Purvis 06/03/2012
+
 [RequireComponent(typeof(Button))]
 public class InventoryUISlot : MonoBehaviour
 {
 
     public InventoryItem item;
     
-    Button button;
+    public Button button;
 
+    public Button ShowHideInventoyButton;
+
+    HideShowInventory ButtonControls;
 
 
     private void Awake()
     {
         button = GetComponent<Button>();
-       
+
+        ShowHideInventoyButton = GameObject.Find("InventoryButton").GetComponent<Button>();
+
+
     }
 
     public void Init(InventoryItem inventoryItem)
@@ -35,8 +43,46 @@ public class InventoryUISlot : MonoBehaviour
 
     }
 
-    // for xander to change
-    public void ItemSelected() => item.SpawnObjectRandomPos();
+    public void ItemSelected()
+    {
+        if(GameManager.Instance.CurrentVisibleGarden == GameManager.Instance.ActivePlayer.PlayerEnumValue) // our turn
+        {
+            if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) 
+            {
+                SpawnObject();
+            }
+            EventsManager.InvokeEvent(EventsManager.EventType.triedToPlaceOwnObject);
+        }
+        else
+        {
+            if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace))
+            {
+                SpawnObject();
+            }
+            EventsManager.InvokeEvent(EventsManager.EventType.triedToPlaceCompanionObject);
+        }
+
+        HideSelf();
+    }
+
+    void SpawnObject()
+    {
+        item.SpawnObjectMiddleOfScreen();
+
+    }
+
+
+
+
+
+    void HideSelf()
+    {
+
+        ButtonControls = ShowHideInventoyButton.GetComponent<HideShowInventory>();
+        ButtonControls.HideInvintory();
+    }
+
+
 
 
 }
