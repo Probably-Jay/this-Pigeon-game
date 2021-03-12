@@ -9,17 +9,49 @@ using UnityEngine;
 /// </summary>
 public class SaveRegistryManager
 {
+
+
+    /// <summary>
+    /// Creates the registry file if it does not exist, else it does nothing
+    /// </summary>
+    public void CreateRegistryFile() => SaveGameRegistrySerialiser.CreateRegistryFile();
+
+
+
     /// <summary>
     /// Get the list of saved games that are in the registry file
     /// </summary>
     /// <returns>Will return null if registry empty or cannot be read</returns>
-    public List<GameMetaData> GetStoredGames()
+    public List<GameMetaData> GetAllStoredGames()
     {
-        if (!RegistryValid) return null;
+        if (!RegistryNotEmpty) return null;
 
         return new List<GameMetaData>(Registry.games);
-
     }
+
+
+    /// <summary>
+    /// Get a saved game from the registry file by game ID
+    /// </summary>
+    /// <returns>Will return null if registry empty or cannot be read</returns>
+    public GameMetaData GetGame(string gameID)
+    {
+        if (!RegistryNotEmpty) return null;
+
+        for (int i = 0; i < Registry.games.Length; i++)
+        {
+            GameMetaData game = Registry.games[i];
+            if (game.gameID == gameID)
+            {
+                return game;
+            }
+        }
+        return null;
+    }
+
+
+
+
 
     /// <summary>
     /// Delete a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
@@ -29,29 +61,27 @@ public class SaveRegistryManager
     /// <returns>If the action was sucessful</returns>
     public bool RemoveGame(string gameID)
     {
-        if (!RegistryValid) return false;
+        if (!RegistryNotEmpty) return false;
 
-        for (int i = 0; i < Registry.games.Length; i++)
-        {
-            GameMetaData game = Registry.games[i];
-            if (game.gameID == gameID)
-            {
-                RemoveGameAt(i);
-                return OverwiteRegistry();
-            }
-        }
-        return false;
+
+        GameMetaData game = GetGame(gameID);
+           
+        bool sucess = true;
+        sucess &= RemoveGame(game);
+        sucess &= OverwiteRegistry();
+
+        return sucess;
     }
 
     /// <summary>
-    /// Add a new game file to the registry. *Warning* failure to call this function after creating a new save file will make the file inaccessible
+    /// Add a new game file to the registry. This function does not create a save game. *Warning* Failure to call this function after creating a new save file will make the file inaccessible
     /// which will result in a resource leak
     /// </summary>
     /// <param name="game">The game to be stored</param>
     /// <returns>If the action was sucessful</returns>
     public bool AddNewGame(GameMetaData game)
     {
-        if (!RegistryValid) return false;
+        if (!RegistryExists) return false;
 
         AddGame(game);
         return OverwiteRegistry();
@@ -65,15 +95,17 @@ public class SaveRegistryManager
         Registry.games = listOfGames.ToArray();
     }
 
-    private void RemoveGameAt(int index)
+    private bool RemoveGame(GameMetaData game)
     {
         var listOfGames = new List<GameMetaData>(Registry.games);
-        listOfGames.RemoveAt(index);
+        bool sucess = listOfGames.Remove(game);
         Registry.games = listOfGames.ToArray();
+        return sucess;
     }
 
 
-    private bool RegistryValid => Registry != null && Registry.games.Length > 0;
+    private bool RegistryExists => Registry != null;
+    private bool RegistryNotEmpty => RegistryExists && Registry.games.Length > 0;
 
     private SaveGameRegistryData _registryCache = null; 
     /// <summary>
@@ -96,7 +128,7 @@ public class SaveRegistryManager
     private SaveGameRegistryData LoadRegistry()
     {
         _registryCache = SaveGameRegistrySerialiser.LoadRegistry();
-        if (_registryCache != null && _registryCache.initialised != false) // data exists and is not empty
+        if (_registryCache != null ) // data exists
         {
             // could check hash here
             return _registryCache;

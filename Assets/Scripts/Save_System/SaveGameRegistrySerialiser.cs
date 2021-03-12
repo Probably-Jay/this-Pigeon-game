@@ -5,33 +5,48 @@ using System.IO;
 using System.Security.Cryptography;
 using System;
 
-public class SaveGameRegistrySerialiser
+public static class SaveGameRegistrySerialiser
 {
     const string registryFile = "directoryFile.gameDirectorySave";
     public static string RegistrySavePath => Path.Combine(Application.persistentDataPath, "registry");
     private static string FilePath => Path.Combine(RegistrySavePath, registryFile);
 
-
-    public static void SaveGameRegistry(SaveGameRegistryData data) => Savedata(data, FilePath);
-
-
-    public static SaveGameRegistryData LoadRegistry() => LoadData(FilePath);
+    public static bool RegistryFileExists => Directory.Exists(RegistrySavePath) && File.Exists(FilePath);
 
 
 
-    private static void Savedata(SaveGameRegistryData data, string path)
+
+    /// <summary>
+    /// Attempt to create the registry file, if it already exists this function has no effect
+    /// </summary>
+    public static void CreateRegistryFile()
     {
         if (!Directory.Exists(RegistrySavePath))
         {
             Directory.CreateDirectory(RegistrySavePath);
         }
 
+        if (File.Exists(FilePath)) return;
+
+        SaveGameRegistry(default);
+    }
+
+    /// <summary>
+    /// Overwrite the registry file with the provided data
+    /// </summary>
+    public static bool SaveGameRegistry(SaveGameRegistryData data)
+    {
+        if (!RegistryFileExists) return false;
+
         SetHash(data);
 
         var jsonData = JsonUtility.ToJson(data);
 
-        File.WriteAllText(path, jsonData); // will create or overwrite file there and then closes file
+        File.WriteAllText(FilePath, jsonData); // will create or overwrite file there and then closes file
+
+        return true;
     }
+
 
     /// <summary>
     /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
@@ -44,30 +59,29 @@ public class SaveGameRegistrySerialiser
         using (HashAlgorithm algorithm = SHA256.Create())
             data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
     }
+    
 
-    private static SaveGameRegistryData LoadData(string path)
+    /// <summary>
+    /// Load the registry file. Will return null if file is not available
+    /// </summary>
+    /// <returns></returns>
+    public static SaveGameRegistryData LoadRegistry()
     {
-        if (!File.Exists(path))
+        if (!RegistryFileExists)
         {
-            Debug.LogError($"Save file at {path} does not exist");
+            Debug.LogError($"Registry file does not exist");
             return null;
         }
 
         try
         {
-            var jsonData = File.ReadAllText(path);
+            var jsonData = File.ReadAllText(FilePath);
 
             SaveGameRegistryData data = JsonUtility.FromJson<SaveGameRegistryData>(jsonData);
 
-            if (data == new SaveGameRegistryData())
-            {
-                Debug.LogError("Save is empty");
-                throw new Exception(); // this will move to catch
-            }
-
             if (!ValidateHash(data))
             {
-                Debug.LogError("Save file is corrupt");
+                Debug.LogError("Registry file is corrupt");
                 // this maybe should do nothing
             }
 
@@ -75,7 +89,7 @@ public class SaveGameRegistrySerialiser
         }
         catch
         {
-            Debug.LogError($"Error loading save at {path}");
+            Debug.LogError($"Error loading registry");
             return null;
         }
     }

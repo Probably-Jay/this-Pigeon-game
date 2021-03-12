@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,18 +10,11 @@ public class SaveManager : Singleton<SaveManager>
 
     public new static SaveManager Instance { get => Singleton<SaveManager>.Instance; }
 
-    private SaveRegistryManager saveRegistryManager = new SaveRegistryManager();
+    private readonly SaveRegistryManager saveRegistryManager = new SaveRegistryManager();
+    private readonly SaveGameManager saveGameManager = new SaveGameManager();
 
+   // public GameMetaData 
 
-    /// <summary>
-    /// The current save data exists and is initialised
-    /// </summary>
-    public static bool SaveValid => SaveExists && Data.HashIsValid;
-
-    /// <summary>
-    /// The current save data exists
-    /// </summary>
-    public static bool SaveExists => Data != null && Data != new SaveData();
 
 
     public override void Initialise()
@@ -30,10 +24,45 @@ public class SaveManager : Singleton<SaveManager>
 
     private void Awake()
     {
-        Data = new .aveData();
+        saveRegistryManager.CreateRegistryFile();
     }
 
+    
 
+    public bool CreateNewGame()
+    {
+        GameMetaData newGame = CreateNewGameFile();
+
+        bool sucess = true;
+        sucess &= saveRegistryManager.AddNewGame(newGame);
+        sucess &= saveGameManager.CreateNewSaveFile(newGame.gameID);
+
+        return sucess;
+    }
+
+    private GameMetaData CreateNewGameFile()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool DeleteGame(string gameID) => DeleteGame(saveRegistryManager.GetGame(gameID));
+
+    public bool DeleteGame(GameMetaData game)
+    {
+        bool sucess = true;
+        sucess &= saveGameManager.DeleteGame(game);
+        sucess &= saveRegistryManager.RemoveGame(game.gameID);
+        return sucess;
+
+      
+    }
+
+    private void SaveGame()
+    {
+        // saveGameManager.StageSaveData()
+        saveGameManager.OverwriteSaveFile();
+        throw new NotImplementedException();
+    }
 
     private void OnEnable()
     {
@@ -45,27 +74,8 @@ public class SaveManager : Singleton<SaveManager>
        
     }
 
-    private SaveData saveData;
-    public static SaveData Data { get => Instance.saveData; private set => Instance.saveData = value; }
+   
 
-    public static int SaveNumber { get; set; } = 0;
+  
 
-    /// <summary>
-    /// Save game from the current <see cref="Data"/>
-    /// </summary>
-    public static void SaveExplicit() => SaveDataSerialiser.SaveGame(SaveNumber, Data);
-
-    /// <summary>
-    /// Load the save file into <see cref="Data"/>
-    /// </summary>
-    public static void Load()
-    {
-        SaveData _data = SaveDataSerialiser.LoadGame(SaveNumber);
-        if (_data != null) Data = _data;
-        else { Data.initialised = false; Debug.LogError("Save data does not exist"); }
-    }
-
-    //public static void DeleteTemp() => JsonSerialiser.WipeTemp(SaveNumber);
-
-    public static void ClearData() => Data = new SaveData();
 }

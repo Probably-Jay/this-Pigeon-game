@@ -6,12 +6,8 @@ using UnityEngine;
 [Serializable]
 public class SaveGameRegistryData 
 {
-    public bool initialised = false;
 
     public GameMetaData[] games;
-
-    
-
 
 
     public byte[] hash;

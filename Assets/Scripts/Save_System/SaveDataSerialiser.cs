@@ -11,24 +11,46 @@ public static class SaveDataSerialiser
 {
     const string extention = ".budSave";
     public static string SavePath => Path.Combine(Application.persistentDataPath, "gameSaves");
-    //private static string TempSavePath => Path.Combine(Application.temporaryCachePath, "saveData");
+
+    /// <summary>
+    /// Get the path to a specific save file
+    /// </summary>
+    /// <param name="localGameID"></param>
+    private static string GetFilePath(string localGameID) => Path.Combine(SavePath, GetFileName(localGameID));
+
+    /// <summary>
+    /// Get the filename that this save file will use
+    /// </summary>
+    private static string GetFileName(string localGameID, string modifier = "") => $"Save_{localGameID}{modifier}{extention}";
 
 
-    public static void SaveGame(string localGameID, SaveData data)
+    private static bool FileExists(string path) => Directory.Exists(SavePath) && File.Exists(path);
+
+    public static bool SaveGame(string localGameID, SaveData data)
     {
         string path = GetFilePath(localGameID);
 
-        Savedata(data, path);
+        return Savedata(path, data);
     }
 
-    //public static void SaveGameTemp(int localGameID, SaveData data)
-    //{
-    //    string path = GetTempFilePath(localGameID);
 
-    //    Savedata(data, path);
-    //}
+    /// <summary>
+    /// Creates a new empty save file using the gameID. If a file already exists there this has no effect.
+    /// </summary>
+    /// <param name="localGameID"></param>
+    public static void CreateNewSaveFile(string localGameID)
+    {
+        if (!Directory.Exists(SavePath))
+        {
+            Directory.CreateDirectory(SavePath);
+        }
 
- 
+        string path = GetFilePath(localGameID);
+
+        if (File.Exists(path)) return;
+
+        SaveGame(path, default);
+    }
 
     public static SaveData LoadGame(string localGameID)
     {
@@ -36,29 +58,23 @@ public static class SaveDataSerialiser
         return LoadData(path);
     }
 
-    //public static SaveData LoadGameTemp(int localGameID)
-    //{
-    //    string path = GetTempFilePath(localGameID);
-    //    return LoadData(path);
-    //}
 
 
 
-    private static void Savedata(SaveData data, string path)
+    private static bool Savedata(string path, SaveData data)
     {
-        if (!Directory.Exists(SavePath))
-        {
-            Directory.CreateDirectory(SavePath);
-        }
+        if (!FileExists(path)) return false;
 
         SetHash(data);
 
         var jsonData = JsonUtility.ToJson(data);
 
+        File.WriteAllText(path, jsonData); // will overwrite file there and then closes it
 
-        File.WriteAllText(path, jsonData); // will create or overwrite file there and then closes file
-
+        return true;
     }
+
+
 
     /// <summary>
     /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
@@ -74,7 +90,7 @@ public static class SaveDataSerialiser
 
     private static SaveData LoadData(string path)
     {
-        if (!File.Exists(path))
+        if (!FileExists(path))
         {
             Debug.LogError($"Save file at {path} does not exist");
             return null;
@@ -86,11 +102,11 @@ public static class SaveDataSerialiser
 
             SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
 
-            if (data == new SaveData())
-            {
-                Debug.LogError("Save is empty");
-                throw new Exception(); // this will move to catch
-            }
+            //if (data == new SaveData())
+            //{
+            //    Debug.LogError("Save is empty");
+            //    throw new Exception(); // this will move to catch
+            //}
 
             if (!ValidateHash(data))
             {
@@ -124,42 +140,17 @@ public static class SaveDataSerialiser
         return true;
     }
 
-    public static void Wipe(string localGameID)
+    public static bool DeleteFile(string localGameID)
     {
         string path = GetFilePath(localGameID);
+        if (!FileExists(path)) return false;
 
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
-    }
-    //public static void WipeTemp(int localGameID)
-    //{
-    //    string path = GetTempFilePath(localGameID);
-
-    //    if (File.Exists(path))
-    //    {
-    //        File.Delete(path);
-    //    }
-    //}
-
-    private static string GetFilePath(string localGameID)
-    {
-        return Path.Combine(SavePath, GetFileName(localGameID));
+        
+        File.Delete(path);
+        return true;
+        
     }
 
-    //private static string GetTempFilePath(int localGameID)
-    //{
-    //    //return Path.Combine(SavePath, GetFileName(localGameID, "_temp"));
-    //     return Path.Combine(TempSavePath, GetFileName(localGameID, "_temp")); 
-    //}
 
-    /// <summary>
-    /// Get the filename that this file will use
-    /// </summary>
-    /// <param name="localGameID"></param>
-    /// <param name="modifier"></param>
-    /// <returns></returns>
-    private static string GetFileName(string localGameID, string modifier = "") => $"Save_{localGameID}{modifier}{extention}";
 
 }
