@@ -110,6 +110,14 @@
     <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Mood\MoodAtributes.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
+    <Compile Include="Assets\Scripts\Save_System\SaveDataSerialiser.cs" />
+    <Compile Include="Assets\Scripts\Save_System\SaveGameManager.cs" />
+    <Compile Include="Assets\Scripts\Save_System\SaveGameRegistrySerialiser.cs" />
+    <Compile Include="Assets\Scripts\Save_System\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\Save_System\SaveRegistryManager.cs" />
+    <Compile Include="Assets\Scripts\Save_System\Saves\GameMetaData.cs" />
+    <Compile Include="Assets\Scripts\Save_System\Saves\SaveData.cs" />
+    <Compile Include="Assets\Scripts\Save_System\Saves\SaveGameRegistryData.cs" />
     <Compile Include="Assets\Scripts\Turns\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\UI\CallChangeScene.cs" />
     <Compile Include="Assets\Scripts\UI\CurrentMood.cs" />
@@ -152,6 +160,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\_SaveDemonstration.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
