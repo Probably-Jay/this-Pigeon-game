@@ -38,8 +38,9 @@ public static class SaveDataSerialiser
     /// Creates a new empty save file using the gameID. If a file already exists there this has no effect.
     /// </summary>
     /// <param name="localGameID"></param>
-    public static void CreateNewSaveFile(string localGameID)
+    public static bool CreateNewSaveFile(string localGameID)
     {
+        // if folder does not exist, create it
         if (!Directory.Exists(SavePath))
         {
             Directory.CreateDirectory(SavePath);
@@ -47,9 +48,11 @@ public static class SaveDataSerialiser
 
         string path = GetFilePath(localGameID);
 
-        if (File.Exists(path)) return;
+        if (File.Exists(path)) return false;
 
-        SaveGame(path, default);
+        SaveData newSave = new SaveData(localGameID);
+
+        return SaveGame(path, newSave);
     }
 
     public static SaveData LoadGame(string localGameID)

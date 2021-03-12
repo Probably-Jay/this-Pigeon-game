@@ -6,8 +6,22 @@ using UnityEngine;
 [Serializable]
 public class SaveData 
 {
-    public bool initialised = false;
-    string localGameID;
+    public SaveData(string localID)
+    {
+        initialised = true;
+        localGameID = localID;
+    }
+
+    public SaveData(SaveData copy)
+    {
+        initialised = copy.initialised;
+        localGameID = copy.localGameID;
+
+        hash = copy.hash;
+    }
+
+    public bool initialised;
+    readonly string localGameID;
 
     public byte[] hash;
 

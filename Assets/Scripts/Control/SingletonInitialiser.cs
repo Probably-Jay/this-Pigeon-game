@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+// created Jay 04/03
+
+ /// <summary>
+ /// Class responsible for ensuring there is only ever exactly one of each singleton in each scene
+ /// </summary>
 public class SingletonInitialiser : MonoBehaviour
 {
     public GameObject eventsManager;
     public GameObject applicationManager;
     public GameObject sceneChangeController;
+    public GameObject saveManager;
     public GameObject gameManager;
 
 
@@ -20,19 +23,20 @@ public class SingletonInitialiser : MonoBehaviour
 
     private void CreateSingletons()
     {
-        var e = Instantiate(eventsManager);
-        e.GetComponent<EventsManager>().Initialise();
+        var eventsManagerObject = Instantiate(eventsManager);
+        eventsManagerObject.GetComponent<EventsManager>().Initialise();
 
-        var app = Instantiate(applicationManager);
-        ApplicationManager acomp = app.GetComponent<ApplicationManager>();
-        acomp.Initialise();
+        var applicationManagerObject = Instantiate(applicationManager);
+        applicationManagerObject.GetComponent<ApplicationManager>().Initialise();
+       
+        var sceneChangeControllerObject = Instantiate(sceneChangeController);
+        sceneChangeControllerObject.GetComponent<SceneChangeController>().Initialise();
+        
+        var saveManagerObject = Instantiate(saveManager);
+        saveManagerObject.GetComponent<SaveManager>().Initialise();
 
-        var s = Instantiate(sceneChangeController);
-        s.GetComponent<SceneChangeController>().Initialise();
-
-        var g = Instantiate(gameManager);
-        GameManager gcomp = g.GetComponent<GameManager>();
-        gcomp.Initialise();
-
+        var gameManagerObject = Instantiate(gameManager);
+        gameManagerObject.GetComponent<GameManager>().Initialise();
+        
     }
 }

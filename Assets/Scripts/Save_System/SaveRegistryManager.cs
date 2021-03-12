@@ -10,11 +10,12 @@ using UnityEngine;
 public class SaveRegistryManager
 {
 
+    public string RegistryFilePath => SaveGameRegistrySerialiser.RegistrySavePath;
 
     /// <summary>
     /// Creates the registry file if it does not exist, else it does nothing
     /// </summary>
-    public void CreateRegistryFile() => SaveGameRegistrySerialiser.CreateRegistryFile();
+    public bool CreateRegistryFile() => SaveGameRegistrySerialiser.CreateRegistryFile();
 
 
 
@@ -26,7 +27,7 @@ public class SaveRegistryManager
     {
         if (!RegistryNotEmpty) return null;
 
-        return new List<GameMetaData>(Registry.games);
+        return new List<GameMetaData>(Registry.games); // return a copy of it
     }
 
 
@@ -54,18 +55,28 @@ public class SaveRegistryManager
 
 
     /// <summary>
-    /// Delete a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
+    /// Remove a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
     /// Calling this before deleting the game file will result in a resource leak
     /// </summary>
     /// <param name="gameID">The ID of the game to be deleted</param>
     /// <returns>If the action was sucessful</returns>
-    public bool RemoveGame(string gameID)
+    public bool RemoveDeletedGame(string gameID)
     {
         if (!RegistryNotEmpty) return false;
 
 
         GameMetaData game = GetGame(gameID);
-           
+        return RemoveDeletedGame(game);
+    }
+
+    /// <summary>
+    /// Remove a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
+    /// Calling this before deleting the game file will result in a resource leak
+    /// </summary>
+    /// <param name="gameID">The ID of the game to be deleted</param>
+    /// <returns>If the action was sucessful</returns>
+    public bool RemoveDeletedGame(GameMetaData game)
+    {
         bool sucess = true;
         sucess &= RemoveGame(game);
         sucess &= OverwiteRegistry();
@@ -108,6 +119,7 @@ public class SaveRegistryManager
     private bool RegistryNotEmpty => RegistryExists && Registry.games.Length > 0;
 
     private SaveGameRegistryData _registryCache = null; 
+
     /// <summary>
     /// The Registy data, returns cache or loads from file
     /// </summary>

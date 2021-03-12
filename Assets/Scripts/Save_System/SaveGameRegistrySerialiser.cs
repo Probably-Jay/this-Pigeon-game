@@ -5,6 +5,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System;
 
+// jay 11/03
+
 public static class SaveGameRegistrySerialiser
 {
     const string registryFile = "directoryFile.gameDirectorySave";
@@ -19,16 +21,16 @@ public static class SaveGameRegistrySerialiser
     /// <summary>
     /// Attempt to create the registry file, if it already exists this function has no effect
     /// </summary>
-    public static void CreateRegistryFile()
+    public static bool CreateRegistryFile()
     {
         if (!Directory.Exists(RegistrySavePath))
         {
             Directory.CreateDirectory(RegistrySavePath);
         }
 
-        if (File.Exists(FilePath)) return;
+        if (RegistryFileExists) return false;
 
-        SaveGameRegistry(default);
+        return SaveGameRegistry(default);
     }
 
     /// <summary>

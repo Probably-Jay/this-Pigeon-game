@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// jay 11/03
 public class SaveGameManager
 {
 
@@ -12,11 +13,10 @@ public class SaveGameManager
     public bool GameOpen => OpenGameData != null;
 
     /// <summary>
-    /// Creates a new empty save file using the gameID. If a file already exists there this has no effect.
+    /// Creates a new empty save file using the gameID. If a file already exists there this has no effect. This will not open the game
     /// </summary>
     /// <param name="newGameID">Newly generated unique game ID</param>
-    public bool CreateNewSaveFile(string newGameID) => SaveDataSerialiser.CreateNewSaveFile(newGameID);
-
+    public bool CreateNewSaveFile(GameMetaData newGame) => SaveDataSerialiser.CreateNewSaveFile(newGame.gameID);
 
     /// <summary>
     /// Load in the contents of the save file to <see cref="OpenGameData"/>. The paramater <paramref name="game"/> must be gained from <see cref="SaveRegistryManager.GetAllStoredGames"/>. (open does not imply any kind of resource lock)
@@ -39,7 +39,7 @@ public class SaveGameManager
 
 
     /// <summary>
-    /// This is the primary function in saving data. This will set the <see cref="OpenGameData"/> to the value of <paramref name="data"/>.
+    /// This is the primary function in saving data. This will set the <see cref="OpenGameData"/> to the value of <paramref name="data"/> (if <paramref name="data"/> is not <c>null</c>).
     /// *Warrning* This will not actually save the game data. You must call <see cref="OverwriteSaveFile"/>
     /// </summary>
     public bool StageSaveData(SaveData data)
