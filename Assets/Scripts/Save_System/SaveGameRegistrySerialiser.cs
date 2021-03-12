@@ -30,7 +30,15 @@ public static class SaveGameRegistrySerialiser
 
         if (RegistryFileExists) return false;
 
-        return SaveGameRegistry(default);
+        SaveGameRegistryData saveGameRegistry = new SaveGameRegistryData();
+
+        SetHash(saveGameRegistry);
+
+        var jsonData = JsonUtility.ToJson(saveGameRegistry);
+
+        File.WriteAllText(FilePath, jsonData); // will create or overwrite file there and then closes file
+
+        return true;
     }
 
     /// <summary>

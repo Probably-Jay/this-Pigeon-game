@@ -21,7 +21,7 @@ public static class SaveDataSerialiser
     /// <summary>
     /// Get the filename that this save file will use
     /// </summary>
-    private static string GetFileName(string localGameID, string modifier = "") => $"Save_{localGameID}{modifier}{extention}";
+    private static string GetFileName(string localGameID, string modifier = "-main") => $"{localGameID}{modifier}{extention}";
 
 
     private static bool FileExists(string path) => Directory.Exists(SavePath) && File.Exists(path);
@@ -52,7 +52,14 @@ public static class SaveDataSerialiser
 
         SaveData newSave = new SaveData(localGameID);
 
-        return SaveGame(path, newSave);
+
+        SetHash(newSave);
+
+        var jsonData = JsonUtility.ToJson(newSave);
+
+        File.WriteAllText(path, jsonData); // will overwrite file there and then closes it
+
+        return true;
     }
 
     public static SaveData LoadGame(string localGameID)

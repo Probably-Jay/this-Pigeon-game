@@ -71,12 +71,12 @@ public class SaveGameManager
     {
         if (!GameOpen) return false;
 
-        SaveDataSerialiser.SaveGame(OpenGameMetaData.gameID, OpenGameData);
-        return true;
+        return SaveDataSerialiser.SaveGame(OpenGameMetaData.gameID, OpenGameData);
+        
     }
 
     /// <summary>
-    /// nullifies the referance to the open file (open does not imply a resources lock)
+    /// Nullifies the referance to the open file (open does not imply a resources lock)
     /// </summary>
     public void CloseGame()
     {
@@ -85,7 +85,7 @@ public class SaveGameManager
     }
 
     /// <summary>
-    /// Delete a provided game if it exists. If the game provided is currenly open then it is closed
+    /// Delete a provided game if it exists. If the game provided is currenly open then it is closed. Will not fail.
     /// </summary>
     public bool DeleteGame(GameMetaData game)
     {

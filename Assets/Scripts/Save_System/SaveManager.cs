@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Security.Cryptography;
 
 // Jay 11/03
 
@@ -18,6 +19,8 @@ public class SaveManager : Singleton<SaveManager>
     /// A copy of the data in the currently open game file. Edit this <see cref="SaveData"/> and call <see cref="SaveGame"/> to save it.
     /// </summary>
     public SaveData GameData { get; private set; } = null;
+    public bool GameOpen => saveGameManager.GameOpen;
+    public GameMetaData CurrentlyOpenGame => saveGameManager.OpenGameMetaData;
 
 
     private readonly SaveRegistryManager saveRegistryManager = new SaveRegistryManager();
@@ -73,7 +76,7 @@ public class SaveManager : Singleton<SaveManager>
     /// </summary>
     public bool SaveGame()
     {
-        if (!saveGameManager.GameOpen) return false;
+        if (!GameOpen) return false;
 
         if (saveGameManager.StageSaveData(GameData))
         {
@@ -89,11 +92,44 @@ public class SaveManager : Singleton<SaveManager>
     /// <param name="game">The metadata of the game to be opened</param>
     public bool OpenGame(GameMetaData game)
     {
+
+        if (GameOpen)
+        {
+            Debug.LogWarning($"Closing game {CurrentlyOpenGame.gameID} in order to open game {game.gameID}");
+        }
+
         bool sucess = saveGameManager.OpenSave(game);
 
-        GameData = sucess ? new SaveData(saveGameManager.OpenGameData) : null; // deep-copy so can be altered safely (only if opened)
+        if (sucess)
+        {
+            GameData = new SaveData(saveGameManager.OpenGameData);  // deep-copy so can be altered safely
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning($"Game {game.gameID} cannot be opened or does not exist, deleteing game");
+            DeleteGame(game);
+        }
+
 
         return sucess;
+    } 
+    
+    /// <summary>
+    /// Opens a game and stores the game data in <see cref="GameData"/>
+    /// </summary>
+    /// <param name="game">The ID of the game to be opened</param>
+    public bool OpenGame(string gameID)
+    {
+        GameMetaData game = saveRegistryManager.GetGame(gameID);
+
+        if(game == null)
+        {
+            Debug.LogError($"Game with ID {gameID} could not be located");
+            return false;
+        }
+
+        return OpenGame(game);
     }
 
     /// <summary>
@@ -101,6 +137,15 @@ public class SaveManager : Singleton<SaveManager>
     /// </summary>
     /// <returns>Will return null if registry empty or cannot be read</returns>
     public List<GameMetaData> GetAllStoredGames() => saveRegistryManager.GetAllStoredGames();
+
+    /// <summary>
+    /// Nullifies the referances to the open game
+    /// </summary>
+    public void CloseGame()
+    {
+        GameData = null;
+        saveGameManager.CloseGame();
+    }
 
     /// <summary>
     /// Delete a save game and remove it from the registry
@@ -114,19 +159,28 @@ public class SaveManager : Singleton<SaveManager>
     /// <param name="gameID">The game to remove</param>
     public void DeleteGame(GameMetaData game)
     {
-        saveRegistryManager.RemoveDeletedGame(game.gameID);
         saveGameManager.DeleteGame(game);
+        saveRegistryManager.RemoveDeletedGame(game.gameID);
     }
 
     private GameMetaData CreateNewGameData()
     {
         GameMetaData newGame = new GameMetaData();
         string TimeID = DateTime.Now.Ticks.ToString();
-        string UserID = SystemInfo.deviceUniqueIdentifier;
-        newGame.gameID = UserID + TimeID;
+        string UserID = SystemInfo.deviceUniqueIdentifier != SystemInfo.unsupportedIdentifier ? SystemInfo.deviceUniqueIdentifier : GenerateQuasiUniqueIdentifier();
+        newGame.gameID = UserID + "-"+ TimeID;
         return newGame;
     }
 
+    private string GenerateQuasiUniqueIdentifier() // fallback function
+    {
+        Debug.LogError($"System does not support {nameof(SystemInfo.deviceUniqueIdentifier)}.");
+        string unhashedID = SystemInfo.deviceName + SystemInfo.deviceType.ToString() + SystemInfo.deviceModel; // hack
+        byte[] UserIDbytes;
+        using (HashAlgorithm algorithm = SHA256.Create())
+            UserIDbytes = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(unhashedID + "salt"));
+        return System.Text.Encoding.UTF8.GetString(UserIDbytes);
+    }
 
     private void OnEnable()
     {

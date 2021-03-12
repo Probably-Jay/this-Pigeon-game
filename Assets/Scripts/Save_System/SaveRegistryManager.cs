@@ -9,7 +9,9 @@ using UnityEngine;
 /// </summary>
 public class SaveRegistryManager
 {
-
+    /// <summary>
+    /// The location the registry file should be stored
+    /// </summary>
     public string RegistryFilePath => SaveGameRegistrySerialiser.RegistrySavePath;
 
     /// <summary>
@@ -25,7 +27,7 @@ public class SaveRegistryManager
     /// <returns>Will return null if registry empty or cannot be read</returns>
     public List<GameMetaData> GetAllStoredGames()
     {
-        if (!RegistryNotEmpty) return null;
+        if (!RegistryExists) return null;
 
         return new List<GameMetaData>(Registry.games); // return a copy of it
     }
