@@ -47,7 +47,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_data_collector_8cs.html"
+"_game_meta_data_8cs.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

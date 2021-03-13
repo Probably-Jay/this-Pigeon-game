@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['datacollector_48',['DataCollector',['../class_data_collector.html',1,'']]]
+  ['gamemetadata_46',['GameMetaData',['../class_game_meta_data.html',1,'']]]
 ];
