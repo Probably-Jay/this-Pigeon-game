@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Cryptography;
 
+using SaveSystemInternal;
+
 // Jay 11/03
 
 /// <summary>

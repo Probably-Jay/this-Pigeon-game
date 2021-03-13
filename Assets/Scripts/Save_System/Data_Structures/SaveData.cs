@@ -30,6 +30,6 @@ public class SaveData
 
 
     public byte[] hash;
-    public bool HashIsValid => SaveDataSerialiser.ValidateHash(this);
+    public bool HashIsValid => SaveSystemInternal.SaveDataSerialiser.ValidateHash(this);
 
 }
