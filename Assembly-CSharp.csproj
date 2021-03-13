@@ -108,6 +108,7 @@
     <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Mood\MoodAtributes.cs" />
     <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
+    <Compile Include="Assets\Scripts\Save_System\Collecting_Data\DataCollector.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\GameMetaData.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\SaveData.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\SaveGameRegistryData.cs" />

@@ -14,6 +14,9 @@ using SaveSystemInternal;
 public class SaveManager : Singleton<SaveManager>
 {
 
+    /// <summary>
+    /// Singleton referance to this object
+    /// </summary>
     public new static SaveManager Instance { get => Singleton<SaveManager>.Instance; }
 
 
@@ -21,7 +24,14 @@ public class SaveManager : Singleton<SaveManager>
     /// A copy of the data in the currently open game file. Edit this <see cref="SaveData"/> and call <see cref="SaveGame"/> to save it.
     /// </summary>
     public SaveData GameData { get; private set; } = null;
+    /// <summary>
+    /// If there is currently a <see cref="SaveData"/> object available to read/write to
+    /// </summary>
     public bool GameOpen => saveGameManager.GameOpen;
+
+    /// <summary>
+    /// The <see cref="SaveData"/> object available to read/write to. Will be null if <see cref="GameData"/> is false
+    /// </summary>
     public GameMetaData CurrentlyOpenGame => saveGameManager.OpenGameMetaData;
 
 
@@ -30,7 +40,9 @@ public class SaveManager : Singleton<SaveManager>
 
 
 
-
+    /// <summary>
+    /// Initialise the singleton as required by <see cref="Singleton{T}"/>. Also crates a registry file if one does not exist.
+    /// </summary>
     public override void Initialise()
     {
         base.InitSingleton();
@@ -51,7 +63,7 @@ public class SaveManager : Singleton<SaveManager>
     /// <summary>
     /// Create a new game file and add it to the registry. This will not open the game.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A <see cref="GameMetaData"/> object of the newly created game. Returns null if this fails.</returns>
     public GameMetaData CreateNewGame()
     {
         GameMetaData newGame = CreateNewGameData();
@@ -76,6 +88,7 @@ public class SaveManager : Singleton<SaveManager>
     /// <summary>
     /// Overwrites the currently open game with the value of <see cref="GameData"/>
     /// </summary>
+    /// <returns>Bool value if this was sucessful or not</returns>
     public bool SaveGame()
     {
         if (!GameOpen) return false;
@@ -88,10 +101,13 @@ public class SaveManager : Singleton<SaveManager>
         return false;
     }
 
+
+
     /// <summary>
     /// Opens a game and stores the game data in <see cref="GameData"/>
     /// </summary>
     /// <param name="game">The metadata of the game to be opened</param>
+    /// <returns>Bool value if this was sucessful or not</returns>
     public bool OpenGame(GameMetaData game)
     {
 
@@ -115,12 +131,14 @@ public class SaveManager : Singleton<SaveManager>
 
 
         return sucess;
-    } 
-    
+    }
+
+    // overload
     /// <summary>
     /// Opens a game and stores the game data in <see cref="GameData"/>
     /// </summary>
     /// <param name="game">The ID of the game to be opened</param>
+    /// <returns>Bool value if this was sucessful or not</returns>
     public bool OpenGame(string gameID)
     {
         GameMetaData game = saveRegistryManager.GetGame(gameID);
@@ -141,7 +159,7 @@ public class SaveManager : Singleton<SaveManager>
     public List<GameMetaData> GetAllStoredGames() => saveRegistryManager.GetAllStoredGames();
 
     /// <summary>
-    /// Nullifies the referances to the open game
+    /// Nullifies the referances to the open game. This does not need to be called and does not release any locked resources
     /// </summary>
     public void CloseGame()
     {
@@ -155,6 +173,7 @@ public class SaveManager : Singleton<SaveManager>
     /// <param name="gameID">The ID of the game to remove</param>
     public void DeleteGame(string gameID) => DeleteGame(saveRegistryManager.GetGame(gameID));
 
+    //overload
     /// <summary>
     /// Delete a save game and remove it from the registry
     /// </summary>
@@ -165,6 +184,8 @@ public class SaveManager : Singleton<SaveManager>
         saveRegistryManager.RemoveDeletedGame(game.gameID);
     }
 
+    #region Internal Functions
+
     private GameMetaData CreateNewGameData()
     {
         GameMetaData newGame = new GameMetaData();
@@ -174,7 +195,7 @@ public class SaveManager : Singleton<SaveManager>
         return newGame;
     }
 
-    private string GenerateQuasiUniqueIdentifier() // fallback function
+    private string GenerateQuasiUniqueIdentifier() // fallback function, hopefully never used
     {
         Debug.LogError($"System does not support {nameof(SystemInfo.deviceUniqueIdentifier)}.");
         string unhashedID = SystemInfo.deviceName + SystemInfo.deviceType.ToString() + SystemInfo.deviceModel; // hack
@@ -184,18 +205,9 @@ public class SaveManager : Singleton<SaveManager>
         return System.Text.Encoding.UTF8.GetString(UserIDbytes);
     }
 
-    private void OnEnable()
-    {
-        
-    }
+    #endregion
 
-    private void OnDisable()
-    {
-       
-    }
 
-   
 
-  
 
 }
