@@ -100,24 +100,24 @@ public class PlantManager : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.UpdatePlants, UpdateList);
     }
 
-    private void LogAllPlants()
-    {
-        for (int c = 0; c < 2; c++)
-        {
-            for (int i = 0; i < gardenPlants[c].Count; i++)
-            {
-                LogPlant(i);
-            };
-        };
-    }
+    //private void LogAllPlants()
+    //{
+    //    for (int c = 0; c < 2; c++)
+    //    {
+    //        for (int i = 0; i < gardenPlants[c].Count; i++)
+    //        {
+    //            LogPlant(i);
+    //        };
+    //    };
+    //}
 
-    private void LogPlant(int i)
-    {
-        Debug.Log("Item #" + i + ":" + gardenPlants[0][i].objectName);
-        Debug.Log("Mood (Energy): " + gardenPlants[0][i].scale3CalmEnergised);
-        Debug.Log("Mood (Social): " + gardenPlants[0][i].scale2PersonalSocial);
-        Debug.Log("Mood (Pride): " + gardenPlants[0][i].scale1UnpleasantPleasant);
-    }
+    //private void LogPlant(int i)
+    //{
+    //    Debug.Log("Item #" + i + ":" + gardenPlants[0][i].objectName);
+    //    Debug.Log("Mood (Energy): " + gardenPlants[0][i].energy);
+    //    Debug.Log("Mood (Social): " + gardenPlants[0][i].sociability);
+    //    Debug.Log("Mood (Pride): " + gardenPlants[0][i].pleasance);
+    //}
 
 
     public void UpdateList()

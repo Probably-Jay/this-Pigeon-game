@@ -8,6 +8,9 @@ using System;
 // jay 11/03
 namespace SaveSystemInternal
 {
+    /// <summary>
+    /// Static class responsible for serialising the <see cref="SaveGameRegistryData"/> data. Controlled by <see cref="SaveRegistryManager"/>
+    /// </summary>
     public static class SaveGameRegistrySerialiser
     {
         const string registryFile = "directoryFile.gameDirectorySave";
@@ -105,16 +108,23 @@ namespace SaveSystemInternal
             }
         }
 
+        /// <summary>
+        /// Validates if the checksum hash based on the current data matches the one stored with this data when it was last serialised.
+        /// This should remain the same if calculated on the same data and so is used to make sure file has not been altered / corrupted.
+        /// This will only be meaningful just after a strucutre is deserialised from a file. <see cref="SaveGameData.hash"/> is unaltered by this function.
+        /// </summary>
+        /// <param name="data">The structure to be validated</param>
+        /// <returns>If the hashes match (the data is the same and not-corrupted)</returns>
         public static bool ValidateHash(SaveGameRegistryData data)
         {
-            var hashFromFile = data.hash;
+            byte[] previousHash = (byte[])data.hash.Clone();
             SetHash(data);
 
-            for (int i = 0; i < hashFromFile.Length; i++)
+            for (int i = 0; i < previousHash.Length; i++)
             {
-                if (hashFromFile[i] != data.hash[i])
+                if (previousHash[i] != data.hash[i])
                 {
-                    data.hash = hashFromFile; // keep this unchanged
+                    data.hash = previousHash; // keep this unchanged
                     return false;
                 }
             }

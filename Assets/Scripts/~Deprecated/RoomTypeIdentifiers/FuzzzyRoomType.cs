@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 [CustomEditor(typeof(FuzzzyRoomType),true)]
+[System.Obsolete("Depracated",true)]
 public class FuzzzyRoomTypeUI : Editor
 {
 

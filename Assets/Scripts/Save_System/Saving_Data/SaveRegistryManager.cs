@@ -7,7 +7,8 @@ using UnityEngine;
 namespace SaveSystemInternal
 {
     /// <summary>
-    /// Class which handles the save registry file, responsible for storing metadata about saved games including thier ID and filepath
+    /// Class which handles the save registry file, responsible for storing metadata about saved games including thier ID and filepath. Controlls <see cref="SaveGameRegistrySerialiser"/>.
+    /// Controlled by <see cref="SaveManager"/>. See also <see cref="SaveGameManager"/>
     /// </summary>
     public class SaveRegistryManager
     {
@@ -54,10 +55,6 @@ namespace SaveSystemInternal
             return null;
         }
 
-
-
-
-
         /// <summary>
         /// Remove a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
         /// Calling this before deleting the game file will result in a resource leak
@@ -101,6 +98,9 @@ namespace SaveSystemInternal
             AddGame(game);
             return OverwiteRegistry();
         }
+
+
+      
 
 
         private void AddGame(GameMetaData game)

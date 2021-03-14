@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// jay 13/03
+
+
 public class DataCollector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private LiveGameData data;
+
+
+    public void AddPlant(PlantItem plant)
     {
-        
+        data.plants.Add(plant);
     }
+    
+
+    //public static SaveGameData ConvertLiveDataToSaveableForm(LiveGameData liveData)
+    //{
+
+    //}  
+    
+    //public static SaveGameData ConvertSaveDataToLiveForm(LiveGameData liveData)
+    //{
+
+    //}
+
 }

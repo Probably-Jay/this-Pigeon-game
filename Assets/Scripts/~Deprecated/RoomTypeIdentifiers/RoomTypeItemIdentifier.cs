@@ -5,6 +5,7 @@ using UnityEngine;
 /// Created Jay 07/02
 
 [RequireComponent(typeof(PlantItem))]
+[System.Obsolete("Depracated", true)]
 public class RoomTypeItemIdentifier : MonoBehaviour
 {
     [SerializeField] private RoomData.RoomType roomType;

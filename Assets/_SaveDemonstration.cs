@@ -7,19 +7,21 @@ using UnityEngine;
 
 public class _SaveDemonstration : MonoBehaviour
 {
+    GameMetaData newGame;
+
     // Start is called before the first frame update
     void Start()
     {
-
         /// Creates a new game, opens a random existing game, reads a value from it, alters the value and saves that alteration,
-        /// closes the game, opens it up again, reads the value again, deletes the game created
+        /// closes the game, opens it up again, reads the value again 
+        newGame = CreateNewGame();
         Demonstration();
 
     }
 
     private void Demonstration()
     {
-        var newGame = CreateNewGame();
+        
 
         OpenGameRandomExistingGame();
 
@@ -30,6 +32,11 @@ public class _SaveDemonstration : MonoBehaviour
         OpenGame(gameID);
         DisplayCurrentGameValue();
 
+    }
+
+    // delete the game
+    private void OnApplicationQuit()
+    {
         DeleteGame(newGame);
     }
 
@@ -48,7 +55,7 @@ public class _SaveDemonstration : MonoBehaviour
             return;
         }
 
-        SaveManager.Instance.GameData.value++;
+        SaveManager.Instance.GameData.testValue++;
         if (!SaveManager.Instance.SaveGame())
         {
             Debug.LogError("Error saving game");
@@ -67,7 +74,7 @@ public class _SaveDemonstration : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Value is currently {SaveManager.Instance.GameData.value}");
+        Debug.Log($"Value is currently {SaveManager.Instance.GameData.testValue}");
 
 
     }

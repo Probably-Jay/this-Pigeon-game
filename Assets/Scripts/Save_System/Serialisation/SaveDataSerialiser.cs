@@ -9,10 +9,21 @@ using System;
     // Jay 11/03
 namespace SaveSystemInternal
 {
+    /// <summary>
+    /// Static class responsible for serialising the <see cref="SaveGameData"/> data. Controlled by <see cref="SaveGameManager"/>
+    /// </summary>
     public static class SaveDataSerialiser
     {
         const string extention = ".budSave";
         public static string SavePath => Path.Combine(Application.persistentDataPath, "gameSaves");
+
+        /// <summary>
+        /// If a game file exists
+        /// </summary>
+        /// <param name="localGameID">The ID of the game in question</param>
+        /// <returns>If a game exists under that ID</returns>
+        public static bool GameExists(string localGameID) => FileExists(GetFilePath(localGameID));
+
 
         /// <summary>
         /// Get the path to a specific save file
@@ -25,10 +36,9 @@ namespace SaveSystemInternal
         /// </summary>
         private static string GetFileName(string localGameID, string modifier = "-main") => $"{localGameID}{modifier}{extention}";
 
-
         private static bool FileExists(string path) => Directory.Exists(SavePath) && File.Exists(path);
 
-        public static bool SaveGame(string localGameID, SaveData data)
+        public static bool SaveGame(string localGameID, SaveGameData data)
         {
             string path = GetFilePath(localGameID);
 
@@ -52,7 +62,7 @@ namespace SaveSystemInternal
 
             if (File.Exists(path)) return false;
 
-            SaveData newSave = new SaveData(localGameID);
+            SaveGameData newSave = new SaveGameData(localGameID);
 
 
             SetHash(newSave);
@@ -64,7 +74,7 @@ namespace SaveSystemInternal
             return true;
         }
 
-        public static SaveData LoadGame(string localGameID)
+        public static SaveGameData LoadGame(string localGameID)
         {
             string path = GetFilePath(localGameID);
             return LoadData(path);
@@ -73,7 +83,7 @@ namespace SaveSystemInternal
 
 
 
-        private static bool Savedata(string path, SaveData data)
+        private static bool Savedata(string path, SaveGameData data)
         {
             if (!FileExists(path)) return false;
 
@@ -89,9 +99,9 @@ namespace SaveSystemInternal
 
 
         /// <summary>
-        /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
+        /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered / corrupted
         /// </summary>
-        private static void SetHash(SaveData data)
+        private static void SetHash(SaveGameData data)
         {
             data.hash = null; // reset hash
             var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
@@ -100,7 +110,7 @@ namespace SaveSystemInternal
                 data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
         }
 
-        private static SaveData LoadData(string path)
+        private static SaveGameData LoadData(string path)
         {
             if (!FileExists(path))
             {
@@ -112,7 +122,7 @@ namespace SaveSystemInternal
             {
                 var jsonData = File.ReadAllText(path);
 
-                SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
+                SaveGameData data = JsonUtility.FromJson<SaveGameData>(jsonData);
 
                 //if (data == new SaveData())
                 //{
@@ -135,20 +145,27 @@ namespace SaveSystemInternal
             }
         }
 
-
-        public static bool ValidateHash(SaveData data)
+        /// <summary>
+        /// Validates if the checksum hash based on the current data matches the one stored with this data when it was last serialised.
+        /// This should remain the same if calculated on the same data and so is used to make sure file has not been altered / corrupted.
+        /// This will only be meaningful just after a strucutre is deserialised from a file. <see cref="SaveGameData.hash"/> is unaltered by this function.
+        /// </summary>
+        /// <param name="data">The structure to be validated</param>
+        /// <returns>If the hashes match (the data is the same and not-corrupted)</returns>
+        public static bool ValidateHash(SaveGameData data)
         {
-            var hashFromFile = data.hash;
+            byte[] previousHash = (byte[])data.hash.Clone(); // deep copy
             SetHash(data);
 
-            for (int i = 0; i < hashFromFile.Length; i++)
+            for (int i = 0; i < previousHash.Length; i++)
             {
-                if (hashFromFile[i] != data.hash[i])
+                if (previousHash[i] != data.hash[i])
                 {
-                    data.hash = hashFromFile; // keep this unchanged
+                    data.hash = previousHash; // keep this unchanged
                     return false;
                 }
             }
+            data.hash = previousHash; // keep this unchanged
             return true;
         }
 

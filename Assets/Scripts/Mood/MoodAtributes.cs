@@ -6,10 +6,13 @@ using UnityEngine;
 // added Jay 10/03
 
 /// <summary>
-/// A struct that explitly stores the mood atributes in an utterly unambiguous way to prevent the infamous first playable bug from happening again
+/// A datastructure that explitly stores the mood atributes in an utterly unambiguous way to prevent the infamous first playable bug from happening again
 /// </summary>
-public struct MoodAtributes
+public class MoodAtributes
 {
+    /// <summary>
+    /// Enum representing each atribute scale. For the trinary states of these scales see <see cref="AttributeValues"/>
+    /// </summary>
     public enum Scales
     {
         Pleasance
@@ -17,6 +20,9 @@ public struct MoodAtributes
         , Energy
     }
 
+    /// <summary>
+    /// Enum representing the trinary states of each of the attribute <see cref="Scales"/>
+    /// </summary>
     public enum AttributeValues
     {
         Unpleasant
@@ -56,6 +62,9 @@ public struct MoodAtributes
         , {AttributeValues.Energetic, 0 }
     };
 
+    /// <summary>
+    /// The number of attribute scales
+    /// </summary>
     public const int NumberOfAtributeScales = 3;
 
     private static Dictionary<Scales, AttributeValues[]> atributes = new Dictionary<Scales, AttributeValues[]>
@@ -81,21 +90,23 @@ public struct MoodAtributes
     /// Get a string representation of the mood for use in rich text in <see cref="TMPro.TextMeshPro"/>
     /// </summary>
     /// <param name="scale">The atribute scale you want to display</param>
-    /// <returns></returns>
+    /// <returns>Returns the printable name along with the absolute value for that scale and the correct image for the provided scale at the current value of that scale, 
+    /// in the format “<b>{Name}</b>: {absolute value of scale}<sprite={sprite index}>”</returns>
     public string GetDisplayWithImage(Scales scale) => $"<b>{GetName(scale)}</b>: {Mathf.Abs(this[scale])}{GetImage(scale)}";
 
     /// <summary>
     /// Returns the printable names for this scale at the current value
     /// </summary>
     /// <param name="scale">The scale the atribute is in</param>
-    /// <returns></returns>
+    /// <returns>Returns the printable names for the provided scale at the current value of that scale. 
+    /// If the Pleasance scale holds a value of -3, it will return “Unpleasant”. However, if it held a value of 0 it would return “Neutral”.</returns>
     public string GetName(Scales scale) => names[(int)scale, GetIndexFromValue(this[scale])];
 
     /// <summary>
     /// Returns image for this scale at the current value as rich text markup
     /// </summary>
     /// <param name="scale">The scale the atribute is in</param>
-    /// <returns></returns>
+    /// <returns>Returns the image for the provided scale at the current value of that scale as rich text markup, in the format “<sprite={sprite index}></returns>
     public string GetImage(Scales scale) => $"<sprite={attributeToSpriteIndex[GetAttributeValue(scale, this[scale])]}>";
 
 
@@ -139,7 +150,6 @@ public struct MoodAtributes
     /// The correct way to index this struct
     /// </summary>
     /// <param name="index">The <see cref="Scales"/> name of the property you wish to access</param>
-    /// <returns></returns>
     public int this[Scales index]
     {
         get { return this[(int)index]; }
@@ -150,7 +160,6 @@ public struct MoodAtributes
     /// Provided for ease of life, however prefer the explicit properties, or indexing with <see cref="this[Scales]"/>
     /// </summary>
     /// <param name="index">The index of the value you wish to access</param>
-    /// <returns></returns>
     private int this[int index]
     {
         get { return values[index]; }
@@ -169,8 +178,10 @@ public struct MoodAtributes
     public static bool operator !=(MoodAtributes a, MoodAtributes b) => !(a == b);
 
 
-    // unity warns if these two are not created
-
+    
+    /// <summary>
+    /// Requirement of implimenting <see cref="=="/> equality
+    /// </summary>
     public override bool Equals(object obj)
     {
         if ((obj == null) || !this.GetType().Equals(obj.GetType()))
@@ -183,7 +194,9 @@ public struct MoodAtributes
             return this[0] == o[0] && this[1] == o[1] && this[2] == o[2];
         }
     }
-
+    /// <summary>
+    /// Requirement of implimenting <see cref="=="/> equality
+    /// </summary>
     public override int GetHashCode()
     {
         return values.GetHashCode();

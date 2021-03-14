@@ -6,12 +6,24 @@ using UnityEngine;
 // jay 11/03
 namespace SaveSystemInternal
 {
+    /// <summary>
+    /// Class which handles the saveing ig game files. Controlls <see cref="SaveDataSerialiser"/>.
+    /// Controlled by <see cref="SaveManager"/>. See also <see cref="SaveRegistryManager"/>
+    /// </summary>
     public class SaveGameManager
     {
-
+        /// <summary>
+        /// The <see cref="GameMetaData"/> structure of the currently open game. <c>null</c> if there is no game open
+        /// </summary>
         public GameMetaData OpenGameMetaData { get; private set; } = null;
-        public SaveData OpenGameData { get; private set; } = null;
-
+        /// <summary>
+        /// The <see cref="SaveGameData"/> structure of the currently open game, holding the data from the file or and staged saves (see <see cref="StageSaveData(SaveGameData)"/>). 
+        /// <c>null</c> if there is no game open
+        /// </summary>
+        public SaveGameData OpenGameData { get; private set; } = null;
+        /// <summary>
+        /// If there is currently a game open
+        /// </summary>
         public bool GameOpen => OpenGameData != null;
 
         /// <summary>
@@ -42,7 +54,7 @@ namespace SaveSystemInternal
         /// This is the primary function in saving data. This will set the <see cref="OpenGameData"/> to the value of <paramref name="data"/> (if <paramref name="data"/> is not <c>null</c>).
         /// *Warrning* This will not actually save the game data. You must call <see cref="OverwriteSaveFile"/>
         /// </summary>
-        public bool StageSaveData(SaveData data)
+        public bool StageSaveData(SaveGameData data)
         {
             if (!GameOpen || data == null) return false;
 
@@ -93,5 +105,13 @@ namespace SaveSystemInternal
 
             return SaveDataSerialiser.DeleteFile(game.gameID);
         }
+
+        /// <summary>
+        /// Verify if a <see cref="GameMetaData"/> from the registry file corresponds to a game file that exists
+        /// </summary>
+        /// <param name="game">The game in question</param>
+        /// <returns>If there is a file on disk with the same ID as <paramref name="game"/></returns>
+        public static bool GameExists(GameMetaData game) => SaveDataSerialiser.GameExists(game.gameID);
+
     }
 }

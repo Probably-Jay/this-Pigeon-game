@@ -21,16 +21,16 @@ public class SaveManager : Singleton<SaveManager>
 
 
     /// <summary>
-    /// A copy of the data in the currently open game file. Edit this <see cref="SaveData"/> and call <see cref="SaveGame"/> to save it.
+    /// A copy of the data in the currently open game file. Edit this <see cref="SaveGameData"/> and call <see cref="SaveGame"/> to save it.
     /// </summary>
-    public SaveData GameData { get; private set; } = null;
+    public SaveGameData GameData { get; private set; } = null;
     /// <summary>
-    /// If there is currently a <see cref="SaveData"/> object available to read/write to
+    /// If there is currently a <see cref="SaveGameData"/> object available to read/write to
     /// </summary>
     public bool GameOpen => saveGameManager.GameOpen;
 
     /// <summary>
-    /// The <see cref="SaveData"/> object available to read/write to. Will be null if <see cref="GameData"/> is false
+    /// The <see cref="SaveGameData"/> object available to read/write to. Will be null if <see cref="GameData"/> is false
     /// </summary>
     public GameMetaData CurrentlyOpenGame => saveGameManager.OpenGameMetaData;
 
@@ -55,6 +55,8 @@ public class SaveManager : Singleton<SaveManager>
         {
             Debug.Log("Registry file found");
         }
+
+        CleanRegistryFile(); // remove dead referances (this should not be needed beyond development, but is not a bad idea to keep
     }
 
 
@@ -120,7 +122,7 @@ public class SaveManager : Singleton<SaveManager>
 
         if (sucess)
         {
-            GameData = new SaveData(saveGameManager.OpenGameData);  // deep-copy so can be altered safely
+            GameData = new SaveGameData(saveGameManager.OpenGameData);  // deep-copy so can be altered safely
             return true;
         }
         else
@@ -183,6 +185,24 @@ public class SaveManager : Singleton<SaveManager>
         saveGameManager.DeleteGame(game);
         saveRegistryManager.RemoveDeletedGame(game.gameID);
     }
+
+    /// <summary>
+    /// Remove references in the registry file to non-existant game files
+    /// </summary>
+    public void CleanRegistryFile()
+    {
+        var games = GetAllStoredGames();
+        if (games == null) return;
+
+        foreach (var game in games)
+        {
+            if (!SaveGameManager.GameExists(game))
+            {
+                saveRegistryManager.RemoveDeletedGame(game.gameID);
+            }
+        }
+    }
+
 
     #region Internal Functions
 
