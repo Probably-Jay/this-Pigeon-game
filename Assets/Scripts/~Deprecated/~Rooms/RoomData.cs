@@ -5,6 +5,7 @@ using UnityEngine;
 
 /// Created Jay 07/02
 
+[System.Obsolete("Obsolete",true)]
 public class RoomData : MonoBehaviour
 {
     public enum RoomType

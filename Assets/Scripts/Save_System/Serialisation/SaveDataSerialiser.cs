@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using System.Security.Cryptography;
-using System;
+
 
 
     // Jay 11/03
 namespace SaveSystemInternal
 {
+    /// <summary>
+    /// Static class responsible for serialising the <see cref="SaveGameData"/> data. Controlled by <see cref="SaveGameManager"/>. See also <see cref="SaveGameRegistrySerialiser"/>
+    /// </summary>
     public static class SaveDataSerialiser
     {
         const string extention = ".budSave";
+        /// <summary>
+        /// The path to the folder where save games are stored
+        /// </summary>
         public static string SavePath => Path.Combine(Application.persistentDataPath, "gameSaves");
+
+        /// <summary>
+        /// If a game file exists
+        /// </summary>
+        /// <param name="localGameID">The ID of the game in question</param>
+        /// <returns>If a game exists under that ID</returns>
+        public static bool GameExists(string localGameID) => FileExists(GetFilePath(localGameID));
+
 
         /// <summary>
         /// Get the path to a specific save file
@@ -25,21 +38,14 @@ namespace SaveSystemInternal
         /// </summary>
         private static string GetFileName(string localGameID, string modifier = "-main") => $"{localGameID}{modifier}{extention}";
 
-
         private static bool FileExists(string path) => Directory.Exists(SavePath) && File.Exists(path);
 
-        public static bool SaveGame(string localGameID, SaveData data)
-        {
-            string path = GetFilePath(localGameID);
-
-            return Savedata(path, data);
-        }
-
-
+      
         /// <summary>
         /// Creates a new empty save file using the gameID. If a file already exists there this has no effect.
         /// </summary>
         /// <param name="localGameID"></param>
+        /// <returns>If a new save file was created</returns>
         public static bool CreateNewSaveFile(string localGameID)
         {
             // if folder does not exist, create it
@@ -52,10 +58,10 @@ namespace SaveSystemInternal
 
             if (File.Exists(path)) return false;
 
-            SaveData newSave = new SaveData(localGameID);
+            SaveGameData newSave = new SaveGameData(localGameID);
 
 
-            SetHash(newSave);
+            SaveDataUtility.SetHash(newSave);
 
             var jsonData = JsonUtility.ToJson(newSave);
 
@@ -64,7 +70,25 @@ namespace SaveSystemInternal
             return true;
         }
 
-        public static SaveData LoadGame(string localGameID)
+        /// <summary>
+        /// Save the data provided to the save file given by the <paramref name="localGameID"/>
+        /// </summary>
+        /// <param name="localGameID">The ID of the game file to be saved into</param>
+        /// <param name="data">The data to save</param>
+        /// <returns>If the saving was sucessful</returns>
+        public static bool SaveGame(string localGameID, SaveGameData data)
+        {
+            string path = GetFilePath(localGameID);
+
+            return Savedata(path, data);
+        }
+
+        /// <summary>
+        /// Load game data from game file by the provided <paramref name="localGameID"/>
+        /// </summary>
+        /// <param name="localGameID">The ID of the game file to be loaded</param>
+        /// <returns>The data from the file in a <see cref="SaveGameData"/> structure</returns>
+        public static SaveGameData LoadGame(string localGameID)
         {
             string path = GetFilePath(localGameID);
             return LoadData(path);
@@ -73,11 +97,11 @@ namespace SaveSystemInternal
 
 
 
-        private static bool Savedata(string path, SaveData data)
+        private static bool Savedata(string path, SaveGameData data)
         {
             if (!FileExists(path)) return false;
 
-            SetHash(data);
+            SaveDataUtility.SetHash(data);
 
             var jsonData = JsonUtility.ToJson(data);
 
@@ -88,19 +112,7 @@ namespace SaveSystemInternal
 
 
 
-        /// <summary>
-        /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
-        /// </summary>
-        private static void SetHash(SaveData data)
-        {
-            data.hash = null; // reset hash
-            var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
-
-            using (HashAlgorithm algorithm = SHA256.Create())
-                data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
-        }
-
-        private static SaveData LoadData(string path)
+        private static SaveGameData LoadData(string path)
         {
             if (!FileExists(path))
             {
@@ -112,15 +124,9 @@ namespace SaveSystemInternal
             {
                 var jsonData = File.ReadAllText(path);
 
-                SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
+                SaveGameData data = JsonUtility.FromJson<SaveGameData>(jsonData);
 
-                //if (data == new SaveData())
-                //{
-                //    Debug.LogError("Save is empty");
-                //    throw new Exception(); // this will move to catch
-                //}
-
-                if (!ValidateHash(data))
+                if (!SaveDataUtility.ValidateHash(data))
                 {
                     Debug.LogError("Save file is corrupt");
                     // this maybe should do nothing
@@ -136,22 +142,11 @@ namespace SaveSystemInternal
         }
 
 
-        public static bool ValidateHash(SaveData data)
-        {
-            var hashFromFile = data.hash;
-            SetHash(data);
-
-            for (int i = 0; i < hashFromFile.Length; i++)
-            {
-                if (hashFromFile[i] != data.hash[i])
-                {
-                    data.hash = hashFromFile; // keep this unchanged
-                    return false;
-                }
-            }
-            return true;
-        }
-
+        /// <summary>
+        /// Deletes a save file with the provied <paramref name="localGameID"/>
+        /// </summary>
+        /// <param name="localGameID">The ID of the save file to be deleted</param>
+        /// <returns>If the file to be deleted previously existed (the deletion operation itself never fails)</returns>
         public static bool DeleteFile(string localGameID)
         {
             string path = GetFilePath(localGameID);

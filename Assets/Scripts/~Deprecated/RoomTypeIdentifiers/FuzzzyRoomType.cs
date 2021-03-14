@@ -9,7 +9,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-[CustomEditor(typeof(FuzzzyRoomType),true)]
+//[CustomEditor(typeof(FuzzzyRoomType),true)]
+[System.Obsolete("Depracated",true)]
 public class FuzzzyRoomTypeUI : Editor
 {
 
@@ -20,10 +21,12 @@ public class FuzzzyRoomTypeUI : Editor
 
     private void OnEnable()
     {
-        vec = serializedObject.FindProperty(nameof(FuzzzyRoomType.rawValues));
-        values = vec.FindPropertyRelative(nameof(VectorN.values));
-        //normVec = serializedObject.FindProperty(nameof(FuzzzyRoomType.normalisedValues));
-        //normVals = normVec.FindPropertyRelative(nameof(VectorN.values));
+        //vec = serializedObject.FindProperty(nameof(FuzzzyRoomType.rawValues));
+        //values = vec.FindPropertyRelative(nameof(VectorN.values));
+
+
+        ////normVec = serializedObject.FindProperty(nameof(FuzzzyRoomType.normalisedValues));
+        ////normVals = normVec.FindPropertyRelative(nameof(VectorN.values));
 
     }
 
@@ -80,11 +83,11 @@ public class FuzzzyRoomTypeUI : Editor
 
 
 
-[RequireComponent(typeof(PlantItem))]
-public class FuzzzyRoomType : MonoBehaviour
-{
-   [HideInInspector] public VectorN rawValues = new VectorN(System.Enum.GetNames(typeof(RoomData.RoomType)).Length);
+//[RequireComponent(typeof(PlantItem))]
+//public class FuzzzyRoomType : MonoBehaviour
+//{
+//   [HideInInspector] public VectorN rawValues = new VectorN(System.Enum.GetNames(typeof(RoomData.RoomType)).Length);
 
 
-}
+//}
 

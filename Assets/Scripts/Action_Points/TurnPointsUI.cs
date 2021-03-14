@@ -17,13 +17,13 @@ public class TurnPointsUI : MonoBehaviour
 
     Text textPlaceOwnPlantPoints;
     Text textPlaceCompanionPlantPoints;
-    Text textRemoveOwnPlantPoints;
-    Text textWaterOwnPoints;
+//    Text textRemoveOwnPlantPoints;
+//    Text textWaterOwnPoints;
 
     Animator animatorPlaceOwnPlantPoints;
     Animator animatorPlaceCompanionPlantPoints;
-    Animator animatorRemoveOwnPlantPoints;
-    Animator animatorWaterOwnPoints;
+//    Animator animatorRemoveOwnPlantPoints;
+//    Animator animatorWaterOwnPoints;
 
 
 
@@ -32,13 +32,13 @@ public class TurnPointsUI : MonoBehaviour
     {
         textPlaceOwnPlantPoints         = placeOwnPlantPoints.GetComponent<Text>();
         textPlaceCompanionPlantPoints   = placeCompanionPlantPoints.GetComponent<Text>();
-        textRemoveOwnPlantPoints        = removeOwnPlantPoints.GetComponent<Text>();
-        textWaterOwnPoints              = waterOwnPoints.GetComponent<Text>(); 
+//        textRemoveOwnPlantPoints        = removeOwnPlantPoints.GetComponent<Text>();
+//        textWaterOwnPoints              = waterOwnPoints.GetComponent<Text>(); 
         
         animatorPlaceOwnPlantPoints         = placeOwnPlantPoints.GetComponent<Animator>();
         animatorPlaceCompanionPlantPoints   = placeCompanionPlantPoints.GetComponent<Animator>();
-        animatorRemoveOwnPlantPoints        = removeOwnPlantPoints.GetComponent<Animator>();
-        animatorWaterOwnPoints              = waterOwnPoints.GetComponent<Animator>();
+ //       animatorRemoveOwnPlantPoints        = removeOwnPlantPoints.GetComponent<Animator>();
+ //       animatorWaterOwnPoints              = waterOwnPoints.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -55,8 +55,8 @@ public class TurnPointsUI : MonoBehaviour
 
         EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
         EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
-        EventsManager.BindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
-        EventsManager.BindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
+//        EventsManager.BindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
+//        EventsManager.BindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
     }
     private void OnDisable()
     {
@@ -65,8 +65,8 @@ public class TurnPointsUI : MonoBehaviour
 
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
-        EventsManager.UnbindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
-        EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
+//        EventsManager.UnbindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
+//        EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
     }
 
     private void UpdateText()
@@ -74,22 +74,22 @@ public class TurnPointsUI : MonoBehaviour
         var activePlayerPoints = GameManager.Instance.HotSeatManager.ActivePlayer.TurnPoints;
         textPlaceOwnPlantPoints.text = $"Place objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace)}";
         textPlaceCompanionPlantPoints.text = $"Place companion's objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.OtherObjectPlace)}";
-        textRemoveOwnPlantPoints.text = $"Remove objects points:{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectRemove)}";
-        textWaterOwnPoints.text = $"Water objects points:{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfAddWater)}";
+    //    textRemoveOwnPlantPoints.text = $"Remove objects points:{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectRemove)}";
+    //    textWaterOwnPoints.text = $"Water objects points:{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfAddWater)}";
     }
 
     void FlashGreen()
     {
         animatorPlaceOwnPlantPoints.SetTrigger("FlashGreen");
         animatorPlaceCompanionPlantPoints.SetTrigger("FlashGreen");
-        animatorRemoveOwnPlantPoints.SetTrigger("FlashGreen");
-        animatorWaterOwnPoints.SetTrigger("FlashGreen");
+//        animatorRemoveOwnPlantPoints.SetTrigger("FlashGreen");
+ //       animatorWaterOwnPoints.SetTrigger("FlashGreen");
     }
 
     void PopOwnPlace() => Pop(animatorPlaceOwnPlantPoints);
     void PopCompPlace() => Pop(animatorPlaceCompanionPlantPoints);
-    void PopOwnRemove() => Pop(animatorRemoveOwnPlantPoints);
-    void PopWater() => Pop(animatorWaterOwnPoints);
+ //   void PopOwnRemove() => Pop(animatorRemoveOwnPlantPoints);
+ //   void PopWater() => Pop(animatorWaterOwnPoints);
 
     private void Pop(Animator animator)
     {
@@ -106,12 +106,12 @@ public class TurnPointsUI : MonoBehaviour
             case TurnPoints.PointType.OtherObjectPlace:
                 animatorPlaceCompanionPlantPoints.SetTrigger("FlashRed");
                 break;
-            case TurnPoints.PointType.SelfObjectRemove:
-                animatorRemoveOwnPlantPoints.SetTrigger("FlashRed");
-                break;
-            case TurnPoints.PointType.SelfAddWater:
-                animatorWaterOwnPoints.SetTrigger("FlashRed");
-                break;
+            //case TurnPoints.PointType.SelfObjectRemove:
+            //    animatorRemoveOwnPlantPoints.SetTrigger("FlashRed");
+            //    break;
+            //case TurnPoints.PointType.SelfAddWater:
+            //    animatorWaterOwnPoints.SetTrigger("FlashRed");
+            //    break;
             default:
                 break;
         }

@@ -34,8 +34,8 @@ public class HotSeatManager : MonoBehaviour
 
         EventsManager.BindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
         EventsManager.BindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
-        EventsManager.BindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
-        EventsManager.BindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
+ //       EventsManager.BindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
+ //       EventsManager.BindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
 
     }
 
@@ -46,8 +46,8 @@ public class HotSeatManager : MonoBehaviour
 
         EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
         EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
-        EventsManager.UnbindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
-        EventsManager.UnbindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
+ //       EventsManager.UnbindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
+ //       EventsManager.UnbindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
 
     }
 
@@ -113,14 +113,14 @@ public class HotSeatManager : MonoBehaviour
     {
         AttemptAction(TurnPoints.PointType.OtherObjectPlace, EventsManager.EventType.PlacedCompanionObject);
     }
-    void TryRemoveOwnObject()
-    {
-        AttemptAction(TurnPoints.PointType.SelfObjectRemove, EventsManager.EventType.RemovedOwnObject);
-    }
-    void TryWaterOwnObject()
-    {
-        AttemptAction(TurnPoints.PointType.SelfAddWater, EventsManager.EventType.WateredOwnPlant);
-    }
+    //void TryRemoveOwnObject()
+    //{
+    //    AttemptAction(TurnPoints.PointType.SelfObjectRemove, EventsManager.EventType.RemovedOwnObject);
+    //}
+    //void TryWaterOwnObject()
+    //{
+    //    AttemptAction(TurnPoints.PointType.SelfAddWater, EventsManager.EventType.WateredOwnPlant);
+    //}
 
     public void AttemptAction(TurnPoints.PointType pointType, EventsManager.EventType action)
     {

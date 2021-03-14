@@ -8,12 +8,21 @@ using System;
 // jay 11/03
 namespace SaveSystemInternal
 {
+    /// <summary>
+    /// Static class responsible for serialising the <see cref="SaveGameRegistryData"/> data. Controlled by <see cref="SaveRegistryManager"/>. See also <see cref="SaveDataSerialiser"/>
+    /// </summary>
     public static class SaveGameRegistrySerialiser
     {
         const string registryFile = "directoryFile.gameDirectorySave";
+        /// <summary>
+        /// The path to the folder where the registry file is stored
+        /// </summary>
         public static string RegistrySavePath => Path.Combine(Application.persistentDataPath, "registry");
         private static string FilePath => Path.Combine(RegistrySavePath, registryFile);
 
+        /// <summary>
+        /// If the registry file exists
+        /// </summary>
         public static bool RegistryFileExists => Directory.Exists(RegistrySavePath) && File.Exists(FilePath);
 
 
@@ -33,7 +42,7 @@ namespace SaveSystemInternal
 
             SaveGameRegistryData saveGameRegistry = new SaveGameRegistryData();
 
-            SetHash(saveGameRegistry);
+            SaveDataUtility.SetHash(saveGameRegistry);
 
             var jsonData = JsonUtility.ToJson(saveGameRegistry);
 
@@ -49,7 +58,7 @@ namespace SaveSystemInternal
         {
             if (!RegistryFileExists) return false;
 
-            SetHash(data);
+            SaveDataUtility.SetHash(data);
 
             var jsonData = JsonUtility.ToJson(data);
 
@@ -58,18 +67,6 @@ namespace SaveSystemInternal
             return true;
         }
 
-
-        /// <summary>
-        /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
-        /// </summary>
-        private static void SetHash(SaveGameRegistryData data)
-        {
-            data.hash = null; // reset hash
-            var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
-
-            using (HashAlgorithm algorithm = SHA256.Create())
-                data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
-        }
 
 
         /// <summary>
@@ -90,7 +87,7 @@ namespace SaveSystemInternal
 
                 SaveGameRegistryData data = JsonUtility.FromJson<SaveGameRegistryData>(jsonData);
 
-                if (!ValidateHash(data))
+                if (!SaveDataUtility.ValidateHash(data))
                 {
                     Debug.LogError("Registry file is corrupt");
                     // this maybe should do nothing
@@ -105,21 +102,7 @@ namespace SaveSystemInternal
             }
         }
 
-        public static bool ValidateHash(SaveGameRegistryData data)
-        {
-            var hashFromFile = data.hash;
-            SetHash(data);
-
-            for (int i = 0; i < hashFromFile.Length; i++)
-            {
-                if (hashFromFile[i] != data.hash[i])
-                {
-                    data.hash = hashFromFile; // keep this unchanged
-                    return false;
-                }
-            }
-            return true;
-        }
+       
 
     }
 }

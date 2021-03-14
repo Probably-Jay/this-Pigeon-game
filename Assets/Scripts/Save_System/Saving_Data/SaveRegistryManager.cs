@@ -7,7 +7,8 @@ using UnityEngine;
 namespace SaveSystemInternal
 {
     /// <summary>
-    /// Class which handles the save registry file, responsible for storing metadata about saved games including thier ID and filepath
+    /// Class which handles the save registry file, responsible for storing metadata about saved games including thier ID and filepath. Controlls <see cref="SaveGameRegistrySerialiser"/>.
+    /// Controlled by <see cref="SaveManager"/>. See also <see cref="SaveGameManager"/>
     /// </summary>
     public class SaveRegistryManager
     {
@@ -26,19 +27,22 @@ namespace SaveSystemInternal
         /// <summary>
         /// Get the list of saved games that are in the registry file
         /// </summary>
-        /// <returns>Will return null if registry empty or cannot be read</returns>
+        /// <returns>Will return null if registry file cannot be read</returns>
         public List<GameMetaData> GetAllStoredGames()
         {
             if (!RegistryExists) return null;
 
-            return new List<GameMetaData>(Registry.games); // return a copy of it
+            var games = Registry.games;
+            if (games == null) return null;
+
+            return new List<GameMetaData>(games); // return a copy of it
         }
 
 
         /// <summary>
         /// Get a saved game from the registry file by game ID
         /// </summary>
-        /// <returns>Will return null if registry empty or cannot be read</returns>
+        /// <returns>Will return null if registry empty or cannot be read,  or if the game with the provided ID cannot be found</returns>
         public GameMetaData GetGame(string gameID)
         {
             if (!RegistryNotEmpty) return null;
@@ -53,10 +57,6 @@ namespace SaveSystemInternal
             }
             return null;
         }
-
-
-
-
 
         /// <summary>
         /// Remove a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
@@ -77,7 +77,7 @@ namespace SaveSystemInternal
         /// Remove a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
         /// Calling this before deleting the game file will result in a resource leak
         /// </summary>
-        /// <param name="gameID">The ID of the game to be deleted</param>
+        /// <param name="game">The ID of the game to be deleted</param>
         /// <returns>If the action was sucessful</returns>
         public bool RemoveDeletedGame(GameMetaData game)
         {
@@ -101,6 +101,9 @@ namespace SaveSystemInternal
             AddGame(game);
             return OverwiteRegistry();
         }
+
+
+      
 
 
         private void AddGame(GameMetaData game)
