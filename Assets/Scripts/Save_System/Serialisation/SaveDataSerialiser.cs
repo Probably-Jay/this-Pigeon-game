@@ -10,7 +10,7 @@ using System;
 namespace SaveSystemInternal
 {
     /// <summary>
-    /// Static class responsible for serialising the <see cref="SaveGameData"/> data. Controlled by <see cref="SaveGameManager"/>
+    /// Static class responsible for serialising the <see cref="SaveGameData"/> data. Controlled by <see cref="SaveGameManager"/>. See also <see cref="SaveGameRegistrySerialiser"/>
     /// </summary>
     public static class SaveDataSerialiser
     {

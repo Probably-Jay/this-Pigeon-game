@@ -21,16 +21,23 @@ public class SaveManager : Singleton<SaveManager>
 
 
     /// <summary>
-    /// A copy of the data in the currently open game file. Edit this <see cref="SaveGameData"/> and call <see cref="SaveGame"/> to save it.
+    /// A copy of the data in the currently open game file.
     /// </summary>
-    public SaveGameData GameData { get; private set; } = null;
+    internal SaveGameData OpenSaveGameData => saveGameManager.OpenGameData;
+
+    /// <summary>
+    /// An easy to manimpulate copy of the data that was just loaded from a save file, or the data that is set before a call to <see cref="SaveGame"/>
+    /// </summary>
+    public LiveGameData GameData { get; private set; } = null;
+
+
     /// <summary>
     /// If there is currently a <see cref="SaveGameData"/> object available to read/write to
     /// </summary>
     public bool GameOpen => saveGameManager.GameOpen;
 
     /// <summary>
-    /// The <see cref="SaveGameData"/> object available to read/write to. Will be null if <see cref="GameData"/> is false
+    /// The <see cref="SaveGameData"/> object available to read/write to. Will be null if <see cref="OpenSaveGameData"/> is false
     /// </summary>
     public GameMetaData CurrentlyOpenGame => saveGameManager.OpenGameMetaData;
 
@@ -88,14 +95,16 @@ public class SaveManager : Singleton<SaveManager>
 
 
     /// <summary>
-    /// Overwrites the currently open game with the value of <see cref="GameData"/>
+    /// Overwrites the currently open game with the value of <see cref="OpenSaveGameData"/>
     /// </summary>
     /// <returns>Bool value if this was sucessful or not</returns>
     public bool SaveGame()
     {
         if (!GameOpen) return false;
 
-        if (saveGameManager.StageSaveData(GameData))
+        bool sucess = StageSaveData();
+
+        if (sucess)
         {
             saveGameManager.OverwriteSaveFile();
             return true;
@@ -103,10 +112,16 @@ public class SaveManager : Singleton<SaveManager>
         return false;
     }
 
+    private bool StageSaveData()
+    {
+        SaveGameData openSaveGameData = SaveDataUtility.GetSerialisableSaveGameStruct(GameData); // convert data to serialisable form
+        return saveGameManager.StageSaveData(openSaveGameData);
+    }
+
 
 
     /// <summary>
-    /// Opens a game and stores the game data in <see cref="GameData"/>
+    /// Opens a game and stores the game data in <see cref="OpenSaveGameData"/>
     /// </summary>
     /// <param name="game">The metadata of the game to be opened</param>
     /// <returns>Bool value if this was sucessful or not</returns>
@@ -122,7 +137,7 @@ public class SaveManager : Singleton<SaveManager>
 
         if (sucess)
         {
-            GameData = new SaveGameData(saveGameManager.OpenGameData);  // deep-copy so can be altered safely
+            GameData = SaveDataUtility.GetUsableLiveGameStruct(saveGameManager.OpenGameData);  // deep-copy so can be altered safely, and more usable than SaveData
             return true;
         }
         else
@@ -137,7 +152,7 @@ public class SaveManager : Singleton<SaveManager>
 
     // overload
     /// <summary>
-    /// Opens a game and stores the game data in <see cref="GameData"/>
+    /// Opens a game and stores the game data in <see cref="OpenSaveGameData"/>
     /// </summary>
     /// <param name="game">The ID of the game to be opened</param>
     /// <returns>Bool value if this was sucessful or not</returns>

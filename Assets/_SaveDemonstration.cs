@@ -55,7 +55,7 @@ public class _SaveDemonstration : MonoBehaviour
             return;
         }
 
-        SaveManager.Instance.GameData.testValue++;
+        SaveManager.Instance.OpenSaveGameData.testValue++;
         if (!SaveManager.Instance.SaveGame())
         {
             Debug.LogError("Error saving game");
@@ -74,7 +74,7 @@ public class _SaveDemonstration : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Value is currently {SaveManager.Instance.GameData.testValue}");
+        Debug.Log($"Value is currently {SaveManager.Instance.OpenSaveGameData.testValue}");
 
 
     }

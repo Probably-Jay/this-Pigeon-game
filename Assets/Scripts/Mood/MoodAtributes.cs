@@ -11,6 +11,10 @@ using UnityEngine;
 public class MoodAtributes
 {
     /// <summary>
+    /// The number of attribute scales. Important to be const for serialisation
+    /// </summary>
+    public const int NumberOfAtributeScales = 3;
+    /// <summary>
     /// Enum representing each atribute scale. For the trinary states of these scales see <see cref="AttributeValues"/>
     /// </summary>
     public enum Scales
@@ -62,10 +66,7 @@ public class MoodAtributes
         , {AttributeValues.Energetic, 0 }
     };
 
-    /// <summary>
-    /// The number of attribute scales
-    /// </summary>
-    public const int NumberOfAtributeScales = 3;
+
 
     private static Dictionary<Scales, AttributeValues[]> atributes = new Dictionary<Scales, AttributeValues[]>
     {
@@ -109,6 +110,11 @@ public class MoodAtributes
     /// <returns>Returns the image for the provided scale at the current value of that scale as rich text markup, in the format “<sprite={sprite index}></returns>
     public string GetImage(Scales scale) => $"<sprite={attributeToSpriteIndex[GetAttributeValue(scale, this[scale])]}>";
 
+    /// <summary>
+    /// Creat a deepcopy of the values, returned in <see cref="Pleasance"/>, <see cref="Sociability"/>, and <see cref="Energy"/> 
+    /// </summary>
+    /// <returns>A new <c>int[]</c> containing a copy of the underlying values</returns>
+    public int[] DeepCopyValues() => (int[])values.Clone();
 
     private static AttributeValues GetAttributeValue(Scales scale, int value) => atributes[scale][GetIndexFromValue(value)]; // get the AttributeValue enum of a scale and value
     private static int GetIndexFromValue(int value) => (value < 0) ? 0 : (value == 0 ? 1 :/*value > 0*/ 2); // 0 if negative, 1 if 0, 2 if poitive
