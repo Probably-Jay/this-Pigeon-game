@@ -27,19 +27,22 @@ namespace SaveSystemInternal
         /// <summary>
         /// Get the list of saved games that are in the registry file
         /// </summary>
-        /// <returns>Will return null if registry empty or cannot be read</returns>
+        /// <returns>Will return null if registry file cannot be read</returns>
         public List<GameMetaData> GetAllStoredGames()
         {
             if (!RegistryExists) return null;
 
-            return new List<GameMetaData>(Registry.games); // return a copy of it
+            var games = Registry.games;
+            if (games == null) return null;
+
+            return new List<GameMetaData>(games); // return a copy of it
         }
 
 
         /// <summary>
         /// Get a saved game from the registry file by game ID
         /// </summary>
-        /// <returns>Will return null if registry empty or cannot be read</returns>
+        /// <returns>Will return null if registry empty or cannot be read,  or if the game with the provided ID cannot be found</returns>
         public GameMetaData GetGame(string gameID)
         {
             if (!RegistryNotEmpty) return null;

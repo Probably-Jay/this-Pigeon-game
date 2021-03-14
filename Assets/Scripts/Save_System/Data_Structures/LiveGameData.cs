@@ -5,7 +5,7 @@ using SaveSystemInternal;
 // Jay 13/03
 
 /// <summary>
-/// A datastruct to more easily store the state of a game, which will not be serialised directly. Will be converted into <see cref="SaveGameData"/>, which is made up of only serialisable types
+/// A datastruct to more easily store the state of a game, which will not be serialised directly. Will be converted into <see cref="SaveSystemInternal.SaveGameData"/> before being saved to file
 /// </summary>
 public class LiveGameData
 {
@@ -24,18 +24,34 @@ public class LiveGameData
         plants = new List<PlantItem>(); 
     }
 
+    /// <summary>
+    /// The ID of a game, set here so the associated <see cref="GameMetaData"/> structure can be recovered if  lost
+    /// </summary>
     public string gameID;
 
-    public Dictionary<Player.PlayerEnum, MoodAtributes> gardenGoals; 
+    /// <summary>
+    /// The goals of the garden. Stored by <see cref="Player.PlayerEnum"/> and <see cref="MoodAtributes"/>
+    /// </summary>
+    public Dictionary<Player.PlayerEnum, MoodAtributes> gardenGoals;
 
+    /// <summary>
+    /// The current number of points that each player has left to perform this turn. Stored by <see cref="Player.PlayerEnum"/> and <see cref="TurnPoints.PointType"/>
+    /// </summary>
     public Dictionary<Player.PlayerEnum, Dictionary<TurnPoints.PointType,int>> actionPoints;
+
+    /// <summary>
+    /// List of all of the plants in the game
+    /// </summary>
     public List<PlantItem> plants;
 
     /// <summary>
-    /// When a game is loaded, the data about the plants will be added to this array. The plants will need to be instatniated properly.
+    /// When a game is loaded, the data about the plants will be added to this array. The plants will need to be instatniated properly
     /// </summary>
     public readonly SerialisedPlantData[] plantsToAdd;
      
+    /// <summary>
+    /// The current turn number. Who's turn it is can be calculated from this information
+    /// </summary>
     public int turnNumber;
 
 

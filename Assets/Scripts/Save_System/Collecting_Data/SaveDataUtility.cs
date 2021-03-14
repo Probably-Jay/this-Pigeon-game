@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Security.Cryptography;
 
 
 // jay 13/03
@@ -96,13 +97,85 @@ namespace SaveSystemInternal
             };
 
 
-           // newData.plants is not set, newData.plantsToAdd was set in ctor
+            // newData.plants is not set, newData.plantsToAdd was set in ctor
 
 
             newData.turnNumber = saveData.turnNumber;
 
             return newData;
 
+        }
+
+
+        /// <summary>
+        /// Validates if the checksum hash based on the current data matches the one stored with this data when it was last serialised.
+        /// This should remain the same if calculated on the same data and so is used to make sure file has not been altered / corrupted.
+        /// This will only be meaningful just after a strucutre is deserialised from a file. <paramref name="data"/>'s <see cref="SaveGameData.hash"/> is unaltered by this function.
+        /// </summary>
+        /// <param name="data">The structure to be validated</param>
+        /// <returns>If the hashes match (the data is the same and not-corrupted)</returns>
+        public static bool ValidateHash(SaveGameData data)
+        {
+            byte[] previousHash = (byte[])data.hash.Clone(); // deep copy
+            SetHash(data);
+
+            for (int i = 0; i < previousHash.Length; i++)
+            {
+                if (previousHash[i] != data.hash[i])
+                {
+                    data.hash = previousHash; // keep this unchanged
+                    return false;
+                }
+            }
+            data.hash = previousHash; // keep this unchanged
+            return true;
+        }
+
+        /// <summary>
+        /// Overload for <see cref="SaveGameRegistryData"/>. Validates if the checksum hash based on the current data matches the one stored with this data when it was last serialised.
+        /// This should remain the same if calculated on the same data and so is used to make sure file has not been altered / corrupted.
+        /// This will only be meaningful just after a strucutre is deserialised from a file. <paramref name="data"/>'s <see cref="SaveGameData.hash"/> is unaltered by this function.
+        /// </summary>
+        /// <param name="data">The structure to be validated</param>
+        /// <returns>If the hashes match (the data is the same and not-corrupted)</returns>
+        public static bool ValidateHash(SaveGameRegistryData data)
+        {
+            byte[] previousHash = (byte[])data.hash.Clone();
+            SetHash(data);
+
+            for (int i = 0; i < previousHash.Length; i++)
+            {
+                if (previousHash[i] != data.hash[i])
+                {
+                    data.hash = previousHash; // keep this unchanged
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered / corrupted
+        /// </summary>
+        public static void SetHash(SaveGameData data)
+        {
+            data.hash = null; // reset hash
+            var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
+
+            using (HashAlgorithm algorithm = SHA256.Create())
+                data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
+        }
+
+        /// <summary>
+        /// Overload for <see cref="SaveGameRegistryData"/>. Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
+        /// </summary>
+        public static void SetHash(SaveGameRegistryData data)
+        {
+            data.hash = null; // reset hash
+            var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
+
+            using (HashAlgorithm algorithm = SHA256.Create())
+                data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
         }
     }
 }

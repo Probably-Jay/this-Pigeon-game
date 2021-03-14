@@ -9,7 +9,7 @@ using SaveSystemInternal;
 // Jay 11/03
 
 /// <summary>
-/// Layer of abstraction between the game data and the data sent to files. Manages <see cref="SaveGameManager"/> and <see cref="SaveRegistryManager"/>
+/// Layer of abstraction between the game data and the data sent to files. Manages <see cref="SaveSystemInternal.SaveGameManager"/> and <see cref="SaveSystemInternal.SaveRegistryManager"/>
 /// </summary>
 public class SaveManager : Singleton<SaveManager>
 {
@@ -23,10 +23,10 @@ public class SaveManager : Singleton<SaveManager>
     /// <summary>
     /// A copy of the data in the currently open game file.
     /// </summary>
-    internal SaveGameData OpenSaveGameData => saveGameManager.OpenGameData;
+    /*internal*/private SaveGameData OpenSaveGameData => saveGameManager.OpenGameData;
 
     /// <summary>
-    /// An easy to manimpulate copy of the data that was just loaded from a save file, or the data that is set before a call to <see cref="SaveGame"/>
+    /// An easy to manipulate copy of the data that was just loaded from a save file, and/or the data that is to be set before a call to <see cref="SaveGame"/>
     /// </summary>
     public LiveGameData GameData { get; private set; } = null;
 
@@ -37,7 +37,7 @@ public class SaveManager : Singleton<SaveManager>
     public bool GameOpen => saveGameManager.GameOpen;
 
     /// <summary>
-    /// The <see cref="SaveGameData"/> object available to read/write to. Will be null if <see cref="OpenSaveGameData"/> is false
+    /// A representation of the currently open game, returns <see cref="GameMetaData"/>.  Will be null if <see cref="SaveGameManager.OpenGameMetaData"/> is false
     /// </summary>
     public GameMetaData CurrentlyOpenGame => saveGameManager.OpenGameMetaData;
 
@@ -95,7 +95,7 @@ public class SaveManager : Singleton<SaveManager>
 
 
     /// <summary>
-    /// Overwrites the currently open game with the value of <see cref="OpenSaveGameData"/>
+    /// Overwrites the currently open game with the value of <see cref="GameData"/>
     /// </summary>
     /// <returns>Bool value if this was sucessful or not</returns>
     public bool SaveGame()
@@ -121,7 +121,7 @@ public class SaveManager : Singleton<SaveManager>
 
 
     /// <summary>
-    /// Opens a game and stores the game data in <see cref="OpenSaveGameData"/>
+    /// Opens a game and stores the game data in <see cref="GameData"/>
     /// </summary>
     /// <param name="game">The metadata of the game to be opened</param>
     /// <returns>Bool value if this was sucessful or not</returns>
@@ -150,11 +150,10 @@ public class SaveManager : Singleton<SaveManager>
         return sucess;
     }
 
-    // overload
     /// <summary>
-    /// Opens a game and stores the game data in <see cref="OpenSaveGameData"/>
+    /// Overload for <c>string</c>. Opens a game and stores the game data in <see cref="GameData"/>
     /// </summary>
-    /// <param name="game">The ID of the game to be opened</param>
+    /// <param name="gameID">The ID of the game to be opened</param>
     /// <returns>Bool value if this was sucessful or not</returns>
     public bool OpenGame(string gameID)
     {
@@ -194,7 +193,7 @@ public class SaveManager : Singleton<SaveManager>
     /// <summary>
     /// Delete a save game and remove it from the registry
     /// </summary>
-    /// <param name="gameID">The game to remove</param>
+    /// <param name="game">The game to remove</param>
     public void DeleteGame(GameMetaData game)
     {
         saveGameManager.DeleteGame(game);

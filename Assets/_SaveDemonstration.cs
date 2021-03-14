@@ -5,7 +5,9 @@ using UnityEngine;
 using SaveSystemInternal;
 
 
-
+/// <summary>
+/// Demonstration of how to use the save system in any part of the project
+/// </summary>
 public class _SaveDemonstration : MonoBehaviour
 {
     GameMetaData newGame;
@@ -13,9 +15,10 @@ public class _SaveDemonstration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /// Creates a new game, opens a random existing game, reads a value from it, alters the value and saves that alteration,
-        /// closes the game, opens it up again, reads the value again 
+        /// create a new game
         newGame = CreateNewGame();
+        /// Opens a random existing game (right now there is only one - the one just created), attempts to read value from it (which will all be defaults),
+        /// adds a plant and saves the game, closes the game, opens it up again, reads the plant again
         Demonstration();
 
     }
@@ -26,20 +29,21 @@ public class _SaveDemonstration : MonoBehaviour
 
         OpenGameRandomExistingGame();
 
-        DisplayCurrentGameValue();
-        IncrimentValueAndSaveGame();
+        DisplayCurrentPlants();
+        AddPlantAndSaveGame();
         string gameID = SaveManager.Instance.CurrentlyOpenGame.gameID;
         CloseGame();
         OpenGame(gameID);
-        DisplayCurrentGameValue();
+        DisplayCurrentPlants();
 
     }
 
-    // delete the game
+    /// delete the game just created when stop playing
     private void OnApplicationQuit()
     {
         DeleteGame(newGame);
     }
+
 
     private void CloseGame()
     {
@@ -48,7 +52,7 @@ public class _SaveDemonstration : MonoBehaviour
         Debug.Log($"Curently open game: {(SaveManager.Instance.CurrentlyOpenGame != null ?SaveManager.Instance.CurrentlyOpenGame.ToString() : "None")}");
     }
 
-    private void IncrimentValueAndSaveGame()
+    private void AddPlantAndSaveGame()
     {
         if (!SaveManager.Instance.GameOpen)
         {
@@ -56,7 +60,21 @@ public class _SaveDemonstration : MonoBehaviour
             return;
         }
 
-        SaveManager.Instance.OpenSaveGameData.testValue++;
+        var go1 = new GameObject();
+        var go2 = new GameObject();
+        var plant = go1.AddComponent<PlantItem>();
+
+        var player = go2.AddComponent<Player>();
+        player.PlayerEnumValue = Player.PlayerEnum.Player1;
+
+        go1.transform.position = new Vector3(1, 2, 3);
+        plant.plantOwner = player;
+        plant.plantname = PlantItem.PlantName.Phess;
+
+
+        SaveManager.Instance.GameData.plants.Add(plant);
+
+
         if (!SaveManager.Instance.SaveGame())
         {
             Debug.LogError("Error saving game");
@@ -67,7 +85,7 @@ public class _SaveDemonstration : MonoBehaviour
 
     }
 
-    private void DisplayCurrentGameValue()
+    private void DisplayCurrentPlants()
     {
         if (!SaveManager.Instance.GameOpen)
         {
@@ -75,8 +93,14 @@ public class _SaveDemonstration : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Value is currently {SaveManager.Instance.OpenSaveGameData.testValue}");
-
+        foreach (var plantData in SaveManager.Instance.GameData.plantsToAdd)
+        {
+            Debug.Log($"Plant: {((PlantItem.PlantName)plantData.plantNameType).ToString()}");
+            Debug.Log($"Position: {(new Vector3(plantData.position[0],plantData.position[1],plantData.position[2])).ToString()}");
+            Debug.Log($"Owner: {((Player.PlayerEnum)plantData.owner).ToString()}");
+        }
+         
+   
 
     }
 
@@ -151,7 +175,7 @@ public class _SaveDemonstration : MonoBehaviour
 
   
     }
-    private void OpenGame(string gameID)
+    private void OpenGame(string gameID) // same as above but this is how to do it with a string ID
     {
         if (!SaveManager.Instance.OpenGame(gameID))
         {
@@ -170,18 +194,11 @@ public class _SaveDemonstration : MonoBehaviour
         SaveManager.Instance.DeleteGame(game);
     }
 
-    private void DeleteGame(string gameID)
+    private void DeleteGame(string gameID) // same as above but this is how to do it with a string ID
     { 
         Debug.Log($"Deleting game {gameID}");
         SaveManager.Instance.DeleteGame(gameID);
     }
 
 
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

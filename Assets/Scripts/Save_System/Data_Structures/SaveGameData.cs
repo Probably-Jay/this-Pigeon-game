@@ -6,18 +6,15 @@ using System.Linq;
 namespace SaveSystemInternal
 {
     /// <summary>
-    /// Datastructure for holding the full data from a game in a serilaisable form. This is the final form of data before it is serialised, and it is deserialised to this structure.
-    /// This will not be the direct interface for collecting data from objects during the game - this will be performed by <see cref="LiveGameData"/>
+    /// Datastructure for holding the full data from a game in a serialisable form. This is the final form of data before it is serialised, and it is deserialised to this structure.
+    /// This will not be the direct interface for collecting data from objects during the game. For that, see <see cref="LiveGameData"/>
     /// </summary>
     [Serializable]
     public class SaveGameData
     {
-       // const int NUMBEROFPLAYERS = 2;
-       // const int NUMBEROFATTRIBUTESCALES = 2;
-      //  const int NUMBEROFACTIONPOINTTYPES = 2;
 
         /// <summary>
-        /// Default constructor of the serialisable save data structure. Requires <paramref name="localID"/> as <see cref="localGameID"/> cannot be lost
+        /// Default constructor of the serialisable save data structure. Requires <paramref name="localID"/> so that <see cref="localGameID"/> will never be lost
         /// </summary>
         /// <param name="localID">The ID of the game this data describes</param>
         public SaveGameData(string localID)
@@ -62,6 +59,9 @@ namespace SaveSystemInternal
         }
 
         public bool initialised;
+        /// <summary>
+        /// The ID of a game, set here so the associated <see cref="GameMetaData"/> structure can be recovered if  lost
+        /// </summary>
         public string localGameID;
 
         /// <summary>
@@ -82,7 +82,9 @@ namespace SaveSystemInternal
         /// </summary>
         public int[] p2actionPoints;
 
-
+        /// <summary>
+        /// Strucure of <see cref="SerialisedPlantData"/> to store all of the plants in the game
+        /// </summary>
         public SerialisedPlantData[] plants;
 
         public int turnNumber;
@@ -95,9 +97,9 @@ namespace SaveSystemInternal
         /// </summary>
         public byte[] hash;
         /// <summary>
-        /// Calls <see cref="SaveSystemInternal.SaveDataSerialiser.ValidateHash"/> to compare the data to it's hash
+        /// Calls <see cref="SaveDataUtility.ValidateHash(SaveGameData)"/> to compare the data to it's hash
         /// </summary>
-        public bool HashIsValid => SaveSystemInternal.SaveDataSerialiser.ValidateHash(this);
+        public bool HashIsValid => SaveDataUtility.ValidateHash(this);
 
     }
 
