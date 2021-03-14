@@ -104,7 +104,7 @@
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Mood\MoodAtributes.cs" />
-    <Compile Include="Assets\Scripts\Save_System\Collecting_Data\DataCollector.cs" />
+    <Compile Include="Assets\Scripts\Save_System\Collecting_Data\SaveDataUtility.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\GameMetaData.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\LiveGameData.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\SaveGameData.cs" />

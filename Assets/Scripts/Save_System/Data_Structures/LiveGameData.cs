@@ -5,7 +5,7 @@ using SaveSystemInternal;
 // Jay 13/03
 
 /// <summary>
-/// A datastruct to more easily store the state of a game, which will not be serilaised directly. Will be converted into <see cref="SaveGameData"/>, which is made up of only serilisable types
+/// A datastruct to more easily store the state of a game, which will not be serialised directly. Will be converted into <see cref="SaveGameData"/>, which is made up of only serialisable types
 /// </summary>
 public class LiveGameData
 {

@@ -74,7 +74,7 @@ namespace SaveSystemInternal
         /// Remove a game from the registry. *Warning* This will not delete the actual game save file, only the referance to it.
         /// Calling this before deleting the game file will result in a resource leak
         /// </summary>
-        /// <param name="gameID">The ID of the game to be deleted</param>
+        /// <param name="game">The ID of the game to be deleted</param>
         /// <returns>If the action was sucessful</returns>
         public bool RemoveDeletedGame(GameMetaData game)
         {
