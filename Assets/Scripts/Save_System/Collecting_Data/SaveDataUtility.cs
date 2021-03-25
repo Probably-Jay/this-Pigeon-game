@@ -71,10 +71,10 @@ namespace SaveSystemInternal
             LiveGameData newData = new LiveGameData((SerialisedPlantData[])saveData.plants.Clone());
             newData.gameID = saveData.localGameID;
 
-            newData.gardenGoals = new Dictionary<Player.PlayerEnum, MoodAtributes>()
+            newData.gardenGoals = new Dictionary<Player.PlayerEnum, MoodAttributes>()
             {
-                {Player.PlayerEnum.Player0, new MoodAtributes(saveData.p1gardenGoals[0],saveData.p1gardenGoals[1],saveData.p1gardenGoals[2]) },
-                {Player.PlayerEnum.Player1, new MoodAtributes(saveData.p2gardenGoals[0],saveData.p2gardenGoals[1],saveData.p2gardenGoals[2]) }
+                {Player.PlayerEnum.Player0, new MoodAttributes(saveData.p1gardenGoals[0],saveData.p1gardenGoals[1],saveData.p1gardenGoals[2]) },
+                {Player.PlayerEnum.Player1, new MoodAttributes(saveData.p2gardenGoals[0],saveData.p2gardenGoals[1],saveData.p2gardenGoals[2]) }
             };
 
             newData.actionPoints = new Dictionary<Player.PlayerEnum, Dictionary<TurnPoints.PointType, int>>()

@@ -23,8 +23,8 @@ namespace SaveSystemInternal
             localGameID = localID;
 
             // these need to be initialised as they are a constant size
-            p1gardenGoals   = new int[Player.NumberOfPlayers * MoodAtributes.NumberOfAtributeScales];
-            p2gardenGoals   = new int[Player.NumberOfPlayers * MoodAtributes.NumberOfAtributeScales];
+            p1gardenGoals   = new int[Player.NumberOfPlayers * MoodAttributes.NumberOfAtributeScales];
+            p2gardenGoals   = new int[Player.NumberOfPlayers * MoodAttributes.NumberOfAtributeScales];
 
             p1actionPoints  = new int[Player.NumberOfPlayers * TurnPoints.NumberOfPointTypes];
             p2actionPoints  = new int[Player.NumberOfPlayers * TurnPoints.NumberOfPointTypes];

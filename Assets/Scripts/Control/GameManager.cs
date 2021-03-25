@@ -12,7 +12,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CurrentMood))]
 public class GameManager : Singleton<GameManager>
 {
-   
+  
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
@@ -25,8 +25,6 @@ public class GameManager : Singleton<GameManager>
     public int TurnCount => HotSeatManager.TurnTracker.Turn;
 
     public Player.PlayerEnum CurrentVisibleGarden => Camera.main.GetComponent<CameraMovementControl>().CurrentGardenView; // OPTIMISE
-
-
 
     public override void Initialise()
     {
@@ -45,6 +43,7 @@ public class GameManager : Singleton<GameManager>
         EventsManager.UnbindEvent(EventsManager.EventType.StartGame, BeginGame);
     }
 
+    
 
 
     void BeginGame()

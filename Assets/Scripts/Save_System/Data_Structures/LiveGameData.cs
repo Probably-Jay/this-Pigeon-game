@@ -30,9 +30,9 @@ public class LiveGameData
     public string gameID;
 
     /// <summary>
-    /// The goals of the garden. Stored by <see cref="Player.PlayerEnum"/> and <see cref="MoodAtributes"/>
+    /// The goals of the garden. Stored by <see cref="Player.PlayerEnum"/> and <see cref="MoodAttributes"/>
     /// </summary>
-    public Dictionary<Player.PlayerEnum, MoodAtributes> gardenGoals;
+    public Dictionary<Player.PlayerEnum, MoodAttributes> gardenGoals;
 
     /// <summary>
     /// The current number of points that each player has left to perform this turn. Stored by <see cref="Player.PlayerEnum"/> and <see cref="TurnPoints.PointType"/>

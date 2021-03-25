@@ -26,7 +26,7 @@ public class GoalManagerScript : MonoBehaviour
 
 
     Goal CurrentPlayerGoalEnumValue => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? GameManager.Instance.CurrentGoal : GameManager.Instance.AlternateGoal;
-    MoodAtributes CurrentPlayerGoal => allGoals[CurrentPlayerGoalEnumValue];
+    MoodAttributes CurrentPlayerGoal => allGoals[CurrentPlayerGoalEnumValue];
 
 
 
@@ -37,17 +37,17 @@ public class GoalManagerScript : MonoBehaviour
     public TMP_Text CalmEnergisedDisplay;
 
 
-    Dictionary<Player.PlayerEnum, MoodAtributes> goalMood = new Dictionary<Player.PlayerEnum, MoodAtributes>();
+    Dictionary<Player.PlayerEnum, MoodAttributes> goalMood = new Dictionary<Player.PlayerEnum, MoodAttributes>();
     
-    Dictionary<Goal, MoodAtributes> allGoals;
+    Dictionary<Goal, MoodAttributes> allGoals;
 
     private void Awake()
     {
-        allGoals = new Dictionary<Goal, MoodAtributes>()
+        allGoals = new Dictionary<Goal, MoodAttributes>()
         {
-             {Goal.Proud,   new MoodAtributes( 2, -1, -1 ) }, // Unpleasant/Pleasant, Personal/Social, Calm/Energised
-             {Goal.Anxious, new MoodAtributes(-1, -1, 2 ) },
-             {Goal.Content, new MoodAtributes( 1, 1, 2 ) }
+             {Goal.Proud,   new MoodAttributes( 2, -1, -1 ) }, // Unpleasant/Pleasant, Personal/Social, Calm/Energised
+             {Goal.Anxious, new MoodAttributes(-1, -1, 2 ) },
+             {Goal.Content, new MoodAttributes( 1, 1, 2 ) }
         };
     }
 
@@ -68,9 +68,9 @@ public class GoalManagerScript : MonoBehaviour
     {
         goalDisplay.text = $"<b>Goal: {CurrentPlayerGoalEnumValue.ToString()}</b>";
 
-        UnpleasantPleasantDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAtributes.Scales.Pleasance);
-        PersonalSocialDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAtributes.Scales.Sociability);
-        CalmEnergisedDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAtributes.Scales.Energy);
+        UnpleasantPleasantDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAttributes.Scales.Pleasance);
+        PersonalSocialDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAttributes.Scales.Sociability);
+        CalmEnergisedDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAttributes.Scales.Energy);
     }
 
 

@@ -1,14 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // Script created by Alexander Purvis 04/02/2021
+// Edited Scott Jarvis, 24/03/21
 public class InputControls : MonoBehaviour
 {
 
-
-    GameObject heldObject;
+    GameObject hitObject;
     ObjectMovement currentObjectMoving;
+
+    public enum CursorState
+    {
+        Planting,
+        Watering,
+        // Add More To Match Tending Actions (trim, brush, etc)
+
+    }
+
+    public CursorState cursorMode = CursorState.Planting;
 
     //PlantItem plantPlaced;
     CurrentMood displayManager;
@@ -37,13 +48,67 @@ public class InputControls : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) {
-
-            if (holdingObject == false)
+            switch (cursorMode)
             {
-                PickUpObject();
+                case CursorState.Planting:
+                    // Original moving object code
+                    if (holdingObject == false)
+                    {
+                        PickUpObject();
+                    }
+                    else if (holdingObject == true)
+                        PutDownObject(); 
+                    break;
+
+                case CursorState.Watering:
+
+                    tryWaterObject();
+                    break;
+
+                default: 
+                    // This shouldn't ever come up
+                    Debug.Log("oopsie woopsie, we made a fucky wucky!"); 
+                    break;
+            }       
+        }
+    }
+
+    public void switchCursorMode() {
+        // Add this later, once we have more than two states
+    }
+
+    public void switchCursorMode(bool input)        // Temp function, switches between planting mode and watering mode
+    {
+        if (input) {
+            cursorMode = CursorState.Planting;
+        } else {
+            cursorMode = CursorState.Watering;
+        }
+    }
+
+    private void tryWaterObject()
+    {
+        int waterInc = 1; // In case we want to change how much water is needed later
+        // fires a raycast downward from the mouse 
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 100.0f))
+        {
+            if (hit.transform != null && hit.transform.gameObject.tag == "Object")
+            {
+
+                // turns moving on for the object you hit
+                hitObject = hit.transform.gameObject;
+                var plantWatered = hitObject.GetComponent<PlantItem>();
+
+                if (plantWatered.currGrowth <= plantWatered.growthGoal) {
+                    plantWatered.currGrowth += waterInc;
+                }
+
+                Debug.Log("Current Water Value: " + plantWatered.currGrowth);
+
             }
-            else if (holdingObject == true)
-                PutDownObject();
         }
     }
 
@@ -59,24 +124,24 @@ public class InputControls : MonoBehaviour
             {
 
                 // turns moving on for the object you hit
-                heldObject = hit.transform.gameObject;
-                currentObjectMoving = heldObject.GetComponent<ObjectMovement>();
+                hitObject = hit.transform.gameObject;
+                currentObjectMoving = hitObject.GetComponent<ObjectMovement>();
                 currentObjectMoving.moving = true;
                 currentObjectMoving.isPickedUp = false;
                 holdingObject = true;
 
-                var plantPlaced = heldObject.GetComponent<PlantItem>();
+                var plantPlaced = hitObject.GetComponent<PlantItem>();
 
 
                 // if the plant we picked up was in a garden
-                if (plantPlaced.gardenID != Player.PlayerEnum.Unnasigned)
+                if (plantPlaced.gardenID != Player.PlayerEnum.Unassigned)
                 {
                     displayManager.SubtractFromGardenStats(plantPlaced.gardenID, plantPlaced.PlantStats);
-                    plantPlaced.gardenID = Player.PlayerEnum.Unnasigned; // plant is now not in a garden
+                    plantPlaced.gardenID = Player.PlayerEnum.Unassigned; // plant is now not in a garden
 
                 }
 
-                gridManager.ShowGrids(); // make the grid visable
+                gridManager.ShowGrids(); // make the grid visible
 
 
                 VacateTiles();
@@ -109,7 +174,7 @@ public class InputControls : MonoBehaviour
                 {
                     var currentTile = hit2.transform.gameObject;
 
-                    if (currentTile.GetComponent<Tile>().curentState == Tile.TileStates.Occupied)
+                    if (currentTile.GetComponent<Tile>().currentState == Tile.TileStates.Occupied)
                     {
                         var tileControls = currentTile.GetComponent<Tile>();
                         gridManager.VacateTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
@@ -122,7 +187,7 @@ public class InputControls : MonoBehaviour
 
     private void PutDownObject()
     {
-        currentObjectMoving = heldObject.GetComponent<ObjectMovement>();
+        currentObjectMoving = hitObject.GetComponent<ObjectMovement>();
         Vector3 newRayOriginPoint = GetRayOriginPoint();
 
         // fires a raycast downward from the Plant 
@@ -136,7 +201,7 @@ public class InputControls : MonoBehaviour
               
                 var currentTile = hit.transform.gameObject;
 
-                if (currentTile.GetComponent<Tile>().curentState == Tile.TileStates.Active)
+                if (currentTile.GetComponent<Tile>().currentState == Tile.TileStates.Active)
                 {
                     var tileControls = currentTile.GetComponent<Tile>();
                     gridManager.OccupyTiles(tileControls.gridID, tileControls.thisTilesRow, tileControls.thisTilesColumn,
@@ -164,15 +229,14 @@ public class InputControls : MonoBehaviour
                     currentObjectMoving.ObjectNotTransparent();
 
 
-                    var plantPlaced = heldObject.GetComponent<PlantItem>();
+                    var plantPlaced = hitObject.GetComponent<PlantItem>();
                     // sets is planted to true so that if it is removed its values can be subtracted from the garden
 
                     plantPlaced.gardenID = GameManager.Instance.CurrentVisibleGarden;
 
                     displayManager.AddToGardenStats(plantPlaced.gardenID, plantPlaced.PlantStats);
         
-
-                    heldObject = null;
+                    hitObject = null;
                     holdingObject = false;
 
                     gridManager.HideGrids();
