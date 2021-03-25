@@ -67,7 +67,7 @@ public class InputControls : MonoBehaviour
 
                 default: 
                     // This shouldn't ever come up
-                    Debug.Log("oopsie woopsie, we made a fucky wucky!"); 
+                    Debug.Log("Hi! You shouldn't ever see me! :)"); 
                     break;
             }       
         }
@@ -105,9 +105,6 @@ public class InputControls : MonoBehaviour
                 if (plantWatered.currGrowth <= plantWatered.growthGoal) {
                     plantWatered.currGrowth += waterInc;
                 }
-
-                Debug.Log("Current Water Value: " + plantWatered.currGrowth);
-
             }
         }
     }

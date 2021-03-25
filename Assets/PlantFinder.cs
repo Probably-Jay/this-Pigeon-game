@@ -28,7 +28,6 @@ public class PlantFinder : MonoBehaviour
     /// </summary>
     public void FindPlants()
     {
-        Debug.Log("SEARCHING");
         gardenPlants.Clear(); // Stops duplicates - Hacky, replace later
         var foundPlants = FindObjectsOfType<PlantItem>();
         for (int i = 0; i < foundPlants.Length; i++)
@@ -43,7 +42,6 @@ public class PlantFinder : MonoBehaviour
     /// </summary>
     public void GrowPlants()
     {
-        Debug.Log("GROWING");
         for (int i = 0; i < gardenPlants.Count; i++)
         {
 
