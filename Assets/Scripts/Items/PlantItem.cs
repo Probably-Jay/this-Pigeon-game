@@ -64,7 +64,7 @@ public class PlantItem : MonoBehaviour
     public Player.PlayerEnum gardenID = Player.PlayerEnum.Unassigned;
 
 
-    private void OnEnable() // todo fix this
+    private void OnEnable() // hack, todo fix this
     {
         matRenderer = GetComponent<Renderer>();
 
