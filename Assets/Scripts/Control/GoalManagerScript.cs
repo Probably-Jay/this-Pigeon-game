@@ -19,11 +19,7 @@ public class GoalManagerScript : MonoBehaviour
 
     [SerializeField] CurrentMood gardenScoreCalculator;
 
- 
 
-
-    //Emotion.Emotions CurrentPlayerGoalEnumValue => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player1 ? GameManager.Instance.Player1Goal : GameManager.Instance.Player2Goal;
-    //TraitValue CurrentPlayerGoal => Emotion.EmotionValues[CurrentPlayerGoalEnumValue];
 
     public TraitValue CurrentPlayerGoal => GetGoal(GameManager.Instance.ActivePlayer.PlayerEnumValue);
     public Emotion.Emotions CurrentPlayerGoalEnumValue => GetGoalEnum(GameManager.Instance.ActivePlayer.PlayerEnumValue);
@@ -44,7 +40,6 @@ public class GoalManagerScript : MonoBehaviour
     public TraitValue GetGoal(Player.PlayerEnum player) => Emotion.EmotionValues[GetGoalEnum(player)];
 
 
-   // public readonly Dictionary
 
 
     public Text goalDisplay;
@@ -53,32 +48,7 @@ public class GoalManagerScript : MonoBehaviour
     public TMP_Text CalmEnergisedDisplay;
 
 
-    //Dictionary<Player.PlayerEnum, > goalMood = new Dictionary<Player.PlayerEnum, MoodAttributes>();
-    
-    //Dictionary<Goal, MoodAttributes> allGoals;
-
-    private void Awake()
-    {
-        //allGoals = new Dictionary<Emotion.Emotions, MoodAttributes>()
-        //{
-        //     {Goal.Proud,   new MoodAttributes( 2, -1, -1 ) }, // Unpleasant/Pleasant, Personal/Social, Calm/Energised
-        //     {Goal.Anxious, new MoodAttributes(-1, -1, 2 ) },
-        //     {Goal.Content, new MoodAttributes( 1, 1, 2 ) }
-        //};
-    }
-
-
-    //private void GetCurrentGoals()
-    //{
-    //    var player1Goal = GameManager.Instance.CurrentGoal;
-    //    var player2Goal = GameManager.Instance.AlternateGoal;
-
-    //    goalMood[Player.PlayerEnum.Player0] = allGoals[player1Goal];
-    //    goalMood[Player.PlayerEnum.Player1] = allGoals[player2Goal];
-
-
-    //}
-
+  
 
     void UpdateText()
     {
@@ -94,14 +64,12 @@ public class GoalManagerScript : MonoBehaviour
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
-      //  EventsManager.BindEvent(EventsManager.EventType.StartGame, GetCurrentGoals);
         EventsManager.BindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
-       // EventsManager.UnbindEvent(EventsManager.EventType.StartGame, GetCurrentGoals);
         EventsManager.UnbindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
     }
 
@@ -109,7 +77,6 @@ public class GoalManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     //   GetCurrentGoals();
         UpdateText();
 
         CheckIfWin();

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Mood
 {
     /// <summary>
-    /// Struct representing a collection of triat values. Immutable.
+    /// Struct representing a collection of triat values. Immutable. See <see cref="Mood.Emotion"/> for garden goals
     /// </summary>
     [System.Serializable]
     public struct TraitValue
