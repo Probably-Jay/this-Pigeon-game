@@ -57,11 +57,11 @@ public class GridControls : MonoBehaviour
         var grid1P2 = grid1P2Gameobject.AddComponent<TheGrid>();
         var grid2P2 = grid2P2Gameobject.AddComponent<TheGrid>();
 
-        grid1P1.Init(startingPositionGrid1, tileSizeGrid1, columnsGrid1, rowsGrid1, Player.PlayerEnum.Player0);
-        grid2P1.Init(startingPositionGrid2, tileSizeGrid2, columnsGrid2, rowsGrid2, Player.PlayerEnum.Player0);
+        grid1P1.Init(startingPositionGrid1, tileSizeGrid1, columnsGrid1, rowsGrid1, Player.PlayerEnum.Player1);
+        grid2P1.Init(startingPositionGrid2, tileSizeGrid2, columnsGrid2, rowsGrid2, Player.PlayerEnum.Player1);
 
-        grid1P2.Init(startingPositionGrid3, tileSizeGrid3, columnsGrid3, rowsGrid3, Player.PlayerEnum.Player1);
-        grid2P2.Init(startingPositionGrid4, tileSizeGrid4, columnsGrid4, rowsGrid4, Player.PlayerEnum.Player1);
+        grid1P2.Init(startingPositionGrid3, tileSizeGrid3, columnsGrid3, rowsGrid3, Player.PlayerEnum.Player2);
+        grid2P2.Init(startingPositionGrid4, tileSizeGrid4, columnsGrid4, rowsGrid4, Player.PlayerEnum.Player2);
 
     }
 }

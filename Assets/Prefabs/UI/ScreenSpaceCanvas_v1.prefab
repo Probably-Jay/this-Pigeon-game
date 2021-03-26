@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5035736041114505220}
   - component: {fileID: 5035736041114505467}
   m_Layer: 5
-  m_Name: ScreenSpaceCanvas
+  m_Name: ScreenSpaceCanvas_v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
