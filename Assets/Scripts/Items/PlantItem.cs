@@ -97,7 +97,7 @@ public class PlantItem : MonoBehaviour
                 matRenderer.material.SetColor("_Color", Color.green); 
                 break;
         }
-
+       
     }
    
     public MoodAttributes PlantStats => new MoodAttributes(pleasance * moodMult, sociability * moodMult, energy * moodMult);
