@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Plants;
 
 // Script created by Alexander Purvis 04/02/2021
 // Edited Scott Jarvis, 24/03/21
