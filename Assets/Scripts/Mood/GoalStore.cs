@@ -31,12 +31,12 @@ public class GoalStore : MonoBehaviour
     {
         if (dropdownPlayer1) { 
             var value1 = dropdownPlayer1.value;
-            StoreGoal(Player.PlayerEnum.Player0,(GoalManagerScript.Goal)value1);
+            StoreGoal(Player.PlayerEnum.Player1,(GoalManagerScript.Goal)value1);
         }
         if (dropdownPlayer2)
         {
             var value2 = dropdownPlayer2.value;
-            StoreGoal(Player.PlayerEnum.Player1, (GoalManagerScript.Goal)value2);
+            StoreGoal(Player.PlayerEnum.Player2, (GoalManagerScript.Goal)value2);
         }
     }
 
@@ -44,10 +44,10 @@ public class GoalStore : MonoBehaviour
     {
         switch (player)
         {
-            case Player.PlayerEnum.Player0:
+            case Player.PlayerEnum.Player1:
                 PlayerPrefs.SetInt(goalKeyPlayer1, (int)goal);
                 break;
-            case Player.PlayerEnum.Player1:
+            case Player.PlayerEnum.Player2:
                 PlayerPrefs.SetInt(goalKeyPlayer2, (int)goal);
                 break;
         }

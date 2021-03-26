@@ -43,6 +43,11 @@ namespace Mood
             this.painful    = painful;
         }
 
+        /// <summary>
+        /// Returns a new zeroed <see cref="TraitValue"/>
+        /// </summary>
+        public static TraitValue Zero => new TraitValue(0,0,0,0);
+
         // private int[] values;
 
         // not an array to allow this to be a struct (no refs)

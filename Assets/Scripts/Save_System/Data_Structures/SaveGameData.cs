@@ -65,20 +65,20 @@ namespace SaveSystemInternal
         public string localGameID;
 
         /// <summary>
-        /// The mood goal for <see cref="Player.PlayerEnum.Player0"/>. This has to be a 1D array due to serialisation limitations (hence the breach of this Pigeon best-practices regarding diferent conceptual-type seperation)
+        /// The mood goal for <see cref="Player.PlayerEnum.Player1"/>. This has to be a 1D array due to serialisation limitations (hence the breach of this Pigeon best-practices regarding diferent conceptual-type seperation)
         /// </summary>
         public int[] p1gardenGoals;
         /// <summary>
-        /// See <see cref="p1gardenGoals"/>. For <see cref="Player.PlayerEnum.Player1"/>
+        /// See <see cref="p1gardenGoals"/>. For <see cref="Player.PlayerEnum.Player2"/>
         /// </summary>
         public int[] p2gardenGoals;
 
         /// <summary>
-        /// The action points for <see cref="Player.PlayerEnum.Player0"/>. In the order defined by <see cref="TurnPoints.PointType"/>. This has to be a 1D array due to serialisation limitations
+        /// The action points for <see cref="Player.PlayerEnum.Player1"/>. In the order defined by <see cref="TurnPoints.PointType"/>. This has to be a 1D array due to serialisation limitations
         /// </summary>
         public int[] p1actionPoints;
         /// <summary>
-        /// See <see cref="p1actionPoints"/>. For <see cref="Player.PlayerEnum.Player1"/>
+        /// See <see cref="p1actionPoints"/>. For <see cref="Player.PlayerEnum.Player2"/>
         /// </summary>
         public int[] p2actionPoints;
 

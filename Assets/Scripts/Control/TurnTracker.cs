@@ -11,7 +11,7 @@ public class TurnTracker
     /// <summary>
     /// The current player's turn (player 0 goes first)
     /// </summary>
-    public Player.PlayerEnum PlayerTurn { get => Turn % 2 != 0 ? Player.PlayerEnum.Player0 : Player.PlayerEnum.Player1 ; }
+    public Player.PlayerEnum PlayerTurn { get => Turn % 2 != 0 ? Player.PlayerEnum.Player1 : Player.PlayerEnum.Player2 ; }
 
   
 

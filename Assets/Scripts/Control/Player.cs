@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 {
 
     public const int NumberOfPlayers = 2;
-    public enum PlayerEnum {Unassigned = -1, Player0 = 0, Player1 = 1 };
+    public enum PlayerEnum {Unassigned = -1, Player1 = 0, Player2 = 1 };
 
     public TurnPoints TurnPoints { get; private set; }
     public PlayerEnum PlayerEnumValue { get; set; }

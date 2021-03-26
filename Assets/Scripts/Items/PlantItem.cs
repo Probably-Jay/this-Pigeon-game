@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mood;
 
 // Created Jay 05/02
 // Edited Scott 24/02
@@ -47,9 +48,16 @@ public class PlantItem : MonoBehaviour
     public PlantGrowthStage plantGrowthState = PlantGrowthStage.Seed;
     public int moodMult = 0;
 
-    [SerializeField, Range(-1, 1)] private int pleasance = 0;
-    [SerializeField, Range(-1, 1)] private int sociability = 0;
-    [SerializeField, Range(-1, 1)] private int energy = 0;
+    [SerializeField, Range(-1, 1)] private int social = 0;
+    [SerializeField, Range(-1, 1)] private int joyful = 0;
+    [SerializeField, Range(-1, 1)] private int energetic = 0;
+    [SerializeField, Range(-1, 1)] private int painful = 0;
+
+   private int Social { get => social * moodMult; set => social = value; }
+   private int Joyful { get => joyful * moodMult; set => joyful = value; }
+   private int Energetic { get => energetic * moodMult; set => energetic = value; }
+   private int Painful { get => painful * moodMult; set => painful = value; }
+
 
     [SerializeField] public int growthGoal = 1;
     public int currGrowth = 0;
@@ -100,6 +108,8 @@ public class PlantItem : MonoBehaviour
        
     }
    
-    public MoodAttributes PlantStats => new MoodAttributes(pleasance * moodMult, sociability * moodMult, energy * moodMult);
+    public TraitValue PlantStats => new TraitValue(Social , Joyful , Energetic, Painful);
+
+
 }
 
