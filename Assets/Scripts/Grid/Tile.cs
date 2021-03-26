@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
     };
 
     // sets the current state to open as default
-    public TileStates curentState = TileStates.Open;
+    public TileStates currentState = TileStates.Open;
 
     // to change the alpha of the object that is moving
     SpriteRenderer objectsSprite;
@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour
     private void Update()
     {
        if (tilesVisable) {
-           if (curentState == TileStates.Active)
+           if (currentState == TileStates.Active)
            {
                if (timePassedForActiveTiles >= triggerTime)
                {
@@ -62,7 +62,7 @@ public class Tile : MonoBehaviour
                }
            }
 
-           if (curentState == TileStates.Blocked)
+           if (currentState == TileStates.Blocked)
            {
                if (timePassedForOccupiedTiles >= triggerTime)
                {
@@ -113,7 +113,7 @@ public class Tile : MonoBehaviour
         objectsSprite.material.color = objectColourValues;
 
         // sets the tile state to tile
-        curentState = TileStates.Active;
+        currentState = TileStates.Active;
         timePassedForActiveTiles = 0.0f;
     }
 
@@ -131,7 +131,7 @@ public class Tile : MonoBehaviour
         // switches out the sprite to reflect the that this tile is free
         // this.gameObject.GetComponent<SpriteRenderer>().sprite = tileDefault;
         // sets the tile state to open
-        curentState = TileStates.Open;
+        currentState = TileStates.Open;
     }
 
     public void TileDenied()
@@ -149,7 +149,7 @@ public class Tile : MonoBehaviour
         objectsSprite.material.color = objectColourValues;
 
         // sets the tile state to taken
-        curentState = TileStates.Blocked;
+        currentState = TileStates.Blocked;
         timePassedForOccupiedTiles = 0.0f;
     }
 
@@ -167,6 +167,6 @@ public class Tile : MonoBehaviour
         objectsSprite.material.color = objectColourValues;
 
         // sets the tile state to taken
-        curentState = TileStates.Occupied;     
+        currentState = TileStates.Occupied;     
     }
 }

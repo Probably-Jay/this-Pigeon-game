@@ -31,7 +31,7 @@ public class GridManager : MonoBehaviour
                 {
                     SignalInappropriatePlacement(gridNumber, tileCoordinateX, tileCoordinateY, objectHeight, objectWidth);
                 }
-                else if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().curentState == Tile.TileStates.Occupied)
+                else if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().currentState == Tile.TileStates.Occupied)
                 {
                     SignalInappropriatePlacement(gridNumber, tileCoordinateX, tileCoordinateY, objectHeight, objectWidth);
                 }
@@ -64,7 +64,7 @@ public class GridManager : MonoBehaviour
 
                 if (tileCoordinateX + row < gridList[gridNumber].thisGridsHeight && tileCoordinateY + column < gridList[gridNumber].thisGridsWidth)
                 {
-                    if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().curentState != Tile.TileStates.Occupied)
+                    if (gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().currentState != Tile.TileStates.Occupied)
                     {
                         gridList[gridNumber].tile[tileCoordinateY + column, tileCoordinateX + row].GetComponent<Tile>().TileDenied();
                     }

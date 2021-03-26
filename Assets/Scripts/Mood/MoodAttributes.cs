@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// A datastructure that explitly stores the mood atributes in an utterly unambiguous way to prevent the infamous first playable bug from happening again
 /// </summary>
-public class MoodAtributes
+public class MoodAttributes
 {
     /// <summary>
     /// The number of attribute scales. Important to be const for serialisation
@@ -129,7 +129,7 @@ public class MoodAtributes
     /// <param name="plesance">The value on the scale of unpleasant (<see cref="-"/>negative) to pleasant (<see cref="+"/>positive). See <see cref="Pleasance"/></param>
     /// <param name="sociability">The value on the scale of personal (<see cref="-"/>negative) to social (<see cref="+"/>positive). See <see cref="Sociability"/></param>
     /// <param name="energy">The value on the scale of calm (<see cref="-"/>negative) to energised (<see cref="+"/>positive). See <see cref="Energy"/></param>
-    public MoodAtributes(int plesance, int sociability, int energy)
+    public MoodAttributes(int plesance, int sociability, int energy)
     {
         values = new int[NumberOfAtributeScales];
         Pleasance = plesance;
@@ -173,15 +173,15 @@ public class MoodAtributes
     }
 
     #region Operators
-    public static MoodAtributes operator -(MoodAtributes a) => new MoodAtributes(-a[0], -a[1], -a[2]);
+    public static MoodAttributes operator -(MoodAttributes a) => new MoodAttributes(-a[0], -a[1], -a[2]);
 
-    public static MoodAtributes operator +(MoodAtributes a, MoodAtributes b) => new MoodAtributes(a[0] + b[0], a[1] + b[1], a[2] + b[2]);
+    public static MoodAttributes operator +(MoodAttributes a, MoodAttributes b) => new MoodAttributes(a[0] + b[0], a[1] + b[1], a[2] + b[2]);
 
-    public static MoodAtributes operator -(MoodAtributes a, MoodAtributes b) => a + (-b);
+    public static MoodAttributes operator -(MoodAttributes a, MoodAttributes b) => a + (-b);
 
 
-    public static bool operator ==(MoodAtributes a, MoodAtributes b) => a.Equals(b);
-    public static bool operator !=(MoodAtributes a, MoodAtributes b) => !(a == b);
+    public static bool operator ==(MoodAttributes a, MoodAttributes b) => a.Equals(b);
+    public static bool operator !=(MoodAttributes a, MoodAttributes b) => !(a == b);
 
 
     
@@ -196,7 +196,7 @@ public class MoodAtributes
         }
         else
         {
-            MoodAtributes o = (MoodAtributes)obj;
+            MoodAttributes o = (MoodAttributes)obj;
             return this[0] == o[0] && this[1] == o[1] && this[2] == o[2];
         }
     }

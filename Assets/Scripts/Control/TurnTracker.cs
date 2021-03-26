@@ -13,9 +13,17 @@ public class TurnTracker
     /// </summary>
     public Player.PlayerEnum PlayerTurn { get => Turn % 2 != 0 ? Player.PlayerEnum.Player0 : Player.PlayerEnum.Player1 ; }
 
+  
+
     /// <summary>
     /// Increment the turn
     /// </summary>
     public void ProgressTurn() { Turn++; TurnActive = true; }
-    public void EndTurn() => TurnActive = false;
+
+    //public void EndTurn() => TurnActive = false;
+
+    public void EndTurn() { 
+        TurnActive = false;
+    }
+
 }
