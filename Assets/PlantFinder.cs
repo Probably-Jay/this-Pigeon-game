@@ -33,7 +33,7 @@ public class PlantFinder : MonoBehaviour
         for (int i = 0; i < foundPlants.Length; i++)
         {
             gardenPlants.Add(foundPlants[i]);
-        };
+        }
     }
 
 
