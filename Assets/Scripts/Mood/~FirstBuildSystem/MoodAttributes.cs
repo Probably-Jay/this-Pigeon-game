@@ -9,7 +9,7 @@ using UnityEngine;
 /// <summary>
 /// A datastructure that explitly stores the mood atributes in an utterly unambiguous way to prevent the infamous first playable bug from happening again
 /// </summary>
-[System.Obsolete("This structure has been replaced by []",false)]
+[System.Obsolete("This class has been replaced by " + nameof(Mood.TraitValue),false)]
 public class MoodAttributes
 {
     /// <summary>

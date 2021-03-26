@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
+// added Jay 26/03
+
 
 namespace Mood
 {
@@ -13,6 +15,9 @@ namespace Mood
     [System.Serializable]
     public struct Emotion
     {
+        /// <summary>
+        /// Enum of emotions
+        /// </summary>
         public enum Emotions
         {
             Loving
@@ -21,6 +26,9 @@ namespace Mood
             , Lonley
         }
 
+        /// <summary>
+        /// Read only collection of <see cref="TraitValue"/>s that represent each emotion
+        /// </summary>
         public static readonly ReadOnlyDictionary<Emotions, TraitValue> EmotionValues = new ReadOnlyDictionary<Emotions, TraitValue>
         (
             new Dictionary<Emotions, TraitValue> 
@@ -32,8 +40,15 @@ namespace Mood
             }
         );
 
+        /// <summary>
+        /// The traits of this emotion
+        /// </summary>
         public readonly TraitValue traits;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="emotion">The emotion being created</param>
         public Emotion(Emotions emotion) => traits = EmotionValues[emotion];
 
     }
