@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mood;
 
 public class GoalStore : MonoBehaviour
 {
@@ -10,10 +11,6 @@ public class GoalStore : MonoBehaviour
 
 
 
-    //public override void Awake()
-    //{
-    //    InitSingleton();
-    //}
 
     [SerializeField] Dropdown dropdownPlayer1;
     [SerializeField] Dropdown dropdownPlayer2;
@@ -31,16 +28,16 @@ public class GoalStore : MonoBehaviour
     {
         if (dropdownPlayer1) { 
             var value1 = dropdownPlayer1.value;
-            StoreGoal(Player.PlayerEnum.Player1,(GoalManagerScript.Goal)value1);
+            StoreGoal(Player.PlayerEnum.Player1,(Emotion.Emotions)value1);
         }
         if (dropdownPlayer2)
         {
             var value2 = dropdownPlayer2.value;
-            StoreGoal(Player.PlayerEnum.Player2, (GoalManagerScript.Goal)value2);
+            StoreGoal(Player.PlayerEnum.Player2, (Emotion.Emotions)value2);
         }
     }
 
-    public static void StoreGoal(Player.PlayerEnum player, GoalManagerScript.Goal goal)
+    public static void StoreGoal(Player.PlayerEnum player, Emotion.Emotions goal)
     {
         switch (player)
         {
@@ -54,14 +51,14 @@ public class GoalStore : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public static GoalManagerScript.Goal GetGoal()
+    public static Emotion.Emotions GetGoal()
     {
-        return (GoalManagerScript.Goal)PlayerPrefs.GetInt(goalKeyPlayer1);
+        return (Emotion.Emotions)PlayerPrefs.GetInt(goalKeyPlayer1);
     }
 
-    public static GoalManagerScript.Goal GetAltGoal()
+    public static Emotion.Emotions GetAltGoal()
     {
-        return (GoalManagerScript.Goal)PlayerPrefs.GetInt(goalKeyPlayer2);
+        return (Emotion.Emotions)PlayerPrefs.GetInt(goalKeyPlayer2);
     }
 
 
