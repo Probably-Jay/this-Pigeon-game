@@ -44,8 +44,8 @@ namespace Plants
       //  [SerializeField] public int growthGoal = 1;
      //   public int currGrowth = 0;
 
-        [SerializeField] List<TendingState.TendingActions> legalTendingActions;
-        public List<TendingState.TendingActions> LegalTendingActions { get => legalTendingActions; set => legalTendingActions = value; }
+        [SerializeField] List<TendingActions> legalTendingActions;
+        public List<TendingActions> LegalTendingActions { get => legalTendingActions; set => legalTendingActions = value; }
 
         public void UpdateSprite()
         {

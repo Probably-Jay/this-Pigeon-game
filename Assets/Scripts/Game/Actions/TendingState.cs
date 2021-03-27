@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.ObjectModel;
 
 namespace Plants
 {
@@ -28,12 +29,12 @@ namespace Plants
             [SerializeField ]List<TendingActions> growthRequiremetsStage5;
             [SerializeField ]List<TendingActions> growthRequiremetsStage6;
             [SerializeField ]List<TendingActions> growthRequiremetsStage7;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage8;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage9;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage10;
+           // [SerializeField ]List<TendingActions> growthRequiremetsStage8;
+           // [SerializeField ]List<TendingActions> growthRequiremetsStage9;
+           // [SerializeField ]List<TendingActions> growthRequiremetsStage10;
             void OnEnable()
             {
-                growthRequirements = new List<TendingActions>[10]
+                growthRequirements = new List<TendingActions>[7]
                 {
                     growthRequiremetsStage1
                     ,growthRequiremetsStage2
@@ -42,29 +43,41 @@ namespace Plants
                     ,growthRequiremetsStage5
                     ,growthRequiremetsStage6
                     ,growthRequiremetsStage7
-                    ,growthRequiremetsStage8
-                    ,growthRequiremetsStage9
-                    ,growthRequiremetsStage10
+            //        ,growthRequiremetsStage8
+            //        ,growthRequiremetsStage9
+            //        ,growthRequiremetsStage10
                 };
             }
             #endregion
 
-            Dictionary<Plant.PlantSize, int[]> growAtStage = new Dictionary<Plant.PlantSize, int[]>() {
-                {Plant.PlantSize.Single, new int[3]{1,2,3} }
-                ,{Plant.PlantSize.Tall, new int[3]{1,3,5} }
-                ,{Plant.PlantSize.Tall, new int[3]{1,3,5} }
-            };
+            public static readonly ReadOnlyDictionary<Plant.PlantSize, int[]> EmotionValues = new ReadOnlyDictionary<Plant.PlantSize, int[]>
+            (
+                new Dictionary<Plant.PlantSize, int[]>
+                {
+                    {Plant.PlantSize.Single, new int[3]{1,2,3} }
+                    ,{Plant.PlantSize.Tall, new int[3]{1,3,5} }
+                    ,{Plant.PlantSize.Wide, new int[3]{1,4,7} }
+                }    
+            );
+
 
 
             List<TendingActions>[] growthRequirements;
 
-            int growthStage;
+            public int GrowthStage { get; private set; }
 
-            public int WateredLevel { get => tends[TendingActions.Watering]; set => tends[TendingActions.Watering] = value; }
 
-            readonly Dictionary<TendingActions, int> tends = new Dictionary<TendingActions, int>();
 
-            
+
+           // public List<TendingActions> CurrentRequiredActions => new(List<TendingActions>)
+
+
+
+            //public int WateredLevel { get => tends[TendingActions.Watering]; set => tends[TendingActions.Watering] = value; }
+
+            //readonly Dictionary<TendingActions, int> tends = new Dictionary<TendingActions, int>();
+
+
 
 
 

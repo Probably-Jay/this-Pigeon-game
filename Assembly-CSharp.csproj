@@ -734,10 +734,6 @@
       <Project>{EA8967D7-A135-C133-FF5D-26BF1681C414}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
-    <ProjectReference Include="TestFolderAssembly.csproj">
-      <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
-      <Name>TestFolderAssembly</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
       <Project>{A04DF00C-C071-A6B4-CED8-E98EB705296E}</Project>
       <Name>Unity.CollabProxy.Editor</Name>
@@ -754,6 +750,14 @@
       <Project>{A88DBC45-B8DF-3525-6A3F-3384EEF39049}</Project>
       <Name>Unity.TextMeshPro</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="TestFolderAssembly.csproj">
+      <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
+      <Name>TestFolderAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="Depracated.csproj">
       <Project>{61414FC7-3AFB-521A-5913-677E6DA682CF}</Project>
       <Name>Depracated</Name>
@@ -761,10 +765,6 @@
     <ProjectReference Include="Helper.csproj">
       <Project>{8EC6C8C5-D3BB-D64F-8C83-460E93FFB41D}</Project>
       <Name>Helper</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
-      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

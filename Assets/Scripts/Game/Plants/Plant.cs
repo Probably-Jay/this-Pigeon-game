@@ -34,12 +34,9 @@ namespace Plants {
             , Phodetta
         }
 
-        private void Awake()
-        {
-            PlantGrowth = GetComponent<PlantGrowth>();
-        }
 
-        public void Tend(TendingState.TendingActions tendingActions)
+
+        public void Tend(TendingActions tendingActions)
         {
             throw new NotImplementedException();
         }
@@ -82,6 +79,9 @@ namespace Plants {
 
         private void Awake() // hack, todo fix this
         {
+
+            PlantGrowth = GetComponent<PlantGrowth>();
+
 
             // Get current player
             plantOwner = GameManager.Instance.ActivePlayer; // Load system will break here
