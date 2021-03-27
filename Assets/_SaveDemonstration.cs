@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SaveSystemInternal;
+using Plants;
 
 
 /// <summary>
@@ -62,14 +63,14 @@ public class _SaveDemonstration : MonoBehaviour
 
         var go1 = new GameObject();
         var go2 = new GameObject();
-        var plant = go1.AddComponent<PlantItem>();
+        var plant = go1.AddComponent<Plant>();
 
         var player = go2.AddComponent<Player>();
-        player.PlayerEnumValue = Player.PlayerEnum.Player1;
+        player.PlayerEnumValue = Player.PlayerEnum.Player2;
 
         go1.transform.position = new Vector3(1, 2, 3);
         plant.plantOwner = player;
-        plant.plantname = PlantItem.PlantName.Phess;
+        plant.plantname = Plant.PlantName.Phess;
 
 
         SaveManager.Instance.GameData.plants.Add(plant);
@@ -95,7 +96,7 @@ public class _SaveDemonstration : MonoBehaviour
 
         foreach (var plantData in SaveManager.Instance.GameData.plantsToAdd)
         {
-            Debug.Log($"Plant: {((PlantItem.PlantName)plantData.plantNameType).ToString()}");
+            Debug.Log($"Plant: {((Plant.PlantName)plantData.plantNameType).ToString()}");
             Debug.Log($"Position: {(new Vector3(plantData.position[0],plantData.position[1],plantData.position[2])).ToString()}");
             Debug.Log($"Owner: {((Player.PlayerEnum)plantData.owner).ToString()}");
         }

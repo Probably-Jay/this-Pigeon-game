@@ -27,10 +27,10 @@ public class SwapGardenButton : MonoBehaviour
     {
         switch ((Player.PlayerEnum)paramaters.EnumData)
         {
-            case Player.PlayerEnum.Player0:
+            case Player.PlayerEnum.Player1:
                 animator.SetTrigger("SwitchToPlayerOne");
                 break;
-            case Player.PlayerEnum.Player1:
+            case Player.PlayerEnum.Player2:
                 animator.SetTrigger("SwitchToPlayerTwo");
                 break;
             default:

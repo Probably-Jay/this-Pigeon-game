@@ -56,8 +56,8 @@ public class EndGameScript : MonoBehaviour
         }
 
         squadGoals.text =
-         $"Garden 1 Goal: {GameManager.Instance.CurrentGoal.ToString()},\n" +
-         $"Garden 2 Goal: {GameManager.Instance.AlternateGoal.ToString()}";
+         $"Garden 1 Goal: {GameManager.Instance.Player1Goal.ToString()},\n" +
+         $"Garden 2 Goal: {GameManager.Instance.Player2Goal.ToString()}";
     }
 
     private IEnumerator RotateIn()

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Cryptography;
-
+using Plants;
 
 // jay 13/03
 
@@ -23,21 +23,21 @@ namespace SaveSystemInternal
         {
             SaveGameData newData = new SaveGameData(liveData.gameID);
 
-            newData.p1gardenGoals = liveData.gardenGoals[Player.PlayerEnum.Player0].DeepCopyValues();
-            newData.p2gardenGoals = liveData.gardenGoals[Player.PlayerEnum.Player1].DeepCopyValues();
+            newData.p1gardenGoals = liveData.gardenGoals[Player.PlayerEnum.Player1].DeepCopyValues();
+            newData.p2gardenGoals = liveData.gardenGoals[Player.PlayerEnum.Player2].DeepCopyValues();
 
             newData.p1actionPoints = new int[TurnPoints.NumberOfPointTypes];
             newData.p2actionPoints = new int[TurnPoints.NumberOfPointTypes];
             foreach (TurnPoints.PointType type in System.Enum.GetValues(typeof(TurnPoints.PointType)))
             {
-                newData.p1actionPoints[(int)type] = liveData.actionPoints[Player.PlayerEnum.Player0][type];
-                newData.p2actionPoints[(int)type] = liveData.actionPoints[Player.PlayerEnum.Player1][type];
+                newData.p1actionPoints[(int)type] = liveData.actionPoints[Player.PlayerEnum.Player1][type];
+                newData.p2actionPoints[(int)type] = liveData.actionPoints[Player.PlayerEnum.Player2][type];
             }
 
             newData.plants = new SerialisedPlantData[liveData.plants.Count];
             for (int i = 0; i < liveData.plants.Count; i++)
             {
-                PlantItem plant = liveData.plants[i];
+                Plant plant = liveData.plants[i];
                 newData.plants[i] = GetSerialisablePlant(plant);
             }
 
@@ -47,7 +47,7 @@ namespace SaveSystemInternal
             return newData;
         }
 
-        private static SerialisedPlantData GetSerialisablePlant(PlantItem plant)
+        private static SerialisedPlantData GetSerialisablePlant(Plant plant)
         {
             SerialisedPlantData serialisedPlant = new SerialisedPlantData();
 
@@ -73,21 +73,21 @@ namespace SaveSystemInternal
 
             newData.gardenGoals = new Dictionary<Player.PlayerEnum, MoodAttributes>()
             {
-                {Player.PlayerEnum.Player0, new MoodAttributes(saveData.p1gardenGoals[0],saveData.p1gardenGoals[1],saveData.p1gardenGoals[2]) },
-                {Player.PlayerEnum.Player1, new MoodAttributes(saveData.p2gardenGoals[0],saveData.p2gardenGoals[1],saveData.p2gardenGoals[2]) }
+                {Player.PlayerEnum.Player1, new MoodAttributes(saveData.p1gardenGoals[0],saveData.p1gardenGoals[1],saveData.p1gardenGoals[2]) },
+                {Player.PlayerEnum.Player2, new MoodAttributes(saveData.p2gardenGoals[0],saveData.p2gardenGoals[1],saveData.p2gardenGoals[2]) }
             };
 
             newData.actionPoints = new Dictionary<Player.PlayerEnum, Dictionary<TurnPoints.PointType, int>>()
             {
                 {
-                    Player.PlayerEnum.Player0, new Dictionary<TurnPoints.PointType, int>()
+                    Player.PlayerEnum.Player1, new Dictionary<TurnPoints.PointType, int>()
                     {
                         { TurnPoints.PointType.SelfObjectPlace,     saveData.p1actionPoints[0] },
                         { TurnPoints.PointType.OtherObjectPlace,    saveData.p1actionPoints[1] }
                     }
                 },
                 {
-                    Player.PlayerEnum.Player1, new Dictionary<TurnPoints.PointType, int>()
+                    Player.PlayerEnum.Player2, new Dictionary<TurnPoints.PointType, int>()
                     {
                         { TurnPoints.PointType.SelfObjectPlace,     saveData.p2actionPoints[0] },
                         { TurnPoints.PointType.OtherObjectPlace,    saveData.p2actionPoints[1] }

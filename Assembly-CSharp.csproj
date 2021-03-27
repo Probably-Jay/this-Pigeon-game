@@ -64,9 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\PlantFinder.cs" />
-    <Compile Include="Assets\Scripts\Action_Points\TurnPoints.cs" />
-    <Compile Include="Assets\Scripts\Action_Points\TurnPointsUI.cs" />
-    <Compile Include="Assets\Scripts\Action_Points\_InputFaker.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
@@ -78,33 +75,40 @@
     <Compile Include="Assets\Scripts\Control\MenuController.cs" />
     <Compile Include="Assets\Scripts\Control\Mood_Select\MoodSelectController.cs" />
     <Compile Include="Assets\Scripts\Control\Personal_Garden\PersonalGardenController.cs" />
-    <Compile Include="Assets\Scripts\Control\PlantManager.cs" />
     <Compile Include="Assets\Scripts\Control\Player.cs" />
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
-    <Compile Include="Assets\Scripts\Control\TurnTracker.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
-    <Compile Include="Assets\Scripts\Grid\GardenEmotionIndicatorControls.cs" />
-    <Compile Include="Assets\Scripts\Grid\GridControls.cs" />
-    <Compile Include="Assets\Scripts\Grid\GridInList.cs" />
-    <Compile Include="Assets\Scripts\Grid\GridManager.cs" />
-    <Compile Include="Assets\Scripts\Grid\InputControls.cs" />
-    <Compile Include="Assets\Scripts\Grid\ObjectMovement.cs" />
-    <Compile Include="Assets\Scripts\Grid\Spawner.cs" />
-    <Compile Include="Assets\Scripts\Grid\TheGrid.cs" />
-    <Compile Include="Assets\Scripts\Grid\Tile.cs" />
+    <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPoints.cs" />
+    <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPointsUI.cs" />
+    <Compile Include="Assets\Scripts\Game\Actions\Action_Points\_InputFaker.cs" />
+    <Compile Include="Assets\Scripts\Game\Actions\TendingState.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\GardenEmotionIndicatorControls.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\GridControls.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\GridInList.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\GridManager.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\InputControls.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\ObjectMovement.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\Spawner.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\TheGrid.cs" />
+    <Compile Include="Assets\Scripts\Game\Grid\Tile.cs" />
+    <Compile Include="Assets\Scripts\Game\Mood\Emotion.cs" />
+    <Compile Include="Assets\Scripts\Game\Mood\GoalStore.cs" />
+    <Compile Include="Assets\Scripts\Game\Mood\TraitValue.cs" />
+    <Compile Include="Assets\Scripts\Game\Mood\~FirstBuildSystem\MoodAttributes.cs" />
+    <Compile Include="Assets\Scripts\Game\Plants\Plant.cs" />
+    <Compile Include="Assets\Scripts\Game\Plants\PlantGrowth.cs" />
+    <Compile Include="Assets\Scripts\Game\Turns\TurnDisplayControl.cs" />
+    <Compile Include="Assets\Scripts\Game\Turns\TurnTracker.cs" />
     <Compile Include="Assets\Scripts\Inventory\HideShowInventory.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryList.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryUIControl.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryUISlot.cs" />
-    <Compile Include="Assets\Scripts\Items\PlantItem.cs" />
     <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\Level_Change\MenuSwap.cs" />
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
-    <Compile Include="Assets\Scripts\Mood\GoalStore.cs" />
-    <Compile Include="Assets\Scripts\Mood\MoodAttributes.cs" />
     <Compile Include="Assets\Scripts\Save_System\Collecting_Data\SaveDataUtility.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\GameMetaData.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\LiveGameData.cs" />
@@ -115,11 +119,11 @@
     <Compile Include="Assets\Scripts\Save_System\Saving_Data\SaveRegistryManager.cs" />
     <Compile Include="Assets\Scripts\Save_System\Serialisation\SaveDataSerialiser.cs" />
     <Compile Include="Assets\Scripts\Save_System\Serialisation\SaveGameRegistrySerialiser.cs" />
-    <Compile Include="Assets\Scripts\Turns\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\UI\CurrentMood.cs" />
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
+    <Compile Include="Assets\Scripts\UI\ToolDrag.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
@@ -730,10 +734,6 @@
       <Project>{EA8967D7-A135-C133-FF5D-26BF1681C414}</Project>
       <Name>Unity.Timeline</Name>
     </ProjectReference>
-    <ProjectReference Include="TestFolderAssembly.csproj">
-      <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
-      <Name>TestFolderAssembly</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
       <Project>{A04DF00C-C071-A6B4-CED8-E98EB705296E}</Project>
       <Name>Unity.CollabProxy.Editor</Name>
@@ -750,6 +750,14 @@
       <Project>{A88DBC45-B8DF-3525-6A3F-3384EEF39049}</Project>
       <Name>Unity.TextMeshPro</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="TestFolderAssembly.csproj">
+      <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
+      <Name>TestFolderAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="Depracated.csproj">
       <Project>{61414FC7-3AFB-521A-5913-677E6DA682CF}</Project>
       <Name>Depracated</Name>
@@ -757,10 +765,6 @@
     <ProjectReference Include="Helper.csproj">
       <Project>{8EC6C8C5-D3BB-D64F-8C83-460E93FFB41D}</Project>
       <Name>Helper</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
-      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

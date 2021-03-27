@@ -4,10 +4,12 @@ using UnityEngine;
 
 
 // added Jay 10/03
+// depraceated Jay 26/03 due to redesign of mood system
 
 /// <summary>
 /// A datastructure that explitly stores the mood atributes in an utterly unambiguous way to prevent the infamous first playable bug from happening again
 /// </summary>
+[System.Obsolete("This class has been replaced by " + nameof(Mood.TraitValue),false)]
 public class MoodAttributes
 {
     /// <summary>

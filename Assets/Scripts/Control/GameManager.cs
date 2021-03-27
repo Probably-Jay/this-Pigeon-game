@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mood;
 
 // created jay 12/02
 
@@ -18,8 +19,8 @@ public class GameManager : Singleton<GameManager>
     public HotSeatManager HotSeatManager { get; private set; }
     public CurrentMood PlantManager { get; private set; }
 
-    public GoalManagerScript.Goal CurrentGoal { get; private set; }
-    public GoalManagerScript.Goal AlternateGoal { get; private set; }
+    public Emotion.Emotions Player1Goal { get; private set; }
+    public Emotion.Emotions Player2Goal { get; private set; }
 
     public Player ActivePlayer => HotSeatManager.ActivePlayer;
     public int TurnCount => HotSeatManager.TurnTracker.Turn;
@@ -48,8 +49,8 @@ public class GameManager : Singleton<GameManager>
 
     void BeginGame()
     {
-        CurrentGoal = GoalStore.GetGoal();
-        AlternateGoal = GoalStore.GetAltGoal();
+        Player1Goal = GoalStore.GetGoal();
+        Player2Goal = GoalStore.GetAltGoal();
     }
 
     public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
