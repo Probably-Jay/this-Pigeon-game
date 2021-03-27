@@ -44,6 +44,9 @@ public class EventsManager : Singleton<EventsManager>
         , StartGame
         , GameOver
 
+        , ToolBoxOpen
+        , ToolBoxClose
+
 
         , QuitGame
     }
