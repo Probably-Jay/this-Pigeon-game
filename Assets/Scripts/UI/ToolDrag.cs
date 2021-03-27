@@ -57,4 +57,9 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             this.transform.localPosition = startingPostition;
         }
     }
+    public Vector3 GetWorldPosition()
+    {
+        return worldPosition;
+    }
+    //needs to have a getter for what kind of tool it is
 }
