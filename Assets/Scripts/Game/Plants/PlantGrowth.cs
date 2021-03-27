@@ -14,6 +14,16 @@ namespace Plants
     public class PlantGrowth : MonoBehaviour
     {
 
+        private void OnEnable()
+        {
+            EventsManager.BindEvent(EventsManager.EventType.EndTurn, GrowIfShould);
+        }
+        private void OnDisable()
+        {
+            EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, GrowIfShould);
+        }
+
+
         public enum VisibleGrowthStage
         {
             Seed = 0,
@@ -60,7 +70,7 @@ namespace Plants
         /// <summary>
         /// Grow the plant or progress to the next growth stage
         /// </summary>
-        public void GrowIfShould()
+        private void GrowIfShould()
         {
             if (tendingState.ReadyToVisiblyGrow)
             {
@@ -116,7 +126,7 @@ namespace Plants
         {
             if (!tendingState.CanTend(action))
             {
-
+                
                 return;
             }
 

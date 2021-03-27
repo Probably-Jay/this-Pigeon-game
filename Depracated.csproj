@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\~Deprecated\CallChangeScene.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\PlantFinder.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\PlantManager.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
