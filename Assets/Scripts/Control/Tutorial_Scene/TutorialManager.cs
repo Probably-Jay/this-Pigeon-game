@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    public void EnterGame() => SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
+    public void EnterGame() => SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
 }

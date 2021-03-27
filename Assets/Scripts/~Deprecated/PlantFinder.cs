@@ -6,6 +6,9 @@ using Plants;
 // Script for finding / growing all plants in scene
 // Scott Jarvis, 24/03/21
 
+// depracated jay 27/03 
+
+[System.Obsolete("Plants now responsible for growing themselves")]
 public class PlantFinder : MonoBehaviour
 {
 
@@ -46,7 +49,7 @@ public class PlantFinder : MonoBehaviour
     {
         for (int i = 0; i < gardenPlants.Count; i++)
         {
-            gardenPlants[i].PlantGrowth.GrowIfShould();
+            //gardenPlants[i].PlantGrowth.GrowIfShould();
         }
     }
 

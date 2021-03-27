@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mood;
 
+// created jay
+// altered jay 27/03
+
 public class GoalStore : MonoBehaviour
 {
     private const string goalKeyPlayer1 = "Goal_Player1";
@@ -12,30 +15,27 @@ public class GoalStore : MonoBehaviour
 
 
 
-    [SerializeField] Dropdown dropdownPlayer1;
-    [SerializeField] Dropdown dropdownPlayer2;
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.BeginSceneLoad, StoreGoal);
-    }
+    //[SerializeField] Dropdown dropdownPlayer1;
+   // [SerializeField] Dropdown dropdownPlayer2;
 
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.BeginSceneLoad, StoreGoal);
-    }
+    [SerializeField] Dropdown dropdown;
+    [SerializeField] Player.PlayerEnum player;
 
-    public void StoreGoal()
-    {
-        if (dropdownPlayer1) { 
-            var value1 = dropdownPlayer1.value;
-            StoreGoal(Player.PlayerEnum.Player1,(Emotion.Emotions)value1);
-        }
-        if (dropdownPlayer2)
-        {
-            var value2 = dropdownPlayer2.value;
-            StoreGoal(Player.PlayerEnum.Player2, (Emotion.Emotions)value2);
-        }
-    }
+    public void StoreGoal() => StoreGoal(player, (Emotion.Emotions)dropdown.value);
+
+
+    //public void StoreGoal()
+    //{
+    //    if (dropdownPlayer1) { 
+    //        var value1 = dropdownPlayer1.value;
+    //        StoreGoal(Player.PlayerEnum.Player1,(Emotion.Emotions)value1);
+    //    }
+    //    if (dropdownPlayer2)
+    //    {
+    //        var value2 = dropdownPlayer2.value;
+    //        StoreGoal(Player.PlayerEnum.Player2, (Emotion.Emotions)value2);
+    //    }
+    //}
 
     public static void StoreGoal(Player.PlayerEnum player, Emotion.Emotions goal)
     {

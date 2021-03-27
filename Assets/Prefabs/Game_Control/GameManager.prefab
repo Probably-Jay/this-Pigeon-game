@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d8b22232186054888e99deee596334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotseatSwapTime: 1
+  hotseatSwapTime: 0.3
   playerPrefab: {fileID: 2801982411082916544, guid: 71e96e5306709634e8276e413e9259b2,
     type: 3}
 --- !u!114 &6557808465096973077

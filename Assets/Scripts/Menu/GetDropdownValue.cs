@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 // Scott Jarvis, 16/02/2021
 
-
-
+// depracated jay 27/03
+[System.Obsolete("Functionality replaced by " +nameof(GoalStore))]
 public class GetDropdownValue : MonoBehaviour
 {
 

@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\PlantFinder.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
@@ -98,6 +97,7 @@
     <Compile Include="Assets\Scripts\Game\Mood\~FirstBuildSystem\MoodAttributes.cs" />
     <Compile Include="Assets\Scripts\Game\Plants\Plant.cs" />
     <Compile Include="Assets\Scripts\Game\Plants\PlantGrowth.cs" />
+    <Compile Include="Assets\Scripts\Game\Turns\PlayerGardenSignControl.cs" />
     <Compile Include="Assets\Scripts\Game\Turns\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\Game\Turns\TurnTracker.cs" />
     <Compile Include="Assets\Scripts\Inventory\HideShowInventory.cs" />
@@ -127,6 +127,15 @@
     <Compile Include="Assets\Scripts\UI\ToolBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolDrag.cs" />
     <Compile Include="Assets\Scripts\UI\UICommands.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\CallChangeScene.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\PlantFinder.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\PlantManager.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
+    <Compile Include="Assets\Scripts\~Deprecated\~Rooms\RoomData.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
@@ -756,10 +765,6 @@
     <ProjectReference Include="Unity.TextMeshPro.csproj">
       <Project>{A88DBC45-B8DF-3525-6A3F-3384EEF39049}</Project>
       <Name>Unity.TextMeshPro</Name>
-    </ProjectReference>
-    <ProjectReference Include="Depracated.csproj">
-      <Project>{61414FC7-3AFB-521A-5913-677E6DA682CF}</Project>
-      <Name>Depracated</Name>
     </ProjectReference>
     <ProjectReference Include="Helper.csproj">
       <Project>{8EC6C8C5-D3BB-D64F-8C83-460E93FFB41D}</Project>

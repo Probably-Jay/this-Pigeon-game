@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New Tending State
   m_EditorClassIdentifier: 
   plantSize: 0
-  growthRequiremetsStage1: 
-  growthRequiremetsStage2: 
+  growthRequiremetsStage1: 00000000
+  growthRequiremetsStage2: 0000000000000000
   growthRequiremetsStage3: 
   growthRequiremetsStage4: 
   growthRequiremetsStage5: 
