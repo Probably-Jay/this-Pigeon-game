@@ -46,29 +46,7 @@ public class PlantFinder : MonoBehaviour
     {
         for (int i = 0; i < gardenPlants.Count; i++)
         {
-
-            //// Water-based growth, add more later
-            //if (gardenPlants[i].currGrowth >= gardenPlants[i].growthGoal)
-            //{
-            //    switch (gardenPlants[i].plantGrowthState)
-            //    {
-            //        case Plant.PlantGrowthStage.Seed:
-            //            gardenPlants[i].plantGrowthState = Plant.PlantGrowthStage.Sprout;
-            //            gardenPlants[i].moodMult = 1;
-            //            break;
-            //        case Plant.PlantGrowthStage.Sprout:
-            //            gardenPlants[i].plantGrowthState = Plant.PlantGrowthStage.Bloom;
-            //            gardenPlants[i].moodMult = 2;
-            //            break;
-            //        case Plant.PlantGrowthStage.Bloom: 
-            //            // Nothing happens for now, plant is fully grown
-            //            // Maybe add little event later if we have time
-            //            break;
-            //    }
-            //    gardenPlants[i].currGrowth = 0;
-            //}
-            //gardenPlants[i].UpdateSprite();
-
+            gardenPlants[i].PlantGrowth.GrowIfShould();
         }
     }
 

@@ -36,7 +36,7 @@ namespace Mood
                   { Emotions.Loving,    new TraitValue(social: 1, joyful: 1, energetic: 0, painful: 0) } 
                 , { Emotions.Excited,   new TraitValue(social: 0, joyful: 1, energetic: 1, painful: 0) }
                 , { Emotions.Stressed,  new TraitValue(social: 0, joyful: 0, energetic: 1, painful: 1) }
-                , { Emotions.Excited,   new TraitValue(social: 1, joyful: 0, energetic: 0, painful: 1) }
+                , { Emotions.Lonley,    new TraitValue(social: 1, joyful: 0, energetic: 0, painful: 1) }
             }
         );
 
