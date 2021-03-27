@@ -36,11 +36,7 @@ namespace Plants {
 
 
 
-        public void Tend(TendingActions tendingActions)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public enum PlantSize // ToDo Later
         {
             Wide,
@@ -76,7 +72,6 @@ namespace Plants {
         // public bool isPlanted = false;
         public Player.PlayerEnum gardenID = Player.PlayerEnum.Unassigned;
 
-
         private void Awake() // hack, todo fix this
         {
 
@@ -104,6 +99,13 @@ namespace Plants {
         public TraitValue PlantStats => new TraitValue(Social, Joyful, Energetic, Painful);
 
         public PlantGrowth PlantGrowth { get; private set; }
+
+        /// <summary>
+        /// Tend the plant. No effect if this plant does not need this action taken
+        /// </summary>
+        public void Tend(TendingActions action) => PlantGrowth.Tend(action);
+
+
     }
 
 }

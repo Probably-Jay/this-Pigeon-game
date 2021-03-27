@@ -77,7 +77,7 @@ namespace Plants
         {
             growthState++;
             UpdateSprite();
-            //UpdateGrowthImage
+            //UpdateGrowthImage();
         }
 
         void UpdateGrowthImage()
