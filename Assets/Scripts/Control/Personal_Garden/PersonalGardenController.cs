@@ -6,7 +6,7 @@ public class PersonalGardenController : MonoBehaviour
 {
     public void EnterGame()
     {
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
     }
 
     public void QuitToMenu()
