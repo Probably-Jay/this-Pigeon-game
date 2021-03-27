@@ -90,6 +90,7 @@ public class HotSeatManager : MonoBehaviour
     IEnumerator PauseBeforeStartingNextTurn()
     {
       //  EndTurnButton.enabled = false; // todo refactor away this ref
+
         yield return new WaitForSeconds(hotseatSwapTime);
        // EndTurnButton.enabled = true;
 
