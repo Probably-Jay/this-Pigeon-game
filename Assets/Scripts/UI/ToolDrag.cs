@@ -11,10 +11,11 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 startingPostition;
     bool isMouseOver;
     Vector3 worldPosition;
+    bool isPickedUp;
     // Start is called before the first frame update
     void Start()
     {
-        startingPostition = this.transform.position;
+        startingPostition = this.transform.localPosition;
         myImage = this.GetComponent<Image>();
         //Debug.Log(myImage.rectTransform.rect.Contains);
     }
@@ -37,14 +38,23 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             isMouseOver = false;
             //Debug.Log("out");
         }
-        if (Input.GetMouseButton(0)&&isMouseOver)
+        if (Input.GetMouseButtonDown(0) && isMouseOver)
+        {
+            isPickedUp = true;
+        }
+        if (isPickedUp)
         {
             this.transform.position = Input.mousePosition;
-            worldPosition=Camera.main.ScreenToWorldPoint(this.transform.position);
+            worldPosition = Camera.main.ScreenToWorldPoint(this.transform.position);
+
+            if (!Input.GetMouseButton(0))
+            {
+                isPickedUp = false;
+            }
         }
         else
         {
-            this.transform.position = startingPostition;
+            this.transform.localPosition = startingPostition;
         }
     }
 }
