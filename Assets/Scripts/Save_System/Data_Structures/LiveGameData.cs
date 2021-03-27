@@ -13,7 +13,7 @@ public class LiveGameData
     /// <summary>
     /// Default empty constructor
     /// </summary>
-    public LiveGameData() { plants = new List<PlantItem>(); }
+    public LiveGameData() { plants = new List<Plant>(); }
 
     /// <summary>
     /// Constructor for creating this object from a save file
@@ -22,7 +22,7 @@ public class LiveGameData
     public LiveGameData(SerialisedPlantData[] plantDataFromSaveFile) 
     { 
         plantsToAdd = plantDataFromSaveFile; 
-        plants = new List<PlantItem>(); 
+        plants = new List<Plant>(); 
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class LiveGameData
     /// <summary>
     /// List of all of the plants in the game
     /// </summary>
-    public List<PlantItem> plants;
+    public List<Plant> plants;
 
     /// <summary>
     /// When a game is loaded, the data about the plants will be added to this array. The plants will need to be instatniated properly
