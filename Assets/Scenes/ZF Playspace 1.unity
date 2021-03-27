@@ -3196,6 +3196,7 @@ GameObject:
   - component: {fileID: 1705033701}
   - component: {fileID: 1705033700}
   - component: {fileID: 1705033703}
+  - component: {fileID: 1705033704}
   m_Layer: 5
   m_Name: ToolboxOpenButton
   m_TagString: Untagged
@@ -3220,7 +3221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 155.55, y: -162.8}
+  m_AnchoredPosition: {x: 155.55, y: -301.2}
   m_SizeDelta: {x: 97.76129, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1705033700
@@ -3324,6 +3325,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8ec0582466768428557085e833b48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1705033704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705033698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654e784f86d0d454095390f3047b953c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1800933811
