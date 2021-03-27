@@ -82,7 +82,7 @@
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\_InputFaker.cs" />
-    <Compile Include="Assets\Scripts\Game\Actions\Tending.cs" />
+    <Compile Include="Assets\Scripts\Game\Actions\TendingState.cs" />
     <Compile Include="Assets\Scripts\Game\Grid\GardenEmotionIndicatorControls.cs" />
     <Compile Include="Assets\Scripts\Game\Grid\GridControls.cs" />
     <Compile Include="Assets\Scripts\Game\Grid\GridInList.cs" />
@@ -96,7 +96,8 @@
     <Compile Include="Assets\Scripts\Game\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Game\Mood\TraitValue.cs" />
     <Compile Include="Assets\Scripts\Game\Mood\~FirstBuildSystem\MoodAttributes.cs" />
-    <Compile Include="Assets\Scripts\Game\Plants\PlantItem.cs" />
+    <Compile Include="Assets\Scripts\Game\Plants\Plant.cs" />
+    <Compile Include="Assets\Scripts\Game\Plants\PlantGrowth.cs" />
     <Compile Include="Assets\Scripts\Game\Turns\TurnDisplayControl.cs" />
     <Compile Include="Assets\Scripts\Game\Turns\TurnTracker.cs" />
     <Compile Include="Assets\Scripts\Inventory\HideShowInventory.cs" />

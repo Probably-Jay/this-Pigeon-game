@@ -7,15 +7,28 @@ namespace Plants
     namespace PlantActions
     {
 
-
-        public static class Tending
+        public enum TendingActions
         {
+            Watering
+            
+        }
 
-            public enum TendingActions
+
+
+        public class TendingState
+        {
+           // int wateredLevel;
+            public int WateredLevel { get => tends[TendingActions.Watering]; set => tends[TendingActions.Watering] = value; }
+
+            readonly Dictionary<TendingActions, int> tends = new Dictionary<TendingActions, int>();
+
+
+
+
+            public TendingState(Plant.PlantSize size)
             {
-                Watering
-            }
 
+            }
 
 
         }

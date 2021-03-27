@@ -37,7 +37,7 @@ namespace SaveSystemInternal
             newData.plants = new SerialisedPlantData[liveData.plants.Count];
             for (int i = 0; i < liveData.plants.Count; i++)
             {
-                PlantItem plant = liveData.plants[i];
+                Plant plant = liveData.plants[i];
                 newData.plants[i] = GetSerialisablePlant(plant);
             }
 
@@ -47,7 +47,7 @@ namespace SaveSystemInternal
             return newData;
         }
 
-        private static SerialisedPlantData GetSerialisablePlant(PlantItem plant)
+        private static SerialisedPlantData GetSerialisablePlant(Plant plant)
         {
             SerialisedPlantData serialisedPlant = new SerialisedPlantData();
 

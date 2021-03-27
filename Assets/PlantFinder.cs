@@ -9,7 +9,7 @@ using Plants;
 public class PlantFinder : MonoBehaviour
 {
 
-    public List<PlantItem> gardenPlants = new List<PlantItem>(); // Holds both gardens in same var
+    public List<Plant> gardenPlants = new List<Plant>(); // Holds both gardens in same var
 
     private void OnEnable()
     {
@@ -31,7 +31,7 @@ public class PlantFinder : MonoBehaviour
     public void FindPlants()
     {
         gardenPlants.Clear(); // Stops duplicates - Hacky, replace later
-        var foundPlants = FindObjectsOfType<PlantItem>();
+        var foundPlants = FindObjectsOfType<Plant>();
         for (int i = 0; i < foundPlants.Length; i++)
         {
             gardenPlants.Add(foundPlants[i]);
@@ -40,7 +40,7 @@ public class PlantFinder : MonoBehaviour
 
 
     /// <summary>
-    /// Search through all plants, growing any that fill the requirements to go to the next stage
+    /// Grows any that fill the requirements to go to the next stage
     /// </summary>
     public void GrowPlants()
     {
@@ -52,15 +52,15 @@ public class PlantFinder : MonoBehaviour
             {
                 switch (gardenPlants[i].plantGrowthState)
                 {
-                    case PlantItem.PlantGrowthStage.Seed:
-                        gardenPlants[i].plantGrowthState = PlantItem.PlantGrowthStage.Sprout;
+                    case Plant.PlantGrowthStage.Seed:
+                        gardenPlants[i].plantGrowthState = Plant.PlantGrowthStage.Sprout;
                         gardenPlants[i].moodMult = 1;
                         break;
-                    case PlantItem.PlantGrowthStage.Sprout:
-                        gardenPlants[i].plantGrowthState = PlantItem.PlantGrowthStage.Bloom;
+                    case Plant.PlantGrowthStage.Sprout:
+                        gardenPlants[i].plantGrowthState = Plant.PlantGrowthStage.Bloom;
                         gardenPlants[i].moodMult = 2;
                         break;
-                    case PlantItem.PlantGrowthStage.Bloom: 
+                    case Plant.PlantGrowthStage.Bloom: 
                         // Nothing happens for now, plant is fully grown
                         // Maybe add little event later if we have time
                         break;
@@ -69,7 +69,7 @@ public class PlantFinder : MonoBehaviour
             }
             gardenPlants[i].UpdateSprite();
 
-        };
+        }
     }
 
 }
