@@ -73,12 +73,12 @@ namespace Plants
             List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[currentGrowthStage] : new List<TendingActions>();
 
             /// <summary>
-            /// If the plant is ready to progress to the next growth stage
+            /// If the plant is ready to progress to the next growth stage at the end of this turn
             /// </summary>
             public bool ReadyToProgressStage => !AtFullStageOfGrowth && RequiredActions.Count == 0;
 
             /// <summary>
-            /// If the plant is ready to change it's art
+            /// If the plant is ready to change it's art at the end of this turn
             /// </summary>
             public bool ReadyToVisiblyGrow => ReadyToProgressStage && NextStageIsArtChange;
             bool NextStageIsArtChange => ArtChagesAt[plantSize].Contains(currentGrowthStage + 1);
@@ -93,13 +93,18 @@ namespace Plants
             /// </summary>
             public void Tend(TendingActions action) => RequiredActions.Remove(action);
 
+            public event Action OnPlantGrowth;
+
             /// <summary>
             /// Grows the plant if ready
             /// </summary>
             public void ProgressGrowthStage()
             {
-                if(ReadyToProgressStage)
+                if (ReadyToProgressStage)
+                {
                     currentGrowthStage++;
+                    OnPlantGrowth?.Invoke();
+                }
             }
 
 

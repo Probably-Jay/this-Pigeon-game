@@ -8,9 +8,10 @@ using UnityEngine;
 namespace Plants
 {
     /// <summary>
-    /// Part of the plant responsible for growth and managing tending tending
+    /// Part of the plant responsible for growth and managing tending tending. Controlled by <see cref="Plant"/>
     /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Plant))]
     public class PlantGrowth : MonoBehaviour
     {
 
@@ -61,8 +62,8 @@ namespace Plants
         public int GrowthLevelMoodMultiplier { get; private set; } = 0;
 
 
-        [SerializeField] List<TendingActions> legalTendingActions;
-        public List<TendingActions> LegalTendingActions { get => legalTendingActions; set => legalTendingActions = value; }
+        //[SerializeField] List<TendingActions> legalTendingActions;
+        //public List<TendingActions> LegalTendingActions { get => legalTendingActions; set => legalTendingActions = value; }
 
  
    
