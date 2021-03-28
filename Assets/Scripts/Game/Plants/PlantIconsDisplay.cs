@@ -58,10 +58,11 @@ namespace Plants
 
         private void AddIconObject(TendingActions action, GameObject icon)
         {
-            icon.transform.SetParent(transform);
+            GameObject newIcon = Instantiate(icon);
+            newIcon.transform.SetParent(transform);
 
-            icon.SetActive(false);
-            icons.Add(action, icon);
+            newIcon.SetActive(false);
+            icons.Add(action, newIcon);
         }
 
         private void UpdateIcons()
