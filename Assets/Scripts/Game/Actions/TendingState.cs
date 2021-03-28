@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.ObjectModel;
+using System;
 
 namespace Plants
 {
@@ -18,20 +19,20 @@ namespace Plants
         [CreateAssetMenu(menuName = "Plants/TendingRequiremnts", order = 1)]
         public class TendingState : ScriptableObject
         {
-            [SerializeField] Plant.PlantSize size;
+            [SerializeField] Plant.PlantSize plantSize;
 
             #region UI Lists
             // Some plants take multiple days of passing thier growth requiremetns before they grow
-            [SerializeField ]List<TendingActions> growthRequiremetsStage1;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage2;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage3;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage4;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage5;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage6;
-            [SerializeField ]List<TendingActions> growthRequiremetsStage7;
-           // [SerializeField ]List<TendingActions> growthRequiremetsStage8;
-           // [SerializeField ]List<TendingActions> growthRequiremetsStage9;
-           // [SerializeField ]List<TendingActions> growthRequiremetsStage10;
+            [SerializeField] List<TendingActions> growthRequiremetsStage1;
+            [SerializeField] List<TendingActions> growthRequiremetsStage2;
+            [SerializeField] List<TendingActions> growthRequiremetsStage3;
+            [SerializeField] List<TendingActions> growthRequiremetsStage4;
+            [SerializeField] List<TendingActions> growthRequiremetsStage5;
+            [SerializeField] List<TendingActions> growthRequiremetsStage6;
+            [SerializeField] List<TendingActions> growthRequiremetsStage7;
+            // [SerializeField ]List<TendingActions> growthRequiremetsStage8;
+            // [SerializeField ]List<TendingActions> growthRequiremetsStage9;
+            // [SerializeField ]List<TendingActions> growthRequiremetsStage10;
             void OnEnable()
             {
                 growthRequirements = new List<TendingActions>[7]
@@ -50,34 +51,73 @@ namespace Plants
             }
             #endregion
 
-            public static readonly ReadOnlyDictionary<Plant.PlantSize, int[]> EmotionValues = new ReadOnlyDictionary<Plant.PlantSize, int[]>
+            static readonly ReadOnlyDictionary<Plant.PlantSize, List<int>> ArtChagesAt = new ReadOnlyDictionary<Plant.PlantSize, List<int>>
             (
-                new Dictionary<Plant.PlantSize, int[]>
+                new Dictionary<Plant.PlantSize, List<int>>
                 {
-                    {Plant.PlantSize.Single, new int[3]{1,2,3} }
-                    ,{Plant.PlantSize.Tall, new int[3]{1,3,5} }
-                    ,{Plant.PlantSize.Wide, new int[3]{1,4,7} }
-                }    
+                    {Plant.PlantSize.Single, new List<int>(){1,2,3} }
+                    ,{Plant.PlantSize.Tall, new List<int>(){1,3,5} }
+                    ,{Plant.PlantSize.Wide, new List<int>(){1,4,7} }
+                }
             );
-
 
 
             List<TendingActions>[] growthRequirements;
 
-            public int GrowthStage { get; private set; }
+            int currentGrowthStage = 0;
+            int MaxGrowthStage => (ArtChagesAt[plantSize][ArtChagesAt[plantSize].Count - 1]) +1 ;
+            bool AtFullStageOfGrowth => currentGrowthStage == MaxGrowthStage;
 
 
 
+            List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[currentGrowthStage] : new List<TendingActions>();
 
-           // public List<TendingActions> CurrentRequiredActions => new(List<TendingActions>)
+            /// <summary>
+            /// If the plant is ready to progress to the next growth stage at the end of this turn
+            /// </summary>
+            public bool ReadyToProgressStage => !AtFullStageOfGrowth && RequiredActions.Count == 0;
 
+            /// <summary>
+            /// If the plant is ready to change it's art at the end of this turn
+            /// </summary>
+            public bool ReadyToVisiblyGrow => ReadyToProgressStage && NextStageIsArtChange;
+            bool NextStageIsArtChange => ArtChagesAt[plantSize].Contains(currentGrowthStage + 1);
 
+            /// <summary>
+            /// If this plant needs this action done to it
+            /// </summary>
+            public bool CanTend(TendingActions action) => RequiredActions.Contains(action);
 
-            //public int WateredLevel { get => tends[TendingActions.Watering]; set => tends[TendingActions.Watering] = value; }
+            /// <summary>
+            /// Removes the tending action from the <see cref="RequiredActions"/>
+            /// </summary>
+            public void Tend(TendingActions action)
+            {
+                RequiredActions.Remove(action);
+                OnPlantTended?.Invoke();
+            }
 
-            //readonly Dictionary<TendingActions, int> tends = new Dictionary<TendingActions, int>();
+            /// <summary>
+            /// The event that this plant has grown
+            /// </summary>
+            public event Action OnPlantGrowth;           
+            
+            /// <summary>
+            /// The event that this plant has been tended
+            /// </summary>
+            public event Action OnPlantTended;
 
-
+            /// <summary>
+            /// Grows the plant if ready
+            /// </summary>
+            public void ProgressGrowthStage()
+            {
+                if (ReadyToProgressStage)
+                {
+                    currentGrowthStage++;
+                    OnPlantGrowth?.Invoke();
+                }
+            }
 
 
 

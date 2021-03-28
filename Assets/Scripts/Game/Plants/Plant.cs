@@ -18,6 +18,7 @@ namespace Plants {
     /// Script all plants will have
     /// </summary>
     [RequireComponent(typeof(PlantGrowth))]
+    [RequireComponent(typeof(PlantIconsDisplay))]
     public class Plant : MonoBehaviour
     {
         public enum PlantName
@@ -36,11 +37,7 @@ namespace Plants {
 
 
 
-        public void Tend(TendingActions tendingActions)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public enum PlantSize // ToDo Later
         {
             Wide,
@@ -53,12 +50,14 @@ namespace Plants {
         // public string objectName;
         public PlantName plantname;
 
+
+
   
 
-        [SerializeField, Range(-1, 1)] private int social = 0;
-        [SerializeField, Range(-1, 1)] private int joyful = 0;
-        [SerializeField, Range(-1, 1)] private int energetic = 0;
-        [SerializeField, Range(-1, 1)] private int painful = 0;
+        [SerializeField, Range(0, 1)] private int social = 0;
+        [SerializeField, Range(0, 1)] private int joyful = 0;
+        [SerializeField, Range(0, 1)] private int energetic = 0;
+        [SerializeField, Range(0, 1)] private int painful = 0;
 
         private int Social { get => social * PlantGrowth.GrowthLevelMoodMultiplier; set => social = value; }
         private int Joyful { get => joyful * PlantGrowth.GrowthLevelMoodMultiplier; set => joyful = value; }
@@ -69,12 +68,12 @@ namespace Plants {
       
 
         public Player plantOwner;
-        public bool inLocalGarden;
 
-      
+
 
         // public bool isPlanted = false;
-        public Player.PlayerEnum gardenID = Player.PlayerEnum.Unassigned;
+        private Player.PlayerEnum? gardenID = null;
+        public Player.PlayerEnum? GardenID { get => gardenID; set => gardenID = value; }
 
 
         private void Awake() // hack, todo fix this
@@ -86,15 +85,15 @@ namespace Plants {
             // Get current player
             plantOwner = GameManager.Instance.ActivePlayer; // Load system will break here
 
-            // Set if in local or other garden
-            if (plantOwner.PlayerEnumValue == 0)
-            { // = true if local (placed by player 1)
-                inLocalGarden = true;
-            }
-            else
-            { // = false if not
-                inLocalGarden = false;
-            }
+            //// Set if in local or other garden
+            //if (plantOwner.PlayerEnumValue == 0)
+            //{ // = true if local (placed by player 1)
+            //    InLocalGarden = true;
+            //}
+            //else
+            //{ // = false if not
+            //    InLocalGarden = false;
+            //}
         }
 
        
@@ -104,6 +103,14 @@ namespace Plants {
         public TraitValue PlantStats => new TraitValue(Social, Joyful, Energetic, Painful);
 
         public PlantGrowth PlantGrowth { get; private set; }
+      //  public bool InLocalGarden { get; set; }
+
+        /// <summary>
+        /// Tend the plant. No effect if this plant does not need this action taken
+        /// </summary>
+        public void Tend(TendingActions action) => PlantGrowth.Tend(action);
+
+
     }
 
 }

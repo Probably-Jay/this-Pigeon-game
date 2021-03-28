@@ -89,7 +89,7 @@ public class InputControls : MonoBehaviour
 
     private void TryWaterObject()
     {
-        int waterInc = 1; // In case we want to change how much water is needed later
+      
         // fires a raycast downward from the mouse 
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -104,7 +104,7 @@ public class InputControls : MonoBehaviour
                 var plant = hitObject.GetComponent<Plant>();
 
                 if (plant != null)
-                    plant.PlantGrowth.WaterPlant();
+                    plant.Tend(Plants.PlantActions.TendingActions.Watering);
 
               
             }
@@ -133,10 +133,10 @@ public class InputControls : MonoBehaviour
 
 
                 // if the plant we picked up was in a garden
-                if (plantPlaced.gardenID != Player.PlayerEnum.Unassigned)
+                if (plantPlaced.GardenID != null)
                 {
-                    displayManager.SubtractFromGardenStats(plantPlaced.gardenID, plantPlaced.PlantStats);
-                    plantPlaced.gardenID = Player.PlayerEnum.Unassigned; // plant is now not in a garden
+                    displayManager.SubtractFromGardenStats(plantPlaced.GardenID.Value, plantPlaced.PlantStats);
+                    plantPlaced.GardenID = null; // plant is now not in a garden
 
                 }
 
@@ -231,9 +231,10 @@ public class InputControls : MonoBehaviour
                     var plantPlaced = hitObject.GetComponent<Plant>();
                     // sets is planted to true so that if it is removed its values can be subtracted from the garden
 
-                    plantPlaced.gardenID = GameManager.Instance.CurrentVisibleGarden;
+                    plantPlaced.GardenID = GameManager.Instance.CurrentVisibleGarden;
 
-                    displayManager.AddToGardenStats(plantPlaced.gardenID, plantPlaced.PlantStats);
+                    if(plantPlaced.GardenID != null)
+                        displayManager.AddToGardenStats(plantPlaced.GardenID.Value, plantPlaced.PlantStats);
         
                     hitObject = null;
                     holdingObject = false;

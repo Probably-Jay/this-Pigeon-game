@@ -19,13 +19,13 @@ public class MenuController : MonoBehaviour
     public void GoToMyGarden()
     {
         // Change to metagarden after metagarden added
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Tutorial);
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
     }
 
     public void GoToLastGarden()
     {
         // Change to last garden once multiple are available
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
     }
 
     public void GoToOptions()

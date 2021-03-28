@@ -2,8 +2,12 @@ fileFormatVersion: 2
 <<<<<<< HEAD
 guid: d0c2f7889986c40439997a485af4e5c2
 =======
+<<<<<<< HEAD
+guid: d0c2f7889986c40439997a485af4e5c2
+=======
 guid: ea9aa807ca1785c4eb565edeab19bd52
 >>>>>>> art_main
+>>>>>>> ZF-Branch
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

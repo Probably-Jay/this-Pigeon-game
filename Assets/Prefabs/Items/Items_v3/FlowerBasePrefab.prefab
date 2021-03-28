@@ -111,15 +111,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2798752532413861212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a17f1abd5523546b113a9fdb748fe4, type: 3}
+  m_Script: {fileID: 11500000, guid: c8db5ed3e7f767f42967e139ad2a9469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: Picture
-  moodEnergy: 0
-  moodPride: 0
-  moodSocial: 0
+  plantname: 0
+  social: 0
+  joyful: 0
+  energetic: 0
+  painful: 0
   plantOwner: {fileID: 0}
   inLocalGarden: 0
+  gardenID: -1
 --- !u!65 &8208442081896556622
 BoxCollider:
   m_ObjectHideFlags: 0

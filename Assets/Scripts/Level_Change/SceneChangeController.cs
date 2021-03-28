@@ -8,20 +8,28 @@ using UnityEngine.SceneManagement;
 
 // jay 17/02
 
+/// <summary>
+/// Class which controls the switching of scenes
+/// </summary>
 public class SceneChangeController : Singleton<SceneChangeController>
 {
+    /// <summary>
+    /// Scenes in the game
+    /// </summary>
     [System.Serializable]
     public enum Scenes 
     {
         MainMenu
-        , MoodSelectScreen
+        , MoodSelectScreen1
+        , MoodSelectScreen2
     //    , PersonalGarden
         , Tutorial
         , Game
     }
 
     [SerializeField] int MainMenuIndex;
-    [SerializeField] int MoodSelectBuildIndex;
+    [SerializeField] int MoodSelect1BuildIndex;
+    [SerializeField] int MoodSelect2BuildIndex;
    // [SerializeField] int PersonalGardenBuildIndex;  
     [SerializeField] int TutorialBuildIndex;
     [SerializeField] int GameBuildIndex;
@@ -33,6 +41,9 @@ public class SceneChangeController : Singleton<SceneChangeController>
     AsyncOperation loadingScene;
     bool transitionAnimationDone;
 
+    /// <summary>
+    /// If the scene is changing
+    /// </summary>
     public bool CurrentlyChangingScene { get => loadingScene != null; }
 
 
@@ -52,7 +63,8 @@ public class SceneChangeController : Singleton<SceneChangeController>
     private void CreateBuildIndexDictionary()
     {
         sceneBuildIndexesDictionary.Add(Scenes.MainMenu, MainMenuIndex);
-        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen, MoodSelectBuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen1, MoodSelect1BuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen2, MoodSelect2BuildIndex);
        // sceneBuildIndexesDictionary.Add(Scenes.PersonalGarden, PersonalGardenBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.Tutorial, TutorialBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.Game, GameBuildIndex);
