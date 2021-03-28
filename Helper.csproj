@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Helper\Maths\VectorN.cs" />
     <Compile Include="Assets\Scripts\Helper\Utility\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Helper\Utility\Utility.cs" />
     <None Include="Assets\Scripts\Helper\Helper.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Program Files/UnityEditors/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

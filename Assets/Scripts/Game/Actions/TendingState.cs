@@ -12,7 +12,7 @@ namespace Plants
         public enum TendingActions
         {
             Watering
-            , Staking        
+        //    , Staking        
             , Spraying        
             , Trimming       
         }
@@ -73,6 +73,7 @@ namespace Plants
 
 
             List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[currentGrowthStage] : new List<TendingActions>();
+            public ReadOnlyCollection<TendingActions> GetRequiredActions() => new ReadOnlyCollection<TendingActions>(RequiredActions);
 
             /// <summary>
             /// If the plant is ready to progress to the next growth stage at the end of this turn

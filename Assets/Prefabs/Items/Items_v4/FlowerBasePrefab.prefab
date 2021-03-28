@@ -161,3 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1366a718d08290a4da03a9734f44ad2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconActions: {fileID: 11400000, guid: bd241af183c010349aa53e0212e471fa, type: 2}
+  iconOrigin: {x: 0, y: 0, z: 0}
+  iconSize: 0
+  iconPadding: 0

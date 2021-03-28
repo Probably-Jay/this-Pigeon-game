@@ -6,10 +6,10 @@ namespace Plants.PlantActions
     [CreateAssetMenu(menuName = "Plants/TendingIconList", order = 1)]
     public class ActionIcons : ScriptableObject
     {
-        public Sprite watering;
-        public Sprite staking;
-        public Sprite spraying;
-        public Sprite trimming;
+        public GameObject watering;
+     //   public GameObject staking;
+        public GameObject spraying;
+        public GameObject trimming;
 
     }
 }

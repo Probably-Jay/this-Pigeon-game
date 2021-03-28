@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd362bbe837e7cc4e940fee31cb0b3a7, type: 3}
-  m_Name: New Action Icons
+  m_Name: Action Icons
   m_EditorClassIdentifier: 
-  watering: {fileID: 0}
-  staking: {fileID: 0}
-  spraying: {fileID: 0}
-  trimming: {fileID: 0}
+  watering: {fileID: 21300000, guid: 4b23fe72fe6d38143a77c6a0f9de2863, type: 3}
+  staking: {fileID: 21300000, guid: 48b3a9e5adf3d3548acb7e456514d9b9, type: 3}
+  spraying: {fileID: 21300000, guid: d045a5b38bb5e344ea4bec6939b92b07, type: 3}
+  trimming: {fileID: 21300000, guid: 376c9ee9126ef91479d238c6eb88ac21, type: 3}
