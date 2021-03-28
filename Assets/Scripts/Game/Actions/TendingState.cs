@@ -96,6 +96,7 @@ namespace Plants
             /// </summary>
             public void Tend(TendingActions action)
             {
+                Debug.Log($"Tended {action.ToString()} successfully");
                 RequiredActions.Remove(action);
                 OnPlantTended?.Invoke();
             }

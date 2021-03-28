@@ -40,6 +40,24 @@ public class SlotManager : MonoBehaviour
        }
     }
 
+    public SlotControls SlotMouseIsIn()
+    {
+        foreach (var gameObject in gardenSlots)
+        {
+
+            var colider = gameObject.GetComponent<BoxCollider2D>();
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = colider.transform.position.z;
+
+            if (colider.OverlapPoint(mousePos))
+            {
+                return gameObject.GetComponent<SlotControls>();
+            }
+        }
+        return null;
+    } 
+
 
     public void ShowSlots(int requiredSlotType)
     {       

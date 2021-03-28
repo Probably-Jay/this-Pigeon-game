@@ -11,6 +11,11 @@ public class GardenSlotDirectory : MonoBehaviour
     public GameObject garden1Slots;
     public GameObject garden2Slots;
 
+    private void Start()
+    {
+        GameManager.Instance.slotManagers.Add(Player.PlayerEnum.Player1, garden1Slots.GetComponent<SlotManager>());
+        GameManager.Instance.slotManagers.Add(Player.PlayerEnum.Player2, garden2Slots.GetComponent<SlotManager>());
+    }
 
     public void AccessAppropriateSlotManager()
     {

@@ -13,7 +13,8 @@ using Mood;
 [RequireComponent(typeof(CurrentMood))]
 public class GameManager : Singleton<GameManager>
 {
-  
+
+    public Dictionary<Player.PlayerEnum, SlotManager> slotManagers = new Dictionary<Player.PlayerEnum, SlotManager>();
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
