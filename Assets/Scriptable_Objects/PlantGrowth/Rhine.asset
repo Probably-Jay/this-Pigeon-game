@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rhine
   m_EditorClassIdentifier: 
   plantSize: 2
-  growthRequiremetsStage1: 00000000
+  growthRequiremetsStage1: 
   growthRequiremetsStage2: 0000000001000000
   growthRequiremetsStage3: 
   growthRequiremetsStage4: 

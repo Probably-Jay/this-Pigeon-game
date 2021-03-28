@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Zove
   m_EditorClassIdentifier: 
   plantSize: 1
-  growthRequiremetsStage1: 00000000
-  growthRequiremetsStage2: 0000000000000000
+  growthRequiremetsStage1: 
+  growthRequiremetsStage2: 0000000002000000
   growthRequiremetsStage3: 00000000
-  growthRequiremetsStage4: 0000000000000000
+  growthRequiremetsStage4: 0000000002000000
   growthRequiremetsStage5: 
   growthRequiremetsStage6: 
   growthRequiremetsStage7: 

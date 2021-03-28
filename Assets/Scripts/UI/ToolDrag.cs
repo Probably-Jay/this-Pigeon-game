@@ -18,7 +18,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 worldPosition;
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
-    [SerializeField]TendingActions toolType;
+   
     
     // Start is called before the first frame update
     void Start()
@@ -74,9 +74,11 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     {
         return worldPosition;
     }
+
     void TendPlant()
     {
-        SlotControls slot = GameManager.Instance.slotManagers[GameManager.Instance.CurrentVisibleGarden].SlotMouseIsIn();
+        var a = GameManager.Instance.slotManagers[GameManager.Instance.CurrentVisibleGarden];
+        SlotControls slot = a.SlotMouseIsIn();
 
         if (slot == null)
             return;
