@@ -52,6 +52,8 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
+        ,ToolDropped
+
 
         , QuitGame
     }

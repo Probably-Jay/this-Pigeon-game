@@ -1654,7 +1654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7465dee2d735cb9418e55f93a4b16f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPlant: {fileID: 7482797900834251163, guid: 8147ae79c89f075478b595b6c64aec8d, type: 3}
+  myPlant: {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed, type: 3}
   seedStorage: {fileID: 1978450609}
 --- !u!114 &1112381725
 MonoBehaviour:
@@ -1724,7 +1724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7465dee2d735cb9418e55f93a4b16f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPlant: {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed, type: 3}
+  myPlant: {fileID: 7482797900834251163, guid: 8147ae79c89f075478b595b6c64aec8d, type: 3}
   seedStorage: {fileID: 1978450609}
 --- !u!114 &1112381730
 MonoBehaviour:
@@ -1980,7 +1980,7 @@ PrefabInstance:
     - target: {fileID: 8157127245728077999, guid: d78f1f862889cc340b1e8cbcd2402fc5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175.76309
+      value: -176
       objectReference: {fileID: 0}
     - target: {fileID: 8157127245728077999, guid: d78f1f862889cc340b1e8cbcd2402fc5,
         type: 3}

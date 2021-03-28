@@ -18,6 +18,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 worldPosition;
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
+    [SerializeField]TendingActions toolType;
+    
     // Start is called before the first frame update
     void Start()
     {
