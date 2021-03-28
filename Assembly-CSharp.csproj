@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
+    <Compile Include="Assets\Scripts\Game\Actions\ActionIcons.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPointsUI.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\_InputFaker.cs" />
