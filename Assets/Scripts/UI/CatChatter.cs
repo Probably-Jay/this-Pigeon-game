@@ -10,16 +10,7 @@ namespace Tutorial
     public class CatChatter : MonoBehaviour
     {
         public TextBox myBox;
-        // Start is called before the first frame update
-        void Start()
-        {
-            //myBox.gameObject.SetActive(true);
-            //myBox.Say("hi");
-            //myBox.Say("hello");
-            //myBox.Say("nya");
-            //myBox.Say("is this annoying yet");
 
-        }
 
  
 
@@ -45,6 +36,20 @@ namespace Tutorial
                 EventsManager.UnbindEvent(eventType, func);
             }
         }
+
+
+        //private void BindEvent(System.Action functionToCall)
+        //{
+        //    void func() => RunEvent(func, functionToCall);
+        //    MyEvent += func;
+        //}
+
+        //void RunEvent(System.Action func, System.Action functionToCall)
+        //{
+        //    functionToCall();
+        //    MyEvent -= func;
+        //}
+
 
         //these functions could be modified to include if statements or just bound directly to the 
         void StartTurnOne()
