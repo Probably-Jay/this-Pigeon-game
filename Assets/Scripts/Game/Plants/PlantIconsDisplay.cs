@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace Plants
     [RequireComponent(typeof(PlantGrowth))]
     public class PlantIconsDisplay : MonoBehaviour
     {
+
+
+
         PlantGrowth plantGrowth;
         Plant palnt;
         private void Awake()
@@ -24,6 +28,7 @@ namespace Plants
         }
 
 
+
         private void OnDisable()
         {
             plantGrowth.TendingState.OnPlantTended -= TendingState_OnPlantTended;
@@ -32,7 +37,12 @@ namespace Plants
 
         private void TendingState_OnPlantTended()
         {
-            //var a = plantGrowth.acti
+            UpdateIcons();
+        }
+
+        private void UpdateIcons()
+        {
+            throw new NotImplementedException();
         }
     }
 }
