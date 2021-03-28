@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SeedBag : MonoBehaviour
 {
-    Image myImage;
+    public Image myImage;
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -16,6 +16,7 @@ public class SeedBag : MonoBehaviour
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagClose, CloseBag);
+        EventsManager.UnbindEvent(EventsManager.EventType.PlantingBegin, CloseBag);
 
     }
 

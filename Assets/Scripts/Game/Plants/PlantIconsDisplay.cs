@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Plants
 {
-    /*
+    
     /// <summary>
     /// Class that displays the icons that a plant needs
     /// </summary>
@@ -35,7 +35,7 @@ namespace Plants
             plantGrowth.TendingState.OnPlantTended -= TendingState_OnPlantTended;
         }
 
-        /*
+        
         private void TendingState_OnPlantTended()
         {
             UpdateIcons();
@@ -46,5 +46,5 @@ namespace Plants
             throw new NotImplementedException();
         }
     }
-        */
+        
 }

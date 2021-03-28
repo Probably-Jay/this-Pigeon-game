@@ -32,9 +32,9 @@ public class ToolBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!myImage.rectTransform.rect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)) && Input.GetMouseButtonDown(0))
+        if (!myImage.rectTransform.rect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)) && Input.GetMouseButtonDown(0) && myAnimator.GetBool("Open"))
         {
-            EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose);
+            EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
             Debug.Log("clicked outside of toolbox, closing");
 
         }
