@@ -16,6 +16,7 @@ namespace Plants
 
 
         PlantGrowth plantGrowth;
+        Plant palnt;
         private void Awake()
         {
             plantGrowth = GetComponent<PlantGrowth>();

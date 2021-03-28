@@ -29,7 +29,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     void Update()
     {
         myRect = myImage.rectTransform.rect;
-        Debug.Log(myCanvasScaler.referenceResolution.x/ (Screen.currentResolution.width));
+       // Debug.Log(myCanvasScaler.referenceResolution.x/ (Screen.currentResolution.width));
         //myRect.x += this.transform.position.x;
         //myRect.y += this.transform.position.y;
         //Debug.Log(myRect);

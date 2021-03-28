@@ -46,6 +46,9 @@ public class EventsManager : Singleton<EventsManager>
 
         , ToolBoxOpen
         , ToolBoxClose
+        , SeedBagOpen
+        , SeedBagClose
+        , PlantingBegin
 
 
         , QuitGame

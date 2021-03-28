@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\Game\Mood\GoalStore.cs" />
     <Compile Include="Assets\Scripts\Game\Mood\TraitValue.cs" />
     <Compile Include="Assets\Scripts\Game\Mood\~FirstBuildSystem\MoodAttributes.cs" />
+    <Compile Include="Assets\Scripts\Game\Plants\CurrentSeedStorage.cs" />
     <Compile Include="Assets\Scripts\Game\Plants\Plant.cs" />
     <Compile Include="Assets\Scripts\Game\Plants\PlantGrowth.cs" />
     <Compile Include="Assets\Scripts\Game\Plants\PlantIconsDisplay.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
     <Compile Include="Assets\Scripts\UI\OpenToolBoxButton.cs" />
+    <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
+    <Compile Include="Assets\Scripts\UI\SeedBag.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\UI\ToolBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolDrag.cs" />
