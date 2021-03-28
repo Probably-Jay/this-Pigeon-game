@@ -106,6 +106,12 @@ namespace Mood
             get { return this[(Scales)index]; }
         }
 
+        /// <summary>
+        /// If this contains <paramref name="scale"/> at a value above <c>0</c>
+        /// </summary>
+        public bool Contains(TraitValue.Scales scale) => this[scale] > 0;
+
+
         #region Operators
         public static TraitValue operator -(TraitValue a) => new TraitValue(-a[0], -a[1], -a[2], -a[3]);
 
