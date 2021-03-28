@@ -8,6 +8,7 @@ using UnityEditor;
 public class ToolDrag : MonoBehaviour //IPointerDownHandler
 {
     Color green;
+    [SerializeField]private string toolType;
     public Image myImage;
     Rect myRect;
     Vector3 startingPostition;
@@ -57,6 +58,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             if (!Input.GetMouseButton(0))
             {
                 isPickedUp = false;
+                TendPlant(); //this is where you would tend the plant 
             }
         }
         else
@@ -68,5 +70,15 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     {
         return worldPosition;
     }
+    void TendPlant()
+    {
+
+    }
+    public string GetToolType()
+    {
+        return toolType;
+    }
     //needs to have a getter for what kind of tool it is
+    //I agree but like how, I don't know how the tools are listed, used a string for now, perhaps use a dictionary in the slots?
+
 }
