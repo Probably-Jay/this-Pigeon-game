@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 2477246301109765834}
   - component: {fileID: 4035896031826186124}
   - component: {fileID: 1770791999113693298}
-  - component: {fileID: 7116130211891363765}
   - component: {fileID: 8208442081896556622}
+  - component: {fileID: 451112960160041649}
+  - component: {fileID: 6259067321722130676}
+  - component: {fileID: 908912709463506712}
   m_Layer: 0
   m_Name: FlowerBasePrefab
   m_TagString: Object
@@ -102,7 +104,34 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   ObjectHeight: 1
   ObjectWidth: 1
---- !u!114 &7116130211891363765
+--- !u!65 &8208442081896556622
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798752532413861212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &451112960160041649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798752532413861212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d409fb01f47d74085bff83cdffcc95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  growthSprites: []
+  tendingState: {fileID: 0}
+--- !u!114 &6259067321722130676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,18 +149,15 @@ MonoBehaviour:
   energetic: 0
   painful: 0
   plantOwner: {fileID: 0}
-  inLocalGarden: 0
-  gardenID: -1
---- !u!65 &8208442081896556622
-BoxCollider:
+--- !u!114 &908912709463506712
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2798752532413861212}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.2}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1366a718d08290a4da03a9734f44ad2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

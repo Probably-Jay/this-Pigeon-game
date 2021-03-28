@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Flower
   inventoryImage: {fileID: 21300000, guid: ca14eddfd0e435d49af8243b15f5519c, type: 3}
-  gameObject: {fileID: 8021770570445175410, guid: a02f37a38b9f757409c1033dcc309eb3,
-    type: 3}
+  itemGameObject: {fileID: 0}
