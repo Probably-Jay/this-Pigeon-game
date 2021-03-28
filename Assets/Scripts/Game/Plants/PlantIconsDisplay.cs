@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Plants
-{
-    
+{    
     /// <summary>
     /// Class that displays the icons that a plant needs
     /// </summary>
@@ -13,9 +12,6 @@ namespace Plants
     [RequireComponent(typeof(PlantGrowth))]
     public class PlantIconsDisplay : MonoBehaviour
     {
-
-
-
         PlantGrowth plantGrowth;
         Plant palnt;
         private void Awake()
@@ -25,10 +21,8 @@ namespace Plants
 
         private void OnEnable()
         {
-            plantGrowth.TendingState.OnPlantTended += TendingState_OnPlantTended;
+           plantGrowth.TendingState.OnPlantTended += TendingState_OnPlantTended;
         }
-
-
 
         private void OnDisable()
         {
@@ -45,6 +39,5 @@ namespace Plants
         {
             throw new NotImplementedException();
         }
-    }
-        
+    }     
 }
