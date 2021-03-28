@@ -25,5 +25,7 @@ public class UICommands : MonoBehaviour
     public void OpenToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxOpen);
     public void CloseToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
     public void OpenSeedBag() => EventsManager.InvokeEvent(EventsManager.EventType.SeedBagOpen);
+    public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
+    public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
 
 }

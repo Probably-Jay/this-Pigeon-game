@@ -48,6 +48,8 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
+        , DialogueNext
+        , DialoguePrevious
         , PlantingBegin
 
 

@@ -44,29 +44,24 @@ namespace Plants
 
 
         //Get the Renderer component for changing colours (temp, replace with actual different sprites later)
-        Renderer matRenderer;
+      //  Renderer matRenderer;
 
         SpriteRenderer spriteRenderer;
 
         private void Awake()
         {
-            matRenderer = GetComponent<Renderer>();
+           // matRenderer = GetComponent<Renderer>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Start()
         {
             growthState = VisibleGrowthStage.Seed;
-           // UpdateGrowthImage();
+            UpdateGrowthImage();
         }
 
      
         public int GrowthLevelMoodMultiplier { get; private set; } = 0;
-
-
-        //[SerializeField] List<TendingActions> legalTendingActions;
-        //public List<TendingActions> LegalTendingActions { get => legalTendingActions; set => legalTendingActions = value; }
-
 
 
 
@@ -75,22 +70,26 @@ namespace Plants
         /// </summary>
         private void GrowIfShould()
         {
-            if (TendingState.ReadyToVisiblyGrow)
-            {
-                ProgressGrowthStage();
-                VisiblyGrow();
-            }
-            else if (TendingState.ReadyToProgressStage)
-            {
-                ProgressGrowthStage();
-            }
+            //if (TendingState.ReadyToVisiblyGrow)
+            //{
+            //    ProgressGrowthStage();
+            //    VisiblyGrow();
+            //}
+            //else if (TendingState.ReadyToProgressStage)
+            //{
+            //    ProgressGrowthStage();
+            //}
         }
 
         void VisiblyGrow()
         {
             growthState++;
-            UpdateSprite();
-            //UpdateGrowthImage();
+            if(growthState == VisibleGrowthStage.Bloom)
+            {
+                GrowthLevelMoodMultiplier = 1;
+            }
+            UpdateGrowthImage();
+
         }
 
         void UpdateGrowthImage()
@@ -98,26 +97,26 @@ namespace Plants
             spriteRenderer.sprite = growthSprites[(int)growthState];
         }
 
-        void UpdateSprite()
-        {
+        //void UpdateSprite()
+        //{
 
-            switch (growthState)
-            {
-                case VisibleGrowthStage.Seed:
-                    matRenderer.material.SetColor("_Color", Color.red);
-                    break;
+        //    switch (growthState)
+        //    {
+        //        case VisibleGrowthStage.Seed:
+        //            matRenderer.material.SetColor("_Color", Color.red);
+        //            break;
 
-                case VisibleGrowthStage.Sprout:
-                    matRenderer.material.SetColor("_Color", Color.yellow);
-                    break;
+        //        case VisibleGrowthStage.Sprout:
+        //            matRenderer.material.SetColor("_Color", Color.yellow);
+        //            break;
 
-                case VisibleGrowthStage.Bloom:
-                    matRenderer.material.SetColor("_Color", Color.green);
-                    break;
-                default: throw new System.ArgumentException();
-            }
+        //        case VisibleGrowthStage.Bloom:
+        //            matRenderer.material.SetColor("_Color", Color.green);
+        //            break;
+        //        default: throw new System.ArgumentException();
+        //    }
 
-        }
+        //}
 
         void ProgressGrowthStage() => TendingState.ProgressGrowthStage();
 
