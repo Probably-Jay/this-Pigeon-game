@@ -87,6 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImage: {fileID: 0}
+  myCanvasScaler: {fileID: 0}
+  toolType: 0
 --- !u!1 &8157127244248885227
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImage: {fileID: 0}
+  myCanvasScaler: {fileID: 0}
+  toolType: 1
 --- !u!1 &8157127244835181953
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,6 +302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImage: {fileID: 0}
+  myCanvasScaler: {fileID: 0}
+  toolType: 0
 --- !u!1 &8157127245184897773
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +392,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImage: {fileID: 0}
+  myCanvasScaler: {fileID: 0}
+  toolType: 0
 --- !u!1 &8157127245239312482
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myImage: {fileID: 0}
+  myCanvasScaler: {fileID: 0}
+  toolType: 2
 --- !u!1 &8157127245728077996
 GameObject:
   m_ObjectHideFlags: 0

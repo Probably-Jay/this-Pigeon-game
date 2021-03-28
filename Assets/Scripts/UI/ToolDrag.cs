@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using Plants.PlantActions;
 
 //Created Zap 26/03
 public class ToolDrag : MonoBehaviour //IPointerDownHandler
 {
     Color green;
-    [SerializeField]private string toolType;
+    //[SerializeField]private string toolType;
     public Image myImage;
     Rect myRect;
     Vector3 startingPostition;
@@ -16,6 +17,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 worldPosition;
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
+    [SerializeField]TendingActions toolType;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -72,9 +75,9 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     }
     void TendPlant()
     {
-
+        EventsManager.InvokeEvent(EventsManager.EventType.ToolDropped);
     }
-    public string GetToolType()
+    public TendingActions GetToolType()
     {
         return toolType;
     }
