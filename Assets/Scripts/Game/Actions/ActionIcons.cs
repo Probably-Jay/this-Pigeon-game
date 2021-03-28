@@ -1,18 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ActionIcons : MonoBehaviour
+namespace Plants.PlantActions
 {
-    // Start is called before the first frame update
-    void Start()
+    [CreateAssetMenu(menuName = "Plants/TendingIconList", order = 1)]
+    public class ActionIcons : ScriptableObject
     {
-        
-    }
+        public Sprite watering;
+        public Sprite staking;
+        public Sprite spraying;
+        public Sprite trimming;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

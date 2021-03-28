@@ -12,7 +12,9 @@ namespace Plants
         public enum TendingActions
         {
             Watering
-                    
+            , Staking        
+            , Spraying        
+            , Trimming       
         }
 
 
