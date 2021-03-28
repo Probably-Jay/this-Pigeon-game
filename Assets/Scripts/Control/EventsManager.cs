@@ -29,6 +29,7 @@ public class EventsManager : Singleton<EventsManager>
         
         /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
         , PlacedOwnObject
+        , PlacedOwnObjectMoodRelavent
         , PlacedCompanionObject
         , RemovedOwnObject
         , WateredOwnPlant // perhaps rename to "maintained own object"
@@ -52,6 +53,7 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
+        , AddedToEmotionGoal
 
         , QuitGame
     }
