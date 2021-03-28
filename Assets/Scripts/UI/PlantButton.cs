@@ -20,12 +20,13 @@ public class PlantButton : MonoBehaviour
     {
         
     }
+
     public void GoToPlanting()
     {
         seedStorage.SetCurrentPlant(myPlant);
+        seedStorage.isStoringSeed = true;
         EventsManager.InvokeEvent(EventsManager.EventType.PlantingBegin);
         Debug.Log("Begin Planting Mode");
-
 
         gardenSlotDirectory.AccessAppropriateSlotManager();
     }

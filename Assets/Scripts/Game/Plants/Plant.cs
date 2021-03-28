@@ -50,7 +50,11 @@ namespace Plants {
         // public string objectName;
         public PlantName plantname;
 
+
+
         [SerializeField] PlantSize thisPlantsSize;
+
+        [SerializeField] public int requiredSlot = 1;
 
         [Header("Plant Stats")]
         [SerializeField, Range(0, 1)] private int social = 0;

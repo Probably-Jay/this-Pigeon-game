@@ -6,18 +6,13 @@ using UnityEngine;
 public class SlotControls : MonoBehaviour
 {
     // enums that control the state of this tile
-    public enum SlotStates
-    {      
-        Occupied,
-        Open      
-    };
-
+ 
     public bool slotActive = false;
+    public bool slotFull = false;
 
     public List<GameObject> plantsInThisSlot;
 
-    // sets the current state to open as default
-    public SlotStates curentState = SlotStates.Open;
+  
 
     // to change the alpha of the object that is moving
     SpriteRenderer slotSprite;
@@ -67,8 +62,8 @@ public class SlotControls : MonoBehaviour
         slotColourValues.b = 1.0f;
 
         slotSprite.material.color = slotColourValues;
-   
-        curentState = SlotStates.Open;
+
+        slotFull = false;
     }
 
 
@@ -80,10 +75,18 @@ public class SlotControls : MonoBehaviour
         slotColourValues.r = 3.5f;
         slotColourValues.g = 1.0f;
         slotColourValues.b = 0.1f;
-
         slotSprite.material.color = slotColourValues;
 
         // sets the Slot state to taken
-        curentState = SlotStates.Occupied;     
+        slotFull = true;
+    }
+
+
+    public void SpawnPlantInSlot(GameObject PlantToSpawn)
+    {
+        GameObject newPlant = Instantiate(PlantToSpawn, transform);
+        newPlant.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z -1);
+
+        SlotOccupied();
     }
 }

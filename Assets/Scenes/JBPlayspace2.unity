@@ -503,6 +503,21 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1406332368114532391, guid: 375b94b60e0cad742aa4e2f83cc898d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205946014155841736, guid: 375b94b60e0cad742aa4e2f83cc898d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922849739816878672, guid: 375b94b60e0cad742aa4e2f83cc898d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4786519253814873149, guid: 375b94b60e0cad742aa4e2f83cc898d0,
         type: 3}
       propertyPath: m_RootOrder
@@ -622,6 +637,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ScreenSpaceCanvas_v3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407426256596678364, guid: 375b94b60e0cad742aa4e2f83cc898d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7116600811065348004, guid: 375b94b60e0cad742aa4e2f83cc898d0,
         type: 3}
@@ -2138,6 +2158,11 @@ PrefabInstance:
         type: 3}
       propertyPath: turnUpdateDelay
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753532738032052921, guid: ffd4bd3b9a4359a49988e886b79d9c95,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 155
       objectReference: {fileID: 0}
     - target: {fileID: 5911796199297084387, guid: ffd4bd3b9a4359a49988e886b79d9c95,
         type: 3}
