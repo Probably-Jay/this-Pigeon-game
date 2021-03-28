@@ -563,7 +563,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604937353}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.3131202}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.76037496, y: 0.8, z: 0}
   m_Children: []
   m_Father: {fileID: 1016579415}
@@ -1034,7 +1034,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876738516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.3131202}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.76037496, y: 0.8, z: 0}
   m_Children: []
   m_Father: {fileID: 162056551}
@@ -2161,6 +2161,7 @@ MonoBehaviour:
   - {fileID: 624433268}
   - {fileID: 635724561}
   - {fileID: 977620596}
+  seedStorage: {fileID: 1978450608}
 --- !u!1 &1428942197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2212,6 +2213,7 @@ MonoBehaviour:
   - {fileID: 696992640}
   - {fileID: 546174984}
   - {fileID: 372419398}
+  seedStorage: {fileID: 1978450608}
 --- !u!1 &1612375560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2779,6 +2781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentPlant: {fileID: 0}
+  isStoringSeed: 0
 --- !u!4 &1978450610
 Transform:
   m_ObjectHideFlags: 0
@@ -3777,7 +3780,7 @@ PrefabInstance:
     - target: {fileID: 7165198354871167501, guid: 82e888ae4f34af443848c51be99842ed,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7165198354871167501, guid: 82e888ae4f34af443848c51be99842ed,
         type: 3}
