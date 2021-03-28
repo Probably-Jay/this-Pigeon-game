@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ToolBox : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class ToolBox : MonoBehaviour
     float startTime;
     bool isClosing;
     Animator myAnimator;
+    Image myImage;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,7 @@ public class ToolBox : MonoBehaviour
     }
     private void OnEnable()
     {
+        myImage = this.GetComponent<Image>();
         myAnimator = this.GetComponent<Animator>();
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, OpenBox);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, CloseBox);
@@ -28,6 +32,12 @@ public class ToolBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!myImage.rectTransform.rect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)) && Input.GetMouseButtonDown(0))
+        {
+            EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose);
+            Debug.Log("clicked outside of toolbox, closing");
+
+        }
         /*
         if (isOpening)
         {
