@@ -91,9 +91,21 @@ namespace Plants
             /// <summary>
             /// Removes the tending action from the <see cref="RequiredActions"/>
             /// </summary>
-            public void Tend(TendingActions action) => RequiredActions.Remove(action);
+            public void Tend(TendingActions action)
+            {
+                RequiredActions.Remove(action);
+                OnPlantTended?.Invoke();
+            }
 
-            public event Action OnPlantGrowth;
+            /// <summary>
+            /// The event that this plant has grown
+            /// </summary>
+            public event Action OnPlantGrowth;           
+            
+            /// <summary>
+            /// The event that this plant has been tended
+            /// </summary>
+            public event Action OnPlantTended;
 
             /// <summary>
             /// Grows the plant if ready

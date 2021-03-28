@@ -254,6 +254,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5711489339190629452, guid: 1e7c520e9faf1d746a9f9704eff56a36,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1274316802367603016}
+    - target: {fileID: 5711489339190629452, guid: 1e7c520e9faf1d746a9f9704eff56a36,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextMoodSelect
+      objectReference: {fileID: 0}
     - target: {fileID: 5749297798560894664, guid: 1e7c520e9faf1d746a9f9704eff56a36,
         type: 3}
       propertyPath: m_Pivot.x
@@ -570,3 +580,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df589c2b030f8ad4a8f54c8c580e07be, type: 3}
+--- !u!114 &1274316802367603016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1320876675223549775, guid: df589c2b030f8ad4a8f54c8c580e07be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1274316802367603015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 736c07062e4482d49860818e8756aa5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
