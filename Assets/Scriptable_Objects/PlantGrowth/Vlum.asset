@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a1faa4dbc0c66f42a57391402a0ffd6, type: 3}
-  m_Name: Plant1
+  m_Name: Vlum
   m_EditorClassIdentifier: 
-  plantSize: 0
-  growthRequiremetsStage1: 
-  growthRequiremetsStage2: 
-  growthRequiremetsStage3: 
-  growthRequiremetsStage4: 
+  plantSize: 1
+  growthRequiremetsStage1: 00000000
+  growthRequiremetsStage2: 0000000000000000
+  growthRequiremetsStage3: 00000000
+  growthRequiremetsStage4: 0000000000000000
   growthRequiremetsStage5: 
   growthRequiremetsStage6: 
   growthRequiremetsStage7: 

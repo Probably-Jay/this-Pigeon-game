@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Plants.PlantActions;
+using System.Collections.ObjectModel;
 
 namespace Plants
 {
@@ -15,9 +17,18 @@ namespace Plants
     {
 
 
-
+        [SerializeField] ActionIcons iconActions;
         PlantGrowth plantGrowth;
-        Plant palnt;
+
+        ReadOnlyCollection<TendingActions> requiredActions;
+
+        Dictionary<TendingActions, GameObject> icons = new Dictionary<TendingActions, GameObject>();
+
+        //[SerializeField] Vector3 iconOrigin;
+        //[SerializeField] float iconSize;
+        //[SerializeField] float iconPadding;
+
+
         private void Awake()
         {
             plantGrowth = GetComponent<PlantGrowth>();
@@ -25,26 +36,54 @@ namespace Plants
 
         private void OnEnable()
         {
-            plantGrowth.TendingState.OnPlantTended += TendingState_OnPlantTended;
+            plantGrowth.TendingState.OnPlantTended += UpdateIcons;
+            plantGrowth.TendingState.OnPlantGrowth += UpdateIcons;
         }
 
 
 
         private void OnDisable()
         {
-            plantGrowth.TendingState.OnPlantTended -= TendingState_OnPlantTended;
+            plantGrowth.TendingState.OnPlantTended -= UpdateIcons;
+            plantGrowth.TendingState.OnPlantGrowth -= UpdateIcons;
         }
 
-        
-        private void TendingState_OnPlantTended()
+        private void Start()
         {
-            UpdateIcons();
+            AddIconObject(TendingActions.Watering, iconActions.watering);
+       //   AddIconObject(TendingActions.Staking, iconActions.staking);
+            AddIconObject(TendingActions.Spraying, iconActions.spraying);
+            AddIconObject(TendingActions.Trimming, iconActions.trimming);
+        }
+
+        private void AddIconObject(TendingActions action, GameObject icon)
+        {
+            icon.transform.SetParent(transform);
+
+            icon.SetActive(false);
+            icons.Add(action, icon);
         }
 
         private void UpdateIcons()
         {
-            throw new NotImplementedException();
+
+            foreach (var action in Helper.Utility.GetEnumValues<TendingActions>())
+            {
+                icons[action].SetActive(false);
+            }
+
+            requiredActions = plantGrowth.TendingState.GetRequiredActions();
+
+            for (int i = 0; i < requiredActions.Count; i++)
+            {
+                var icon = icons[requiredActions[i]];
+              //  icon.transform.position = GetPosition(i);
+                icon.SetActive(true);
+            }
+
         }
+
+       // private Vector3 GetPosition(int i) => iconOrigin + new Vector3(i * (iconSize + iconPadding), 0, 0);
     }
         
 }

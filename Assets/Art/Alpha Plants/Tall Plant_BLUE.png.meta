@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Art/Alpha Plants/Tall Plant_BLUE.png.meta
 guid: aede26a43f2de5f4e961860fd1b32e11
-=======
-guid: 360b424b3b2d61947b06753fa8adf59f
->>>>>>> ZF-Branch:Assets/Art/Plant Placeholders/Tall Plant_BLUE.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -46,7 +42,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 256
@@ -93,7 +89,6 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-<<<<<<< HEAD:Assets/Art/Alpha Plants/Tall Plant_BLUE.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,8 +101,6 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
-=======
->>>>>>> ZF-Branch:Assets/Art/Plant Placeholders/Tall Plant_BLUE.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
