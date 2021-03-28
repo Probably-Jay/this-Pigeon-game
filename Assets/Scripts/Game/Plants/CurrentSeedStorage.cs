@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CurrentSeedStorage : MonoBehaviour
 {
-    GameObject CurrentPlant;
+    public GameObject CurrentPlant;
     // Start is called before the first frame update
     void Start()
     {

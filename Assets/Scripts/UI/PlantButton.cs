@@ -21,5 +21,6 @@ public class PlantButton : MonoBehaviour
     {
         seedStorage.SetCurrentPlant(myPlant);
         EventsManager.InvokeEvent(EventsManager.EventType.PlantingBegin);
+        Debug.Log("Begin Planting Mode");
     }
 }

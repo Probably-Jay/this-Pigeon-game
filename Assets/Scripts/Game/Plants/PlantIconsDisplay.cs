@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Plants
 {
+    
     /// <summary>
     /// Class that displays the icons that a plant needs
     /// </summary>
@@ -84,4 +85,5 @@ namespace Plants
 
         private Vector3 GetPosition(int i) => iconOrigin + new Vector3(i * (iconSize + iconPadding), 0, 0);
     }
+        
 }
