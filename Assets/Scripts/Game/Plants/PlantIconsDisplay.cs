@@ -32,7 +32,7 @@ namespace Plants
 
         private void TendingState_OnPlantTended()
         {
-            var a = plantGrowth.acti
+            //var a = plantGrowth.acti
         }
     }
 }
