@@ -24,9 +24,9 @@ namespace Plants
 
         Dictionary<TendingActions, GameObject> icons = new Dictionary<TendingActions, GameObject>();
 
-        [SerializeField] Vector3 iconOrigin;
-        [SerializeField] float iconSize;
-        [SerializeField] float iconPadding;
+        //[SerializeField] Vector3 iconOrigin;
+        //[SerializeField] float iconSize;
+        //[SerializeField] float iconPadding;
 
 
         private void Awake()
@@ -83,7 +83,7 @@ namespace Plants
 
         }
 
-        private Vector3 GetPosition(int i) => iconOrigin + new Vector3(i * (iconSize + iconPadding), 0, 0);
+       // private Vector3 GetPosition(int i) => iconOrigin + new Vector3(i * (iconSize + iconPadding), 0, 0);
     }
         
 }

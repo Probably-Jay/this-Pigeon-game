@@ -129,7 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d409fb01f47d74085bff83cdffcc95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthSprites: []
+  growthSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300000, guid: 73e0052f2a790bb428af1792b75a9266, type: 3}
   tendingState: {fileID: 0}
 --- !u!114 &6259067321722130676
 MonoBehaviour:
@@ -144,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantname: 0
+  thisPlantsSize: 0
   social: 0
   joyful: 0
   energetic: 0
@@ -162,6 +166,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconActions: {fileID: 11400000, guid: bd241af183c010349aa53e0212e471fa, type: 2}
-  iconOrigin: {x: 0, y: 0, z: 0}
-  iconSize: 0
-  iconPadding: 0

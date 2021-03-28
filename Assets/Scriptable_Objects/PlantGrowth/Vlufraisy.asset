@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a1faa4dbc0c66f42a57391402a0ffd6, type: 3}
-  m_Name: New Tending State
+  m_Name: Vlufraisy
   m_EditorClassIdentifier: 
-  plantSize: 0
+  plantSize: 2
   growthRequiremetsStage1: 00000000
-  growthRequiremetsStage2: 0000000000000000
+  growthRequiremetsStage2: 0000000001000000
   growthRequiremetsStage3: 
   growthRequiremetsStage4: 
   growthRequiremetsStage5: 
