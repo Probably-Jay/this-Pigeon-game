@@ -6,10 +6,13 @@ public class PlantButton : MonoBehaviour
 {
     public GameObject myPlant;
     public CurrentSeedStorage seedStorage;
+
+    GardenSlotDirectory gardenSlotDirectory;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gardenSlotDirectory = GameObject.FindObjectOfType<GardenSlotDirectory>();
     }
 
     // Update is called once per frame
@@ -22,5 +25,8 @@ public class PlantButton : MonoBehaviour
         seedStorage.SetCurrentPlant(myPlant);
         EventsManager.InvokeEvent(EventsManager.EventType.PlantingBegin);
         Debug.Log("Begin Planting Mode");
+
+
+        gardenSlotDirectory.AccessAppropriateSlotManager();
     }
 }

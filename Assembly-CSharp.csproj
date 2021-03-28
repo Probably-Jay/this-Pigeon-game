@@ -123,6 +123,7 @@
     <Compile Include="Assets\Scripts\Save_System\Saving_Data\SaveRegistryManager.cs" />
     <Compile Include="Assets\Scripts\Save_System\Serialisation\SaveDataSerialiser.cs" />
     <Compile Include="Assets\Scripts\Save_System\Serialisation\SaveGameRegistrySerialiser.cs" />
+    <Compile Include="Assets\Scripts\UI\CatChatter.cs" />
     <Compile Include="Assets\Scripts\UI\CurrentMood.cs" />
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBag.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
+    <Compile Include="Assets\Scripts\UI\TextBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolDrag.cs" />
     <Compile Include="Assets\Scripts\UI\UICommands.cs" />

@@ -70,15 +70,15 @@ namespace Plants
         /// </summary>
         private void GrowIfShould()
         {
-            if (TendingState.ReadyToVisiblyGrow)
-            {
-                ProgressGrowthStage();
-                VisiblyGrow();
-            }
-            else if (TendingState.ReadyToProgressStage)
-            {
-                ProgressGrowthStage();
-            }
+            //if (TendingState.ReadyToVisiblyGrow)
+            //{
+            //    ProgressGrowthStage();
+            //    VisiblyGrow();
+            //}
+            //else if (TendingState.ReadyToProgressStage)
+            //{
+            //    ProgressGrowthStage();
+            //}
         }
 
         void VisiblyGrow()

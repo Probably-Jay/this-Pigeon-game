@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1d3c98b1d98b5e439e5f19a64e0d976, type: 3}
-  m_Name: BlueCircle
+  m_Name: BC
   m_EditorClassIdentifier: 
   itemName: BC
   inventoryImage: {fileID: 21300000, guid: fb7013b9e57192b4f8997466cb8e8f19, type: 3}
