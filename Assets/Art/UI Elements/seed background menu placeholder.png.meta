@@ -46,7 +46,11 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 256
+<<<<<<< HEAD
   spriteBorder: {x: 22, y: 26, z: 24, w: 24}
+=======
+  spriteBorder: {x: 26, y: 31, z: 27, w: 29}
+>>>>>>> ZF-Branch
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1

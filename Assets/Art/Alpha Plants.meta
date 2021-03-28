@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Art/Alpha Plants.meta
 guid: a41b3076a06043647a73e5b36641c825
+=======
+<<<<<<< HEAD
+guid: a41b3076a06043647a73e5b36641c825
+=======
+guid: 9f0a3540704f2324f9e01ec545bcf985
+>>>>>>> art_main
+>>>>>>> ZF-Branch:Assets/Art/Plant Placeholders.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -12,6 +12,7 @@ namespace Plants
     public class PlantIconsDisplay : MonoBehaviour
     {
         PlantGrowth plantGrowth;
+        Plant palnt;
         private void Awake()
         {
             plantGrowth = GetComponent<PlantGrowth>();
@@ -19,12 +20,19 @@ namespace Plants
 
         private void OnEnable()
         {
-            
+            plantGrowth.TendingState.OnPlantTended += TendingState_OnPlantTended;
         }
+
 
         private void OnDisable()
         {
-            
+            plantGrowth.TendingState.OnPlantTended -= TendingState_OnPlantTended;
+        }
+
+
+        private void TendingState_OnPlantTended()
+        {
+            var a = plantGrowth.acti
         }
     }
 }

@@ -1,0 +1,32 @@
+fileFormatVersion: 2
+guid: 1b5947d05795fc04b93b507c28e9d642
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Bogart Trial
+  fontNames:
+  - Bogart Trial
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ba1b4021a7b59904a8b5da185b29996b, type: 3}
+  - {fileID: 12800000, guid: 141eab91dde1ebf4c934e8ff1236f6c0, type: 3}
+  - {fileID: 12800000, guid: 72ffee47e3ede934d948016ec8a8ffb7, type: 3}
+  - {fileID: 12800000, guid: d057b28746f59e64fb73962674e8d453, type: 3}
+  - {fileID: 12800000, guid: 38c14ff8f226b7446ab8f06c4bfb4001, type: 3}
+  - {fileID: 12800000, guid: 416c3b19ca3b7484ea975e667303b89d, type: 3}
+  - {fileID: 12800000, guid: e82446ba70b91924488c8543346704e6, type: 3}
+  - {fileID: 12800000, guid: 0942986da74b3b543a93d8cc440ae8d5, type: 3}
+  - {fileID: 12800000, guid: 9184b58eea1191943b457de827803f03, type: 3}
+  - {fileID: 12800000, guid: b24b18ff75796104da746982b340e5ea, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

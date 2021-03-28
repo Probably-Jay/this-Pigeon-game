@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Art/Alpha Plants/Tall Plant_Stage2_BLUE.png.meta
 guid: dd48dc65cd089b44e99bc9e35924b873
+=======
+guid: 3e635d27d6ea6d84f9f764a04108ff1e
+>>>>>>> ZF-Branch:Assets/Art/Plant Placeholders/Tall Plant_Stage2_BLUE.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -89,6 +93,7 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
+<<<<<<< HEAD:Assets/Art/Alpha Plants/Tall Plant_Stage2_BLUE.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -101,6 +106,8 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
+=======
+>>>>>>> ZF-Branch:Assets/Art/Plant Placeholders/Tall Plant_Stage2_BLUE.png.meta
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
