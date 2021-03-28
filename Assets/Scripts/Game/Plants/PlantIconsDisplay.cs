@@ -11,10 +11,20 @@ namespace Plants
     [RequireComponent(typeof(PlantGrowth))]
     public class PlantIconsDisplay : MonoBehaviour
     {
-        PlantGrowth plant;
+        PlantGrowth plantGrowth;
         private void Awake()
         {
-            plant = GetComponent<PlantGrowth>();
+            plantGrowth = GetComponent<PlantGrowth>();
+        }
+
+        private void OnEnable()
+        {
+            
+        }
+
+        private void OnDisable()
+        {
+            
         }
     }
 }

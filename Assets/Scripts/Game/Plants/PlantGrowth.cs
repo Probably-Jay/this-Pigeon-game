@@ -39,6 +39,8 @@ namespace Plants
         [SerializeField] Sprite[] growthSprites;
 
         [SerializeField] TendingState tendingState;
+        public TendingState TendingState { get => tendingState; private set => tendingState = value; }
+
 
 
         //Get the Renderer component for changing colours (temp, replace with actual different sprites later)
@@ -65,20 +67,20 @@ namespace Plants
         //[SerializeField] List<TendingActions> legalTendingActions;
         //public List<TendingActions> LegalTendingActions { get => legalTendingActions; set => legalTendingActions = value; }
 
- 
-   
+
+
 
         /// <summary>
         /// Grow the plant or progress to the next growth stage
         /// </summary>
         private void GrowIfShould()
         {
-            if (tendingState.ReadyToVisiblyGrow)
+            if (TendingState.ReadyToVisiblyGrow)
             {
                 ProgressGrowthStage();
                 VisiblyGrow();
             }
-            else if (tendingState.ReadyToProgressStage)
+            else if (TendingState.ReadyToProgressStage)
             {
                 ProgressGrowthStage();
             }
@@ -117,7 +119,7 @@ namespace Plants
 
         }
 
-        void ProgressGrowthStage() => tendingState.ProgressGrowthStage();
+        void ProgressGrowthStage() => TendingState.ProgressGrowthStage();
 
 
         /// <summary>
@@ -125,13 +127,13 @@ namespace Plants
         /// </summary>
         public void Tend(TendingActions action)
         {
-            if (!tendingState.CanTend(action))
+            if (!TendingState.CanTend(action))
             {
                 
                 return;
             }
 
-            tendingState.Tend(action);
+            TendingState.Tend(action);
 
             UpdateTendingIcons();
 
