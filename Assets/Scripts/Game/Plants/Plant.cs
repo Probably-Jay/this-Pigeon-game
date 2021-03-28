@@ -37,7 +37,7 @@ namespace Plants {
 
 
 
-      
+
         public enum PlantSize // ToDo Later
         {
             Wide,
@@ -45,15 +45,14 @@ namespace Plants {
             Single
         }
 
-  
+        // private PlantSize plantSize1;
 
         // public string objectName;
         public PlantName plantname;
 
+        [SerializeField] PlantSize thisPlantsSize;
 
-
-  
-
+        [Header("Plant Stats")]
         [SerializeField, Range(0, 1)] private int social = 0;
         [SerializeField, Range(0, 1)] private int joyful = 0;
         [SerializeField, Range(0, 1)] private int energetic = 0;
@@ -65,14 +64,15 @@ namespace Plants {
         private int Painful { get => painful * PlantGrowth.GrowthLevelMoodMultiplier; set => painful = value; }
 
 
-      
 
-        public Player plantOwner;
+
+        [HideInInspector] public Player plantOwner;
 
 
 
         // public bool isPlanted = false;
         private Player.PlayerEnum? gardenID = null;
+
         public Player.PlayerEnum? GardenID { get => gardenID; set => gardenID = value; }
 
 
@@ -96,14 +96,17 @@ namespace Plants {
             //}
         }
 
-       
 
-        
+
+
 
         public TraitValue PlantStats => new TraitValue(Social, Joyful, Energetic, Painful);
 
         public PlantGrowth PlantGrowth { get; private set; }
-      //  public bool InLocalGarden { get; set; }
+        public PlantSize ThisPlantsSize => thisPlantsSize;
+
+
+        //  public bool InLocalGarden { get; set; }
 
         /// <summary>
         /// Tend the plant. No effect if this plant does not need this action taken
