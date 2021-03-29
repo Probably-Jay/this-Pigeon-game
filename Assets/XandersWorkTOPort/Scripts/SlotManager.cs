@@ -63,6 +63,7 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+
     public SlotControls SlotMouseIsIn()
     {
         foreach (var gameObject in gardenSlots)
