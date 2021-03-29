@@ -11,6 +11,11 @@ public class SlotManager : MonoBehaviour
     public GameObject seedStorage;
     GameObject newPlant;
 
+    SeedIndicator seedIndicator;
+
+    public GameObject gardenSeedIndicator;
+
+
     private void Update()
     {          
        if (seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed)
@@ -18,8 +23,7 @@ public class SlotManager : MonoBehaviour
             for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
             {
                 slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
-
-            
+         
                 if (slotControls.slotActive == true && slotControls.slotFull == false)
                 {
                     var colider = gardenSlots[slotNumber].GetComponent<BoxCollider2D>();
@@ -29,6 +33,8 @@ public class SlotManager : MonoBehaviour
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
                         PlantPlant();
+                        seedIndicator = gardenSeedIndicator.GetComponent<SeedIndicator>();
+                        seedIndicator.HideIndicator();
                     }
                 }
             }
@@ -61,7 +67,6 @@ public class SlotManager : MonoBehaviour
     {
         foreach (var gameObject in gardenSlots)
         {
-
             var colider = gameObject.GetComponent<BoxCollider2D>();
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
