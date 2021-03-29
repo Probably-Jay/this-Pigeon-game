@@ -17,11 +17,7 @@ public class WindowOpener : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, OpenSeedBag);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
     void OpenSeedBag()
     {
         seedBag.SetActive(true);
