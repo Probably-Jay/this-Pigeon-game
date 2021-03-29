@@ -125,8 +125,8 @@ namespace Mood
             v4 *= v4;
 
             float v = Mathf.Sqrt(v1 + v2 + v3 + v4);
-            
 
+            return v;
         }
 
         #region Operators
