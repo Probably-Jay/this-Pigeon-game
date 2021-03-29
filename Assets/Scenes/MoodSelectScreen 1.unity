@@ -374,6 +374,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoodCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8356803373209510931, guid: 1e7c520e9faf1d746a9f9704eff56a36,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1274316802367603016}
+    - target: {fileID: 8356803373209510931, guid: 1e7c520e9faf1d746a9f9704eff56a36,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextMoodSelect
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
 --- !u!1 &1210627482
