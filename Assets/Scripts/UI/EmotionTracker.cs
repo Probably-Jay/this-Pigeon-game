@@ -10,9 +10,12 @@ using Mood;
 // Edited SJ 10/03
 // Edited again Jay 10/03, 26/03  
 
-public class CurrentMood : MonoBehaviour // re-named from DisplayManager
+/// <summary>
+/// Manages the garden's emotions
+/// </summary>
+public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
 {
-    public Dictionary<Player.PlayerEnum, TraitValue> GardenMoods { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
+    public Dictionary<Player.PlayerEnum, TraitValue> GardenEmotions { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
     {
         {Player.PlayerEnum.Player1, TraitValue.Zero }
         ,{Player.PlayerEnum.Player2, TraitValue.Zero }
@@ -38,24 +41,24 @@ public class CurrentMood : MonoBehaviour // re-named from DisplayManager
     //Start is called before the first frame update
     void Start()
     {
-        DisplayCurrentGardenMood();
+        DisplayCurrentGardenEmotion();
     }
 
    
     public void AddToGardenStats(Player.PlayerEnum player, TraitValue traits)
     {
-        GardenMoods[player] += traits;
-        DisplayCurrentGardenMood();
+        GardenEmotions[player] += traits;
+        DisplayCurrentGardenEmotion();
     }
 
     public void SubtractFromGardenStats(Player.PlayerEnum player, TraitValue traits)
     {
-        GardenMoods[player] -= traits;
-        DisplayCurrentGardenMood();
+        GardenEmotions[player] -= traits;
+        DisplayCurrentGardenEmotion();
     }
 
   
-    void DisplayCurrentGardenMood()
+    void DisplayCurrentGardenEmotion()
     {
         displayText.text = $"P1:\n\nP2:";
 

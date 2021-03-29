@@ -10,7 +10,7 @@ using Mood;
 /// <see cref="Singleton{}"/> class to allow for easy referencing of important objects
 /// </summary>
 [RequireComponent(typeof(HotSeatManager))]
-[RequireComponent(typeof(CurrentMood))]
+[RequireComponent(typeof(EmotionTracker))]
 public class GameManager : Singleton<GameManager>
 {
 
@@ -18,7 +18,8 @@ public class GameManager : Singleton<GameManager>
 
     public new static GameManager Instance { get => Singleton<GameManager>.Instance; }
     public HotSeatManager HotSeatManager { get; private set; }
-    public CurrentMood PlantManager { get; private set; }
+
+    public EmotionTracker CurrentMoods { get; private set; }
 
     public Emotion.Emotions Player1Goal { get; private set; }
     public Emotion.Emotions Player2Goal { get; private set; }
@@ -34,7 +35,7 @@ public class GameManager : Singleton<GameManager>
     {
         base.InitSingleton();
         HotSeatManager = GetComponent<HotSeatManager>();
-        PlantManager = GetComponent<CurrentMood>();
+        CurrentMoods = GetComponent<EmotionTracker>();
     }
 
     private void OnEnable()

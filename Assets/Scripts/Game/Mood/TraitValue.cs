@@ -112,6 +112,23 @@ namespace Mood
         public bool Contains(TraitValue.Scales scale) => this[scale] > 0;
 
 
+        public static float Distance(TraitValue a, TraitValue b)
+        {
+            float v1 = a[0] - b[0];
+            float v2 = a[1] - b[1];
+            float v3 = a[2] - b[2];
+            float v4 = a[3] - b[3];
+
+            v1 *= v1;
+            v2 *= v2;
+            v3 *= v3;
+            v4 *= v4;
+
+            float v = Mathf.Sqrt(v1 + v2 + v3 + v4);
+            
+
+        }
+
         #region Operators
         public static TraitValue operator -(TraitValue a) => new TraitValue(-a[0], -a[1], -a[2], -a[3]);
 

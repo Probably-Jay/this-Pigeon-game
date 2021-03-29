@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mood;
 
-// careted zap and jay 28/03
+// created zap and jay 28/03
 
 namespace Tutorial
 {
@@ -12,7 +13,7 @@ namespace Tutorial
         public TextBox myBox;
 
 
-        bool hasEverPlantedMoodRelaventPlant;
+        bool hasEverPlantedMoodRelaventPlant = false;
 
         delegate bool Condition();
 
@@ -21,14 +22,32 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
+           // BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantReachesMaturity);
+
             BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent, PlantedFirstMoodRelevantPlant,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
 
             BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithNoRelaventPlants,
-                      condition: () =>  !hasEverPlantedMoodRelaventPlant, 
-                      unbindIfFailCondition: true);
+                      condition: () =>
+                      {
+                          return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
+                      });
 
-            BindEvent(EventsManager.EventType.AddedToEmotionGoal, MoodRelevantPlantReachesMaturity);
+            BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
+                condition: () => 
+                { 
+                    //float distance
+
+                    return GameManager.Instance.CurrentMoods.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue] != TraitValue.Zero; 
+                }
+                ); 
+
+            BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, NoMorePoints);
+   
+
+            //EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
+
+           // BindEvent(EventsManager.EventType.PlantReadyToGrow,)
         }
 
         /// <summary>
@@ -43,6 +62,14 @@ namespace Tutorial
         {
             void func() => LaunchTutorial(func, eventType, tutorialToCall, sideEffects, condition, unbindIfFailCondition);
             EventsManager.BindEvent(eventType, func);
+        }   
+        /// <summary>
+        /// Overload for paramatised function
+        /// </summary>
+        void BindEvent(EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorialToCall, System.Action sideEffects = null, System.Func<bool> condition = null, bool unbindIfFailCondition = false)
+        {
+            void paramFunc(EventsManager.EventParams eventParams) => LaunchTutorialParamatised(paramFunc, eventType, tutorialToCall, eventParams, sideEffects, condition, unbindIfFailCondition);
+            EventsManager.BindEvent(eventType, paramFunc);
         }
 
         void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition)
@@ -56,6 +83,28 @@ namespace Tutorial
                 myBox.gameObject.SetActive(true);
 
                 tutorial();
+
+                sideEffects?.Invoke();
+
+                EventsManager.UnbindEvent(eventType, func);
+            }
+            else if (condition != null && unbindIfFailCondition)
+            {
+                EventsManager.UnbindEvent(eventType, func);
+            }
+        } 
+        
+        void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition)
+        {
+            if (GameManager.Instance.ActivePlayer.PlayerEnumValue != Player.PlayerEnum.Player1)
+                return;
+
+
+            if (condition == null || condition())
+            {
+                myBox.gameObject.SetActive(true);
+
+                tutorial(eventParams);
 
                 sideEffects?.Invoke();
 
@@ -90,9 +139,32 @@ namespace Tutorial
             myBox.Say("Good morning!");
             myBox.Say("Today, why not try planting a plant with a trait from your mood?");
         }
+
+        void PlantReachesMaturity()
+        {
+            myBox.Say("It looks like this plant has been well looked after...");
+            myBox.Say("by the start of your next turn it will probably have grown!");
+        }
+
         void MoodRelevantPlantReachesMaturity()
         {
             myBox.Say("Now this garden is really getting going!");
         }
+
+        void NoMorePoints(EventsManager.EventParams eventParams)
+        {
+            switch ((TurnPoints.PointType)eventParams.EnumData)
+            {
+                case TurnPoints.PointType.SelfObjectPlace:
+                    myBox.Say("You can't plant in your garden again until your next turn, sorry.");  
+                    break;
+                case TurnPoints.PointType.OtherObjectPlace:
+                    myBox.Say("You can't plant in your companion's garden again until your next turn, sorry.");
+                    break;
+                default: throw new System.ArgumentException();
+            }
+        }
+
+
     }
 }
