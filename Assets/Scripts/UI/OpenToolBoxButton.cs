@@ -12,11 +12,15 @@ public class OpenToolBoxButton : MonoBehaviour
         button = this.GetComponent<Button>();
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, EnableButton);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
+        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_)=> UpdateButton());
+        EventsManager.BindEvent(EventsManager.EventType.StartGame, UpdateButton);
     }
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, EnableButton);
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => UpdateButton());
+        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, UpdateButton);
     }
     // Start is called before the first frame update
     void Start()
@@ -27,14 +31,28 @@ public class OpenToolBoxButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     void EnableButton()
     {
-        button.interactable = true;
+        if (GameManager.Instance.InOwnGarden)
+        {
+            button.interactable = true;
+        }
     }
     void DisableButton()
     {
         button.interactable = false;
+    }
+    void UpdateButton()
+    {
+        if (GameManager.Instance.InOwnGarden)
+        {
+            EnableButton();
+        }
+        else
+        {
+            DisableButton();
+        }
     }
 }
