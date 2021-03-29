@@ -47,6 +47,10 @@ namespace Tutorial
 
         void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition)
         {
+            if (GameManager.Instance.ActivePlayer.PlayerEnumValue != Player.PlayerEnum.Player1)
+                return;
+
+
             if (condition == null || condition())
             {
                 myBox.gameObject.SetActive(true);
