@@ -17,6 +17,14 @@ public class GoalSliderScript : MonoBehaviour
     [SerializeField] TMP_Text M1T;
     [SerializeField] TMP_Text M2T;
 
+    // ICON INDEX
+    // 0 - Energetic
+    // 1 - Reflective
+    // 2 - Social
+    // 3 - Calm
+    // 4 - Joyful
+    // 5 - Painful
+
     //private static Image MoodTraitThree; // ToDo
     //[SerializeField] TMP_Text M3T;
 
@@ -128,11 +136,11 @@ public class GoalSliderScript : MonoBehaviour
         {
             case Mood.TraitValue.Scales.Social:
                 bar.color = Color.magenta; // Apparently there's no base purple? Change later
-                icon.SetText("<sprite index= 5>");
+                icon.SetText("<sprite index= 2>");
                 break;
             case Mood.TraitValue.Scales.Joyful:
                 bar.color = Color.blue;
-                icon.SetText("<sprite index= 2>");
+                icon.SetText("<sprite index= 4>");
                 break;
             case Mood.TraitValue.Scales.Energetic:
                 bar.color = Color.yellow;
@@ -140,7 +148,7 @@ public class GoalSliderScript : MonoBehaviour
                 break;
             case Mood.TraitValue.Scales.Painful:
                 bar.color = Color.red;
-                icon.SetText("<sprite index= 3>");
+                icon.SetText("<sprite index= 5>");
                 break;
             default:
                 break;
