@@ -22,7 +22,7 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
-           // BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantReachesMaturity);
+            BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
 
             BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent, PlantedFirstMoodRelevantPlant,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
@@ -35,12 +35,16 @@ namespace Tutorial
 
             BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
                 condition: () => 
-                { 
-                    //float distance
+                {
+                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoals[GameManager.Instance.ActivePlayer.PlayerEnumValue];
 
-                    return GameManager.Instance.CurrentMoods.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue] != TraitValue.Zero; 
-                }
-                ); 
+
+                    float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
+                    float currentDistance = TraitValue.Distance(gardenCurrentTrait, gardenGoalTrait);
+
+                    return currentDistance < defaultDistance;
+                }); 
 
             BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, NoMorePoints);
    
@@ -140,7 +144,7 @@ namespace Tutorial
             myBox.Say("Today, why not try planting a plant with a trait from your mood?");
         }
 
-        void PlantReachesMaturity()
+        void PlantGrows()
         {
             myBox.Say("It looks like this plant has been well looked after...");
             myBox.Say("by the start of your next turn it will probably have grown!");
