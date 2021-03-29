@@ -106,6 +106,22 @@ namespace Mood
             get { return this[(Scales)index]; }
         }
 
+
+        /// <summary>
+        /// If this trait containts any of the same trais as <paramref name="traitValue"/>
+        /// </summary>
+        public bool Overlaps(TraitValue traitValue)
+        {
+            foreach (var trait in Helper.Utility.GetEnumValues<TraitValue.Scales>())
+            {
+                if (Contains(trait) && traitValue.Contains(trait))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// If this contains <paramref name="scale"/> at a value above <c>0</c>
         /// </summary>

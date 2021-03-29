@@ -21,12 +21,19 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
         ,{Player.PlayerEnum.Player2, TraitValue.Zero }
     };   
     
-    public Dictionary<Player.PlayerEnum, TraitValue> GardenGoals => new Dictionary< Player.PlayerEnum, TraitValue >()    
+    public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary< Player.PlayerEnum, TraitValue >()    
     {
         { Player.PlayerEnum.Player1, Emotion.EmotionValues[GameManager.Instance.Player1Goal]}
         ,{Player.PlayerEnum.Player2, Emotion.EmotionValues[GameManager.Instance.Player2Goal] }
             
-    };
+    };    
+    
+    //public Dictionary<Player.PlayerEnum, Emotion> GardenGoalEmotions => new Dictionary< Player.PlayerEnum, Emotion >()    
+    //{
+    //    { Player.PlayerEnum.Player1, GameManager.Instance.Player1Goal }
+    //    ,{Player.PlayerEnum.Player2, GameManager.Instance.Player2Goal }
+            
+    //};
         
     
 

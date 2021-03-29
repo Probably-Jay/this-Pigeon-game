@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Plants;
 
 public class SlotManager : MonoBehaviour
 {
@@ -40,16 +41,22 @@ public class SlotManager : MonoBehaviour
         newPlant = seedStorage.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
         slotControls.SpawnPlantInSlot(newPlant);
         seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed = false;
-        InvokePlantedEvent();
+        InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
 
         HideSlots();
     }
 
-    private static void InvokePlantedEvent()
+    private static void InvokePlantedEvent(Plant plant)
     {
         if (GameManager.Instance.InOwnGarden)
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+
+            Mood.TraitValue CurrentMood = GameManager.Instance.EmotionTracker.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+            if (CurrentMood.Overlaps(plant.TraitsUnscaled))
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent);
+            }
         }
         else
         {
