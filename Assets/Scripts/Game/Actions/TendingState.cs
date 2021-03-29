@@ -25,6 +25,7 @@ namespace Plants
 
             #region UI Lists
             // Some plants take multiple days of passing thier growth requiremetns before they grow
+            [Header("Growth Stages")]
             [SerializeField] List<TendingActions> growthRequiremetsStage1;
             [SerializeField] List<TendingActions> growthRequiremetsStage2;
             [SerializeField] List<TendingActions> growthRequiremetsStage3;
@@ -35,6 +36,9 @@ namespace Plants
             // [SerializeField ]List<TendingActions> growthRequiremetsStage8;
             // [SerializeField ]List<TendingActions> growthRequiremetsStage9;
             // [SerializeField ]List<TendingActions> growthRequiremetsStage10;
+            [Header("Max Growth Behaviour")]
+            [SerializeField] List<TendingActions> maxGrowthRequirements;
+
             void OnEnable()
             {
                 growthRequirements = new List<TendingActions>[7]
@@ -57,9 +61,9 @@ namespace Plants
             (
                 new Dictionary<Plant.PlantSize, List<int>>
                 {
-                    {Plant.PlantSize.Single, new List<int>(){1,2,3} }
-                    ,{Plant.PlantSize.Tall, new List<int>(){1,3,5} }
-                    ,{Plant.PlantSize.Wide, new List<int>(){1,4,7} }
+                    {Plant.PlantSize.Single, new List<int>(){0,1,2} }
+                    ,{Plant.PlantSize.Tall, new List<int>(){0,2,4} }
+                    ,{Plant.PlantSize.Wide, new List<int>(){0,3,6} }
                 }
             );
 
@@ -67,12 +71,12 @@ namespace Plants
             List<TendingActions>[] growthRequirements;
 
             int currentGrowthStage = 0;
-            int MaxGrowthStage => (ArtChagesAt[plantSize][ArtChagesAt[plantSize].Count - 1]) +1 ;
-            bool AtFullStageOfGrowth => currentGrowthStage == MaxGrowthStage;
+            int MaxGrowthStage => (ArtChagesAt[plantSize][ArtChagesAt[plantSize].Count - 1]);
+            bool AtFullStageOfGrowth => currentGrowthStage >= MaxGrowthStage;
 
 
 
-            List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[currentGrowthStage] : new List<TendingActions>();
+            List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[currentGrowthStage] : new List<TendingActions>(maxGrowthRequirements);
             public ReadOnlyCollection<TendingActions> GetRequiredActions() => new ReadOnlyCollection<TendingActions>(RequiredActions);
 
             /// <summary>
@@ -116,14 +120,29 @@ namespace Plants
             /// </summary>
             public void ProgressGrowthStage()
             {
+                Debug.Log("tryingToGrow");
                 if (ReadyToProgressStage)
                 {
+                    Debug.Log("Growing!");
                     currentGrowthStage++;
+
                     OnPlantGrowth?.Invoke();
                 }
+
+                //if (AtFullStageOfGrowth)
+                //    FullGrowthBehaviour();
             }
 
+            //private void FullGrowthBehaviour()
+            //{
+            //    throw new NotImplementedException();
+            //}
 
+            public void Init()
+            {
+                OnPlantGrowth?.Invoke();
+
+            }
 
 
         }
