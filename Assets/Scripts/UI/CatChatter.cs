@@ -156,7 +156,7 @@ namespace Tutorial
             switch ((TurnPoints.PointType)eventParams.EnumData)
             {
                 case TurnPoints.PointType.SelfObjectPlace:
-                    myBox.Say("You can't plant in your garden again until your next turn, sorry.");  
+                    myBox.Say("Whoa there! You can only plant one plant in your garden each turn!");  
                     break;
                 case TurnPoints.PointType.OtherObjectPlace:
                     myBox.Say("You can't plant in your companion's garden again until your next turn, sorry.");
