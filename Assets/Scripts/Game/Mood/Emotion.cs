@@ -51,5 +51,25 @@ namespace Mood
         /// <param name="emotion">The emotion being created</param>
         public Emotion(Emotions emotion) => traits = EmotionValues[emotion];
 
+        /// <summary>
+        /// If this emotion contains this <paramref name="scale"/> at a value above <c>0</c>
+        /// </summary>
+        public bool Contains(TraitValue.Scales scale) => traits.Contains(scale);
+
+        /// <summary>
+        /// If this emotion containts any of the same trais as <paramref name="traitValue"/>
+        /// </summary>
+        public bool Overlaps(TraitValue traitValue)
+        {
+            foreach (var trait in Helper.Utility.GetEnumValues<TraitValue.Scales>())
+            {
+                if(Contains(trait) && traitValue.Contains(trait))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

@@ -26,9 +26,10 @@ public class EventsManager : Singleton<EventsManager>
         , EnterNewScene
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
-        
-        /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
+
+     
         , PlacedOwnObject
+        , PlacedOwnObjectMoodRelavent
         , PlacedCompanionObject
         , RemovedOwnObject
         , WateredOwnPlant // perhaps rename to "maintained own object"
@@ -52,8 +53,11 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
+        , AddedToEmotionGoal
         ,ToolDropped
 
+
+        , PlantReadyToGrow
 
         , QuitGame
     }
@@ -221,5 +225,5 @@ public class EventsManager : Singleton<EventsManager>
     //    ClearEvents();
     //}
 
-
+    /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
 }

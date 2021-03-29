@@ -7,19 +7,25 @@ using UnityEngine.UI;
 public class TextBox : MonoBehaviour
 {
     private List<string> thingsToSay = new List<string> { };
-    private Text myText;
+    [SerializeField] private Text myText;
     private int listFocus;
     public GameObject backButton;
     public GameObject forwardButton;
-    private Text forwardButtonText;
+    [SerializeField] private Text forwardButtonText;
     // Start is called before the first frame update
     void OnEnable()
     {
-        forwardButtonText = forwardButton.GetComponentInChildren<Text>();
-        myText=this.GetComponentInChildren<Text>();
+        //forwardButtonText = forwardButton.GetComponentInChildren<Text>();
+        //myText=this.GetComponentInChildren<Text>();
         EventsManager.BindEvent(EventsManager.EventType.DialogueNext, NextWords);
         EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
         UpdateButtons();
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.DialogueNext, NextWords);
+        EventsManager.UnbindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
     }
 
     // Update is called once per frame
@@ -35,6 +41,7 @@ public class TextBox : MonoBehaviour
     {
         thingsToSay.Add(content);
         myText.gameObject.SetActive(true);
+        UpdateButtons();
     }
     void NextWords()
     {
@@ -42,6 +49,7 @@ public class TextBox : MonoBehaviour
         {
             myText.gameObject.SetActive(false);
             thingsToSay.Clear();
+            listFocus = 0;
             this.gameObject.SetActive(false);
         }
         else

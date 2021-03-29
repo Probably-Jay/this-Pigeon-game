@@ -100,9 +100,14 @@ namespace Plants
             /// </summary>
             public void Tend(TendingActions action)
             {
-                Debug.Log($"Tended {action.ToString()} successfully");
                 RequiredActions.Remove(action);
                 OnPlantTended?.Invoke();
+
+                if(RequiredActions.Count == 0) // for the tutorial
+                {
+                    EventsManager.InvokeEvent(EventsManager.EventType.PlantReadyToGrow);
+                }
+
             }
 
             /// <summary>

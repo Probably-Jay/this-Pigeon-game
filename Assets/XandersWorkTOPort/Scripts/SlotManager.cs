@@ -28,16 +28,33 @@ public class SlotManager : MonoBehaviour
 
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
-                        newPlant = seedStorage.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
-                        slotControls.SpawnPlantInSlot(newPlant);
-                        Debug.Log("you have planted a plant");
-                        seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed = false;
-
-                        HideSlots();
+                        PlantPlant();
                     }
                 }
             }
        }
+    }
+
+    private void PlantPlant()
+    {
+        newPlant = seedStorage.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
+        slotControls.SpawnPlantInSlot(newPlant);
+        seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed = false;
+        InvokePlantedEvent();
+
+        HideSlots();
+    }
+
+    private static void InvokePlantedEvent()
+    {
+        if (GameManager.Instance.InOwnGarden)
+        {
+            EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+        }
+        else
+        {
+            EventsManager.InvokeEvent(EventsManager.EventType.PlacedCompanionObject);
+        }
     }
 
     public SlotControls SlotMouseIsIn()

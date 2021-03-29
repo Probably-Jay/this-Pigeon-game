@@ -68,6 +68,8 @@ namespace Plants {
         private int Painful { get => painful * PlantGrowth.GrowthLevelMoodMultiplier; set => painful = value; }
 
 
+        public TraitValue PlantStats => new TraitValue(Social, Joyful, Energetic, Painful);
+        public TraitValue PlantStatsUnscaled => new TraitValue(social, joyful, energetic, painful);
 
 
         [HideInInspector] public Player plantOwner;
@@ -104,7 +106,6 @@ namespace Plants {
 
 
 
-        public TraitValue PlantStats => new TraitValue(Social, Joyful, Energetic, Painful);
 
         public PlantGrowth PlantGrowth { get; private set; }
         public PlantSize ThisPlantsSize => thisPlantsSize;
