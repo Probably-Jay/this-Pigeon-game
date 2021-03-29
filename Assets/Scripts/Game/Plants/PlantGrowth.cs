@@ -37,6 +37,7 @@ namespace Plants
 
 
         [SerializeField] Sprite[] growthSprites;
+        [SerializeField] Collider2D[] growthColliders;
 
         [SerializeField] TendingState tendingState;
         public TendingState TendingState { get => tendingState; private set => tendingState = value; }
@@ -59,6 +60,7 @@ namespace Plants
         {
             visibleGrowthState = VisibleGrowthStage.Seed;
             UpdateGrowthImage();
+            UpdateGrowthCollider();
             tendingState.Init();
         }
 
@@ -101,12 +103,26 @@ namespace Plants
                 GrowthLevelMoodMultiplier = 1;
             }
             UpdateGrowthImage();
-
+            UpdateGrowthCollider();
         }
 
         void UpdateGrowthImage()
         {
             spriteRenderer.sprite = growthSprites[(int)visibleGrowthState];
+        }
+        void UpdateGrowthCollider()
+        {
+            foreach (Collider2D col in growthColliders)
+            {
+                if (col == growthColliders[(int)visibleGrowthState])
+                {
+                    col.enabled = true;
+                }
+                else
+                {
+                    col.enabled = false;
+                }
+            }
         }
 
         //void UpdateSprite()
@@ -148,6 +164,10 @@ namespace Plants
 
            
 
+        }
+        public Collider2D GetActiveCollider()
+        {
+            return growthColliders[(int)visibleGrowthState];
         }
 
  

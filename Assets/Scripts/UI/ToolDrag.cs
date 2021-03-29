@@ -78,13 +78,13 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     void TendPlant()
     {
         var a = GameManager.Instance.slotManagers[GameManager.Instance.CurrentVisibleGarden];
-        SlotControls slot = a.SlotMouseIsIn();
+        GameObject plant = a.PlantMouseIsIn();
 
-        if (slot == null)
+        if (plant == null)
             return;
 
-
-        slot.plantsInThisSlot[0].GetComponent<Plants.Plant>().Tend(ToolType);
+        Debug.Log(plant);
+        plant.GetComponent<Plants.Plant>().Tend(ToolType);
 
 
     }
