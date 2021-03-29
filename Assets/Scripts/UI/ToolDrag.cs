@@ -40,7 +40,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         //Debug.Log(myRect);
         //EditorGUI.DrawRect(new Rect(myRect.position,myRect.size), green );
         //Debug.Log(myImage.rectTransform.rect);
-        if (myRect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)))
+        if (myRect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition))&&GameManager.Instance.InOwnGarden)
         {
             isMouseOver = true;
             //Debug.Log("in");

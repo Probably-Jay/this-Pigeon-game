@@ -31,7 +31,7 @@ public class OpenToolBoxButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        UpdateButton();
     }
     void EnableButton()
     {
