@@ -32,6 +32,10 @@ namespace Plants
         private void Awake()
         {
             plantGrowth = GetComponent<PlantGrowth>();
+            AddIconObject(TendingActions.Watering, iconActions.watering);
+            //   AddIconObject(TendingActions.Staking, iconActions.staking);
+            AddIconObject(TendingActions.Spraying, iconActions.spraying);
+            AddIconObject(TendingActions.Trimming, iconActions.trimming);
         }
 
         private void OnEnable()
@@ -50,18 +54,16 @@ namespace Plants
 
         private void Start()
         {
-            AddIconObject(TendingActions.Watering, iconActions.watering);
-       //   AddIconObject(TendingActions.Staking, iconActions.staking);
-            AddIconObject(TendingActions.Spraying, iconActions.spraying);
-            AddIconObject(TendingActions.Trimming, iconActions.trimming);
+      
         }
 
         private void AddIconObject(TendingActions action, GameObject icon)
         {
-            icon.transform.SetParent(transform);
+            GameObject newIcon = Instantiate(icon);
+            newIcon.transform.SetParent(transform);
 
-            icon.SetActive(false);
-            icons.Add(action, icon);
+            newIcon.SetActive(false);
+            icons.Add(action, newIcon);
         }
 
         private void UpdateIcons()

@@ -54,6 +54,8 @@ public class EventsManager : Singleton<EventsManager>
         , PlantingBegin
 
         , AddedToEmotionGoal
+        ,ToolDropped
+
 
         , QuitGame
     }

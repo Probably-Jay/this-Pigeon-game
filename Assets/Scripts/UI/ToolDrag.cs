@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using Plants;
+using Plants.PlantActions;
 
 //Created Zap 26/03
 public class ToolDrag : MonoBehaviour //IPointerDownHandler
 {
     Color green;
+    [SerializeField] TendingActions toolType;
     public Image myImage;
     Rect myRect;
     Vector3 startingPostition;
@@ -15,6 +18,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 worldPosition;
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
+   
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +62,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             if (!Input.GetMouseButton(0))
             {
                 isPickedUp = false;
+                TendPlant(); //this is where you would tend the plant 
             }
         }
         else
@@ -68,5 +74,22 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     {
         return worldPosition;
     }
+
+    void TendPlant()
+    {
+        var a = GameManager.Instance.slotManagers[GameManager.Instance.CurrentVisibleGarden];
+        SlotControls slot = a.SlotMouseIsIn();
+
+        if (slot == null)
+            return;
+
+
+        slot.plantsInThisSlot[0].GetComponent<Plants.Plant>().Tend(ToolType);
+
+
+    }
+    public TendingActions ToolType => toolType;
     //needs to have a getter for what kind of tool it is
+    //I agree but like how, I don't know how the tools are listed, used a string for now, perhaps use a dictionary in the slots?
+
 }

@@ -8,13 +8,63 @@ public class SlotManager : MonoBehaviour
     public List<GameObject> gardenSlots;
     SlotControls slotControls;
 
+    public GameObject seedStorage;
+    GameObject newPlant;
 
-    public void ShowSlots(int platType)
-    {       
-        for (int gridNumber = 0; gridNumber < gardenSlots.Count; gridNumber++)
+    private void Update()
+    {          
+       if (seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed)
+       {
+            for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
+            {
+                slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+
+            
+                if (slotControls.slotActive == true && slotControls.slotFull == false)
+                {
+                    var colider = gardenSlots[slotNumber].GetComponent<BoxCollider2D>();
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    mousePos.z = colider.transform.position.z;
+
+                    if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
+                    {
+                        newPlant = seedStorage.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
+                        slotControls.SpawnPlantInSlot(newPlant);
+                        Debug.Log("you have planted a plant");
+                        seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed = false;
+
+                        HideSlots();
+                    }
+                }
+            }
+       }
+    }
+
+    public SlotControls SlotMouseIsIn()
+    {
+        foreach (var gameObject in gardenSlots)
         {
-            slotControls = gardenSlots[gridNumber].GetComponent<SlotControls>();
-            if (slotControls.slotType == platType)
+
+            var colider = gameObject.GetComponent<BoxCollider2D>();
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = colider.transform.position.z;
+
+            if (colider.OverlapPoint(mousePos))
+            {
+                return gameObject.GetComponent<SlotControls>();
+            }
+        }
+        return null;
+    } 
+
+
+    public void ShowSlots(int requiredSlotType)
+    {       
+        for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
+        {
+            slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+            if (slotControls.slotType == requiredSlotType)
             {               
                 slotControls.ShowSlot();
             }

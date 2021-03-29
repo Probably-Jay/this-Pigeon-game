@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script called by "select plant" buttom in seed menu
+/// </summary>
 public class PlantButton : MonoBehaviour
 {
     public GameObject myPlant;
@@ -20,12 +23,13 @@ public class PlantButton : MonoBehaviour
     {
         
     }
+
     public void GoToPlanting()
     {
         seedStorage.SetCurrentPlant(myPlant);
+        seedStorage.isStoringSeed = true;
         EventsManager.InvokeEvent(EventsManager.EventType.PlantingBegin);
-        Debug.Log("Begin Planting Mode");
-
+      //  Debug.Log("Begin Planting Mode");
 
         gardenSlotDirectory.AccessAppropriateSlotManager();
     }
