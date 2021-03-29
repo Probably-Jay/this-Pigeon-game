@@ -73,8 +73,26 @@ public class SlotManager : MonoBehaviour
             }
         }
         return null;
-    } 
+    }
+    /*
+    public GameObject PlantMouseIsIn()
+    {
+        foreach (var gameObject in gardenSlots)
+        {
+            var slot 
+            var colider = gameObject.GetComponent<BoxCollider2D>();
 
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = colider.transform.position.z;
+
+            if (colider.OverlapPoint(mousePos))
+            {
+                return gameObject.GetComponent<SlotControls>();
+            }
+        }
+        return null;
+    }
+    */
 
     public void ShowSlots(int requiredSlotType)
     {       
