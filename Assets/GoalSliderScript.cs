@@ -17,6 +17,14 @@ public class GoalSliderScript : MonoBehaviour
     [SerializeField] TMP_Text M1T;
     [SerializeField] TMP_Text M2T;
 
+
+
+    private void OnEnable()
+    {
+        //EventsManager.BindEvent(EventsManager.EventType.plant)
+    }
+
+
     // ICON INDEX
     // 0 - Energetic
     // 1 - Reflective
@@ -59,72 +67,88 @@ public class GoalSliderScript : MonoBehaviour
         return img.fillAmount;
     }
 
+
+
+
+
     /// <summary>
     /// Initialize the variables
     /// </summary>
     public void UpdateTraitsDisplay()
     {
-        var EV = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+       // int activePlayer = (int)GameManager.Instance.ActivePlayer.PlayerEnumValue;
 
-        var GM = GameManager.Instance;
-        var ET = GM.EmotionTracker;
-        var GE = ET.GardenEmotions;
 
-        var TV = GE[EV];
-       // Mood.TraitValue TV = GameManager.Instance.CurrentMoods.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
-          
-        if (EV == 0) // P1
-        {
-            switch (GameManager.Instance.Player1Goal)
-            {
-                case Mood.Emotion.Emotions.Loving:
-                    // Social + Joyful
-                    SetBarColors(Mood.TraitValue.Scales.Social, Mood.TraitValue.Scales.Joyful);
-                    SetBarValue(TV.Social, MoodTraitOne);
-                    SetBarValue(TV.Joyful, MoodTraitTwo);
-                    break;
-                case Mood.Emotion.Emotions.Excited:
-                    // Joy + Energy
-                    SetBarColors(Mood.TraitValue.Scales.Joyful, Mood.TraitValue.Scales.Energetic);
-                    break;
-                case Mood.Emotion.Emotions.Stressed:
-                    // Energy + Pain
-                    SetBarColors(Mood.TraitValue.Scales.Energetic, Mood.TraitValue.Scales.Painful);
-                    break;
-                case Mood.Emotion.Emotions.Lonley:
-                    // Pain + Social
-                    SetBarColors(Mood.TraitValue.Scales.Painful, Mood.TraitValue.Scales.Social);
-                    break;
-                default:
-                    break;
-            }
-        }
-        else
-        {
-            switch (GameManager.Instance.Player2Goal)
-            {
-                case Mood.Emotion.Emotions.Loving:
-                    // Social + Joyful
-                    SetBarColors(Mood.TraitValue.Scales.Social, Mood.TraitValue.Scales.Joyful);
-                    SetBarValue(TV.Social, MoodTraitOne);
-                    SetBarValue(TV.Joyful, MoodTraitTwo);
-                    break;
-                case Mood.Emotion.Emotions.Excited:
-                    // Joy + Energy
-                    SetBarColors(Mood.TraitValue.Scales.Joyful, Mood.TraitValue.Scales.Energetic);
-                    break;
-                case Mood.Emotion.Emotions.Stressed:
-                    // Energy + Pain
-                    SetBarColors(Mood.TraitValue.Scales.Energetic, Mood.TraitValue.Scales.Painful);
-                    break;
-                case Mood.Emotion.Emotions.Lonley:
-                    // Pain + Social
-                    SetBarColors(Mood.TraitValue.Scales.Painful, Mood.TraitValue.Scales.Social);
-                    break;
-                default:
-                    break;
-            }
-        }
+        Player.PlayerEnum activePlayer = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+        Mood.TraitValue currentTraits = GameManager.Instance.EmotionTracker.GardenEmotions[activePlayer];
+
+
+
+        Mood.TraitValue traits = GameManager.Instance.EmotionTracker.GardenGoalTraits[activePlayer];
+
+        (Mood.TraitValue.Scales, Mood.TraitValue.Scales) traitsInEmotion = Mood.Emotion.GetScalesInEmotion(GameManager.Instance.EmotionTracker.GardenGoalEmotions[activePlayer]);
+
+        SetBarColors(traitsInEmotion.Item1, traitsInEmotion.Item2);
+
+        SetBarValue(currentTraits[traitsInEmotion.Item1], MoodTraitOne);
+        SetBarValue(currentTraits[traitsInEmotion.Item2], MoodTraitTwo);
+
+
+        //if (activePlayer == 0) // P1
+        //{
+        //    switch (GameManager.Instance.Player1Goal)
+        //    {
+        //        case Mood.Emotion.Emotions.Loving:
+        //            // Social + Joyful
+        //            SetBarColors(Mood.TraitValue.Scales.Social, Mood.TraitValue.Scales.Joyful);
+        //            //SetBarValue(TV.Social, MoodTraitOne);
+        //            SetBarValue(TV.Social, MoodTraitOne);
+        //            SetBarValue(TV.Joyful, MoodTraitTwo);
+        //            break;
+        //        case Mood.Emotion.Emotions.Excited:
+        //            // Joy + Energy
+        //            SetBarColors(Mood.TraitValue.Scales.Joyful, Mood.TraitValue.Scales.Energetic);
+        //            break;
+        //        case Mood.Emotion.Emotions.Stressed:
+        //            // Energy + Pain
+        //            SetBarColors(Mood.TraitValue.Scales.Energetic, Mood.TraitValue.Scales.Painful);
+        //            break;
+        //        case Mood.Emotion.Emotions.Lonely:
+        //            // Pain + Social
+        //            SetBarColors(Mood.TraitValue.Scales.Painful, Mood.TraitValue.Scales.Social);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+        //else
+        //{
+        //    switch (GameManager.Instance.Player2Goal)
+        //    {
+        //        case Mood.Emotion.Emotions.Loving:
+        //            // Social + Joyful
+        //            SetBarColors(Mood.TraitValue.Scales.Social, Mood.TraitValue.Scales.Joyful);
+        //            SetBarValue(TV.Social, MoodTraitOne);
+        //            SetBarValue(TV.Joyful, MoodTraitTwo);
+        //            break;
+        //        case Mood.Emotion.Emotions.Excited:
+        //            // Joy + Energy
+        //            SetBarColors(Mood.TraitValue.Scales.Joyful, Mood.TraitValue.Scales.Energetic);
+        //            break;
+        //        case Mood.Emotion.Emotions.Stressed:
+        //            // Energy + Pain
+        //            SetBarColors(Mood.TraitValue.Scales.Energetic, Mood.TraitValue.Scales.Painful);
+        //            break;
+        //        case Mood.Emotion.Emotions.Lonely:
+        //            // Pain + Social
+        //            SetBarColors(Mood.TraitValue.Scales.Painful, Mood.TraitValue.Scales.Social);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+
+
     }
 
     /// <summary>

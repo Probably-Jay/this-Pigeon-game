@@ -23,7 +23,24 @@ namespace Mood
             Loving
             , Excited
             , Stressed
-            , Lonley
+            , Lonely
+        }
+
+        public static (TraitValue.Scales,TraitValue.Scales) GetScalesInEmotion(Emotions emotion)
+        {
+            switch (emotion)
+            {
+                case Emotions.Loving:
+                    return (TraitValue.Scales.Social, TraitValue.Scales.Joyful);
+                case Emotions.Excited:
+                    return (TraitValue.Scales.Joyful, TraitValue.Scales.Energetic);
+                case Emotions.Stressed:
+                    return (TraitValue.Scales.Energetic, TraitValue.Scales.Painful);
+                case Emotions.Lonely:
+                    return (TraitValue.Scales.Social, TraitValue.Scales.Painful);
+                default: throw new System.ArgumentException();
+
+            }
         }
 
         /// <summary>
@@ -36,7 +53,7 @@ namespace Mood
                   { Emotions.Loving,    new TraitValue(social: 1, joyful: 1, energetic: 0, painful: 0) } 
                 , { Emotions.Excited,   new TraitValue(social: 0, joyful: 1, energetic: 1, painful: 0) }
                 , { Emotions.Stressed,  new TraitValue(social: 0, joyful: 0, energetic: 1, painful: 1) }
-                , { Emotions.Lonley,    new TraitValue(social: 1, joyful: 0, energetic: 0, painful: 1) }
+                , { Emotions.Lonely,    new TraitValue(social: 1, joyful: 0, energetic: 0, painful: 1) }
             }
         );
 

@@ -43,6 +43,21 @@ namespace Plants {
             Single
         }
 
+
+        private void OnEnable()
+        {
+            PlantGrowth.ReachedMaturity += AddStats;
+        }
+        private void OnDisable()
+        {
+            PlantGrowth.ReachedMaturity -= AddStats;
+        }
+
+        private void AddStats()
+        {
+            GameManager.Instance.EmotionTracker.AddToGardenStats(PlantOwner.PlayerEnumValue, Traits);
+        }
+
         // private PlantSize plantSize1;
 
         // public string objectName;
@@ -68,8 +83,8 @@ namespace Plants {
         public TraitValue Traits => new TraitValue(Social, Joyful, Energetic, Painful);
         public TraitValue TraitsUnscaled => new TraitValue(social, joyful, energetic, painful);
 
+        public Player PlantOwner { get; set; }
 
-        [HideInInspector] public Player plantOwner;
 
 
 
@@ -86,7 +101,7 @@ namespace Plants {
 
 
             // Get current player
-            plantOwner = GameManager.Instance.ActivePlayer; // Load system will break here
+            PlantOwner = GameManager.Instance.GetPlayer(GameManager.Instance.CurrentVisibleGarden); // Load system will break here
 
             //// Set if in local or other garden
             //if (plantOwner.PlayerEnumValue == 0)
@@ -106,6 +121,10 @@ namespace Plants {
 
         public PlantGrowth PlantGrowth { get; private set; }
         public PlantSize ThisPlantsSize => thisPlantsSize;
+
+
+        //public Player PlantOwner { get => PlantOwner1; set => PlantOwner1 = value; }
+
 
 
         //  public bool InLocalGarden { get; set; }

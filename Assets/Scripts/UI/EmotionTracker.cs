@@ -26,16 +26,16 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
         { Player.PlayerEnum.Player1, Emotion.EmotionValues[GameManager.Instance.Player1Goal]}
         ,{Player.PlayerEnum.Player2, Emotion.EmotionValues[GameManager.Instance.Player2Goal] }
             
-    };    
-    
-    //public Dictionary<Player.PlayerEnum, Emotion> GardenGoalEmotions => new Dictionary< Player.PlayerEnum, Emotion >()    
-    //{
-    //    { Player.PlayerEnum.Player1, GameManager.Instance.Player1Goal }
-    //    ,{Player.PlayerEnum.Player2, GameManager.Instance.Player2Goal }
-            
-    //};
-        
-    
+    };
+
+    public Dictionary<Player.PlayerEnum, Emotion.Emotions> GardenGoalEmotions => new Dictionary<Player.PlayerEnum, Emotion.Emotions>()
+    {
+        { Player.PlayerEnum.Player1, GameManager.Instance.Player1Goal }
+        ,{Player.PlayerEnum.Player2, GameManager.Instance.Player2Goal }
+
+    };
+
+
 
 
     TMP_Text displayText;

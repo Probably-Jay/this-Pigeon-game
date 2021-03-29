@@ -95,12 +95,16 @@ namespace Plants
             }
         }
 
+        public event Action ReachedMaturity;
+
         void VisiblyGrow()
         {
             visibleGrowthState++;
             if(visibleGrowthState == VisibleGrowthStage.Bloom)
             {
                 GrowthLevelMoodMultiplier = 1;
+                ReachedMaturity?.Invoke();
+
             }
             UpdateGrowthImage();
             UpdateGrowthCollider();
@@ -110,6 +114,7 @@ namespace Plants
         {
             spriteRenderer.sprite = growthSprites[(int)visibleGrowthState];
         }
+
         void UpdateGrowthCollider()
         {
             foreach (Collider2D col in growthColliders)
