@@ -7,9 +7,14 @@ using UnityEngine.UI;
 public class OpenToolBoxButton : MonoBehaviour
 {
     Button button;
-    private void OnEnable()
+
+    private void Awake()
     {
         button = this.GetComponent<Button>();
+    }
+
+    private void OnEnable()
+    {
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, EnableButton);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_)=> UpdateButton());
