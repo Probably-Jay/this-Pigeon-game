@@ -35,7 +35,6 @@ public class ToolBox : MonoBehaviour
         if (!myImage.rectTransform.rect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)) && Input.GetMouseButtonDown(0) && myAnimator.GetBool("Open"))
         {
             EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
-            Debug.Log("clicked outside of toolbox, closing");
 
         }
         /*

@@ -33,7 +33,7 @@ namespace Plants
 
         }
 
-        VisibleGrowthStage growthState;
+        VisibleGrowthStage visibleGrowthState;
 
 
         [SerializeField] Sprite[] growthSprites;
@@ -52,39 +52,51 @@ namespace Plants
         {
            // matRenderer = GetComponent<Renderer>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            tendingState = Instantiate(tendingState);
         }
 
         private void Start()
         {
-            growthState = VisibleGrowthStage.Seed;
+            visibleGrowthState = VisibleGrowthStage.Seed;
             UpdateGrowthImage();
+            tendingState.Init();
         }
 
      
         public int GrowthLevelMoodMultiplier { get; private set; } = 0;
 
-
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                foreach (var item in tendingState.GetRequiredActions())
+                {
+                    Debug.Log(item);
+                }
+            }
+        }
 
         /// <summary>
         /// Grow the plant or progress to the next growth stage
         /// </summary>
         private void GrowIfShould()
         {
-            //if (TendingState.ReadyToVisiblyGrow)
-            //{
-            //    ProgressGrowthStage();
-            //    VisiblyGrow();
-            //}
-            //else if (TendingState.ReadyToProgressStage)
-            //{
-            //    ProgressGrowthStage();
-            //}
+            Debug.Log("Enter try to grow");
+            if (TendingState.ReadyToVisiblyGrow)
+            {
+                ProgressGrowthStage();
+                VisiblyGrow();
+            }
+            else if (TendingState.ReadyToProgressStage)
+            {
+                ProgressGrowthStage();
+            }
         }
 
         void VisiblyGrow()
         {
-            growthState++;
-            if(growthState == VisibleGrowthStage.Bloom)
+            visibleGrowthState++;
+            if(visibleGrowthState == VisibleGrowthStage.Bloom)
             {
                 GrowthLevelMoodMultiplier = 1;
             }
@@ -94,7 +106,7 @@ namespace Plants
 
         void UpdateGrowthImage()
         {
-            spriteRenderer.sprite = growthSprites[(int)growthState];
+            spriteRenderer.sprite = growthSprites[(int)visibleGrowthState];
         }
 
         //void UpdateSprite()
@@ -128,21 +140,17 @@ namespace Plants
         {
             if (!TendingState.CanTend(action))
             {
-                
+                Debug.Log($"This plant does not need the {action} action performed");
                 return;
             }
 
             TendingState.Tend(action);
 
-            UpdateTendingIcons();
+           
 
         }
 
-        private void UpdateTendingIcons()
-        {
-            throw new NotImplementedException();
-        }
-
+ 
 
     }
 }
