@@ -36,8 +36,6 @@ namespace Plants {
         }
 
 
-
-
         public enum PlantSize // ToDo Later
         {
             Wide,
@@ -49,7 +47,6 @@ namespace Plants {
 
         // public string objectName;
         public PlantName plantname;
-
 
 
         [SerializeField] PlantSize thisPlantsSize;
