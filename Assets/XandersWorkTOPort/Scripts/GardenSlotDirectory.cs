@@ -32,13 +32,15 @@ public class GardenSlotDirectory : MonoBehaviour
 
         if (GameManager.Instance.CurrentVisibleGarden == Player.PlayerEnum.Player1)
         {
+            garden1Slots.GetComponent<SlotManager>().HideSlots();
             garden1Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
             setGarden1IndicatorSeed();
         }
         else if (GameManager.Instance.CurrentVisibleGarden == Player.PlayerEnum.Player2)
         {
-            garden2Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
-            setGarden2IndicatorSeed();
+           garden2Slots.GetComponent<SlotManager>().HideSlots();
+           garden2Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
+           setGarden2IndicatorSeed();
         }
     }
 
