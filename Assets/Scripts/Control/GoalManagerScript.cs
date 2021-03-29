@@ -17,7 +17,7 @@ public class GoalManagerScript : MonoBehaviour
 {
   
 
-    [SerializeField] CurrentMood gardenScoreCalculator;
+    [SerializeField] EmotionTracker gardenScoreCalculator;
 
 
 
@@ -96,7 +96,7 @@ public class GoalManagerScript : MonoBehaviour
 
     bool GoalMatches(Player.PlayerEnum player)
     {
-        var currentMoods = gardenScoreCalculator.GardenMoods;
+        var currentMoods = gardenScoreCalculator.GardenEmotions;
         return currentMoods[player] == GetGoal(player); // this is an overloaded operator
     }
 }

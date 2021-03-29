@@ -10,9 +10,10 @@ using UnityEngine.UI;
 // depracated jay 26/03
 
 
-//[System.Obsolete("This class has been replaced by " + nameof(CurrentMood) +" and " + nameof(GoalManagerScript) ,true)]
-//public class PlantManager : MonoBehaviour
-//{
+[System.Obsolete("This class has been replaced by " + nameof(EmotionTracker) +" and " + nameof(GoalManagerScript) ,true)]
+
+public class PlantManager : MonoBehaviour
+{
 //    public List<PlantItem>[] gardenPlants = new List<PlantItem>[2]; // Holds both gardens in same var
 
 
@@ -176,4 +177,4 @@ using UnityEngine.UI;
 //        //    // Right now, both gardens share same mood goal - will be changed
 //        //}
 //    }
-//}
+}
