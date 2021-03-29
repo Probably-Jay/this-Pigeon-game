@@ -60,7 +60,10 @@ namespace Plants
         private void AddIconObject(TendingActions action, GameObject icon)
         {
             GameObject newIcon = Instantiate(icon);
+            var localPos = newIcon.transform.position;
             newIcon.transform.SetParent(transform);
+
+            newIcon.transform.localPosition = localPos;
 
             newIcon.SetActive(false);
             icons.Add(action, newIcon);
