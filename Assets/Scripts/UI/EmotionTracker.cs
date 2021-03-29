@@ -34,13 +34,13 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
     TMP_Text displayText;
 
    
-    public TMP_Text P1PleasanceDisplay;
-    public TMP_Text P1SociabilityDisplay;
-    public TMP_Text P1EnergyTextDisplay;
+    //public TMP_Text P1PleasanceDisplay;
+    //public TMP_Text P1SociabilityDisplay;
+    //public TMP_Text P1EnergyTextDisplay;
 
-    public TMP_Text P2PleasanceDisplay;
-    public TMP_Text P2SociabilityDisplay;
-    public TMP_Text P2EnergyTextDisplay;
+    //public TMP_Text P2PleasanceDisplay;
+    //public TMP_Text P2SociabilityDisplay;
+    //public TMP_Text P2EnergyTextDisplay;
 
 
     private void Awake()
@@ -70,7 +70,7 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
   
     void DisplayCurrentGardenEmotion()
     {
-        displayText.text = $"P1:\n\nP2:";
+       // displayText.text = $"P1:\n\nP2:";
 
         //P1PleasanceDisplay.text = gardenMood1.GetDisplayWithImage(MoodAttributes.Scales.Pleasance);
         //P2PleasanceDisplay.text = gardenMood2.GetDisplayWithImage(MoodAttributes.Scales.Pleasance);
