@@ -35,10 +35,12 @@ namespace Tutorial
 
             BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
                 condition: () => 
-                { 
+                {
+                    TraitValue gardenTrait = GameManager.Instance.CurrentMoods.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+                    TraitValue gardenGoalTrait = GameManager.Instance.go.ga[GameManager.Instance.ActivePlayer.PlayerEnumValue];
                     //float distance
 
-                    return GameManager.Instance.CurrentMoods.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue] != TraitValue.Zero; 
+                    return != TraitValue.Zero; 
                 }
                 ); 
 
