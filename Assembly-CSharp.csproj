@@ -756,6 +756,9 @@
  <Reference Include="UnityEditor.UI">
  <HintPath>W:/Abertay Work/Year Three/310 - thisPigeon/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>W:/Abertay Work/Year Three/310 - thisPigeon/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="TestFolderAssembly.csproj">
