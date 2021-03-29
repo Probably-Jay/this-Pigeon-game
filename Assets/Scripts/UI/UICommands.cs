@@ -39,7 +39,7 @@ public class UICommands : MonoBehaviour
             EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.OtherObjectPlace });
         }
     }
-
+    public void CloseSeedBag() => EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose);
     public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
     public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
 
