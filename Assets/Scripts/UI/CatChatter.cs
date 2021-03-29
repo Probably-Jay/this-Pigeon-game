@@ -33,11 +33,12 @@ namespace Tutorial
                           return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
                       });
 
+
             BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
                 condition: () => 
                 {
                     TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
-                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoals[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayer.PlayerEnumValue];
 
 
                     float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);

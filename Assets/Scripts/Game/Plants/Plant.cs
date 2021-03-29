@@ -64,17 +64,20 @@ namespace Plants {
         private int Energetic { get => energetic * PlantGrowth.GrowthLevelMoodMultiplier; set => energetic = value; }
         private int Painful { get => painful * PlantGrowth.GrowthLevelMoodMultiplier; set => painful = value; }
 
-        public TraitValue PlantStats => new TraitValue(Social, Joyful, Energetic, Painful);
-        public TraitValue PlantStatsUnscaled => new TraitValue(social, joyful, energetic, painful);
+
+        public TraitValue Traits => new TraitValue(Social, Joyful, Energetic, Painful);
+        public TraitValue TraitsUnscaled => new TraitValue(social, joyful, energetic, painful);
 
 
         [HideInInspector] public Player plantOwner;
+
 
 
         // public bool isPlanted = false;
         private Player.PlayerEnum? gardenID = null;
 
         public Player.PlayerEnum? GardenID { get => gardenID; set => gardenID = value; }
+
 
         private void Awake() // hack, todo fix this
         {
@@ -96,6 +99,11 @@ namespace Plants {
             //}
         }
 
+
+
+
+
+
         public PlantGrowth PlantGrowth { get; private set; }
         public PlantSize ThisPlantsSize => thisPlantsSize;
 
@@ -106,5 +114,8 @@ namespace Plants {
         /// Tend the plant. No effect if this plant does not need this action taken
         /// </summary>
         public void Tend(TendingActions action) => PlantGrowth.Tend(action);
+
+
     }
+
 }

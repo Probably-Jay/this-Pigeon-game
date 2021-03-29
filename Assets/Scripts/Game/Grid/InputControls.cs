@@ -135,7 +135,7 @@ public class InputControls : MonoBehaviour
                 // if the plant we picked up was in a garden
                 if (plantPlaced.GardenID != null)
                 {
-                    displayManager.SubtractFromGardenStats(plantPlaced.GardenID.Value, plantPlaced.PlantStats);
+                    displayManager.SubtractFromGardenStats(plantPlaced.GardenID.Value, plantPlaced.Traits);
                     plantPlaced.GardenID = null; // plant is now not in a garden
 
                 }
@@ -234,7 +234,7 @@ public class InputControls : MonoBehaviour
                     plantPlaced.GardenID = GameManager.Instance.CurrentVisibleGarden;
 
                     if(plantPlaced.GardenID != null)
-                        displayManager.AddToGardenStats(plantPlaced.GardenID.Value, plantPlaced.PlantStats);
+                        displayManager.AddToGardenStats(plantPlaced.GardenID.Value, plantPlaced.Traits);
         
                     hitObject = null;
                     holdingObject = false;
