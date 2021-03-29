@@ -87,25 +87,31 @@ public class SlotManager : MonoBehaviour
         }
         return null;
     }
-    /*
+    
     public GameObject PlantMouseIsIn()
     {
+        GameObject plantObject;
         foreach (var gameObject in gardenSlots)
         {
-            var slot 
-            var colider = gameObject.GetComponent<BoxCollider2D>();
+            SlotControls slot = gameObject.GetComponent<SlotControls>();
+            if (slot.plantsInThisSlot.Count!=0) {
+                plantObject = slot.plantsInThisSlot[0];
+                Collider2D plantCollider = plantObject.GetComponent<PlantGrowth>().GetActiveCollider();
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePos.z = plantCollider.transform.position.z;
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = colider.transform.position.z;
-
-            if (colider.OverlapPoint(mousePos))
-            {
-                return gameObject.GetComponent<SlotControls>();
+                if (plantCollider.OverlapPoint(mousePos))
+                {
+                    return plantObject;
+                }
             }
+                
+
+            
         }
         return null;
     }
-    */
+    
 
     public void ShowSlots(int requiredSlotType)
     {       
