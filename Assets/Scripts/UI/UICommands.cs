@@ -1,33 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //created Zap 26/03
 public class UICommands : MonoBehaviour
 {
+    //[SerializeField] Button button;
+
     private void OnEnable()
     {
+
     }
     private void OnDisable()
     {
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-         
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
     public void OpenToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxOpen);
     public void CloseToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
+
+    
+
     public void OpenSeedBag()
     {
-        if ((GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)&&GameManager.Instance.InOwnGarden) || (!GameManager.Instance.InOwnGarden&&GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)))
-            {
+
+        bool canPlaceInOwnGarden = (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace) && GameManager.Instance.InOwnGarden);
+        bool canPlaceInCompanionsGarden = (!GameManager.Instance.InOwnGarden && GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace));
+
+        if (canPlaceInOwnGarden || canPlaceInCompanionsGarden)
+        {
             EventsManager.InvokeEvent(EventsManager.EventType.SeedBagOpen);
         }
         else if(GameManager.Instance.InOwnGarden)

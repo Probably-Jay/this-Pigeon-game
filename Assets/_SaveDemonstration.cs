@@ -69,7 +69,7 @@ public class _SaveDemonstration : MonoBehaviour
         player.PlayerEnumValue = Player.PlayerEnum.Player2;
 
         go1.transform.position = new Vector3(1, 2, 3);
-        plant.plantOwner = player;
+        plant.PlantOwner = player;
         plant.plantname = Plant.PlantName.Phess;
 
 

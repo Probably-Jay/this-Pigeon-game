@@ -133,7 +133,7 @@ namespace Plants
 
                     OnPlantGrowth?.Invoke();
                 }
-
+                
                 //if (AtFullStageOfGrowth)
                 //    FullGrowthBehaviour();
             }

@@ -12,6 +12,11 @@ public class SlotManager : MonoBehaviour
     public GameObject seedStorage;
     GameObject newPlant;
 
+    SeedIndicator seedIndicator;
+
+    public GameObject gardenSeedIndicator;
+
+
     private void Update()
     {          
        if (seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed)
@@ -19,8 +24,7 @@ public class SlotManager : MonoBehaviour
             for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
             {
                 slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
-
-            
+         
                 if (slotControls.slotActive == true && slotControls.slotFull == false)
                 {
                     var colider = gardenSlots[slotNumber].GetComponent<BoxCollider2D>();
@@ -30,6 +34,8 @@ public class SlotManager : MonoBehaviour
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
                         PlantPlant();
+                        seedIndicator = gardenSeedIndicator.GetComponent<SeedIndicator>();
+                        seedIndicator.HideIndicator();
                     }
                 }
             }
@@ -41,16 +47,22 @@ public class SlotManager : MonoBehaviour
         newPlant = seedStorage.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
         slotControls.SpawnPlantInSlot(newPlant);
         seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed = false;
-        InvokePlantedEvent();
+        InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
 
         HideSlots();
     }
 
-    private static void InvokePlantedEvent()
+    private static void InvokePlantedEvent(Plant plant)
     {
         if (GameManager.Instance.InOwnGarden)
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+
+            Mood.TraitValue CurrentMood = GameManager.Instance.EmotionTracker.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+            if (CurrentMood.Overlaps(plant.TraitsUnscaled))
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent);
+            }
         }
         else
         {
@@ -58,11 +70,11 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+
     public SlotControls SlotMouseIsIn()
     {
         foreach (var gameObject in gardenSlots)
         {
-
             var colider = gameObject.GetComponent<BoxCollider2D>();
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

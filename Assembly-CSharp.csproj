@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GoalSliderScript.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\GardenSlotDirectory.cs" />
+    <Compile Include="Assets\XandersWorkTOPort\Scripts\SeedIndicator.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotControls.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotManager.cs" />
     <Compile Include="Assets\_SaveDemonstration.cs" />

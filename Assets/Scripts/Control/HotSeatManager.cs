@@ -22,7 +22,7 @@ public class HotSeatManager : MonoBehaviour
 
     public TurnTracker TurnTracker { get; private set; } = new TurnTracker();
 
-    Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
+    public Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
 
     public Player ActivePlayer { get; private set; }
     public bool TurnActive => TurnTracker.TurnActive;

@@ -12,8 +12,7 @@ public class SlotControls : MonoBehaviour
 
     public List<GameObject> plantsInThisSlot;
 
-  
-
+ 
     // to change the alpha of the object that is moving
     SpriteRenderer slotSprite;
     Color slotColourValues;
