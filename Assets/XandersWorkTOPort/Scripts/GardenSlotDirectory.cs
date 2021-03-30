@@ -32,22 +32,35 @@ public class GardenSlotDirectory : MonoBehaviour
 
         if (GameManager.Instance.CurrentVisibleGarden == Player.PlayerEnum.Player1)
         {
-            garden1Slots.GetComponent<SlotManager>().HideSlots();
+            HideAllSlotsAndHideIndicators();
             garden1Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
             setGarden1IndicatorSeed();
         }
         else if (GameManager.Instance.CurrentVisibleGarden == Player.PlayerEnum.Player2)
         {
-           garden2Slots.GetComponent<SlotManager>().HideSlots();
+           HideAllSlotsAndHideIndicators();
            garden2Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
            setGarden2IndicatorSeed();
         }
     }
 
+
+    public void HideAllSlotsAndHideIndicators()
+    {
+        garden1Slots.GetComponent<SlotManager>().HideSlots();
+        garden2Slots.GetComponent<SlotManager>().HideSlots();
+
+        seedIndicator = garden1SeedIndicator.GetComponent<SeedIndicator>();
+        seedIndicator.HideIndicator();
+
+        seedIndicator = garden2SeedIndicator.GetComponent<SeedIndicator>();
+        seedIndicator.HideIndicator();
+    }
+
+
     void setGarden1IndicatorSeed()
     {
         seedIndicator = garden1SeedIndicator.GetComponent<SeedIndicator>();
-
         seedIndicator.ShowIndicator(currentPlantSeed);
     }
 
