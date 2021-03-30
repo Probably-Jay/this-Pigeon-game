@@ -125,10 +125,42 @@ namespace Tutorial
         //these functions could be modified to include if statements or just bound directly to the 
         void StartTurnOne()
         {
+            List<string> emotionComments = new List<string> { };
+            
             myBox.Say("Hello there! Welcome to your garden!");
-            myBox.Say("This place could do with some flora, don't you think?");
-            //EmotionTracker.
-            myBox.Say("When you're ready, you can choose a plant to plant by tapping this seed basket!");
+            //myBox.Say("This place could do with some flora, don't you think?");
+            string emotion =
+            GameManager.Instance.EmotionTracker.GardenGoalEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue].ToString();
+            emotionComments.Clear();
+            switch (emotion)
+            {
+                case "Loving":
+                    emotionComments.Add("You're feeling " + emotion + "? That's great!");
+                    emotionComments.Add("Let's share that love! And as with all good things, we can say it with flowers!");
+                    break;
+                case "Lonely":
+                    emotionComments.Add("I'm sorry to hear that you're feeling " + emotion);
+                    emotionComments.Add("Why not share that with your partner, too?");
+                    break;
+                case "Stressed":
+                    emotionComments.Add("You're " + emotion + "? Then you've come to the right place!");
+                    emotionComments.Add("Let's unwind by planting growing some plants that express that feeling!");
+                    break;
+                case "Excited":
+                    emotionComments.Add("I'm " + emotion + " too! Let's get going then!");
+                    emotionComments.Add("The goal of this garden is to communicate that feeling to your partner!");
+                    emotionComments.Add("Hopefully they're as jazzed as us!");
+                    break;
+                default:
+                    break;
+            }
+
+            foreach (string comment in emotionComments)
+            {
+                myBox.Say(comment);
+            }
+            emotionComments.Clear();
+            myBox.Say("When you're ready, you can choose a seed to plant by tapping this seed basket!");
         }
         void PlantedFirstPlant()
         {
