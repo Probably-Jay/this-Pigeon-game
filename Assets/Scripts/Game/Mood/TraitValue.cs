@@ -27,6 +27,24 @@ namespace Mood
             , Painful
         }
 
+        public static string GetIconDisplay(Scales scale)
+        {
+            switch (scale)
+            {
+                case Scales.Social:
+                    return "<sprite index= 2>";
+                case Scales.Joyful:
+                    return "<sprite index= 4>";
+                case Scales.Energetic:
+                    return "<sprite index= 0>";
+                case Scales.Painful:
+                    return "<sprite index= 5>";
+                default:
+                    throw new System.ArgumentException();
+            }
+        }
+
+       
 
         /// <summary>
         /// An unambiguous way to store the traits: <see cref="Scales.Social"/>, <see cref="Scales.Joyful"/>, <see cref="Scales.Energetic"/>, and <see cref="Scales.Painful"/>
