@@ -19,30 +19,16 @@ public class EndGameScript : MonoBehaviour
     void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.GameOver, MakeVisible);
-        EventsManager.BindEvent(EventsManager.EventType.EnterNewScene, HideScreen);
+       // EventsManager.BindEvent(EventsManager.EventType.StartGame, HideScreen);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.GameOver, MakeVisible);
-        EventsManager.UnbindEvent(EventsManager.EventType.EnterNewScene, HideScreen);
+       // EventsManager.UnbindEvent(EventsManager.EventType.StartGame, HideScreen);
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (GameManager.Instance.PlantManager.gameWon)
-    //    {
-    //        makeVisible();
 
-          
-
-    //    }
-    //    else
-    //    {
-    //        hideScreen();
-    //    }
-    //}
 
     void MakeVisible()
     {
