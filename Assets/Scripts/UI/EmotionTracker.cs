@@ -17,6 +17,15 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
 {
 
 
+    private void OnEnable()
+    {
+        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
+    }
 
     public Dictionary<Player.PlayerEnum, TraitValue> GardenCurrentTraits { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
     {
@@ -24,7 +33,7 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
         ,{Player.PlayerEnum.Player2, TraitValue.Zero }
     };   
     
-    public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary< Player.PlayerEnum, TraitValue >()    
+    public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary< Player.PlayerEnum, TraitValue>()    
     {
         { Player.PlayerEnum.Player1, Emotion.EmotionValues[GameManager.Instance.Player1Goal]}
         ,{Player.PlayerEnum.Player2, Emotion.EmotionValues[GameManager.Instance.Player2Goal] }
@@ -41,13 +50,13 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
 
     public bool HasAcheivedGoal(Player.PlayerEnum player) => GardenCurrentTraits[player] == GardenGoalTraits[player];
 
+ 
 
 
     public void AddToGardenStats(Player.PlayerEnum player, TraitValue traits)
     {
         GardenCurrentTraits[player] += traits;
         EventsManager.InvokeEvent(EventsManager.EventType.PlantAlterStats);
-        CheckForAcheivedGoal();
     }
 
     private void CheckForAcheivedGoal()
