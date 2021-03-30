@@ -261,7 +261,7 @@ namespace Tutorial
                     break;
             }
 
-           // myBox.Say(" kee playing endlless etc. ");
+            myBox.Say("You can carry on playing the game in an endless mode if you like");
 
         }
 

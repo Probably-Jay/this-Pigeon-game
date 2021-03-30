@@ -98,6 +98,7 @@ namespace Mood
         /// <param name="index">The <see cref="Scales"/> name of the property you wish to access</param>
         public int this[Scales index]
         {
+
             get
             {
                 switch (index)
@@ -171,9 +172,35 @@ namespace Mood
         public static TraitValue operator -(TraitValue a, TraitValue b) => a + (-b);
 
 
+
+
+
         public static bool operator ==(TraitValue a, TraitValue b) => a.Equals(b);
         public static bool operator !=(TraitValue a, TraitValue b) => !(a == b);
 
+
+        public static bool operator >(TraitValue a, TraitValue b)
+        {
+            return a[0] > b[0] && a[1] > b[1] && a[2] > b[2] && a[3] > b[3];
+        }       
+        
+        /// <summary>
+        /// retquirent of overloading <see cref=">"/>
+        /// </summary>
+        public static bool operator <(TraitValue a, TraitValue b) 
+        {
+            return a[0] < b[0] && a[1] < b[1] && a[2] < b[2] && a[3] < b[3];
+        }
+
+
+        public static bool operator >=(TraitValue a, TraitValue b)
+        {
+            return a[0] >= b[0] && a[1] >= b[1] && a[2] >= b[2] && a[3] >= b[3];
+        }
+        public static bool operator <=(TraitValue a, TraitValue b)
+        {
+            return a[0] <= b[0] && a[1] <= b[1] && a[2] <= b[2] && a[3] <= b[3];
+        }
 
         /// <summary>
         /// Requirement of implimenting <see cref="=="/> equality

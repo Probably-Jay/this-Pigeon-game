@@ -50,10 +50,10 @@ namespace Mood
         (
             new Dictionary<Emotions, TraitValue> 
             { 
-                  { Emotions.Loving,    new TraitValue(social: 1, joyful: 1, energetic: 0, painful: 0) } 
-                , { Emotions.Excited,   new TraitValue(social: 0, joyful: 1, energetic: 1, painful: 0) }
-                , { Emotions.Stressed,  new TraitValue(social: 0, joyful: 0, energetic: 1, painful: 1) }
-                , { Emotions.Lonely,    new TraitValue(social: 1, joyful: 0, energetic: 0, painful: 1) }
+                  { Emotions.Loving,    new TraitValue(social: 3, joyful: 3, energetic: 0, painful: 0) } 
+                , { Emotions.Excited,   new TraitValue(social: 0, joyful: 3, energetic: 3, painful: 0) }
+                , { Emotions.Stressed,  new TraitValue(social: 0, joyful: 0, energetic: 3, painful: 3) }
+                , { Emotions.Lonely,    new TraitValue(social: 3, joyful: 0, energetic: 0, painful: 3) }
             }
         );
 

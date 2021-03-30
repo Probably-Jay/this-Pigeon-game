@@ -48,7 +48,7 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
     };
 
 
-    public bool HasAcheivedGoal(Player.PlayerEnum player) => GardenCurrentTraits[player] == GardenGoalTraits[player];
+    public bool HasAcheivedGoal(Player.PlayerEnum player) => GardenCurrentTraits[player] >= GardenGoalTraits[player];
 
  
 
