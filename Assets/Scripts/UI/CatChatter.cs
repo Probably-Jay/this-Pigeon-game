@@ -204,6 +204,9 @@ namespace Tutorial
             myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");
             myBox.Say($"Did you know that <b>emotions</b> are made up of <b>traits</b>?");
             myBox.Say($"For example, {emotion} is made up of <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
+            myBox.Say($"A plant only contributes toward your mood once it fully matured.");
+            myBox.Say($"So make sure to tend to your plants with the tools or it will not grow!");
+            myBox.Say($"As well as watering, you can use the ecofriendly spray to chase the bugs and use the shears to trim the extra leaves.");
         }
 
 
