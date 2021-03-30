@@ -58,8 +58,8 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
 
-            Mood.TraitValue CurrentMood = GameManager.Instance.EmotionTracker.GardenEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue];
-            if (CurrentMood.Overlaps(plant.TraitsUnscaled))
+            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+            if (moodGoal.Overlaps(plant.TraitsUnscaled))
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent);
             }
