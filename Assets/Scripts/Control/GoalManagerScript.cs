@@ -96,7 +96,7 @@ public class GoalManagerScript : MonoBehaviour
 
     bool GoalMatches(Player.PlayerEnum player)
     {
-        var currentMoods = gardenScoreCalculator.GardenEmotions;
+        var currentMoods = gardenScoreCalculator.GardenCurrentTraits;
         return currentMoods[player] == GetGoal(player); // this is an overloaded operator
     }
 }

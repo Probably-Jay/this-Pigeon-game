@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,12 +16,25 @@ public class Player : MonoBehaviour
 
     public TurnPoints TurnPoints { get; private set; }
     public PlayerEnum PlayerEnumValue { get; set; }
+    public bool HasAcheivedGoal { get; private set; } = false;
 
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-      //  EventsManager.BindEvent(,)
+        EventsManager.BindEvent(EventsManager.ParameterEventType.AcheivedGoal, CheckWin);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.AcheivedGoal, CheckWin);
+    }
+
+    private void CheckWin(EventsManager.EventParams eventParams)
+    {
+        if((PlayerEnum)eventParams.EnumData == PlayerEnumValue)
+        {
+            HasAcheivedGoal = true;
+        }
     }
 
     public void StartTurn()

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
+using System;
 
 public class GoalSliderScript : MonoBehaviour
 {
@@ -21,7 +22,12 @@ public class GoalSliderScript : MonoBehaviour
 
     private void OnEnable()
     {
-        //EventsManager.BindEvent(EventsManager.EventType.plant)
+        EventsManager.BindEvent(EventsManager.EventType.PlantAlterStats, UpdateTraitsDisplay);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.PlantAlterStats, UpdateTraitsDisplay);
     }
 
 
@@ -41,26 +47,28 @@ public class GoalSliderScript : MonoBehaviour
     /// Set the value of the current trait
     /// </summary>
     /// <param name="value">should be between 0 to 1</param>
-    private static void SetBarValue(float value, Image img)
+    private static void SetBarValue(int value, int goalvalue, Image img)
     {
-        float fillAmount;
-        switch (value)
-        {
-            case 1:
-                fillAmount = 0.33f; // 1 mood point
-                break;
-            case 2:
-                fillAmount = 0.67f; // 2 mood points
-                break;
-            case 3:
-                fillAmount = 1.0f; // 3 mood points
-                break;
-            default:
-                fillAmount = 0.1f; // no mood points
-                break;
-        }
+        float fillAmount = GetFillvalue(value, goalvalue);
+        //switch (value)
+        //{
+        //    case 1:
+        //        fillAmount = 0.33f; // 1 mood point
+        //        break;
+        //    case 2:
+        //        fillAmount = 0.67f; // 2 mood points
+        //        break;
+        //    case 3:
+        //        fillAmount = 1.0f; // 3 mood points
+        //        break;
+        //    default:
+        //        fillAmount = 0.1f; // no mood points
+        //        break;
+        //}
         img.fillAmount = fillAmount;
     }
+
+    private static float GetFillvalue(int value, int goalvalue) => Mathf.InverseLerp(0, goalvalue, value);
 
     public static float GetBarValue(Image img)
     {
@@ -87,7 +95,8 @@ public class GoalSliderScript : MonoBehaviour
 
 
         Player.PlayerEnum activePlayer = GameManager.Instance.ActivePlayer.PlayerEnumValue;
-        Mood.TraitValue currentTraits = GameManager.Instance.EmotionTracker.GardenEmotions[activePlayer];
+        Mood.TraitValue currentTraits = GameManager.Instance.EmotionTracker.GardenCurrentTraits[activePlayer];
+        Mood.TraitValue goalTraits = GameManager.Instance.EmotionTracker.GardenGoalTraits[activePlayer];
 
 
 
@@ -97,63 +106,11 @@ public class GoalSliderScript : MonoBehaviour
 
         SetBarColors(traitsInEmotion.Item1, traitsInEmotion.Item2);
 
-        SetBarValue(currentTraits[traitsInEmotion.Item1], MoodTraitOne);
-        SetBarValue(currentTraits[traitsInEmotion.Item2], MoodTraitTwo);
+        SetBarValue(currentTraits[traitsInEmotion.Item1], goalTraits[traitsInEmotion.Item1], MoodTraitOne);
+        SetBarValue(currentTraits[traitsInEmotion.Item2], goalTraits[traitsInEmotion.Item2], MoodTraitTwo);
 
 
-        //if (activePlayer == 0) // P1
-        //{
-        //    switch (GameManager.Instance.Player1Goal)
-        //    {
-        //        case Mood.Emotion.Emotions.Loving:
-        //            // Social + Joyful
-        //            SetBarColors(Mood.TraitValue.Scales.Social, Mood.TraitValue.Scales.Joyful);
-        //            //SetBarValue(TV.Social, MoodTraitOne);
-        //            SetBarValue(TV.Social, MoodTraitOne);
-        //            SetBarValue(TV.Joyful, MoodTraitTwo);
-        //            break;
-        //        case Mood.Emotion.Emotions.Excited:
-        //            // Joy + Energy
-        //            SetBarColors(Mood.TraitValue.Scales.Joyful, Mood.TraitValue.Scales.Energetic);
-        //            break;
-        //        case Mood.Emotion.Emotions.Stressed:
-        //            // Energy + Pain
-        //            SetBarColors(Mood.TraitValue.Scales.Energetic, Mood.TraitValue.Scales.Painful);
-        //            break;
-        //        case Mood.Emotion.Emotions.Lonely:
-        //            // Pain + Social
-        //            SetBarColors(Mood.TraitValue.Scales.Painful, Mood.TraitValue.Scales.Social);
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-        //else
-        //{
-        //    switch (GameManager.Instance.Player2Goal)
-        //    {
-        //        case Mood.Emotion.Emotions.Loving:
-        //            // Social + Joyful
-        //            SetBarColors(Mood.TraitValue.Scales.Social, Mood.TraitValue.Scales.Joyful);
-        //            SetBarValue(TV.Social, MoodTraitOne);
-        //            SetBarValue(TV.Joyful, MoodTraitTwo);
-        //            break;
-        //        case Mood.Emotion.Emotions.Excited:
-        //            // Joy + Energy
-        //            SetBarColors(Mood.TraitValue.Scales.Joyful, Mood.TraitValue.Scales.Energetic);
-        //            break;
-        //        case Mood.Emotion.Emotions.Stressed:
-        //            // Energy + Pain
-        //            SetBarColors(Mood.TraitValue.Scales.Energetic, Mood.TraitValue.Scales.Painful);
-        //            break;
-        //        case Mood.Emotion.Emotions.Lonely:
-        //            // Pain + Social
-        //            SetBarColors(Mood.TraitValue.Scales.Painful, Mood.TraitValue.Scales.Social);
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+       
 
 
     }
@@ -192,14 +149,14 @@ public class GoalSliderScript : MonoBehaviour
         SetBarColor(traitTwo, MoodTraitTwo, M2T);
     }
 
-    private void UpdateBarValues(int val1, int val2)
-    {
-        SetBarValue(val1, MoodTraitOne);
-        SetBarValue(val2, MoodTraitTwo);
-    }
+    //private void UpdateBarValues(int val1, int val2)
+    //{
+    //    SetBarValue(val1, MoodTraitOne);
+    //    SetBarValue(val2, MoodTraitTwo);
+    //}
 
     void Update() {
         UpdateTraitsDisplay();
-    
+        
     }
 }
