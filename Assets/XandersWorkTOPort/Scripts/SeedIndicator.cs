@@ -74,6 +74,7 @@ public class SeedIndicator : MonoBehaviour
         SeedSelectedSprite.material.color = slotColourValues;
     }
 
+
     public void HideIndicator()
     {
         slotColourValues = IndicatorSprite.material.color;

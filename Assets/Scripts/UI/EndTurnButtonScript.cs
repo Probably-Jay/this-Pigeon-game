@@ -6,19 +6,29 @@ using UnityEngine.UI;
 
 namespace SceneUI
 {
-
     [RequireComponent(typeof(Button))]
     public class EndTurnButtonScript : MonoBehaviour
     {
-        public void CallEndTurn() => GameManager.Instance.EndTurn();
+
+        GardenSlotDirectory gardenSlotDirectory;
+
+        void Start()
+        {
+            gardenSlotDirectory = GameObject.FindObjectOfType<GardenSlotDirectory>();
+        }
+
+
+        public void CallEndTurn() {
+            gardenSlotDirectory.HideAllSlotsAndHideIndicators();
+            GameManager.Instance.EndTurn();
+        }
+       
         Button button;
 
         private void Awake()
         {
             button = GetComponent<Button>();
         }
-
-
 
         private void OnEnable()
         {
@@ -40,7 +50,5 @@ namespace SceneUI
         {
             button.interactable = false;
         }
-
-
     }
 }

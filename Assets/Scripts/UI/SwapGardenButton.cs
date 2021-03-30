@@ -9,11 +9,16 @@ namespace SceneUI
     public class SwapGardenButton : MonoBehaviour
     {
 
+        GardenSlotDirectory gardenSlotDirectory;
+
         Animator animator;
+
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            gardenSlotDirectory = GameObject.FindObjectOfType<GardenSlotDirectory>();
         }
+
         private void OnEnable()
         {
             EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, RotateButton);
@@ -29,9 +34,11 @@ namespace SceneUI
             switch ((Player.PlayerEnum)paramaters.EnumData)
             {
                 case Player.PlayerEnum.Player1:
+                    gardenSlotDirectory.HideAllSlotsAndHideIndicators();
                     animator.SetTrigger("SwitchToPlayerOne");
                     break;
                 case Player.PlayerEnum.Player2:
+                    gardenSlotDirectory.HideAllSlotsAndHideIndicators();
                     animator.SetTrigger("SwitchToPlayerTwo");
                     break;
                 default:

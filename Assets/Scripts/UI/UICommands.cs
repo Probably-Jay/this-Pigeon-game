@@ -18,7 +18,6 @@ public class UICommands : MonoBehaviour
     }
 
 
-
     public void OpenToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxOpen);
     public void CloseToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
 
@@ -26,7 +25,6 @@ public class UICommands : MonoBehaviour
 
     public void OpenSeedBag()
     {
-
         bool canPlaceInOwnGarden = (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace) && GameManager.Instance.InOwnGarden);
         bool canPlaceInCompanionsGarden = (!GameManager.Instance.InOwnGarden && GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace));
 
@@ -46,5 +44,4 @@ public class UICommands : MonoBehaviour
     public void CloseSeedBag() => EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose);
     public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
     public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
-
 }
