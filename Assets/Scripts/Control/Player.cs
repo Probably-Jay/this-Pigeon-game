@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public TurnPoints TurnPoints { get; private set; }
     public PlayerEnum PlayerEnumValue { get; set; }
 
+    bool hasAcheivedGoal = false;
+
 
     // Update is called once per frame
     void Update()

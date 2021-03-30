@@ -40,7 +40,9 @@ public class EventsManager : Singleton<EventsManager>
         , triedToWaterOwnPlant 
 
         , UpdateScore
-        , UpdatePlants
+       // , UpdatePlants
+
+        , PlantAlterStats
 
         , StartGame
         , GameOver
@@ -53,7 +55,7 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
-        , AddedToEmotionGoal
+       // , AddedToEmotionGoal
         ,ToolDropped
 
 
@@ -67,6 +69,7 @@ public class EventsManager : Singleton<EventsManager>
     {
         NotEnoughPointsForAction // enum variable
         , SwappedGardenView // enum variable
+        , AcheivedGoal // enum variable
     }
 
     // update thsese with more data as needed
