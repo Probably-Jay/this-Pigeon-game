@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class OpenToolBoxButton : MonoBehaviour
 {
     Button button;
-
+    int frames;
+    int enableDelay;
     private void Awake()
     {
         button = this.GetComponent<Button>();
@@ -15,17 +16,19 @@ public class OpenToolBoxButton : MonoBehaviour
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, EnableButton);
+        EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
-        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_)=> UpdateButton());
-        EventsManager.BindEvent(EventsManager.EventType.StartGame, UpdateButton);
+        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_)=> InitiateUpdate());
+        EventsManager.BindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
+        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
-        EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, EnableButton);
-        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => UpdateButton());
-        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, UpdateButton);
+        EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate());
+        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
+        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }
     // Start is called before the first frame update
     void Start()
@@ -36,7 +39,17 @@ public class OpenToolBoxButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateButton();
+        enableDelay--;
+        if (enableDelay == 1)
+        {
+            EnableButton();
+        }
+        frames--;
+        if (frames > 0)
+        {
+            UpdateButton();
+        }
+        
     }
     void EnableButton()
     {
@@ -49,8 +62,18 @@ public class OpenToolBoxButton : MonoBehaviour
     {
         button.interactable = false;
     }
+    void InitiateUpdate()
+    {
+        frames = 10;
+        UpdateButton();
+    }
+    void InitiateEnable()
+    {
+        enableDelay = 100;
+    }
     void UpdateButton()
     {
+        
         if (GameManager.Instance.InOwnGarden)
         {
             EnableButton();

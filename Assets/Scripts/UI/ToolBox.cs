@@ -19,15 +19,20 @@ public class ToolBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myImage = this.GetComponent<Image>();
+        myAnimator = this.GetComponent<Animator>();
         startPos = this.transform.position;
         endPos = destinationPos.position;
     }
     private void OnEnable()
     {
-        myImage = this.GetComponent<Image>();
-        myAnimator = this.GetComponent<Animator>();
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, OpenBox);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, CloseBox);
+    }
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, OpenBox);
+        EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, CloseBox);
     }
     // Update is called once per frame
     void Update()

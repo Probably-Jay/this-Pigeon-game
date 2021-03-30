@@ -127,6 +127,7 @@ namespace Tutorial
         {
             myBox.Say("Hello there! Welcome to your garden!");
             myBox.Say("This place could do with some flora, don't you think?");
+            //EmotionTracker.
             myBox.Say("When you're ready, you can choose a plant to plant by tapping this seed basket!");
         }
         void PlantedFirstPlant()
@@ -143,6 +144,7 @@ namespace Tutorial
         {
             myBox.Say("Good morning!");
             myBox.Say("Today, why not try planting a plant with a trait from your mood?");
+            //Here you should tell the player their mood 
         }
 
         void PlantGrows()
