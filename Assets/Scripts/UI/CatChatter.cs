@@ -218,7 +218,7 @@ namespace Tutorial
             if ((Player.PlayerEnum)eventParams.EnumData != player1)
                 return;
 
-            myBox.Say("Congratulations, your garden now totally reflects your mood!");
+            myBox.Say("You did it! Your garden now reflects your mood as well as you communicated it.");
 
 
             var goal = GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
@@ -226,16 +226,16 @@ namespace Tutorial
             switch (goal)
             {
                 case Emotion.Emotions.Loving:
-                    // myBox.Say($"I");
+                       myBox.Say($"Do you feel the love in the air? Because I do!");
                     break;
                 case Emotion.Emotions.Excited:
-                    // myBox.Say($"I");
+                       myBox.Say($"Wow! I can barely stay in one place. Thank you for sharing all your positive vibes with me!");
                     break;
                 case Emotion.Emotions.Stressed:
-                  // myBox.Say($"I");
+                       myBox.Say($"Finding some time for yourself is a very hard thing to do while stressed. You did well, playing game is a form of self-care!");
                     break;
                 case Emotion.Emotions.Lonely:
-                    //myBox.Say($"This garden really communicates a loneliness to me");
+                       myBox.Say($"Thank you for sharing your loneliness with me and your gardening partner. Opening up about your feelings is so hard and I'm proud of you.");
                     break;
             }
 
