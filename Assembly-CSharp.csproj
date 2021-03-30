@@ -127,6 +127,7 @@
     <Compile Include="Assets\Scripts\UI\EmotionTracker.cs" />
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
+    <Compile Include="Assets\Scripts\UI\GoalSliderPositioner.cs" />
     <Compile Include="Assets\Scripts\UI\OpenToolBoxButton.cs" />
     <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBag.cs" />

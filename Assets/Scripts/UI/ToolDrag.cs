@@ -18,14 +18,17 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 worldPosition;
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
-   
+    public Vector2 offset;
     
     // Start is called before the first frame update
     void Start()
     {
+
         green = Color.green;
         startingPostition = this.transform.localPosition;
         myImage = this.GetComponent<Image>();
+        //myImage.rectTransform.scl
+
         //Debug.Log(myImage.rectTransform.rect.Contains);
     }
     
