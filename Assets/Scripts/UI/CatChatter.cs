@@ -146,21 +146,21 @@ namespace Tutorial
             switch (emotion)
             {
                 case "Loving":
-                    emotionComments.Add("You're feeling " + emotion + "? That's great!");
-                    emotionComments.Add("Let's share that love! And as with all good things, we can say it with flowers!");
+                    emotionComments.Add($"You're feeling {GetEmotionOutput(emotion)}? That's great!");
+                    emotionComments.Add($"Let's share that love! And as with all good things, we can say it with flowers!");
                     break;
                 case "Lonely":
-                    emotionComments.Add("I'm sorry to hear that you're feeling " + emotion);
-                    emotionComments.Add("Why not share that with your partner, too?");
+                    emotionComments.Add($"I'm sorry to hear that you're feeling {GetEmotionOutput(emotion)}");
+                    emotionComments.Add($"Why not share that with your partner, too?");
                     break;
                 case "Stressed":
-                    emotionComments.Add("You're " + emotion + "? Then you've come to the right place!");
-                    emotionComments.Add("Let's unwind by planting growing some plants that express that feeling!");
+                    emotionComments.Add($"You're {GetEmotionOutput(emotion)}? Then you've come to the right place!");
+                    emotionComments.Add($"Let's unwind by planting growing some plants that express that feeling!");
                     break;
                 case "Excited":
-                    emotionComments.Add("I'm " + emotion + " too! Let's get going then!");
-                    emotionComments.Add("The goal of this garden is to communicate that feeling to your partner!");
-                    emotionComments.Add("Hopefully they're as jazzed as us!");
+                    emotionComments.Add($"I'm {GetEmotionOutput(emotion)} too! Let's get going then!");
+                    emotionComments.Add($"The goal of this garden is to communicate that feeling to your partner!");
+                    emotionComments.Add($"Hopefully they're as jazzed as us!");
                     break;
                 default:
                     break;
@@ -173,6 +173,8 @@ namespace Tutorial
             emotionComments.Clear();
             myBox.Say("When you're ready, you can choose a seed to plant by tapping this seed basket!");
         }
+
+        private string GetEmotionOutput(string emotion) => $"<b>{emotion}</b>";
 
 
         void PlantedFirstPlant()
