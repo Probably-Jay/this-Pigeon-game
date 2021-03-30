@@ -18,14 +18,21 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     Vector3 worldPosition;
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
-   
+    public Vector2 offset;
     
     // Start is called before the first frame update
     void Start()
     {
+
         green = Color.green;
         startingPostition = this.transform.localPosition;
         myImage = this.GetComponent<Image>();
+        offset = myImage.rectTransform.TransformVector(offset);
+        //Vector2
+        //Vector2.Scale(offset, myImage.rectTransform.rect.size/2);
+        //Vector2.Scale(offset, myImage.rectTransform.lossyScale);
+        //Debug.Log(offset);
+
         //Debug.Log(myImage.rectTransform.rect.Contains);
     }
     
@@ -56,7 +63,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         }
         if (isPickedUp)
         {
-            this.transform.position = Input.mousePosition;
+            this.transform.position = Input.mousePosition + (new Vector3(offset.x, offset.y)); ;
             worldPosition = Camera.main.ScreenToWorldPoint(this.transform.position);
 
             if (!Input.GetMouseButton(0))

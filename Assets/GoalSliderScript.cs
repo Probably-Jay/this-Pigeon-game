@@ -67,7 +67,14 @@ public class GoalSliderScript : MonoBehaviour
         return img.fillAmount;
     }
 
-
+    public void DisablePanel()
+    {
+        this.transform.position += new Vector3(0,100f);
+    }
+    public void EnablePanel()
+    {
+        this.transform.position -= new Vector3(0, -100f);
+    }
 
 
 
