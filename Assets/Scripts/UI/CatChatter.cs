@@ -185,7 +185,8 @@ namespace Tutorial
         void PlantedFirstMoodRelevantPlant()
         {
             myBox.Say("That plant is so in sync with you!");
-            myBox.Say("Well done! A few more of those are just what this place needs!");
+            ExplainTraits();
+            myBox.Say($"That last plant was super {GetEmotionOutput(GoalEmotion().ToString())}! A few more of those are just what this place needs!");
         }
         void StartTurnTwoWithNoRelaventPlants()//this would be called when turn two starts but the player hasn't planted a mood relevant plant
         {
@@ -215,9 +216,6 @@ namespace Tutorial
         void MoodRelevantPlantReachesMaturity()
         {
             myBox.Say("Now this garden is really getting going!");
-            ExplainTraits();
-           
-
         }
 
         void NoMorePoints(EventsManager.EventParams eventParams)
