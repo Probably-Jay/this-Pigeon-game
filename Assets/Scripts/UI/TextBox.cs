@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //created Zap 28/03
 public class TextBox : MonoBehaviour
 {
     private List<string> thingsToSay = new List<string> { };
-    [SerializeField] private Text myText;
+    [SerializeField] private TMP_Text myText;
     private int listFocus;
     public GameObject backButton;
     public GameObject forwardButton;

@@ -143,6 +143,8 @@ public class GoalSliderScript : MonoBehaviour
         }
     }
 
+
+
     private void SetBarColors(Mood.TraitValue.Scales traitOne, Mood.TraitValue.Scales traitTwo)
     {
         SetBarColor(traitOne, MoodTraitOne, M1T);

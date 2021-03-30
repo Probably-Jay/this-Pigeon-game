@@ -10,12 +10,10 @@ namespace SceneUI
     public class EndTurnButtonScript : MonoBehaviour
     {
 
-        GardenSlotDirectory gardenSlotDirectory;
+        [SerializeField] GardenSlotDirectory gardenSlotDirectory;
+        
 
-        void Start()
-        {
-            gardenSlotDirectory = GameObject.FindObjectOfType<GardenSlotDirectory>();
-        }
+      
 
 
         public void CallEndTurn() {

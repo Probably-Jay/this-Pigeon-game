@@ -15,6 +15,9 @@ namespace Tutorial
         public TextBox myBox;
 
 
+        private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
+
+
         bool hasEverPlantedMoodRelaventPlant = false;
 
         delegate bool Condition();
@@ -135,11 +138,10 @@ namespace Tutorial
         void StartTurnOne()
         {
             List<string> emotionComments = new List<string> { };
-            
+
             myBox.Say("Hello there! Welcome to your garden!");
             //myBox.Say("This place could do with some flora, don't you think?");
-            string emotion =
-            GameManager.Instance.EmotionTracker.GardenGoalEmotions[GameManager.Instance.ActivePlayer.PlayerEnumValue].ToString();
+            string emotion = GoalEmotion().ToString();
             emotionComments.Clear();
             switch (emotion)
             {
@@ -171,6 +173,8 @@ namespace Tutorial
             emotionComments.Clear();
             myBox.Say("When you're ready, you can choose a seed to plant by tapping this seed basket!");
         }
+
+
         void PlantedFirstPlant()
         {
             myBox.Say("Wow, this place is looking beautiful already!");
@@ -184,9 +188,21 @@ namespace Tutorial
         void StartTurnTwoWithNoRelaventPlants()//this would be called when turn two starts but the player hasn't planted a mood relevant plant
         {
             myBox.Say("Good morning!");
-            myBox.Say("Today, why not try planting a plant with a trait from your mood?");
-            //Here you should tell the player their mood 
+            ExplainTraits();
+            myBox.Say("Why not try planting a plant with a trait from your mood?");
+ 
         }
+
+
+        void ExplainTraits()
+        {
+            Emotion.Emotions emotion = GoalEmotion();
+            var traits = Emotion.GetScalesInEmotion(emotion);
+            myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");
+            myBox.Say($"Did you know that <b>emotions</b> are made up of <b>traits</b>?");
+            myBox.Say($"For example, {emotion} is made up of <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
+        }
+
 
         void PlantGrows()
         {
@@ -197,6 +213,9 @@ namespace Tutorial
         void MoodRelevantPlantReachesMaturity()
         {
             myBox.Say("Now this garden is really getting going!");
+            ExplainTraits();
+           
+
         }
 
         void NoMorePoints(EventsManager.EventParams eventParams)
