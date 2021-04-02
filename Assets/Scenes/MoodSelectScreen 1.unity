@@ -576,6 +576,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 498239210, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 621285168, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 716795385, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 813555308, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531395297, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531395298, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 342379512244834323, guid: 1e7c520e9faf1d746a9f9704eff56a36,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -786,7 +810,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ItemImage
       value: 
-      objectReference: {fileID: 716795386}
+      objectReference: {fileID: 0}
     - target: {fileID: 5711489339190629452, guid: 1e7c520e9faf1d746a9f9704eff56a36,
         type: 3}
       propertyPath: m_CaptionImage
@@ -1411,7 +1435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1531395298
 RectTransform:
   m_ObjectHideFlags: 0
