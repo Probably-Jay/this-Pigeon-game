@@ -4,8 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Mood;
+
 using TMPro;
 using System;
+
+// created scott
+
+// altered Jay 02/04
 
 public class GoalSliderScript : MonoBehaviour
 {
@@ -18,16 +24,19 @@ public class GoalSliderScript : MonoBehaviour
     [SerializeField] TMP_Text M1T;
     [SerializeField] TMP_Text M2T;
 
-
+   // Action UpdateTraitsDisplayOnEnd
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.PlantAlterStats, UpdateTraitsDisplay);
+        EventsManager.BindEvent(EventsManager.EventType.GardenStatsUpdated, UpdateTraitsDisplay);
+        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateTraitsDisplay);
     }
 
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.PlantAlterStats, UpdateTraitsDisplay);
+        EventsManager.UnbindEvent(EventsManager.EventType.GardenStatsUpdated, UpdateTraitsDisplay);
+        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateTraitsDisplay);
+
     }
 
 
@@ -50,21 +59,7 @@ public class GoalSliderScript : MonoBehaviour
     private static void SetBarValue(int value, int goalvalue, Image img)
     {
         float fillAmount = GetFillvalue(value, goalvalue);
-        //switch (value)
-        //{
-        //    case 1:
-        //        fillAmount = 0.33f; // 1 mood point
-        //        break;
-        //    case 2:
-        //        fillAmount = 0.67f; // 2 mood points
-        //        break;
-        //    case 3:
-        //        fillAmount = 1.0f; // 3 mood points
-        //        break;
-        //    default:
-        //        fillAmount = 0.1f; // no mood points
-        //        break;
-        //}
+        
         img.fillAmount = fillAmount;
     }
 
@@ -94,7 +89,7 @@ public class GoalSliderScript : MonoBehaviour
        // int activePlayer = (int)GameManager.Instance.ActivePlayer.PlayerEnumValue;
 
 
-        Player.PlayerEnum activePlayer = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+        Player.PlayerEnum activePlayer = GameManager.Instance.ActivePlayerID;
         Mood.TraitValue currentTraits = GameManager.Instance.EmotionTracker.GardenCurrentTraits[activePlayer];
         Mood.TraitValue goalTraits = GameManager.Instance.EmotionTracker.GardenGoalTraits[activePlayer];
 
@@ -124,23 +119,21 @@ public class GoalSliderScript : MonoBehaviour
         {
             case Mood.TraitValue.Scales.Social:
                 bar.color = Color.magenta; // Apparently there's no base purple? Change later
-                icon.SetText("<sprite index= 2>");
                 break;
             case Mood.TraitValue.Scales.Joyful:
                 bar.color = Color.blue;
-                icon.SetText("<sprite index= 4>");
                 break;
             case Mood.TraitValue.Scales.Energetic:
                 bar.color = Color.yellow;
-                icon.SetText("<sprite index= 0>");
                 break;
             case Mood.TraitValue.Scales.Painful:
                 bar.color = Color.red;
-                icon.SetText("<sprite index= 5>");
                 break;
             default:
                 break;
         }
+
+        icon.SetText(TraitValue.GetIconDisplay(trait));
     }
 
 
@@ -157,8 +150,5 @@ public class GoalSliderScript : MonoBehaviour
     //    SetBarValue(val2, MoodTraitTwo);
     //}
 
-    void Update() {
-        UpdateTraitsDisplay();
-        
-    }
+   
 }

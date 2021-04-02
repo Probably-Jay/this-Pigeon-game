@@ -19,18 +19,22 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
 
     private void OnEnable()
     {
+        EventsManager.BindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
+        EventsManager.BindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
     }
 
     private void OnDisable()
     {
+        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
+        EventsManager.UnbindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
     }
 
     public Dictionary<Player.PlayerEnum, TraitValue> GardenCurrentTraits { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
     {
-        {Player.PlayerEnum.Player1, TraitValue.Zero }
-        ,{Player.PlayerEnum.Player2, TraitValue.Zero }
+        {Player.PlayerEnum.Player1, TraitValue.Uninitialised }
+        ,{Player.PlayerEnum.Player2, TraitValue.Uninitialised }
     };   
     
     public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary< Player.PlayerEnum, TraitValue>()    
@@ -52,13 +56,6 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
 
  
 
-
-    public void AddToGardenStats(Player.PlayerEnum player, TraitValue traits)
-    {
-        GardenCurrentTraits[player] += traits;
-        EventsManager.InvokeEvent(EventsManager.EventType.PlantAlterStats);
-    }
-
     private void CheckForAcheivedGoal()
     {
         if (HasAcheivedGoal(Player.PlayerEnum.Player1)){
@@ -70,11 +67,54 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
         }
     }
 
-    public void SubtractFromGardenStats(Player.PlayerEnum player, TraitValue traits)
+
+
+    public void UpdateGardenStats()
     {
-        GardenCurrentTraits[player] -= traits;
-        EventsManager.InvokeEvent(EventsManager.EventType.PlantAlterStats);
+        foreach (var player in Player.PlayerEnumValueList)
+        {
+            var currentState = GetCurrentGardenStats(player);
+            if(GardenCurrentTraits[player] == currentState)
+            {
+                continue;
+            }
+
+            GardenCurrentTraits[player] = currentState;
+            EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
+        }
     }
+
+    private TraitValue GetCurrentGardenStats(Player.PlayerEnum player)
+    {
+        TraitValue value = TraitValue.Zero;
+        var plants = GameManager.Instance.SlotManagers[player].GetAllPlants();
+
+        foreach (var plant in plants)
+        {
+            value += plant.Traits;
+        }
+
+        return value;
+    }
+
+    public void ResetGardenStats()
+    {
+        GardenCurrentTraits[Player.PlayerEnum.Player1] = TraitValue.Zero;
+        GardenCurrentTraits[Player.PlayerEnum.Player2] = TraitValue.Zero;
+    }
+
+    //public void AddToGardenStats(Player.PlayerEnum player, TraitValue traits)
+    //{
+    //    GardenCurrentTraits[player] += traits;
+    //    EventsManager.InvokeEvent(EventsManager.EventType.PlantAlterStats);
+    //}
+
+
+    //public void SubtractFromGardenStats(Player.PlayerEnum player, TraitValue traits)
+    //{
+    //    GardenCurrentTraits[player] -= traits;
+    //    EventsManager.InvokeEvent(EventsManager.EventType.PlantAlterStats);
+    //}
 
 
     //TMP_Text displayText;

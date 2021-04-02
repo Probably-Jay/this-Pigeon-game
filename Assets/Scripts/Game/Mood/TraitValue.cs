@@ -64,7 +64,9 @@ namespace Mood
         /// <summary>
         /// Returns a new zeroed <see cref="TraitValue"/>
         /// </summary>
-        public static TraitValue Zero => new TraitValue(0,0,0,0);
+        public static TraitValue nZero => new TraitValue(0,0,0,0);
+        public readonly static TraitValue Zero = new TraitValue(0,0,0,0);
+        public readonly static TraitValue Uninitialised = new TraitValue(-1,-1,-1,-1);
 
         // private int[] values;
 
@@ -207,7 +209,7 @@ namespace Mood
         /// </summary>
         public override bool Equals(object obj)
         {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            if ( (obj == null) || !(this.GetType().Equals( obj.GetType() )) )
             {
                 return false;
             }

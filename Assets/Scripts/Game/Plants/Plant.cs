@@ -46,17 +46,13 @@ namespace Plants {
 
         private void OnEnable()
         {
-            PlantGrowth.ReachedMaturity += AddStats;
+            PlantGrowth.ReachedMaturity += UpdateStats;
         }
         private void OnDisable()
         {
-            PlantGrowth.ReachedMaturity -= AddStats;
+            PlantGrowth.ReachedMaturity -= UpdateStats;
         }
-
-        private void AddStats()
-        {
-            GameManager.Instance.EmotionTracker.AddToGardenStats(PlantOwner.PlayerEnumValue, Traits);
-        }
+        private void UpdateStats() => EventsManager.InvokeEvent(EventsManager.EventType.PlantChangedStats);
 
         // private PlantSize plantSize1;
 
@@ -89,9 +85,9 @@ namespace Plants {
 
 
         // public bool isPlanted = false;
-        private Player.PlayerEnum? gardenID = null;
+       /// private Player.PlayerEnum? gardenID = null;
 
-        public Player.PlayerEnum? GardenID { get => gardenID; set => gardenID = value; }
+      //  public Player.PlayerEnum? GardenPlayerID { get => gardenID; set => gardenID = value; }
 
 
         private void Awake() // hack, todo fix this
@@ -101,7 +97,7 @@ namespace Plants {
 
 
             // Get current player
-            PlantOwner = GameManager.Instance.GetPlayer(GameManager.Instance.CurrentVisibleGarden); // Load system will break here
+            PlantOwner = GameManager.Instance.GetPlayer(GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible); // Load system will break here
 
             //// Set if in local or other garden
             //if (plantOwner.PlayerEnumValue == 0)

@@ -41,7 +41,7 @@ public class PlayerGardenSignControl : MonoBehaviour
     {
         if(turnUpdateDelay>0) yield return new WaitForSeconds(turnUpdateDelay);
 
-        switch (GameManager.Instance.ActivePlayer.PlayerEnumValue)
+        switch (GameManager.Instance.ActivePlayerID)
         {
             case Player.PlayerEnum.Player1:
                 player1GardenText.text = yourGarden;

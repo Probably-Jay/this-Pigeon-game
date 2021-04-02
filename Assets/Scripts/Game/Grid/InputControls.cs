@@ -6,6 +6,10 @@ using Plants;
 
 // Script created by Alexander Purvis 04/02/2021
 // Edited Scott Jarvis, 24/03/21
+
+// depracated Jay 02/04
+
+[System.Obsolete("This class has been replaced by " + nameof(SlotManager)+ " and " +nameof(SlotControls),true)]
 public class InputControls : MonoBehaviour
 {
 
@@ -48,7 +52,8 @@ public class InputControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
             switch (cursorMode)
             {
                 case CursorState.Planting:
@@ -58,7 +63,7 @@ public class InputControls : MonoBehaviour
                         PickUpObject();
                     }
                     else if (holdingObject == true)
-                        PutDownObject(); 
+                        PutDownObject();
                     break;
 
                 case CursorState.Watering:
@@ -66,11 +71,11 @@ public class InputControls : MonoBehaviour
                     TryWaterObject();
                     break;
 
-                default: 
+                default:
                     // This shouldn't ever come up
-                    Debug.Log("Hi! You shouldn't ever see me! :)"); 
+                    Debug.Log("Hi! You shouldn't ever see me! :)");
                     break;
-            }       
+            }
         }
     }
 
@@ -132,13 +137,14 @@ public class InputControls : MonoBehaviour
                 var plantPlaced = hitObject.GetComponent<Plant>();
 
 
-                // if the plant we picked up was in a garden
-                if (plantPlaced.GardenID != null)
-                {
-                    displayManager.SubtractFromGardenStats(plantPlaced.GardenID.Value, plantPlaced.Traits);
-                    plantPlaced.GardenID = null; // plant is now not in a garden
+                //// if the plant we picked up was in a garden
+                //if (plantPlaced.GardenPlayerID != null)
+                //{
+                //    //displayManager.SubtractFromGardenStats(plantPlaced.GardenID.Value, plantPlaced.Traits);
+                //    displayManager.UpdateGardenStats(plantPlaced.GardenPlayerID.Value);
+                //    plantPlaced.GardenPlayerID = null; // plant is now not in a garden
 
-                }
+                //}
 
                 gridManager.ShowGrids(); // make the grid visible
 
@@ -231,10 +237,10 @@ public class InputControls : MonoBehaviour
                     var plantPlaced = hitObject.GetComponent<Plant>();
                     // sets is planted to true so that if it is removed its values can be subtracted from the garden
 
-                    plantPlaced.GardenID = GameManager.Instance.CurrentVisibleGarden;
+                    //plantPlaced.GardenPlayerID = GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible;
 
-                    if(plantPlaced.GardenID != null)
-                        displayManager.AddToGardenStats(plantPlaced.GardenID.Value, plantPlaced.Traits);
+                    //if(plantPlaced.GardenPlayerID != null)
+                    //    displayManager.AddToGardenStats(plantPlaced.GardenPlayerID.Value, plantPlaced.Traits);
         
                     hitObject = null;
                     holdingObject = false;

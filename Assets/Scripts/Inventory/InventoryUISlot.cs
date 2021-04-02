@@ -45,7 +45,7 @@ public class InventoryUISlot : MonoBehaviour
 
     public void ItemSelected()
     {
-        if(GameManager.Instance.CurrentVisibleGarden == GameManager.Instance.ActivePlayer.PlayerEnumValue) // our turn
+        if(GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == GameManager.Instance.ActivePlayerID) // our turn
         {
             if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) 
             {

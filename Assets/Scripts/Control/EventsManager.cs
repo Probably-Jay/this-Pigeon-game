@@ -42,7 +42,8 @@ public class EventsManager : Singleton<EventsManager>
         , UpdateScore
        // , UpdatePlants
 
-        , PlantAlterStats
+        , PlantChangedStats
+        , GardenStatsUpdated
 
         , StartGame
         , GameOver
@@ -79,7 +80,7 @@ public class EventsManager : Singleton<EventsManager>
         public Enum EnumData;
     }
 
-    public static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
+    protected static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
 
 
 
@@ -211,11 +212,11 @@ public class EventsManager : Singleton<EventsManager>
     #endregion
 
 
-    //private void ClearEvents()
-    //{
-    //    events.Clear();
-    //    parameterEvents.Clear();
-    //}
+    private void ClearEvents()
+    {
+        events.Clear();
+        parameterEvents.Clear();
+    }
 
 
     //private void OnEnable()
@@ -223,10 +224,10 @@ public class EventsManager : Singleton<EventsManager>
     //    SceneManager.sceneLoaded += DisableDuplicateObjects;
     //}
 
-    //private void OnDisable()
-    //{
-    //    ClearEvents();
-    //}
+    private void OnDestroy()
+    {
+        ClearEvents();
+    }
 
     /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
 }

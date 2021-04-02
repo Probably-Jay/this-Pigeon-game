@@ -34,7 +34,7 @@ public class TurnDisplayControl : MonoBehaviour
 
     void FadeInText()
     {
-        Player.PlayerEnum player = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+        Player.PlayerEnum player = GameManager.Instance.ActivePlayerID;
         int turnCount = GameManager.Instance.TurnCount;
         animator.SetTrigger("FadeInOut");
         StartCoroutine(UpdateTurnDisplay(player, turnCount));

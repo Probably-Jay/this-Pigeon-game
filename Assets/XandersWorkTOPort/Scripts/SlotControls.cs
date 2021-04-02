@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Plants;
 using UnityEngine;
 
 // Script created by Alexander Purvis 05/02/2021
+
+// (please sign alteration to script -jay)
+
 public class SlotControls : MonoBehaviour
 {
     // enums that control the state of this tile
@@ -91,5 +96,15 @@ public class SlotControls : MonoBehaviour
         plantsInThisSlot.Add(newPlant);
 
         SlotOccupied();
+    }
+
+    public List<Plant> GetAllPlants()
+    {
+        List<Plant> plants = new List<Plant>();
+        foreach (var plantObject in plantsInThisSlot)
+        {
+            plants.Add(plantObject.GetComponent<Plant>());
+        }
+        return plants;
     }
 }

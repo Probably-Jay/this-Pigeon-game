@@ -9,17 +9,14 @@ public class GoalSliderPositioner : MonoBehaviour
     public Vector3 playerTwoPos;
     private int activePlayer;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
     {
-        if(activePlayer!= (int)GameManager.Instance.ActivePlayer.PlayerEnumValue)
+        if(activePlayer!= (int)GameManager.Instance.ActivePlayerID)
         {
-            activePlayer = (int)GameManager.Instance.ActivePlayer.PlayerEnumValue;
+            activePlayer = (int)GameManager.Instance.ActivePlayerID;
             UpdateSliderPosition(activePlayer);
         }    
     }
