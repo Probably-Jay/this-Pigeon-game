@@ -32,7 +32,7 @@ public class CameraMovementControl : MonoBehaviour
 
     private void Start()
     {
-        CurrentGardenView = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+        CurrentGardenView = GameManager.Instance.ActivePlayerID;
     }
     void DoNotingFirstTime()
     {
@@ -46,7 +46,7 @@ public class CameraMovementControl : MonoBehaviour
         //  if(currentGardenVeiw == Player.PlayerEnum.Player0 &&)
 
 
-        Player.PlayerEnum player = GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player1? Player.PlayerEnum.Player2 : Player.PlayerEnum.Player1; ;
+        Player.PlayerEnum player = GameManager.Instance.ActivePlayerID == Player.PlayerEnum.Player1? Player.PlayerEnum.Player2 : Player.PlayerEnum.Player1; ;
         SwapVeiwTo(player);
     }
 

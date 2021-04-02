@@ -18,15 +18,19 @@ public class OpenToolBoxButton : MonoBehaviour
     {
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
-        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_)=> InitiateUpdate());
+        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
         EventsManager.BindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }
+
+    private void InitiateUpdateAction(EventsManager.EventParams _) => InitiateUpdate();
+    
+
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
-        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate());
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
         EventsManager.UnbindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }

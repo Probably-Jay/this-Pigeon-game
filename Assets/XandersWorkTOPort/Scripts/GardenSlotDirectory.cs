@@ -8,20 +8,25 @@ public class GardenSlotDirectory : MonoBehaviour
 
     GameObject currentPlantSeed;
 
-    public GameObject garden1Slots;
-    public GameObject garden2Slots;
+    public SlotManager garden1Slots;
+    public SlotManager garden2Slots;
 
-    SeedIndicator seedIndicator;
+   // SeedIndicator seedIndicator;
 
-    public GameObject garden1SeedIndicator;
-    public GameObject garden2SeedIndicator;
+    public SeedIndicator garden1SeedIndicator;
+    public SeedIndicator garden2SeedIndicator;
 
 
 
-    private void Start()
+    private void OnEnable()
     {
-        GameManager.Instance.slotManagers.Add(Player.PlayerEnum.Player1, garden1Slots.GetComponent<SlotManager>());
-        GameManager.Instance.slotManagers.Add(Player.PlayerEnum.Player2, garden2Slots.GetComponent<SlotManager>());
+        GameManager.Instance.RegisterSlotManager(garden1Slots.gardenplayerID, garden1Slots);
+        GameManager.Instance.RegisterSlotManager(garden2Slots.gardenplayerID, garden2Slots);
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
+        GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
     }
 
     public void AccessAppropriateSlotManager()
@@ -30,16 +35,16 @@ public class GardenSlotDirectory : MonoBehaviour
 
         int requiredSlotType = currentPlantSeed.GetComponent<Plant>().requiredSlot;
 
-        if (GameManager.Instance.CurrentVisibleGarden == Player.PlayerEnum.Player1)
+        if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player1)
         {
             HideAllSlotsAndHideIndicators();
-            garden1Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
+            garden1Slots.ShowSlots(requiredSlotType);
             setGarden1IndicatorSeed();
         }
-        else if (GameManager.Instance.CurrentVisibleGarden == Player.PlayerEnum.Player2)
+        else if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player2)
         {
            HideAllSlotsAndHideIndicators();
-           garden2Slots.GetComponent<SlotManager>().ShowSlots(requiredSlotType);
+           garden2Slots.ShowSlots(requiredSlotType);
            setGarden2IndicatorSeed();
         }
     }
@@ -47,27 +52,23 @@ public class GardenSlotDirectory : MonoBehaviour
 
     public void HideAllSlotsAndHideIndicators()
     {
-        garden1Slots.GetComponent<SlotManager>().HideSlots();
-        garden2Slots.GetComponent<SlotManager>().HideSlots();
+        garden1Slots.HideSlots();
+        garden2Slots.HideSlots();
 
-        seedIndicator = garden1SeedIndicator.GetComponent<SeedIndicator>();
-        seedIndicator.HideIndicator();
-
-        seedIndicator = garden2SeedIndicator.GetComponent<SeedIndicator>();
-        seedIndicator.HideIndicator();
+        garden1SeedIndicator.HideIndicator();
+        garden2SeedIndicator.HideIndicator();
+       
     }
 
 
     void setGarden1IndicatorSeed()
     {
-        seedIndicator = garden1SeedIndicator.GetComponent<SeedIndicator>();
-        seedIndicator.ShowIndicator(currentPlantSeed);
+        garden1SeedIndicator.ShowIndicator(currentPlantSeed);
     }
 
 
     void setGarden2IndicatorSeed()
     {
-        seedIndicator = garden2SeedIndicator.GetComponent<SeedIndicator>();
-        seedIndicator.ShowIndicator(currentPlantSeed);
+        garden2SeedIndicator.ShowIndicator(currentPlantSeed);
     }
 }

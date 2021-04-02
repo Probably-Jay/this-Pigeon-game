@@ -1,29 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
 
+// please sign script creation
+
+// all-plants-getter added - Jay 
+
+
+
 public class SlotManager : MonoBehaviour
 {
-    public int gardenID = 1;
-    public List<GameObject> gardenSlots;
-    SlotControls slotControls;
+    public Player.PlayerEnum gardenplayerID ;
+    public List<SlotControls> gardenSlots;
 
-    public GameObject seedStorage;
+   // SlotControls slotControls;
+
+    public CurrentSeedStorage seedStorage;
     GameObject newPlant;
 
-    SeedIndicator seedIndicator;
+   // SeedIndicator seedIndicator;
 
-    public GameObject gardenSeedIndicator;
+    public SeedIndicator gardenSeedIndicator;
 
 
+  
     private void Update()
     {          
-       if (seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed)
+       if (seedStorage.isStoringSeed)
        {
             for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
             {
-                slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+                var slotControls = gardenSlots[slotNumber];
          
                 if (slotControls.slotActive == true && slotControls.slotFull == false)
                 {
@@ -33,20 +42,19 @@ public class SlotManager : MonoBehaviour
 
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
-                        PlantPlant();
-                        seedIndicator = gardenSeedIndicator.GetComponent<SeedIndicator>();
-                        seedIndicator.HideIndicator();
+                        PlantPlant(slotControls);
+                        gardenSeedIndicator.HideIndicator();
                     }
                 }
             }
        }
     }
 
-    private void PlantPlant()
+    private void PlantPlant(SlotControls slotControls)
     {
-        newPlant = seedStorage.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
+        newPlant = seedStorage.GetCurrentPlant();
         slotControls.SpawnPlantInSlot(newPlant);
-        seedStorage.GetComponent<CurrentSeedStorage>().isStoringSeed = false;
+        seedStorage.isStoringSeed = false;
         InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
 
         HideSlots();
@@ -58,7 +66,7 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
 
-            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
             if (moodGoal.Overlaps(plant.TraitsUnscaled))
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent);
@@ -73,36 +81,36 @@ public class SlotManager : MonoBehaviour
 
     public SlotControls SlotMouseIsIn()
     {
-        foreach (var gameObject in gardenSlots)
+        foreach (var slot in gardenSlots)
         {
-            var colider = gameObject.GetComponent<BoxCollider2D>();
+            var colider = slot.gameObject.GetComponent<BoxCollider2D>();
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = colider.transform.position.z;
 
             if (colider.OverlapPoint(mousePos))
             {
-                return gameObject.GetComponent<SlotControls>();
+                return slot;
             }
         }
         return null;
     }
     
-    public GameObject PlantMouseIsIn()
+    public Plant PlantMouseIsIn()
     {
-        GameObject plantObject;
-        foreach (var gameObject in gardenSlots)
+       
+        foreach (var slot in gardenSlots)
         {
-            SlotControls slot = gameObject.GetComponent<SlotControls>();
+       
             if (slot.plantsInThisSlot.Count!=0) {
-                plantObject = slot.plantsInThisSlot[0];
-                Collider2D plantCollider = plantObject.GetComponent<PlantGrowth>().GetActiveCollider();
+                var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
+                Collider2D plantCollider = plant.PlantGrowth.GetActiveCollider();
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePos.z = plantCollider.transform.position.z;
 
                 if (plantCollider.OverlapPoint(mousePos))
                 {
-                    return plantObject;
+                    return plant;
                 }
             }
                 
@@ -117,7 +125,7 @@ public class SlotManager : MonoBehaviour
     {       
         for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
         {
-            slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+            var slotControls = gardenSlots[slotNumber];
             if (slotControls.slotType == requiredSlotType)
             {               
                 slotControls.ShowSlot();
@@ -130,9 +138,20 @@ public class SlotManager : MonoBehaviour
     {
         for (int gridNumber = 0; gridNumber < gardenSlots.Count; gridNumber++)
         {
-            slotControls = gardenSlots[gridNumber].GetComponent<SlotControls>();
-      
-            slotControls.HideSlot();        
+            gardenSlots[gridNumber].HideSlot();
         }
     }
+
+    public ReadOnlyCollection<Plant> GetAllPlants()
+    {
+        List<Plant> plants = new List<Plant>();
+        foreach (var slot in gardenSlots)
+        {
+            plants.AddRange(slot.GetAllPlants());
+        }
+
+        return new ReadOnlyCollection<Plant>(plants);
+
+    }
+
 }

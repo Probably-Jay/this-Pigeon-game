@@ -66,7 +66,7 @@ public class _SaveDemonstration : MonoBehaviour
         var plant = go1.AddComponent<Plant>();
 
         var player = go2.AddComponent<Player>();
-        player.PlayerEnumValue = Player.PlayerEnum.Player2;
+        player.EnumID = Player.PlayerEnum.Player2;
 
         go1.transform.position = new Vector3(1, 2, 3);
         plant.PlantOwner = player;

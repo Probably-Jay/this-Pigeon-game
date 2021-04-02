@@ -56,7 +56,7 @@ namespace SaveSystemInternal
             var plantPos = plant.transform.position;
             serialisedPlant.position = new float[3] { plantPos.x, plantPos.y, plantPos.z };
 
-            serialisedPlant.owner = (int)plant.PlantOwner.PlayerEnumValue;
+            serialisedPlant.owner = (int)plant.PlantOwner.EnumID;
 
             return serialisedPlant;
         }

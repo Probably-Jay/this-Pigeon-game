@@ -42,8 +42,8 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
                 condition: () => 
                 {
-                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.GardenCurrentTraits[GameManager.Instance.ActivePlayer.PlayerEnumValue];
-                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayer.PlayerEnumValue];
+                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.GardenCurrentTraits[GameManager.Instance.ActivePlayerID];
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
 
 
                     float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
@@ -90,7 +90,7 @@ namespace Tutorial
         void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
 
-            if (GameManager.Instance.ActivePlayer.PlayerEnumValue != player1)
+            if (GameManager.Instance.ActivePlayerID != player1)
                 return;
            
 
@@ -113,7 +113,7 @@ namespace Tutorial
         
         void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
-            if (GameManager.Instance.ActivePlayer.PlayerEnumValue != player1)
+            if (GameManager.Instance.ActivePlayerID != player1)
                 return;
 
 

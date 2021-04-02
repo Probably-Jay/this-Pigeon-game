@@ -50,23 +50,23 @@ public class TurnPointsUI : MonoBehaviour
 
     private void OnEnable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, FlashGreen);
-        EventsManager.BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, FlashRed);
+//        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, FlashGreen);
+//        EventsManager.BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, FlashRed);
 
-        EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
-        EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
-//        EventsManager.BindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
-//        EventsManager.BindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
+//        EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
+//        EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
+////        EventsManager.BindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
+////        EventsManager.BindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
     }
     private void OnDisable()
     {
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, FlashGreen);
-        EventsManager.UnbindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, FlashRed);
+//        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, FlashGreen);
+//        EventsManager.UnbindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, FlashRed);
 
-        EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
-        EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
-//        EventsManager.UnbindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
-//        EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
+//        EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, PopOwnPlace);
+//        EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, PopCompPlace);
+////        EventsManager.UnbindEvent(EventsManager.EventType.RemovedOwnObject, PopOwnRemove);
+////        EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, PopWater);
     }
 
     private void UpdateText()
