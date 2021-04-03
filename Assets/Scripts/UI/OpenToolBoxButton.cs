@@ -19,6 +19,7 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
+       // EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate());
         EventsManager.BindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
         EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }
@@ -31,13 +32,9 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
+       // EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate()); ;
         EventsManager.UnbindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

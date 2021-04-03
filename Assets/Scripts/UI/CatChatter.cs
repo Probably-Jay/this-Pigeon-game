@@ -29,9 +29,15 @@ namespace Tutorial
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
 
-            BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent, PlantedFirstMoodRelevantPlant,
+            BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent, SayNothing,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
 
+            BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithRelaventPlants,
+                      condition: () =>
+                      {
+                          return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
+                      }); 
+            
             BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithNoRelaventPlants,
                       condition: () =>
                       {
@@ -63,7 +69,8 @@ namespace Tutorial
            // BindEvent(EventsManager.EventType.PlantReadyToGrow,)
         }
 
-      
+        #region BindingAndUnbinding
+
 
         /// <summary>
         /// Binds a function event to then be unbound after it is invoked
@@ -132,45 +139,45 @@ namespace Tutorial
                 EventsManager.UnbindEvent(eventType, func);
             }
         }
+        #endregion
 
 
-        //these functions could be modified to include if statements or just bound directly to the 
+
+        void SayNothing() { }
+
+
         void StartTurnOne()
         {
-            List<string> emotionComments = new List<string> { };
 
             myBox.Say("Hello there! Welcome to your garden!");
-            //myBox.Say("This place could do with some flora, don't you think?");
+         
+
             string emotion = GoalEmotion().ToString();
-            emotionComments.Clear();
+            
             switch (emotion)
             {
                 case "Loving":
-                    emotionComments.Add($"You're feeling {GetEmotionOutput(emotion)}? That's great!");
-                    emotionComments.Add($"Let's share that love! And as with all good things, we can say it with flowers!");
+                    myBox.Say($"You're feeling {GetEmotionOutput(emotion)}? That's great!");
+                    myBox.Say($"Let's share that love! And as with all good things, we can say it with flowers!");
                     break;
                 case "Lonely":
-                    emotionComments.Add($"I'm sorry to hear that you're feeling {GetEmotionOutput(emotion)}");
-                    emotionComments.Add($"Why not share that with your partner, too?");
+                    myBox.Say($"I'm sorry to hear that you're feeling {GetEmotionOutput(emotion)}");
+                    myBox.Say($"Why not share that with your partner, too?");
                     break;
                 case "Stressed":
-                    emotionComments.Add($"You're {GetEmotionOutput(emotion)}? Then you've come to the right place!");
-                    emotionComments.Add($"Let's unwind by planting growing some plants that express that feeling!");
+                    myBox.Say($"You're {GetEmotionOutput(emotion)}? Then you've come to the right place!");
+                    myBox.Say($"Let's unwind by planting growing some plants that express that feeling!");
                     break;
                 case "Excited":
-                    emotionComments.Add($"I'm {GetEmotionOutput(emotion)} too! Let's get going then!");
-                    emotionComments.Add($"The goal of this garden is to communicate that feeling to your partner!");
-                    emotionComments.Add($"Hopefully they're as jazzed as us!");
+                    myBox.Say($"I'm {GetEmotionOutput(emotion)} too! Let's get going then!");
+                    myBox.Say($"The goal of this garden is to communicate that feeling to your partner!");
+                    myBox.Say($"Hopefully they're as jazzed as us!");
                     break;
                 default:
                     break;
             }
 
-            foreach (string comment in emotionComments)
-            {
-                myBox.Say(comment);
-            }
-            emotionComments.Clear();
+  
             myBox.Say("When you're ready, you can choose a seed to plant by tapping this seed basket!");
         }
 
@@ -180,15 +187,18 @@ namespace Tutorial
         void PlantedFirstPlant()
         {
             myBox.Say("Wow, this place is looking beautiful already!");
-            myBox.Say("Don't forget to water it by using the can in the toolbox!");
+            ExplainTending();
         }
-        void PlantedFirstMoodRelevantPlant()
+
+        void StartTurnTwoWithRelaventPlants()
         {
-            myBox.Say("That plant is so in sync with you!");
+            myBox.Say("Good morning!");
             ExplainTraits();
-            myBox.Say($"That last plant was super {GetEmotionOutput(GoalEmotion().ToString())}! A few more of those are just what this place needs!");
+            myBox.Say($"That last plant was super in sync with you...");
+            myBox.Say("Why not plant another with a different trait from your mood?");
+
         }
-        void StartTurnTwoWithNoRelaventPlants()//this would be called when turn two starts but the player hasn't planted a mood relevant plant
+        void StartTurnTwoWithNoRelaventPlants()
         {
             myBox.Say("Good morning!");
             ExplainTraits();
@@ -196,6 +206,11 @@ namespace Tutorial
  
         }
 
+        void ExplainTending()
+        {
+            myBox.Say("Don't forget to water it by using the can in the toolbox!");
+
+        }
 
         void ExplainTraits()
         {
@@ -204,16 +219,17 @@ namespace Tutorial
             myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");
             myBox.Say($"Did you know that <b>emotions</b> are made up of <b>traits</b>?");
             myBox.Say($"For example, {emotion} is made up of <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
-            myBox.Say($"A plant only contributes toward your mood once it fully matured.");
-            myBox.Say($"So make sure to tend to your plants with the tools or it will not grow!");
-            myBox.Say($"As well as watering, you can use the ecofriendly spray to chase the bugs and use the shears to trim the extra leaves.");
+            myBox.Say($"A plant only contributes toward your garden's <b>emotion</b> once it fully matured, so make sure to tend to your plants!");
+          
         }
 
 
         void PlantGrows()
         {
-            myBox.Say("It looks like this plant has been well looked after...");
-            myBox.Say("by the start of your next turn it will probably have grown!");
+            myBox.Say("Looks like that plant really needed that!");
+            myBox.Say("By the start of your next turn it will probably have grown!");
+            myBox.Say("Plants will only grow if they have been well looked after, so make sure to keep an eye out for thier needs.");
+            myBox.Say($"You can use the ecofriendly spray to chase away any bugs and use the shears to trim extra leaves too!");
         }
 
         void MoodRelevantPlantReachesMaturity()
