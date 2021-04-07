@@ -9,7 +9,7 @@ namespace Net {
     public class LoginTest : MonoBehaviour
     {
 
-
+        [SerializeField] NetPlayerTest netPlayer;
         [SerializeField] InputField messageBox;
 
         string ID;
@@ -34,14 +34,16 @@ namespace Net {
         {
             Debug.LogError($"Execution Failed");
             Debug.LogError(obj.GenerateErrorReport());
+
+         
+
         }
 
         private void ScriptExecutedSucess(ExecuteCloudScriptResult obj)
         {
             Debug.Log("Sent");
-            Debug.Log(obj.ToString());
-            Debug.Log(obj.HttpRequestsIssued);
-            Debug.Log(obj.Logs);
+            Debug.Log(obj.FunctionResult?.ToString());
+
         }
 
 
@@ -109,6 +111,12 @@ namespace Net {
 
             }
             ID = obj.PlayFabId;
+
+
+            netPlayer.entityKey.Id = obj.EntityToken.Entity.Id;
+            netPlayer.entityKey.Type = obj.EntityToken.Entity.Type;
+         
+
         }
 
         private void Failure(PlayFabError obj)

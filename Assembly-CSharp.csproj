@@ -117,6 +117,8 @@
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\Test\LoginTest.cs" />
+    <Compile Include="Assets\Scripts\Net\Playfab\Test\NetPlayerTest.cs" />
+    <Compile Include="Assets\Scripts\Net\Playfab\Test\RoomTest.cs" />
     <Compile Include="Assets\Scripts\Save_System\Collecting_Data\SaveDataUtility.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\GameMetaData.cs" />
     <Compile Include="Assets\Scripts\Save_System\Data_Structures\LiveGameData.cs" />
