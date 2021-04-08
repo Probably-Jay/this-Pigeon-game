@@ -13,6 +13,9 @@ using UnityEngine.Events;
 public class EventsManager : Singleton<EventsManager>
 {
 
+
+
+
     // Update these enum with new events to expand this class' functionality
 
     // events with no parameters
@@ -26,9 +29,10 @@ public class EventsManager : Singleton<EventsManager>
         , EnterNewScene
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
-        
-        /// do not invoke direcly, invoke <see cref="triedToPlaceOwnObject"/> etc and this will be handled correctly
+
+     
         , PlacedOwnObject
+        , PlacedOwnObjectMoodRelavent
         , PlacedCompanionObject
         , RemovedOwnObject
         , WateredOwnPlant // perhaps rename to "maintained own object"
@@ -39,11 +43,27 @@ public class EventsManager : Singleton<EventsManager>
         , triedToWaterOwnPlant 
 
         , UpdateScore
-        , UpdatePlants
+       // , UpdatePlants
+
+        , PlantChangedStats
+        , GardenStatsUpdated
 
         , StartGame
         , GameOver
 
+        , ToolBoxOpen
+        , ToolBoxClose
+        , SeedBagOpen
+        , SeedBagClose
+        , DialogueNext
+        , DialoguePrevious
+        , PlantingBegin
+
+       // , AddedToEmotionGoal
+        ,ToolDropped
+
+
+        , PlantReadyToGrow
 
         , QuitGame
     }
@@ -53,6 +73,7 @@ public class EventsManager : Singleton<EventsManager>
     {
         NotEnoughPointsForAction // enum variable
         , SwappedGardenView // enum variable
+        , AcheivedGoal // enum variable
     }
 
     // update thsese with more data as needed
@@ -62,7 +83,7 @@ public class EventsManager : Singleton<EventsManager>
         public Enum EnumData;
     }
 
-    public static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
+    protected static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
 
 
 
@@ -78,6 +99,13 @@ public class EventsManager : Singleton<EventsManager>
         base.InitSingleton();
         if (events == null) Instance.events = new Dictionary<EventType, Action>();
         if (parameterEvents == null) Instance.parameterEvents = new Dictionary<ParameterEventType, Action<EventParams>>();
+        BindEvent(EventType.EnterNewScene, CleanEvents);
+    }
+
+
+    private void OnDisable()
+    {
+        UnbindEvent(EventType.EnterNewScene, CleanEvents); // not needed, just to make it easier to keep track of bind/unbind
     }
 
 
@@ -94,13 +122,13 @@ public class EventsManager : Singleton<EventsManager>
         Action newEvent;
         if (Instance.events.TryGetValue(eventType, out newEvent))
         {
-            newEvent += action;
+            newEvent += action; // this is now the out paramater
             Instance.events[eventType] = newEvent;
         }
         else
         {
-            newEvent += action;
-            Instance.events.Add(eventType, newEvent);
+            newEvent += action; // this was empty before, defualt initialised by the "trygetvalue()"
+            Instance.events.Add(eventType, newEvent); // add new key-value
         }
     }
 
@@ -113,11 +141,21 @@ public class EventsManager : Singleton<EventsManager>
     {
         if (!InstanceExists) { WarnInstanceDoesNotExist(); return; }
         Action thisEvent;
-        Dictionary<EventType, Action> events1 = Instance.events;
-        if (events1.TryGetValue(eventType, out thisEvent))
+        Dictionary<EventType, Action> instanceEvents = Instance.events;
+        if (instanceEvents.TryGetValue(eventType, out thisEvent))
         {
             thisEvent -= action;
-            Instance.events[eventType] = thisEvent;
+
+            if(thisEvent == null)
+            {
+                instanceEvents.Remove(eventType);
+            }
+            else
+            {
+                instanceEvents[eventType] = thisEvent;
+            }
+
+            
         }
         else Debug.LogWarning($"Unsubscribe failed. Event {eventType.ToString()} is not a member of the events list");
     }
@@ -169,10 +207,19 @@ public class EventsManager : Singleton<EventsManager>
     {
         if (!InstanceExists) { WarnInstanceDoesNotExist(); return; }
         Action<EventParams> thisEvent;
-        if (Instance.parameterEvents.TryGetValue(eventType, out thisEvent))
+        Dictionary<ParameterEventType, Action<EventParams>> instanceEvents = Instance.parameterEvents;
+        if (instanceEvents.TryGetValue(eventType, out thisEvent))
         {
             thisEvent -= action;
-            Instance.parameterEvents[eventType] = thisEvent;
+
+            if (thisEvent == null)
+            {
+                instanceEvents.Remove(eventType);
+            }
+            else
+            {
+                instanceEvents[eventType] = thisEvent;
+            }
         }
         else Debug.LogWarning($"Unsubscribe failed. Event {eventType.ToString()} is not a member of the events list");
     }
@@ -194,22 +241,90 @@ public class EventsManager : Singleton<EventsManager>
     #endregion
 
 
-    //private void ClearEvents()
-    //{
-    //    events.Clear();
-    //    parameterEvents.Clear();
-    //}
+    private void ClearEvents()
+    {
+        events.Clear();
+        parameterEvents.Clear();
+    }
+
+    private void CleanEvents()
+    {
+
+        //paramaterless
+        List<(EventType, Action)> toUnbind = new List<(EventType, Action)>();
+
+        GatherDanglingEvets(toUnbind);
+        UnbindDanglingEvents(toUnbind);
 
 
-    //private void OnEnable()
-    //{
-    //    SceneManager.sceneLoaded += DisableDuplicateObjects;
-    //}
+        //paramatised
+        List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized = new List<(ParameterEventType, Action<EventParams>)>();
 
-    //private void OnDisable()
-    //{
-    //    ClearEvents();
-    //}
+        GatherDanglingEvets(toUnbindParamatized);
+        UnbindDanglingEvents(toUnbindParamatized);
 
+    }
+
+
+
+    private void GatherDanglingEvets(List<(EventType, Action)> toUnbind)
+    {
+        foreach (KeyValuePair<EventType, Action> ourEvent in events)
+        {
+            Action methods = ourEvent.Value;
+            foreach (Action method in methods?.GetInvocationList())
+            {
+                if (method.Target.Equals(null))
+                {
+                    toUnbind.Add((ourEvent.Key, method));
+                    continue;
+                }
+            }
+        }
+    }
+
+    private void GatherDanglingEvets(List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized)
+    {
+        foreach (KeyValuePair<ParameterEventType, Action<EventParams>> ourEvent in parameterEvents)
+        {
+            Action<EventParams> methods = ourEvent.Value;
+            foreach (Action<EventParams> method in methods?.GetInvocationList())
+            {
+                if (method.Target.Equals(null))
+                {
+                    toUnbindParamatized.Add((ourEvent.Key, method));
+                }
+            }
+        }
+    }
+    private void UnbindDanglingEvents(List<(EventType, Action)> toUnbind)
+    {
+        foreach (var item in toUnbind)
+        {
+            Debug.LogWarning($"The object owning event action method: {item.Item2.Method.Name} in class {item.Item2.Method.DeclaringType.Name} " +
+                       $"has been destroyed, but the method has not been unsubscribed.");
+            Debug.Log("Unsubscribing from event");
+            UnbindEvent(item.Item1, item.Item2);
+        }
+        toUnbind.Clear();
+    }
+
+    private void UnbindDanglingEvents(List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized)
+    {
+        foreach (var item in toUnbindParamatized)
+        {
+            Debug.LogWarning($"The object owning event action method: {item.Item2.Method.Name} in class {item.Item2.Method.DeclaringType.Name} " +
+                       $"has been destroyed, but the method has not been unsubscribed.");
+            Debug.Log("Unsubscribing from event");
+            UnbindEvent(item.Item1, item.Item2);
+        }
+        toUnbindParamatized.Clear();
+    }
+
+
+    private void OnDestroy()
+    {
+        ClearEvents();
+    }
 
 }

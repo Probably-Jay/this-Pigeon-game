@@ -19,30 +19,16 @@ public class EndGameScript : MonoBehaviour
     void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.GameOver, MakeVisible);
-        EventsManager.BindEvent(EventsManager.EventType.EnterNewScene, HideScreen);
+       // EventsManager.BindEvent(EventsManager.EventType.StartGame, HideScreen);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.GameOver, MakeVisible);
-        EventsManager.UnbindEvent(EventsManager.EventType.EnterNewScene, HideScreen);
+       // EventsManager.UnbindEvent(EventsManager.EventType.StartGame, HideScreen);
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (GameManager.Instance.PlantManager.gameWon)
-    //    {
-    //        makeVisible();
 
-          
-
-    //    }
-    //    else
-    //    {
-    //        hideScreen();
-    //    }
-    //}
 
     void MakeVisible()
     {
@@ -56,8 +42,8 @@ public class EndGameScript : MonoBehaviour
         }
 
         squadGoals.text =
-         $"Garden 1 Goal: {GameManager.Instance.CurrentGoal.ToString()},\n" +
-         $"Garden 2 Goal: {GameManager.Instance.AlternateGoal.ToString()}";
+         $"Garden 1 Goal: {GameManager.Instance.Player1Goal.ToString()},\n" +
+         $"Garden 2 Goal: {GameManager.Instance.Player2Goal.ToString()}";
     }
 
     private IEnumerator RotateIn()

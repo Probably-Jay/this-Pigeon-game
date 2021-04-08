@@ -31,43 +31,7 @@ public class InventoryUIControl : MonoBehaviour
 
         SetInventoryUI();
     }
-    /*
-    /// <summary>
-    /// Set the item slots in the ui ribbon
-    /// </summary>
-    [System.Obsolete("Use " + nameof(InventoryUIControl.SetInventoryUI),false)]
-    private void SetInventoryUIOld()
-    {
-        //List<GameObject> toDestroy = new List<GameObject>(); // items that are no longer visible
-        //List<GameObject> toAdd = new List<GameObject>(); // items that have just become visible
-        //for (int i = 0; i < canvas.transform.childCount; i++)
-        //{
-        //    if (i >= itemList.list.Count) break; // don't overflow the list
 
-        //    var previousChild = canvas.transform.GetChild(i);
-        //    var pos = previousChild.transform.position;
-        //    toDestroy.Add(previousChild.gameObject);
-
-        //    var slot = GameObject.Instantiate(UISlotPrefab, pos, Quaternion.identity) as GameObject;
-
-        //    slot.GetComponent<InventoryUISlot>().Init(itemList.list[i + listOffset]);
-
-        //    toAdd.Add(slot);
-
-        //}
-
-        //foreach (var child in toDestroy)
-        //{
-        //    Destroy(child);
-        //}
-
-        //foreach (var item in toAdd)
-        //{
-        //    item.transform.SetParent(canvas.transform, true);
-        //    item.transform.SetAsLastSibling();
-        //}
-
-    }*/
 
     private void SetInventoryUI()
     {

@@ -4,118 +4,102 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Mood;
 
 // created scott 05/03
 // altered jay 05/03
 // altered Alexander Purvis 06/03
 // altered again SJ 10/03
+// refactored jay 26/03
+
+// depracated Jay 02/04
 
 
+[System.Obsolete("Replaced by " + nameof(EmotionTracker),true)]
 public class GoalManagerScript : MonoBehaviour
 {
-    // Vars ---------------------
-    public enum Goal { Proud, Anxious, Content }
+  
 
-    [SerializeField] CurrentMood gardenScoreCalculator;
-
-   // [SerializeField] GardenEmotionIndicatorControls pleasant;
-    //[SerializeField] GardenEmotionIndicatorControls social;
-    //[SerializeField] GardenEmotionIndicatorControls energy;
-   
+    //[SerializeField] EmotionTracker gardenScoreCalculator;
 
 
 
-    Goal CurrentPlayerGoalEnumValue => GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0 ? GameManager.Instance.CurrentGoal : GameManager.Instance.AlternateGoal;
-    MoodAtributes CurrentPlayerGoal => allGoals[CurrentPlayerGoalEnumValue];
+    //public TraitValue CurrentPlayerGoal => GetGoal(GameManager.Instance.ActivePlayerID);
+    //public Emotion.Emotions CurrentPlayerGoalEnumValue => GetGoalEnum(GameManager.Instance.ActivePlayerID);
+
+    //public Emotion.Emotions GetGoalEnum(Player.PlayerEnum player)
+    //{
+    //    switch (player)
+    //    {
+    //        case Player.PlayerEnum.Player1: return GameManager.Instance.Player1Goal;
+
+    //        case Player.PlayerEnum.Player2: return GameManager.Instance.Player1Goal;
+
+    //        default: throw new System.ArgumentException();
+                
+    //    }
+    //}
+
+    //public TraitValue GetGoal(Player.PlayerEnum player) => Emotion.EmotionValues[GetGoalEnum(player)];
 
 
 
 
-    public Text goalDisplay;
-    public TMP_Text UnpleasantPleasantDisplay;
-    public TMP_Text PersonalSocialDisplay;
-    public TMP_Text CalmEnergisedDisplay;
+    //public Text goalDisplay;
+    //public TMP_Text UnpleasantPleasantDisplay;
+    //public TMP_Text PersonalSocialDisplay;
+    //public TMP_Text CalmEnergisedDisplay;
 
 
-    Dictionary<Player.PlayerEnum, MoodAtributes> goalMood = new Dictionary<Player.PlayerEnum, MoodAtributes>();
-    
-    Dictionary<Goal, MoodAtributes> allGoals;
+  
 
-    private void Awake()
-    {
-        allGoals = new Dictionary<Goal, MoodAtributes>()
-        {
-             {Goal.Proud,   new MoodAtributes( 2, -1, -1 ) }, // Unpleasant/Pleasant, Personal/Social, Calm/Energised
-             {Goal.Anxious, new MoodAtributes(-1, -1, 2 ) },
-             {Goal.Content, new MoodAtributes( 1, 1, 2 ) }
-        };
-    }
+    //void UpdateText()
+    //{
+    //    goalDisplay.text = $"<b>Goal: {CurrentPlayerGoalEnumValue.ToString()}</b>";
 
-
-    private void GetCurrentGoals()
-    {
-        var player1Goal = GameManager.Instance.CurrentGoal;
-        var player2Goal = GameManager.Instance.AlternateGoal;
-
-        goalMood[Player.PlayerEnum.Player0] = allGoals[player1Goal];
-        goalMood[Player.PlayerEnum.Player1] = allGoals[player2Goal];
-
-
-    }
-
-
-    void UpdateText()
-    {
-        goalDisplay.text = $"<b>Goal: {CurrentPlayerGoalEnumValue.ToString()}</b>";
-
-        UnpleasantPleasantDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAtributes.Scales.Pleasance);
-        PersonalSocialDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAtributes.Scales.Sociability);
-        CalmEnergisedDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAtributes.Scales.Energy);
-    }
+    //    //UnpleasantPleasantDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAttributes.Scales.Pleasance);
+    //    //PersonalSocialDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAttributes.Scales.Sociability);
+    //    //CalmEnergisedDisplay.text = CurrentPlayerGoal.GetDisplayWithImage(MoodAttributes.Scales.Energy);
+    //}
 
 
 
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
-        EventsManager.BindEvent(EventsManager.EventType.StartGame, GetCurrentGoals);
-        EventsManager.BindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
-    }
+    //private void OnEnable()
+    //{
+    //    EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
+    //    EventsManager.BindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
+    //}
 
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
-        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, GetCurrentGoals);
-        EventsManager.UnbindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
-    }
+    //private void OnDisable()
+    //{
+    //    EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateText);
+    //    EventsManager.UnbindEvent(EventsManager.EventType.UpdateScore, CheckIfWin);
+    //}
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        GetCurrentGoals();
-        UpdateText();
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    UpdateText();
 
-        CheckIfWin();
-    }
+    //    CheckIfWin();
+    //}
 
  
 
-    void CheckIfWin()
-    {
-        if ((GoalMatches(Player.PlayerEnum.Player0) && GoalMatches(Player.PlayerEnum.Player1)) || Input.GetKeyDown(KeyCode.Space))
-        {
-            EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
-        }
-    }
+    //void CheckIfWin()
+    //{
+    //    if ((GoalMatches(Player.PlayerEnum.Player1) && GoalMatches(Player.PlayerEnum.Player2)) || Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
+    //    }
+    //}
     
 
 
-    bool GoalMatches(Player.PlayerEnum player)
-    {
-        if(goalMood.Count == 0) return false; // goal not set
-
-        var currentMood = gardenScoreCalculator.GetMoodValuesGardens();
-        return currentMood[player] == goalMood[player]; // this is an overloaded operator
-    }
+    //bool GoalMatches(Player.PlayerEnum player)
+    //{
+    //    var currentMoods = gardenScoreCalculator.GardenCurrentTraits;
+    //    return currentMoods[player] == GetGoal(player); // this is an overloaded operator
+    //}
 }

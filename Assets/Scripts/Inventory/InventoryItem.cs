@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// Created Jay 05/02
+// Created Jay 05/02
 
 
-// object that exists in the project's assets, used by UI to create the correct object, stores metadata about the object
+/// <summary>
+/// object that exists in the project's assets, used by UI to create the correct object, stores metadata about the object
+/// </summary>
 [System.Serializable]
 [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item", order = 1)]
 public class InventoryItem : ScriptableObject

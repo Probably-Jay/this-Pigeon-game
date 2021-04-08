@@ -22,7 +22,7 @@ public class HotSeatManager : MonoBehaviour
 
     public TurnTracker TurnTracker { get; private set; } = new TurnTracker();
 
-    Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
+    public Dictionary<Player.PlayerEnum, Player> players = new Dictionary<Player.PlayerEnum, Player>();
 
     public Player ActivePlayer { get; private set; }
     public bool TurnActive => TurnTracker.TurnActive;
@@ -34,20 +34,14 @@ public class HotSeatManager : MonoBehaviour
 
         EventsManager.BindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
         EventsManager.BindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
-        EventsManager.BindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
-        EventsManager.BindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
-
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, EndTurn);
 
-
         EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
         EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
-        EventsManager.UnbindEvent(EventsManager.EventType.triedToRemoveOwnObject, TryRemoveOwnObject);
-        EventsManager.UnbindEvent(EventsManager.EventType.triedToWaterOwnPlant, TryWaterOwnObject);
 
     }
 
@@ -96,6 +90,7 @@ public class HotSeatManager : MonoBehaviour
     IEnumerator PauseBeforeStartingNextTurn()
     {
       //  EndTurnButton.enabled = false; // todo refactor away this ref
+
         yield return new WaitForSeconds(hotseatSwapTime);
        // EndTurnButton.enabled = true;
 
@@ -113,14 +108,7 @@ public class HotSeatManager : MonoBehaviour
     {
         AttemptAction(TurnPoints.PointType.OtherObjectPlace, EventsManager.EventType.PlacedCompanionObject);
     }
-    void TryRemoveOwnObject()
-    {
-        AttemptAction(TurnPoints.PointType.SelfObjectRemove, EventsManager.EventType.RemovedOwnObject);
-    }
-    void TryWaterOwnObject()
-    {
-        AttemptAction(TurnPoints.PointType.SelfAddWater, EventsManager.EventType.WateredOwnPlant);
-    }
+
 
     public void AttemptAction(TurnPoints.PointType pointType, EventsManager.EventType action)
     {

@@ -9,12 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 463ef2034173a4b46a72c1976a0d0ee7
   - enabled: 1
-    path: Assets/Scenes/MoodSelectScreen.unity
+    path: Assets/Scenes/MoodSelectScreen 1.unity
     guid: 09e059fbb9703dd4282d00d4ef2864a0
+  - enabled: 1
+    path: Assets/Scenes/MoodSelectScreen 2.unity
+    guid: c0a7a1f1b12d6044f931cae30aac6367
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: df7a9da3e2dade64b82e7e9128ef42b8
   - enabled: 1
-    path: Assets/Scenes/ComboScene 2.unity
-    guid: 8d9e1bc626ebcbb4293a77e27131f20a
+    path: Assets/Scenes/ComboScene3.unity
+    guid: adbf19e65a7dbc64e9178e2cd3bc1dfd
   m_configObjects: {}

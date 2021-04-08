@@ -11,7 +11,7 @@ public class CameraMovementControl : MonoBehaviour
     Animator animator;
     public Player.PlayerEnum CurrentGardenView { get; private set; }
 
-    public Player.PlayerEnum OtherGardenVeiw { get { return CurrentGardenView == Player.PlayerEnum.Player0 ? Player.PlayerEnum.Player1 : Player.PlayerEnum.Player0; } }
+    public Player.PlayerEnum OtherGardenVeiw { get { return CurrentGardenView == Player.PlayerEnum.Player1 ? Player.PlayerEnum.Player2 : Player.PlayerEnum.Player1; } }
 
 
     private void Awake()
@@ -32,7 +32,7 @@ public class CameraMovementControl : MonoBehaviour
 
     private void Start()
     {
-        CurrentGardenView = GameManager.Instance.ActivePlayer.PlayerEnumValue;
+        CurrentGardenView = GameManager.Instance.ActivePlayerID;
     }
     void DoNotingFirstTime()
     {
@@ -46,7 +46,7 @@ public class CameraMovementControl : MonoBehaviour
         //  if(currentGardenVeiw == Player.PlayerEnum.Player0 &&)
 
 
-        Player.PlayerEnum player = GameManager.Instance.ActivePlayer.PlayerEnumValue == Player.PlayerEnum.Player0? Player.PlayerEnum.Player1 : Player.PlayerEnum.Player0; ;
+        Player.PlayerEnum player = GameManager.Instance.ActivePlayerID == Player.PlayerEnum.Player1? Player.PlayerEnum.Player2 : Player.PlayerEnum.Player1; ;
         SwapVeiwTo(player);
     }
 
@@ -58,14 +58,14 @@ public class CameraMovementControl : MonoBehaviour
 
         switch (player)
         {
-            case Player.PlayerEnum.Player0:
+            case Player.PlayerEnum.Player1:
                 animator.SetTrigger("SwapToPlayerOne");
-                CurrentGardenView = Player.PlayerEnum.Player0;
+                CurrentGardenView = Player.PlayerEnum.Player1;
                 EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData = CurrentGardenView });
                 break;
-            case Player.PlayerEnum.Player1:
+            case Player.PlayerEnum.Player2:
                 animator.SetTrigger("SwapToPlayerTwo");
-                CurrentGardenView = Player.PlayerEnum.Player1;
+                CurrentGardenView = Player.PlayerEnum.Player2;
                 EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData = CurrentGardenView });
                 break;
         }
