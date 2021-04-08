@@ -91,8 +91,9 @@ namespace Net {
         {
             LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
             {
-                CustomId = SystemInfo.deviceUniqueIdentifier + "2",
-                CreateAccount = true
+                CustomId = SystemInfo.deviceUniqueIdentifier + "2" 
+                //+ "1",
+               , CreateAccount = true
             };
 
             PlayFabClientAPI.LoginWithCustomID(request, Sucess, Failure);

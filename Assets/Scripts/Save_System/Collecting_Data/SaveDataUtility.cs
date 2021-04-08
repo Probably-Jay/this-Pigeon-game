@@ -185,10 +185,10 @@ namespace SaveSystemInternal
                 return algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(dataToHash + salt)); // use the json to set the hash
         }
 
-        public static string ComputeHashToString(string dataToHash, string salt = "salt")
+        public static string ComputeHashToAsciiString(string dataToHash, string salt = "salt")
         {
             byte[] hash = ComputeHash(dataToHash, salt);
-            return System.Text.Encoding.UTF8.GetString(hash);
+            return System.Text.Encoding.ASCII.GetString(hash);
         }
 
     }

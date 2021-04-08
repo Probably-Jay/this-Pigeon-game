@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
-using PlayFab.GroupsModels;
+
 using System;
 using TestGuildController;
+using PlayFab.CloudScriptModels;
+
 //using PlayFab.CloudScriptModels;
 
 namespace Net
@@ -24,137 +26,221 @@ namespace Net
 
         public void CreateGroupOnServer()
         {
+            // todo handle errors in this function
+
+
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
                 FunctionName = "StartNewGameGroup",
                 FunctionParameter = new
                 {
                     Entity = netPlayer.entityKey,
-                    GroupName = EntityUniqueGroupName() + "." + DateTime.Now.Ticks.ToString()
+                    GroupName = GetEntityUniqueGroupName() + "." + DateTime.Now.Ticks.ToString()
                 }
-
-
             };
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(request, CreateGroupSucess, ScriptExecutedfailure);
         }
 
-        private string EntityUniqueGroupName()
+        private string GetEntityUniqueGroupName()
         {
-            return SaveSystemInternal.SaveDataUtility.ComputeHashToString(netPlayer.entityKey.Id);
+            // return SaveSystemInternal.SaveDataUtility.ComputeHashToAsciiString(netPlayer.entityKey.Id);
+            return netPlayer.entityKey.Id;
         }
 
         private void ScriptExecutedfailure(PlayFabError obj)
         {
-            Debug.LogError($"Execution Failed");
+            Debug.LogError($"Attempted cloud execution failed");
             Debug.LogError(obj.GenerateErrorReport());
-
-
-
         }
+
         private void CreateGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
-            Debug.Log("Sucess?");
-            //Debug.Log(obj.FunctionResult?.ToString());
+            PlayFab.GroupsModels.CreateGroupResponse result = GetAndLogOutResponse<PlayFab.GroupsModels.CreateGroupResponse>(obj);
 
-            var objResult = obj.FunctionResult;
-
-            Debug.Log(objResult);
-
-            string stringValue = obj.FunctionResult.ToString();
-            Debug.Log(stringValue);
-
-            // var result = (ListGroupMembersResponse)obj.FunctionResult;
-            CreateGroupResponse result = JsonUtility.FromJson<CreateGroupResponse>(stringValue);
-
-            Debug.Log(result);
             Debug.Log($"Group: {result.GroupName}, ID: {result.Group.Id}, admin: {result.AdminRoleId}");
+        }
 
-            foreach (var role in result.Roles)
+        bool listing = false;
+        public void ListGroups()
+        {
+            if (!listing)
             {
-                Debug.Log($"{role.Key}: {role.Value}");
+                StartCoroutine(ListGroupsCoroutine());
             }
-
 
         }
 
-        public void ListGroups()
+        private IEnumerator ListGroupsCoroutine()
         {
-
+            listing = true;
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
                 FunctionName = "ListGroups"
             };
 
 
-            (GroupWithRoles group, bool error)  gameGroup = (group: null, error: true); // if never initilased past this point, assume error
+            (bool complete, PlayFab.GroupsModels.GroupWithRoles group, bool error) ListGroupResult = (complete: false, group: null, error: true); // if never initilased past this point, assume error
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
-                request, 
-                (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { gameGroup = ListGroupsSucess(obj); }, 
-                ScriptExecutedfailure);
+                request,
+                (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { 
+                    (ListGroupResult.group, ListGroupResult.error) = ListGroupsSucess(obj); 
+                    ListGroupResult.complete = true; 
+                },
+                (PlayFabError obj) => { ScriptExecutedfailure(obj); (ListGroupResult.complete, ListGroupResult.error) = (true,true); }
+                );
 
-            if (gameGroup.error)
+            yield return new WaitUntil(()=>ListGroupResult.complete);
+
+            Debug.Log("Task complete");
+
+            if (ListGroupResult.error)
             {
-                return;
+                Debug.Log("There was an error");
+                yield break;
             }
-           
 
-            if(gameGroup.group == null)
+
+            if (ListGroupResult.group == null)
             {
                 Debug.Log("No groups, making new one");
                 CreateGroupOnServer();
             }
             else
             {
-                Debug.Log($"Group: {gameGroup.group.GroupName} chosen... attempting to join");
-
+                Debug.Log($"Group: {ListGroupResult.group.GroupName} chosen... attempting to join");
+                JoinGroup(ListGroupResult.group.Group);
             }
-            
-           
+
+            listing = false; // todo this should await the above functions
         }
 
-        private (GroupWithRoles, bool error) ListGroupsSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        private (PlayFab.GroupsModels.GroupWithRoles, bool error) ListGroupsSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
             // todo make this robust
 
 
-            Debug.Log("Sucess?");
+            PlayFab.GroupsModels.ListMembershipResponse response = GetAndLogOutResponse<PlayFab.GroupsModels.ListMembershipResponse>(obj);
 
-            var objResult = obj.FunctionResult;
-
-            Debug.Log(objResult);
-
-            string stringValue = obj.FunctionResult.ToString();
-            Debug.Log(stringValue);
-
-            // var result = (ListGroupMembersResponse)obj.FunctionResult;
-            var result = JsonUtility.FromJson<ListMembershipResponse>(stringValue);
-
-            Debug.Log(result);
-           // Debug.Log(result.Groups);
-            //var result = PlayFab.Json.PlayFabSimpleJson.DeserializeObject<ListGroupMembersResponse>(stringValue);
+           
+            Debug.Log($"Groups: {response.Groups}");
 
 
 
-            foreach (GroupWithRoles group in result.Groups)
-            {
-                Debug.Log($"Group: {group.GroupName}");
-                
-            }
 
-            int count = result.Groups.Count;
+            //foreach (PlayFab.GroupsModels.GroupWithRoles group in response.Groups)
+            //{
+            //    Debug.Log($"Group: {group.GroupName}");
+            //    GetGroupMembers(group.Group);
+            //}
+
+            int count = response.Groups.Count;
             if (count > 0)
             {
-                return (result.Groups[UnityEngine.Random.Range(0, count)] , error: false);
+                Debug.Log("Returning random group");
+                return (response.Groups[UnityEngine.Random.Range(0, count)], error: false);
             }
-            else
-            {
-                return (null, error: false);
-            }
+
+            Debug.Log("Returning null");
+            return (null, error: false);
+
 
         }
 
+      
+
+        public void GetGroupMembers(PlayFab.GroupsModels.EntityKey group)
+        {
+            // todo handle errors in this function
+           
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "ReturnGroupMembers",
+                FunctionParameter = new
+                {
+                    Group = group
+                }
+            };
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(request, GetGroupMembersSucess, ScriptExecutedfailure);
+        }
+
+        private void GetGroupMembersSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        {
+            var groupMembers = GetAndLogOutResponse<PlayFab.GroupsModels.ListGroupMembersResponse>(obj);
+
+            Debug.Log($"Group contains ({groupMembers.Members.Count}) members");
+
+            foreach (var member in groupMembers.Members)
+            {
+                Debug.Log($"Role: {member.RoleName}");
+                foreach (var entitiy in member.Members)
+                {
+                    Debug.Log($"key {entitiy.Key.Id}");
+
+                    if (entitiy.Lineage == null) continue;
+
+                    foreach (var lineage in entitiy.Lineage)
+                    {
+                        Debug.Log($"Lineage {lineage.Key}: {lineage.Value.Id}");
+                    }
+                }
+            }
+        }
+
+        private static T GetAndLogOutResponse<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T: PlayFab.SharedModels.PlayFabResultCommon
+        {
+            // todo this should report errors
+
+            Debug.Log("Sucess?");
+
+            object objResult = obj.FunctionResult;
+
+            string stringValue = objResult.ToString();
+
+            //Debug.Log(stringValue);
+
+            T response = JsonUtility.FromJson<T>(stringValue);
+
+            Debug.Log($"Response: {response}");
+
+            return response;
+        }
+
+
+
+        public void JoinGroup(PlayFab.GroupsModels.EntityKey group)
+        {
+            // todo handle errors in this function
+
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "JoinGroup",
+                FunctionParameter = new
+                {
+                    Group = group,
+                    Entity = netPlayer.entityKey
+                }
+            };
+            Debug.Log($"Joining group {group.Id}");
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(request, JoinGroupSucess, ScriptExecutedfailure);
+        }
+
+        private void JoinGroupSucess(ExecuteCloudScriptResult obj)
+        {
+            if (obj.Error != null)
+            {
+                ScriptExecutedfailure(obj.Error);
+                return;
+            }
+            Debug.Log("Sucessfully joined group");
+        }
+
+        private void ScriptExecutedfailure(ScriptExecutionError error)
+        {
+            Debug.LogError(error.Error + " "+ error.Message + " " + error.StackTrace);
+        }
 
         //public void foo()
         //{
@@ -177,7 +263,7 @@ namespace Net
         //    //}
         //}
 
-      
+
 
         //private void ScriptExecutedSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
         //{
@@ -225,9 +311,9 @@ namespace TestGuildController
         public readonly HashSet<KeyValuePair<string, string>> EntityGroupPairs = new HashSet<KeyValuePair<string, string>>();
         public readonly Dictionary<string, string> GroupNameById = new Dictionary<string, string>();
 
-        public static EntityKey EntityKeyMaker(string entityId)
+        public static PlayFab.GroupsModels.EntityKey EntityKeyMaker(string entityId)
         {
-            return new EntityKey { Id = entityId };
+            return new PlayFab.GroupsModels.EntityKey { Id = entityId };
         }
 
         private void OnSharedError(PlayFab.PlayFabError error)
@@ -235,14 +321,14 @@ namespace TestGuildController
             Debug.LogError(error.GenerateErrorReport());
         }
 
-        public void ListGroups(EntityKey entityKey)
+        public void ListGroups(PlayFab.GroupsModels.EntityKey entityKey)
         {
-            var request = new ListMembershipRequest { Entity = entityKey };
+            var request = new PlayFab.GroupsModels.ListMembershipRequest { Entity = entityKey };
             PlayFabGroupsAPI.ListMembership(request, OnListGroups, OnSharedError);
         }
-        private void OnListGroups(ListMembershipResponse response)
+        private void OnListGroups(PlayFab.GroupsModels.ListMembershipResponse response)
         {
-            var prevRequest = (ListMembershipRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.ListMembershipRequest)response.Request;
             foreach (var pair in response.Groups)
             {
                 GroupNameById[pair.Group.Id] = pair.GroupName;
@@ -250,29 +336,29 @@ namespace TestGuildController
             }
         }
 
-        public void CreateGroup(string groupName, EntityKey entityKey)
+        public void CreateGroup(string groupName, PlayFab.GroupsModels.EntityKey entityKey)
         {
             // A player-controlled entity creates a new group
-            var request = new CreateGroupRequest { GroupName = groupName, Entity = entityKey };
+            var request = new PlayFab.GroupsModels.CreateGroupRequest { GroupName = groupName, Entity = entityKey };
             PlayFabGroupsAPI.CreateGroup(request, OnCreateGroup, OnSharedError);
         }
-        private void OnCreateGroup(CreateGroupResponse response)
+        private void OnCreateGroup(PlayFab.GroupsModels.CreateGroupResponse response)
         {
             Debug.Log("Group Created: " + response.GroupName + " - " + response.Group.Id);
 
-            var prevRequest = (CreateGroupRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.CreateGroupRequest)response.Request;
             EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, response.Group.Id));
             GroupNameById[response.Group.Id] = response.GroupName;
         }
         public void DeleteGroup(string groupId)
         {
             // A title, or player-controlled entity with authority to do so, decides to destroy an existing group
-            var request = new DeleteGroupRequest { Group = EntityKeyMaker(groupId) };
+            var request = new PlayFab.GroupsModels.DeleteGroupRequest { Group = EntityKeyMaker(groupId) };
             PlayFabGroupsAPI.DeleteGroup(request, OnDeleteGroup, OnSharedError);
         }
-        private void OnDeleteGroup(EmptyResponse response)
+        private void OnDeleteGroup(PlayFab.GroupsModels.EmptyResponse response)
         {
-            var prevRequest = (DeleteGroupRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.DeleteGroupRequest)response.Request;
             Debug.Log("Group Deleted: " + prevRequest.Group.Id);
 
             var temp = new HashSet<KeyValuePair<string, string>>();
@@ -283,54 +369,54 @@ namespace TestGuildController
             GroupNameById.Remove(prevRequest.Group.Id);
         }
 
-        public void InviteToGroup(string groupId, EntityKey entityKey)
+        public void InviteToGroup(string groupId, PlayFab.GroupsModels.EntityKey entityKey)
         {
             // A player-controlled entity invites another player-controlled entity to an existing group
-            var request = new InviteToGroupRequest { Group = EntityKeyMaker(groupId), Entity = entityKey };
+            var request = new PlayFab.GroupsModels.InviteToGroupRequest { Group = EntityKeyMaker(groupId), Entity = entityKey };
             PlayFabGroupsAPI.InviteToGroup(request, OnInvite, OnSharedError);
         }
-        public void OnInvite(InviteToGroupResponse response)
+        public void OnInvite(PlayFab.GroupsModels.InviteToGroupResponse response)
         {
-            var prevRequest = (InviteToGroupRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.InviteToGroupRequest)response.Request;
 
             // Presumably, this would be part of a separate process where the recipient reviews and accepts the request
-            var request = new AcceptGroupInvitationRequest { Group = EntityKeyMaker(prevRequest.Group.Id), Entity = prevRequest.Entity };
+            var request = new PlayFab.GroupsModels.AcceptGroupInvitationRequest { Group = EntityKeyMaker(prevRequest.Group.Id), Entity = prevRequest.Entity };
             PlayFabGroupsAPI.AcceptGroupInvitation(request, OnAcceptInvite, OnSharedError);
         }
-        public void OnAcceptInvite(EmptyResponse response)
+        public void OnAcceptInvite(PlayFab.GroupsModels.EmptyResponse response)
         {
-            var prevRequest = (AcceptGroupInvitationRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.AcceptGroupInvitationRequest)response.Request;
             Debug.Log("Entity Added to Group: " + prevRequest.Entity.Id + " to " + prevRequest.Group.Id);
             EntityGroupPairs.Add(new KeyValuePair<string, string>(prevRequest.Entity.Id, prevRequest.Group.Id));
         }
 
-        public void ApplyToGroup(string groupId, EntityKey entityKey)
+        public void ApplyToGroup(string groupId, PlayFab.GroupsModels.EntityKey entityKey)
         {
             // A player-controlled entity applies to join an existing group (of which they are not already a member)
-            var request = new ApplyToGroupRequest { Group = EntityKeyMaker(groupId), Entity = entityKey };
+            var request = new PlayFab.GroupsModels.ApplyToGroupRequest { Group = EntityKeyMaker(groupId), Entity = entityKey };
             PlayFabGroupsAPI.ApplyToGroup(request, OnApply, OnSharedError);
         }
-        public void OnApply(ApplyToGroupResponse response)
+        public void OnApply(PlayFab.GroupsModels.ApplyToGroupResponse response)
         {
-            var prevRequest = (ApplyToGroupRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.ApplyToGroupRequest)response.Request;
 
             // Presumably, this would be part of a separate process where the recipient reviews and accepts the request
-            var request = new AcceptGroupApplicationRequest { Group = prevRequest.Group, Entity = prevRequest.Entity };
+            var request = new PlayFab.GroupsModels.AcceptGroupApplicationRequest { Group = prevRequest.Group, Entity = prevRequest.Entity };
             PlayFabGroupsAPI.AcceptGroupApplication(request, OnAcceptApplication, OnSharedError);
         }
-        public void OnAcceptApplication(EmptyResponse response)
+        public void OnAcceptApplication(PlayFab.GroupsModels.EmptyResponse response)
         {
-            var prevRequest = (AcceptGroupApplicationRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.AcceptGroupApplicationRequest)response.Request;
             Debug.Log("Entity Added to Group: " + prevRequest.Entity.Id + " to " + prevRequest.Group.Id);
         }
-        public void KickMember(string groupId, EntityKey entityKey)
+        public void KickMember(string groupId, PlayFab.GroupsModels.EntityKey entityKey)
         {
-            var request = new RemoveMembersRequest { Group = EntityKeyMaker(groupId), Members = new List<EntityKey> { entityKey } };
+            var request = new PlayFab.GroupsModels.RemoveMembersRequest { Group = EntityKeyMaker(groupId), Members = new List<PlayFab.GroupsModels.EntityKey> { entityKey } };
             PlayFabGroupsAPI.RemoveMembers(request, OnKickMembers, OnSharedError);
         }
-        private void OnKickMembers(EmptyResponse response)
+        private void OnKickMembers(PlayFab.GroupsModels.EmptyResponse response)
         {
-            var prevRequest = (RemoveMembersRequest)response.Request;
+            var prevRequest = (PlayFab.GroupsModels.RemoveMembersRequest)response.Request;
 
             Debug.Log("Entity kicked from Group: " + prevRequest.Members[0].Id + " to " + prevRequest.Group.Id);
             EntityGroupPairs.Remove(new KeyValuePair<string, string>(prevRequest.Members[0].Id, prevRequest.Group.Id));
