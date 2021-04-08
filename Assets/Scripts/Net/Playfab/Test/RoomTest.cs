@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.GroupsModels;
 using System;
 using TestGuildController;
+//using PlayFab.CloudScriptModels;
 
 namespace Net
 {
@@ -29,13 +30,18 @@ namespace Net
                 FunctionParameter = new
                 {
                     Entity = netPlayer.entityKey,
-                    GroupName = netPlayer.entityKey.Id + "." + DateTime.Now.Ticks.ToString()
+                    GroupName = EntityUniqueGroupName() + "." + DateTime.Now.Ticks.ToString()
                 }
 
 
             };
-            //.ExecuteCloudScript(request, ScriptExecutedSucess, ScriptExecutedfailure);
-            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(request, ScriptExecutedSucess, ScriptExecutedfailure);
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(request, CreateGroupSucess, ScriptExecutedfailure);
+        }
+
+        private string EntityUniqueGroupName()
+        {
+            return SaveSystemInternal.SaveDataUtility.ComputeHashToString(netPlayer.entityKey.Id);
         }
 
         private void ScriptExecutedfailure(PlayFabError obj)
@@ -46,38 +52,158 @@ namespace Net
 
 
         }
-        private void ScriptExecutedSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        private void CreateGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
             Debug.Log("Sucess?");
-            Debug.Log(obj.FunctionResult?.ToString());
-        }
+            //Debug.Log(obj.FunctionResult?.ToString());
 
+            var objResult = obj.FunctionResult;
 
-        private void ScriptExecutedSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
-        {
-            Debug.Log("Sucess?");
-            Debug.Log(obj.FunctionResult?.ToString());
+            Debug.Log(objResult);
 
-        }
+            string stringValue = obj.FunctionResult.ToString();
+            Debug.Log(stringValue);
 
-        public void CreateAndListGroup()
-        {
-            var entity = new EntityKey() { Id = netPlayer.entityKey.Id, Type = netPlayer.entityKey.Type }; // this may be wrong?
-            groupController.CreateGroup("Test", entity);
+            // var result = (ListGroupMembersResponse)obj.FunctionResult;
+            CreateGroupResponse result = JsonUtility.FromJson<CreateGroupResponse>(stringValue);
 
-            groupController.ListGroups(entity);
-            foreach (var item in groupController.EntityGroupPairs)
+            Debug.Log(result);
+            Debug.Log($"Group: {result.GroupName}, ID: {result.Group.Id}, admin: {result.AdminRoleId}");
+
+            foreach (var role in result.Roles)
             {
-                if (item.Key != entity.Id)
-                {
-                    Debug.LogError("Somone else is in this group");
-                    continue;
-                }
+                Debug.Log($"{role.Key}: {role.Value}");
+            }
 
-                Debug.Log($"{item.Value}");
+
+        }
+
+        public void ListGroups()
+        {
+
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "ListGroups"
+            };
+
+
+            (GroupWithRoles group, bool error)  gameGroup = (group: null, error: true); // if never initilased past this point, assume error
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
+                request, 
+                (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { gameGroup = ListGroupsSucess(obj); }, 
+                ScriptExecutedfailure);
+
+            if (gameGroup.error)
+            {
+                return;
+            }
+           
+
+            if(gameGroup.group == null)
+            {
+                Debug.Log("No groups, making new one");
+                CreateGroupOnServer();
+            }
+            else
+            {
+                Debug.Log($"Group: {gameGroup.group.GroupName} chosen... attempting to join");
 
             }
+            
+           
         }
+
+        private (GroupWithRoles, bool error) ListGroupsSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        {
+            // todo make this robust
+
+
+            Debug.Log("Sucess?");
+
+            var objResult = obj.FunctionResult;
+
+            Debug.Log(objResult);
+
+            string stringValue = obj.FunctionResult.ToString();
+            Debug.Log(stringValue);
+
+            // var result = (ListGroupMembersResponse)obj.FunctionResult;
+            var result = JsonUtility.FromJson<ListMembershipResponse>(stringValue);
+
+            Debug.Log(result);
+           // Debug.Log(result.Groups);
+            //var result = PlayFab.Json.PlayFabSimpleJson.DeserializeObject<ListGroupMembersResponse>(stringValue);
+
+
+
+            foreach (GroupWithRoles group in result.Groups)
+            {
+                Debug.Log($"Group: {group.GroupName}");
+                
+            }
+
+            int count = result.Groups.Count;
+            if (count > 0)
+            {
+                return (result.Groups[UnityEngine.Random.Range(0, count)] , error: false);
+            }
+            else
+            {
+                return (null, error: false);
+            }
+
+        }
+
+
+        //public void foo()
+        //{
+        //    var request = new PlayFab.ClientModels.ExecuteCloudScriptRequest
+        //    {
+        //        FunctionName = "ListGroups"
+        //    };
+        //    PlayFab.PlayFabClientAPI.ExecuteCloudScript(request, ListGroupsSucess, ScriptExecutedfailure);
+        //}
+        //private void ListGroupsSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
+        //{
+        //    //Debug.Log("Sucess?");
+        //    //Debug.Log(obj.FunctionResult?.ToString());
+
+        //    //var result = (ListGroupMembersResponse)obj.FunctionResult;
+
+        //    //foreach (EntityMemberRole item in result.Members)
+        //    //{
+        //    //    Debug.Log(item.ToString());
+        //    //}
+        //}
+
+      
+
+        //private void ScriptExecutedSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
+        //{
+        //    Debug.Log("Sucess?");
+        //    Debug.Log(obj.FunctionResult?.ToString());
+
+        //}
+
+        //public void CreateAndListGroup()
+        //{
+        //    var entity = new EntityKey() { Id = netPlayer.entityKey.Id, Type = netPlayer.entityKey.Type }; // this may be wrong?
+        //    groupController.CreateGroup("Test", entity);
+
+        //    groupController.ListGroups(entity);
+        //    foreach (var item in groupController.EntityGroupPairs)
+        //    {
+        //        if (item.Key != entity.Id)
+        //        {
+        //            Debug.LogError("Somone else is in this group");
+        //            continue;
+        //        }
+
+        //        Debug.Log($"{item.Value}");
+
+        //    }
+        //}
     }
 }
 
