@@ -7,6 +7,8 @@ using System;
 using TestGuildController;
 using PlayFab.CloudScriptModels;
 
+
+
 //using PlayFab.CloudScriptModels;
 
 namespace Net
@@ -76,7 +78,7 @@ namespace Net
             listing = true;
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
-                FunctionName = "ListGroups"
+                FunctionName = "ListOpenGroups"
             };
 
 
@@ -85,7 +87,7 @@ namespace Net
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
                 request,
                 (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { 
-                    (ListGroupResult.group, ListGroupResult.error) = ListGroupsSucess(obj); 
+                    (ListGroupResult.group, ListGroupResult.error) = ListOpenGroupsSucess(obj); 
                     ListGroupResult.complete = true; 
                 },
                 (PlayFabError obj) => { ScriptExecutedfailure(obj); (ListGroupResult.complete, ListGroupResult.error) = (true,true); }
@@ -116,10 +118,13 @@ namespace Net
             listing = false; // todo this should await the above functions
         }
 
-        private (PlayFab.GroupsModels.GroupWithRoles, bool error) ListGroupsSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        private (PlayFab.GroupsModels.GroupWithRoles, bool error) ListOpenGroupsSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
             // todo make this robust
-
+            if (obj.Error != null)
+            {
+                LogError(obj.Error);
+            }
 
             PlayFab.GroupsModels.ListMembershipResponse response = GetAndLogOutResponse<PlayFab.GroupsModels.ListMembershipResponse>(obj);
 
@@ -148,7 +153,37 @@ namespace Net
 
         }
 
-      
+        public void ListMyGroups()
+        {
+            // todo handle errors in this function
+
+            var request = new PlayFab.ClientModels.ExecuteCloudScriptRequest
+            {
+                FunctionName = "ListMyGroups",
+                FunctionParameter = new
+                {
+                    Entity = netPlayer.entityKey
+                }
+            };
+            
+            PlayFabClientAPI.ExecuteCloudScript(request, ListMyGroupSucess, ScriptExecutedfailure);
+        }
+
+        private void ListMyGroupSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
+        {
+            if (obj.Error != null)
+            {
+                LogError(obj.Error);;
+            }
+
+            PlayFab.GroupsModels.ListMembershipResponse response = GetAndLogOutResponse<PlayFab.GroupsModels.ListMembershipResponse>(obj);
+
+            int count = response.Groups.Count;
+
+            Debug.Log($"Member of ({count}) groups");
+
+        }
+
 
         public void GetGroupMembers(PlayFab.GroupsModels.EntityKey group)
         {
@@ -189,9 +224,40 @@ namespace Net
             }
         }
 
-        private static T GetAndLogOutResponse<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T: PlayFab.SharedModels.PlayFabResultCommon
+        private T GetAndLogOutResponse<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T: PlayFab.SharedModels.PlayFabResultCommon
         {
-            // todo this should report errors
+            // todo make this robust
+
+            if(obj.Error != null)
+            {
+                LogError(obj.Error);
+
+            }
+
+            Debug.Log("Sucess?");
+
+            object objResult = obj.FunctionResult;
+
+            string stringValue = objResult.ToString();
+
+            //Debug.Log(stringValue);
+
+            T response = JsonUtility.FromJson<T>(stringValue);
+
+            Debug.Log($"Response: {response}");
+
+            return response;
+        }  
+        
+        private T GetAndLogOutResponse<T>(PlayFab.ClientModels.ExecuteCloudScriptResult obj) where T: PlayFab.SharedModels.PlayFabResultCommon
+        {
+            // todo make this robust
+
+            if(obj.Error != null)
+            {
+                LogError(obj.Error);
+
+            }
 
             Debug.Log("Sucess?");
 
@@ -229,18 +295,25 @@ namespace Net
 
         private void JoinGroupSucess(ExecuteCloudScriptResult obj)
         {
+            //var a = GetAndLogOutResponse<>
             if (obj.Error != null)
             {
-                ScriptExecutedfailure(obj.Error);
+                LogError(obj.Error);
                 return;
             }
             Debug.Log("Sucessfully joined group");
         }
 
-        private void ScriptExecutedfailure(ScriptExecutionError error)
+        private void LogError(ScriptExecutionError error)
         {
             Debug.LogError(error.Error + " "+ error.Message + " " + error.StackTrace);
         }
+
+        private void LogError(PlayFab.ClientModels.ScriptExecutionError error)
+        {
+            Debug.LogError(error.Error + " " + error.Message + " " + error.StackTrace);
+        }
+
 
         //public void foo()
         //{

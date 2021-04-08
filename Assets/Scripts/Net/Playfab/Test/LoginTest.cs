@@ -92,7 +92,7 @@ namespace Net {
             LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
             {
                 CustomId = SystemInfo.deviceUniqueIdentifier + "2" 
-                //+ "1",
+                + "1"
                , CreateAccount = true
             };
 
