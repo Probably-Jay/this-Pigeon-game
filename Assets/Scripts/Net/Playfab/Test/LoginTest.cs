@@ -9,7 +9,7 @@ namespace Net {
     public class LoginTest : MonoBehaviour
     {
 
-
+        [SerializeField] NetPlayerTest netPlayer;
         [SerializeField] InputField messageBox;
 
         string ID;
@@ -34,14 +34,16 @@ namespace Net {
         {
             Debug.LogError($"Execution Failed");
             Debug.LogError(obj.GenerateErrorReport());
+
+         
+
         }
 
         private void ScriptExecutedSucess(ExecuteCloudScriptResult obj)
         {
             Debug.Log("Sent");
-            Debug.Log(obj.ToString());
-            Debug.Log(obj.HttpRequestsIssued);
-            Debug.Log(obj.Logs);
+            Debug.Log(obj.FunctionResult?.ToString());
+
         }
 
 
@@ -89,8 +91,9 @@ namespace Net {
         {
             LoginWithCustomIDRequest request = new LoginWithCustomIDRequest()
             {
-                CustomId = SystemInfo.deviceUniqueIdentifier + "2",
-                CreateAccount = true
+                CustomId = SystemInfo.deviceUniqueIdentifier + "2" 
+                + "1"
+               , CreateAccount = true
             };
 
             PlayFabClientAPI.LoginWithCustomID(request, Sucess, Failure);
@@ -100,15 +103,22 @@ namespace Net {
         {
             if (obj.NewlyCreated)
             {
-                Debug.Log($"Account created and logged in! {obj.PlayFabId}");
+                Debug.Log($"Account created and logged in!");
 
             }
             else
             {
-                Debug.Log($"logged in! {obj.PlayFabId}");
+                Debug.Log($"logged in!");
 
             }
-            ID = obj.PlayFabId;
+            
+
+
+            netPlayer.entityKey.Id = obj.EntityToken.Entity.Id;
+            netPlayer.entityKey.Type = obj.EntityToken.Entity.Type;
+
+            Debug.Log(netPlayer.entityKey.Id);
+            Debug.Log(netPlayer.entityKey.Type);
         }
 
         private void Failure(PlayFabError obj)
