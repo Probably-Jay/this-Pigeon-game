@@ -102,21 +102,22 @@ namespace Net {
         {
             if (obj.NewlyCreated)
             {
-                Debug.Log($"Account created and logged in! {obj.PlayFabId}");
+                Debug.Log($"Account created and logged in!");
 
             }
             else
             {
-                Debug.Log($"logged in! {obj.PlayFabId}");
+                Debug.Log($"logged in!");
 
             }
-            ID = obj.PlayFabId;
+            
 
 
             netPlayer.entityKey.Id = obj.EntityToken.Entity.Id;
             netPlayer.entityKey.Type = obj.EntityToken.Entity.Type;
-         
 
+            Debug.Log(netPlayer.entityKey.Id);
+            Debug.Log(netPlayer.entityKey.Type);
         }
 
         private void Failure(PlayFabError obj)

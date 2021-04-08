@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.GroupsModels;
 using System;
 using TestGuildController;
+
 namespace Net
 {
     public class RoomTest : MonoBehaviour
@@ -15,10 +16,68 @@ namespace Net
 
         private void Start()
         {
-           // groupController.CreateGroup("Test",netPlayer.entityKey);        
-                
+          //  CreateAndListGroup();
+
         }
 
+
+        public void CreateGroupOnServer()
+        {
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "StartNewGameGroup",
+                FunctionParameter = new
+                {
+                    Entity = netPlayer.entityKey,
+                    GroupName = netPlayer.entityKey.Id + "." + DateTime.Now.Ticks.ToString()
+                }
+
+
+            };
+            //.ExecuteCloudScript(request, ScriptExecutedSucess, ScriptExecutedfailure);
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(request, ScriptExecutedSucess, ScriptExecutedfailure);
+        }
+
+        private void ScriptExecutedfailure(PlayFabError obj)
+        {
+            Debug.LogError($"Execution Failed");
+            Debug.LogError(obj.GenerateErrorReport());
+
+
+
+        }
+        private void ScriptExecutedSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        {
+            Debug.Log("Sucess?");
+            Debug.Log(obj.FunctionResult?.ToString());
+        }
+
+
+        private void ScriptExecutedSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
+        {
+            Debug.Log("Sucess?");
+            Debug.Log(obj.FunctionResult?.ToString());
+
+        }
+
+        public void CreateAndListGroup()
+        {
+            var entity = new EntityKey() { Id = netPlayer.entityKey.Id, Type = netPlayer.entityKey.Type }; // this may be wrong?
+            groupController.CreateGroup("Test", entity);
+
+            groupController.ListGroups(entity);
+            foreach (var item in groupController.EntityGroupPairs)
+            {
+                if (item.Key != entity.Id)
+                {
+                    Debug.LogError("Somone else is in this group");
+                    continue;
+                }
+
+                Debug.Log($"{item.Value}");
+
+            }
+        }
     }
 }
 
