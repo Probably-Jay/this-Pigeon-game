@@ -11,7 +11,7 @@ using PlayFab.CloudScriptModels;
 
 //using PlayFab.CloudScriptModels;
 
-namespace Net
+namespace NetTest
 {
     public class RoomTest : MonoBehaviour
     {

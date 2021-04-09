@@ -5,7 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 //using PlayFab.DataModels;
 
-namespace Net
+namespace NetTest
 {
     public class NetPlayerTest : MonoBehaviour
     {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
-namespace Net {
+namespace NetTest {
     public class LoginTest : MonoBehaviour
     {
 
