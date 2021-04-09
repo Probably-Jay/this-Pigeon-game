@@ -16,7 +16,7 @@ namespace NetSystem
         private void Awake()
         {
             matchMaker = GetComponent<MatchMaker>();
-            matchMaker.Init(playerClient.ClientEntityKey);
+            matchMaker.Init(playerClient);
         }
 
         public void MatchMake()

@@ -118,21 +118,23 @@ namespace NetSystem
         /// </summary>
         public void DebugWindowsAnonymousLogin() // todo remove this
         {
-           // PlayFab.ClientModels.LoginWithCustomIDRequest request = new PlayFab.ClientModels.LoginWithCustomIDRequest()
-           // {
-           //     CustomId = SystemInfo.deviceUniqueIdentifier + "2"
-           //     ,
-           //     CreateAccount = true
-           // };
+            const string UDIModifier = "2";
 
-           // CallStatus status = CallStatus.NotComplete;
-           // PlayFabClientAPI.LoginWithCustomID(
-           //     request,
-           //     (PlayFab.ClientModels.LoginResult obj) => { status = LoginSucess(obj); },
-           //     (PlayFabError obj) => { status = LoginFailure(obj); }
-           //     );
+            PlayFab.ClientModels.LoginWithCustomIDRequest request = new PlayFab.ClientModels.LoginWithCustomIDRequest()
+            {
+                CustomId = SystemInfo.deviceUniqueIdentifier + UDIModifier
+                ,
+                CreateAccount = true
+            };
 
-           //// return status;
+            CallStatus status = CallStatus.NotComplete;
+            PlayFabClientAPI.LoginWithCustomID(
+                request,
+                (PlayFab.ClientModels.LoginResult obj) => LoginSucess(obj, status),
+                (PlayFabError obj) => LoginFailure(obj, status)
+                );
+
+  
         }
 
         private void LoginSucess(PlayFab.ClientModels.LoginResult obj, CallStatus status)

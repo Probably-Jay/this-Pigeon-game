@@ -11,11 +11,12 @@ namespace NetSystem
     public class MatchMaker : MonoBehaviour
     {
 
-        PlayFab.CloudScriptModels.EntityKey clientEntity;
+        PlayFab.CloudScriptModels.EntityKey ClientEntity => client.ClientEntityKey;
+        PlayerClient client;
 
-        public void Init(PlayFab.CloudScriptModels.EntityKey clientEntity)
+        public void Init(PlayerClient client)
         {
-            this.clientEntity = clientEntity;
+            this.client = client;
             
         }
 
@@ -23,20 +24,28 @@ namespace NetSystem
         public IEnumerator JoinNewGame()
         {
             {
-                (CallStatus status, List<PlayFab.GroupsModels.GroupWithRoles> data) response= (CallStatus.NotComplete,null);
-                yield return StartCoroutine(
-                    ListMyGroups(
-                        callback: ( (CallStatus status, List<PlayFab.GroupsModels.GroupWithRoles> data) result ) => { response = result; }
-                        )
-                    );
 
-                
-                if (response.status.error)
+                CallStatus status = CallStatus.NotComplete; 
+                List<PlayFab.GroupsModels.GroupWithRoles> groups = new List<PlayFab.GroupsModels.GroupWithRoles>();
+
+                yield return StartCoroutine(ListMyGroups(groups,status));
+
+                // callback: ( (CallStatus status, List<PlayFab.GroupsModels.GroupWithRoles> data) result ) => { response = result; }
+
+
+                if (status.error)
                 {
+                    Debug.LogError("error");
+                }
+                else
+                {
+                    Debug.Log("suceeeded");
+                    Debug.Log(groups);
+                    Debug.Log(groups?.Count);
 
                 }
 
-                
+
 
             }
             
@@ -44,60 +53,57 @@ namespace NetSystem
         }
 
        // private IEnumerator ListMyGroups( out (CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) response) // cannot pass ref param to iterator
-        private IEnumerator ListMyGroups( Action<(CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) > callback)
+       // private IEnumerator ListMyGroups( Action<(CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) > callback)
+        private IEnumerator ListMyGroups(List<PlayFab.GroupsModels.GroupWithRoles> groups, CallStatus status)
         {
 
-           // response = (CallStatus.NotComplete, null);
 
-            var request = new PlayFab.ClientModels.ExecuteCloudScriptRequest
+
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
                 FunctionName = "ListMyGroups",
                 FunctionParameter = new
                 {
-                    Entity = clientEntity
+                    Entity = ClientEntity
                 }
             };
 
-            var status = CallStatus.NotComplete;
-            List<PlayFab.GroupsModels.GroupWithRoles> groups = null;
 
-            PlayFabClientAPI.ExecuteCloudScript(
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
                 request, 
-                (PlayFab.ClientModels.ExecuteCloudScriptResult obj) => { (status, groups) = ListMyGroupSucess(obj); },
-                (PlayFabError obj) => { status = ScriptExecutedfailure(obj); }
+                (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { ListMyGroupSucess(obj); },
+                (PlayFabError obj) => ScriptExecutedfailure(obj, status)
                 );
 
 
-            (CallStatus, List<PlayFab.GroupsModels.GroupWithRoles>) ListMyGroupSucess(PlayFab.ClientModels.ExecuteCloudScriptResult obj) // local function
+            // local function
+            void ListMyGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) 
             {
                 PlayFab.GroupsModels.ListMembershipResponse response = DeserialiseResponse<PlayFab.GroupsModels.ListMembershipResponse>(obj);
 
-                //if (response == null)
-                //{
-                //    return (CallStatus.Error, null);
-                //}
+                if (response == null)
+                {
+                    status.SetError();
+                }
 
-                //return (CallStatus.Sucess, response.Groups);
-                return (null,null);
-                
+                groups.AddRange(response.Groups);
+
+                status.SetSucess();
             }
 
-            yield return new WaitUntil(() => status.complete);
-
-
-            callback((status, groups)); // this feels insane
-
+            yield return new WaitUntil(() => { Debug.Log("Loading"); return status.complete; });
+            Debug.Log("List fetched");
 
         }
 
-        private CallStatus ScriptExecutedfailure(PlayFabError obj)
+        private void ScriptExecutedfailure(PlayFabError obj, CallStatus status)
         {
             Debug.LogError(obj.GenerateErrorReport());
-           // return CallStatus.Error;
-            return null;
+            status.SetError();
+            
         }
 
-        private T DeserialiseResponse<T>(PlayFab.ClientModels.ExecuteCloudScriptResult obj) where T : PlayFab.SharedModels.PlayFabResultCommon
+        private T DeserialiseResponse<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T : PlayFab.SharedModels.PlayFabResultCommon
         {
             // todo make this robust
 
@@ -132,12 +138,12 @@ namespace NetSystem
             return response;
         }
 
-        private void LogCannotDeserialiseError(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
+        private void LogCannotDeserialiseError(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
             Debug.LogError($"Result from {obj.FunctionName} result {obj.FunctionResult} cannot be deserilaised");
         }
 
-        private void LogObjectResultIsNullError(PlayFab.ClientModels.ExecuteCloudScriptResult obj)
+        private void LogObjectResultIsNullError(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
             Debug.LogError($"Response from {obj.FunctionName} had no result");
         }
@@ -147,10 +153,10 @@ namespace NetSystem
             Debug.LogError(error.Error + " " + error.Message + " " + error.StackTrace);
         }
 
-        private void LogError(PlayFab.ClientModels.ScriptExecutionError error)
-        {
-            Debug.LogError(error.Error + " " + error.Message + " " + error.StackTrace);
-        }
+        //private void LogError(PlayFab.ClientModels.ScriptExecutionError error)
+        //{
+        //    Debug.LogError(error.Error + " " + error.Message + " " + error.StackTrace);
+        //}
 
 
 
