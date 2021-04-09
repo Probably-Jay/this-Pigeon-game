@@ -70,7 +70,7 @@ namespace NetSystem
             //    yield return null;
             //}
 
-            yield return new WaitUntil(() => {Debug.Log("Connecting"); return status.complete; });
+            yield return new WaitUntil(() => {Debug.Log("Connecting"); return status.Complete; });
 
             Debug.Log("Login return");
 

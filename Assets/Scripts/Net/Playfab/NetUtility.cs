@@ -28,13 +28,13 @@ namespace NetSystem
     /// </summary>
     public class CallStatus
     {
-        public bool complete;
-        public bool error;
+        public bool Complete { get; private set; }
+        public bool Error { get; private set; }
 
 
-        public void SetNotComplete() { complete = false; error = true; }
-        public void SetSucess() { complete = true; error = false; }
-        public void SetError() { complete = true; error = true; }
+        public void SetNotComplete() { Complete = false; Error = true; }
+        public void SetSucess() { Complete = true; Error = false; }
+        public void SetError() { Complete = true; Error = true; }
 
         public static CallStatus NotComplete => new CallStatus(complete: false, error: true);
         //public static CallStatus Sucess => new CallStatus(complete: true, error: false);
@@ -42,11 +42,11 @@ namespace NetSystem
 
         private CallStatus(bool complete, bool error)
         {
-            this.complete = complete;
-            this.error = error;
+            Complete = complete;
+            Error = error;
         }
 
-        public void Set(CallStatus from) { this.complete = from.complete; this.error = from.error; }
+        public void Set(CallStatus from) { Complete = from.Complete; Error = from.Error; }
 
         //public static Func<bool> CallComplete(CallStatus status) => () => status.complete;
     }
@@ -55,17 +55,55 @@ namespace NetSystem
     /// <summary>
     /// Class which encapsulates the return values of an API call as well as if the call completed and was sucessful.
     /// </summary>
-    public class CallResponse<T> 
+    public class CallResponse<T>
     {
-        //Readonly members forces alteration not replacement of variables which would be lost
-        public readonly T returnData;
+        public T returnData;
+
         public readonly CallStatus status;
 
-        public CallResponse(T data)
+        public CallResponse()
         {
-            returnData = data;
+            //returnData = data;
+            returnData = default;
             status = CallStatus.NotComplete;
         }
+    }
+    /// <summary>
+    /// Paramaterless overload
+    /// </summary>
+    public class CallResponse
+    {
+        public readonly CallStatus status;
+
+        public CallResponse()
+        {
+            status = CallStatus.NotComplete;
+        }
+    }
+
+    public class APIOperationCallbacks
+    {
+        readonly Action onSucess;
+        readonly Action onFailure;
+
+        APIOperationCallbacks(Action onScess, Action onfailure)
+        {
+            this.onSucess = onScess;
+            this.onFailure = onfailure;
+        }
+
+    } 
+    public class APIOperationCallbacks<Ts>
+    {
+        public readonly Action<Ts> OnSucess;
+        public readonly Action OnFailure;
+
+        public APIOperationCallbacks(Action<Ts> onScess, Action onfailure)
+        {
+            this.OnSucess = onScess;
+            this.OnFailure = onfailure;
+        }
+
     }
 
 
