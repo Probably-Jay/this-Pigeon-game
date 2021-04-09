@@ -25,15 +25,17 @@ namespace NetSystem
         {
             {
 
-                CallStatus status = CallStatus.NotComplete; 
+                //CallStatus status = CallStatus.NotComplete; 
                 List<PlayFab.GroupsModels.GroupWithRoles> groups = new List<PlayFab.GroupsModels.GroupWithRoles>();
 
-                yield return StartCoroutine(ListMyGroups(groups,status));
+                var callResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>(groups);
+
+                yield return StartCoroutine(ListMyGroups(callResponse));
 
                 // callback: ( (CallStatus status, List<PlayFab.GroupsModels.GroupWithRoles> data) result ) => { response = result; }
 
 
-                if (status.error)
+                if (callResponse.status.error)
                 {
                     Debug.LogError("error");
                 }
@@ -54,7 +56,7 @@ namespace NetSystem
 
        // private IEnumerator ListMyGroups( out (CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) response) // cannot pass ref param to iterator
        // private IEnumerator ListMyGroups( Action<(CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) > callback)
-        private IEnumerator ListMyGroups(List<PlayFab.GroupsModels.GroupWithRoles> groups, CallStatus status)
+        private IEnumerator ListMyGroups(CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>> callResponse)
         {
 
 
@@ -72,7 +74,7 @@ namespace NetSystem
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
                 request, 
                 (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { ListMyGroupSucess(obj); },
-                (PlayFabError obj) => ScriptExecutedfailure(obj, status)
+                (PlayFabError obj) => ScriptExecutedfailure(obj, callResponse)
                 );
 
 
@@ -83,23 +85,23 @@ namespace NetSystem
 
                 if (response == null)
                 {
-                    status.SetError();
+                    callResponse.status.SetError();
                 }
 
-                groups.AddRange(response.Groups);
+                callResponse.returnData.AddRange(response.Groups);
 
-                status.SetSucess();
+                callResponse.status.SetSucess();
             }
 
-            yield return new WaitUntil(() => { Debug.Log("Loading"); return status.complete; });
+            yield return new WaitUntil(() => { Debug.Log("Loading"); return callResponse.status.complete; });
             Debug.Log("List fetched");
 
         }
 
-        private void ScriptExecutedfailure(PlayFabError obj, CallStatus status)
+        private void ScriptExecutedfailure<T>(PlayFabError obj, CallResponse<T> callResponse)
         {
             Debug.LogError(obj.GenerateErrorReport());
-            status.SetError();
+            callResponse.status.SetError();
             
         }
 

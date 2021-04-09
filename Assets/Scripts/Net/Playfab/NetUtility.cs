@@ -50,4 +50,23 @@ namespace NetSystem
 
         //public static Func<bool> CallComplete(CallStatus status) => () => status.complete;
     }
+
+
+    /// <summary>
+    /// Class which encapsulates the return values of an API call as well as if the call completed and was sucessful.
+    /// </summary>
+    public class CallResponse<T> 
+    {
+        //Readonly members forces alteration not replacement of variables which would be lost
+        public readonly T returnData;
+        public readonly CallStatus status;
+
+        public CallResponse(T data)
+        {
+            returnData = data;
+            status = CallStatus.NotComplete;
+        }
+    }
+
+
 }
