@@ -187,7 +187,9 @@ namespace SaveSystemInternal
 
         public static string ComputeHashToAsciiString(string dataToHash, string salt = "salt")
         {
-            byte[] hash = ComputeHash(dataToHash, salt);
+            byte[] hash;
+            using (HashAlgorithm algorithm = SHA256.Create())
+                hash = algorithm.ComputeHash(System.Text.Encoding.ASCII.GetBytes(dataToHash + salt)); 
             return System.Text.Encoding.ASCII.GetString(hash);
         }
 

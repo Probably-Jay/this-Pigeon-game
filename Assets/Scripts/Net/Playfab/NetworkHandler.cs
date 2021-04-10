@@ -13,6 +13,9 @@ namespace NetSystem
     public class NetworkHandler : MonoBehaviour
     {
         [SerializeField] PlayerClient playerClient;
+        NetworkGame currentNetworkGame = null;
+
+
         MatchMaker matchMaker;
 
        
@@ -32,6 +35,8 @@ namespace NetSystem
 
         private void OnGamesGatheredSucess(List<NetworkGame> games)
         {
+            // todo - list these to the player
+
             Debug.Log("Games Gathered");
 
             if(games.Count == 0)
@@ -43,7 +48,7 @@ namespace NetSystem
             foreach (var game in games)
             {
                 Debug.Log(game.GroupName);
-              //  Debug.Log($"Open: {game.MetaData.}");
+                Debug.Log($"Open: {game.GameOpenToJoin}");
 
             }
         }
@@ -61,10 +66,13 @@ namespace NetSystem
 
         private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups)
         {
+
             var groupToJoin = SelectGroupToJoin(groups);
+            Debug.Log($"Open game found {groupToJoin.Group.Id}");
             var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnJoinedGameSucess, onfailure: OnJoinedGameFailure);
             StartCoroutine(matchMaker.JoinOpenGameGroup(groupToJoin,callbacks));
         }
+
         private GroupWithRoles SelectGroupToJoin(List<GroupWithRoles> groups)
         {
             return groups[UnityEngine.Random.Range(0, groups.Count)]; // for now select a game at random
@@ -74,7 +82,6 @@ namespace NetSystem
         {
             switch (reason)
             {
-               
                 case FailureReason.PlayFabError:
                     UnexpectedPlayfabError();
                     return;
@@ -82,6 +89,7 @@ namespace NetSystem
                     PlayerHasTooManyActiveGames();
                     return;
                 case FailureReason.NoOpenGamesAvailable: // this is not a problem, just start a new game
+                    Debug.Log("No open games, starting new game");
                     StartNewGame();
                     return;
                 default:
@@ -93,7 +101,8 @@ namespace NetSystem
 
         private void OnJoinedGameSucess(NetworkGame obj)
         {
-            throw new NotImplementedException();
+            currentNetworkGame = obj;
+            Debug.Log($"Joined game {currentNetworkGame.GroupName}");
         }
         private void OnJoinedGameFailure(FailureReason obj)
         {
@@ -103,11 +112,25 @@ namespace NetSystem
 
         private void StartNewGame()
         {
+            var callbacks = new APIOperationCallbacks<NetworkGame>(OnCreateGameSucess, OnCreateGameFailure);
+            StartCoroutine(matchMaker.CreateGame(callbacks));
+        }
+
+        private void OnCreateGameSucess(NetworkGame obj)
+        {
+            currentNetworkGame = obj;
+            Debug.Log($"Created game {currentNetworkGame.GroupName}");
+        }
+
+        private void OnCreateGameFailure(FailureReason error)
+        {
+            Debug.LogError(error);
             throw new NotImplementedException();
         }
 
         private void PlayerHasTooManyActiveGames()
         {
+            Debug.Log("Too many active games");
             throw new NotImplementedException();
         }
 

@@ -32,7 +32,7 @@ namespace NetSystem
         /// <param name="resultCallbacks">An object containing the funcitons to be called on sucess or failure of this operation</param>
         public IEnumerator GetAllMyGames(APIOperationCallbacks<List<NetworkGame>> resultCallbacks)
         {
-
+            // if we have the cache, return it
             if (cachedMemberGames != null)
             {
                 Debug.Log("Cached member games found, returning");
@@ -41,56 +41,64 @@ namespace NetSystem
             }
 
             // get the groups we are members of (including open unstarted games)
-            var listGroupResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>();
-
-            yield return StartCoroutine(GetGroupsClientIsMemberOf(listGroupResponse));
-
-            if (listGroupResponse.status.Error)
+            List<GroupWithRoles> groupsWeAreIn;
             {
-                resultCallbacks.OnFailure(listGroupResponse.status.ErrorData);
-                yield break;
+                var listGroupResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>();
+
+                yield return StartCoroutine(GetGroupsClientIsMemberOf(listGroupResponse));
+
+                if (listGroupResponse.status.Error)
+                {
+                    resultCallbacks.OnFailure(listGroupResponse.status.ErrorData);
+                    yield break;
+                }
+
+                groupsWeAreIn = listGroupResponse.returnData;
             }
 
             // if we aren't in any groups, return empty list
-            if (listGroupResponse.returnData.Count == 0)
+            if (groupsWeAreIn.Count == 0)
             {
-                resultCallbacks.OnSucess(new List<NetworkGame>());
+                cachedMemberGames = new List<NetworkGame>();
+                resultCallbacks.OnFailure(FailureReason.PlayerIsMemberOfNoGames);
                 yield break;
             }
 
             // get the meta data on the games
             var gameDataRequestResponses = new List<CallResponse<NetworkGame.NetworkGameMetadata>>();
-
-            // make each call individually as playfab limits internal API calls to 15 per execution
-            foreach (GroupWithRoles group in listGroupResponse.returnData)
             {
-                var response = new CallResponse<NetworkGame.NetworkGameMetadata>();
-
-                gameDataRequestResponses.Add(response);
-
-                StartCoroutine(GetGroupMetaData(group.Group, response)); // not yeilding here for maximum eficeincy
-
-            }
-
-            // wait for these to finish
-            foreach (var response in gameDataRequestResponses)
-            {
-                yield return new WaitUntil(() => { return response.status.Complete; });
-                if (response.status.Error)
+                // make each call individually as playfab limits internal API calls to 15 per execution
+                foreach (GroupWithRoles group in groupsWeAreIn)
                 {
-                    resultCallbacks.OnFailure(response.status.ErrorData);
-                    yield break;
+                    var response = new CallResponse<NetworkGame.NetworkGameMetadata>();
+
+                    gameDataRequestResponses.Add(response);
+
+                    StartCoroutine(GetGroupMetaData(group.Group, response)); // not yeilding here for maximum eficeincy
                 }
             }
 
+            // wait for previous calls to finish
+            {
+                foreach (var response in gameDataRequestResponses)
+                {
+                    yield return new WaitUntil(() => { return response.status.Complete; });
+                    if (response.status.Error)
+                    {
+                        resultCallbacks.OnFailure(response.status.ErrorData);
+                        yield break;
+                    }
+                }
+            }
 
             // pack and return these
             var netGames = new List<NetworkGame>();
-
-            for (int i = 0; i < gameDataRequestResponses.Count; i++)
             {
-                var netGame = new NetworkGame(listGroupResponse.returnData[i], gameDataRequestResponses[i].returnData);
-                netGames.Add(netGame);
+                for (int i = 0; i < gameDataRequestResponses.Count; i++)
+                {
+                    var netGame = new NetworkGame(groupsWeAreIn[i], gameDataRequestResponses[i].returnData);
+                    netGames.Add(netGame);
+                }
             }
 
             cachedMemberGames = netGames;
@@ -140,7 +148,6 @@ namespace NetSystem
             }
 
             yield return new WaitUntil(() => { Debug.Log("Loading"); return callResponse.status.Complete; });
-            Debug.Log("List fetched");
 
         }
 
@@ -188,59 +195,35 @@ namespace NetSystem
         }
 
 
-        public IEnumerator ValidateIfBelowGameLimit(APIOperationCallbacks resultsCallbacks)
-        {
-            // gather member games if not already cached
-            if (cachedMemberGames == null)
-            {
-                CallResponse response = new CallResponse();
-
-                var gatherCallbacks = new APIOperationCallbacks<List<NetworkGame>>(
-                    onSucess: (_) => response.status.SetSucess()
-                    , onfailure: (FailureReason) => response.status.SetError(FailureReason));
-
-                yield return StartCoroutine(GetAllMyGames(gatherCallbacks));
-
-                if (response.status.Error || cachedMemberGames == null)
-                {
-                    resultsCallbacks.OnFailure(response.status.ErrorData);
-                    yield break;
-                }
-            }
-
-            // some upper limit on number of mambered games
-            if (cachedMemberGames.Count >= maximumActiveGames)
-            {
-                resultsCallbacks.OnFailure(FailureReason.TooManyActiveGames);
-                yield break;
-            }
-
-            resultsCallbacks.OnSucess();
-
-        }
+       
 
         public IEnumerator GetOpenGameGroups(APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>> resultsCallbacks)
         {
-            
+
             // gather open games
-            var getOpenGamesResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>();
-
-            yield return StartCoroutine(GetOpenGamesFromServer(getOpenGamesResponse));
-
-            if (getOpenGamesResponse.status.Error)
+            List<GroupWithRoles> openGroups;
             {
-                resultsCallbacks.OnFailure(getOpenGamesResponse.status.ErrorData);
-                yield break;
+                var getOpenGamesResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>();
+
+                yield return StartCoroutine(GetOpenGamesFromServer(getOpenGamesResponse));
+
+                if (getOpenGamesResponse.status.Error)
+                {
+                    resultsCallbacks.OnFailure(getOpenGamesResponse.status.ErrorData);
+                    yield break;
+                }
+
+                openGroups = getOpenGamesResponse.returnData;
             }
 
             // if there is an open game
-            if(getOpenGamesResponse.returnData.Count == 0)
+            if (openGroups.Count == 0)
             {
                 resultsCallbacks.OnFailure(FailureReason.NoOpenGamesAvailable);
                 yield break;
             }
 
-            resultsCallbacks.OnSucess(getOpenGamesResponse.returnData);
+            resultsCallbacks.OnSucess(openGroups);
 
         }
 
@@ -278,35 +261,107 @@ namespace NetSystem
 
         }
 
+        public IEnumerator ValidateIfBelowGameLimit(CallResponse<bool> validationResponse)
+        {
+            int numberOfMemberGames;
 
+            // gather member games if not already cached
+            if (cachedMemberGames == null)
+            {
+                CallResponse response = new CallResponse();
+
+                var gatherCallbacks = new APIOperationCallbacks<List<NetworkGame>>(
+                    onSucess: (_) => response.status.SetSucess()
+                    , onfailure: (FailureReason) => response.status.SetError(FailureReason));
+
+                yield return StartCoroutine(GetAllMyGames(gatherCallbacks));
+
+                if (response.status.Error)
+                {
+                    switch (response.status.ErrorData)
+                    {
+                        case FailureReason.PlayerIsMemberOfNoGames:
+                            // do nothing
+                            break;
+                        default:
+                            validationResponse.status.SetError(response.status.ErrorData);
+                            yield break;
+                    }
+                }
+
+            }
+
+            numberOfMemberGames = cachedMemberGames.Count;
+
+            // some upper limit on number of mambered games
+            if (numberOfMemberGames < maximumActiveGames)
+            {
+                validationResponse.returnData = true;
+            }
+            else
+            {
+                validationResponse.returnData = false;
+            }
+
+            validationResponse.status.SetSucess();
+
+        }
 
         public IEnumerator JoinOpenGameGroup(GroupWithRoles groupToJoin, APIOperationCallbacks<NetworkGame> resultsCallback)
         {
-            // join the game
-            var joinGameResponse = new CallResponse();
-
-            yield return StartCoroutine(JoinGroup(groupToJoin.Group, joinGameResponse));
-
-            if (joinGameResponse.status.Error)
+            // validate we are allowed to join a new game
             {
-                resultsCallback.OnFailure(joinGameResponse.status.ErrorData);
-                yield break;
+                var validatIfCanJoinNewGame = new CallResponse<bool>();
+
+                yield return StartCoroutine(ValidateIfBelowGameLimit(validatIfCanJoinNewGame));
+
+                if (validatIfCanJoinNewGame.status.Error)
+                {
+                    resultsCallback.OnFailure(validatIfCanJoinNewGame.status.ErrorData);
+                    yield break;
+                }
+
+                if (validatIfCanJoinNewGame.returnData == false) // cannot join new game
+                {
+                    resultsCallback.OnFailure(FailureReason.TooManyActiveGames);
+                    yield break;
+                }
+            }
+
+            // join the game
+            {
+                var joinGameResponse = new CallResponse();
+
+                yield return StartCoroutine(JoinGroup(groupToJoin.Group, joinGameResponse));
+
+                if (joinGameResponse.status.Error)
+                {
+                    resultsCallback.OnFailure(joinGameResponse.status.ErrorData);
+                    yield break;
+                }
             }
 
             // get the metadata
-            var getMetadataRespone = new CallResponse<NetworkGame.NetworkGameMetadata>();
-
-            yield return StartCoroutine(GetGroupMetaData(groupToJoin.Group, getMetadataRespone));
-
-            if (getMetadataRespone.status.Error)
+            NetworkGame.NetworkGameMetadata metaData;
             {
-                resultsCallback.OnFailure(joinGameResponse.status.ErrorData);
-                yield break;
+                var getMetadataRespone = new CallResponse<NetworkGame.NetworkGameMetadata>();
+
+                yield return StartCoroutine(GetGroupMetaData(groupToJoin.Group, getMetadataRespone));
+
+                if (getMetadataRespone.status.Error)
+                {
+                    resultsCallback.OnFailure(getMetadataRespone.status.ErrorData);
+                    yield break;
+                }
+                metaData = getMetadataRespone.returnData;
             }
 
+            // build and reurn the game
 
-            NetworkGame netGame = new NetworkGame(groupToJoin, getMetadataRespone.returnData);
+            NetworkGame netGame = new NetworkGame(groupToJoin, metaData);
 
+            cachedMemberGames.Add(netGame);
+            
             resultsCallback.OnSucess(netGame);
 
 
@@ -349,6 +404,132 @@ namespace NetSystem
         }
 
 
+        internal IEnumerator CreateGame(APIOperationCallbacks<NetworkGame> resultsCallback)
+        {
+            // validate we are allowed to join a new game
+            {
+                var validatIfCanJoinNewGame = new CallResponse<bool>();
 
+                yield return StartCoroutine(ValidateIfBelowGameLimit(validatIfCanJoinNewGame));
+
+                if (validatIfCanJoinNewGame.status.Error)
+                {
+                    resultsCallback.OnFailure(validatIfCanJoinNewGame.status.ErrorData);
+                    yield break;
+                }
+
+                if (validatIfCanJoinNewGame.returnData == false) // cannot join new game
+                {
+                    resultsCallback.OnFailure(FailureReason.TooManyActiveGames);
+                    yield break;
+                }
+            }
+
+            // previous call has side effect of ensuring "cachedMemberGames" is not null
+            if(cachedMemberGames == null)
+            {
+                resultsCallback.OnFailure(FailureReason.UnknownError);
+                yield break;
+            }
+
+            // validate we don't already have an open game
+            foreach (var game in cachedMemberGames)
+            {
+                if (game.GameOpenToJoin)
+                {
+                    resultsCallback.OnFailure(FailureReason.AlreadyHasOpenGame);
+                    yield break;
+                }
+            }
+
+            // Create the group
+            GroupWithRoles createdGroup;
+            {
+                var createGameRequest = new CallResponse<PlayFab.GroupsModels.CreateGroupResponse>();
+
+                yield return StartCoroutine(CreateGameOnServer(createGameRequest));
+
+                if (createGameRequest.status.Error)
+                {
+                    resultsCallback.OnFailure(createGameRequest.status.ErrorData);
+                    yield break;
+                }
+
+                createdGroup  = new GroupWithRoles()
+                {
+                    Group = createGameRequest.returnData.Group
+                    ,GroupName = createGameRequest.returnData.GroupName
+                    , Roles = null // this would be a pain to populate and we don't need it
+                    , ProfileVersion = createGameRequest.returnData.ProfileVersion
+                };
+              
+            }
+
+            // Get the created group's metadata
+            NetworkGame.NetworkGameMetadata metaData;
+            {
+                var getMetadataRespone = new CallResponse<NetworkGame.NetworkGameMetadata>();
+
+                yield return StartCoroutine(GetGroupMetaData(createdGroup.Group, getMetadataRespone));
+
+                if (getMetadataRespone.status.Error)
+                {
+                    resultsCallback.OnFailure(getMetadataRespone.status.ErrorData);
+                    yield break;
+                }
+
+                metaData = getMetadataRespone.returnData;
+            }
+
+            var networkGame = new NetworkGame(createdGroup, metaData);
+
+            cachedMemberGames.Add(networkGame);
+
+            resultsCallback.OnSucess(networkGame);
+
+        }
+
+        private IEnumerator CreateGameOnServer(CallResponse<CreateGroupResponse> createGameRequest)
+        {
+            string name = NetUtility.GetEntityUniqueGroupName(ClientEntity, DateTime.Now);
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "StartNewGameGroup",
+                FunctionParameter = new
+                {
+                    Entity = ClientEntity,
+                    GroupName = name
+                }
+            };
+
+            Debug.Log($"Name {name}");
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
+               request: request,
+               resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { CreateGroupSucess(obj); },
+               errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, createGameRequest)
+               );
+
+
+            void CreateGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+            {
+
+                var response = DeserialiseResponseToPlayfabObject<CreateGroupResponse>(obj);
+
+                if (response == null)
+                {
+                    createGameRequest.status.SetError(FailureReason.InternalError);
+                    return;
+                }
+
+                createGameRequest.returnData = response;
+
+                createGameRequest.status.SetSucess();
+            }
+
+            yield return new WaitUntil(() => createGameRequest.status.Complete);
+        }
+
+     
     }
 }

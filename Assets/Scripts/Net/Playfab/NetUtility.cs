@@ -24,8 +24,6 @@ namespace NetSystem
 {
 
 
-
-
     /// <summary>
     /// Class which encapsulates if an API call was completed and was sucessful.
     /// </summary>
@@ -100,8 +98,14 @@ namespace NetSystem
         ,PlayFabError
         ,InternalError
 
+        ,PlayerIsMemberOfNoGames
+
         ,TooManyActiveGames
         ,NoOpenGamesAvailable
+
+        ,AlreadyHasOpenGame
+
+        ,UnknownError
     }
 
 
@@ -128,7 +132,21 @@ namespace NetSystem
             this.OnFailure = onfailure;
         }
 
+
+
+
     }
 
+    public static class NetUtility
+    {
+        public static string GetEntityUniqueGroupName(PlayFab.CloudScriptModels.EntityKey clientEntity, DateTime time)
+        {
+            //return SaveSystemInternal.SaveDataUtility.ComputeHashToAsciiString(clientEntity.Id + time.Ticks.ToString());
+             return clientEntity.Id + "-" + time.Ticks.ToString();
+
+              
+        }
+
+    }
 
 }
