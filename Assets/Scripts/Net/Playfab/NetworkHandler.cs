@@ -62,13 +62,12 @@ namespace NetSystem
         private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups)
         {
             var groupToJoin = SelectGroupToJoin(groups);
-            var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnJoinedGameSucess, onfailure: OnJoinedGameSucess);
-            StartCoroutine(matchMaker.GetOpenGameGroups(callbacks));
+            var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnJoinedGameSucess, onfailure: OnJoinedGameFailure);
+            StartCoroutine(matchMaker.JoinOpenGameGroup(groupToJoin,callbacks));
         }
-
-        private object SelectGroupToJoin(List<GroupWithRoles> groups)
+        private GroupWithRoles SelectGroupToJoin(List<GroupWithRoles> groups)
         {
-            return groups[UnityEngine.Random.Range(0, groups.Count)];
+            return groups[UnityEngine.Random.Range(0, groups.Count)]; // for now select a game at random
         }
 
         private void OnGetOpenGamefailure(FailureReason reason)
@@ -91,6 +90,16 @@ namespace NetSystem
             }
             
         }
+
+        private void OnJoinedGameSucess(NetworkGame obj)
+        {
+            throw new NotImplementedException();
+        }
+        private void OnJoinedGameFailure(FailureReason obj)
+        {
+            throw new NotImplementedException();
+        }
+
 
         private void StartNewGame()
         {

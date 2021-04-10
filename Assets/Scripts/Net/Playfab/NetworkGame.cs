@@ -2,17 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+namespace NetSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class NetworkGame
     {
-        
-    }
+        public PlayFab.CloudScriptModels.EntityKey GroupEntityKey => new PlayFab.CloudScriptModels.EntityKey() { Id = group.Group.Id, Type = group.Group.Type };
+        public string GroupName => group.GroupName;
+        public bool GameOpenToJoin => metaData.Open;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public List<PlayFab.CloudScriptModels.EntityKey> playerEntities => new List<PlayFab.CloudScriptModels.EntityKey>() { metaData.Player1, metaData.Player2 };
+
+        readonly PlayFab.GroupsModels.GroupWithRoles group;
+        readonly NetworkGame.NetworkGameMetadata metaData;
+
+        public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData)
+        {
+            this.group = group;
+            this.metaData = gameMetaData;
+        }
+
+
+        public class NetworkGameMetadata
+        {
+            public readonly bool Open;
+            public readonly PlayFab.CloudScriptModels.EntityKey Player1;
+            public readonly PlayFab.CloudScriptModels.EntityKey Player2;
+        }
+
     }
 }

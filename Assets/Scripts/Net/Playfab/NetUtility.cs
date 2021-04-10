@@ -23,56 +23,11 @@ using UnityEngine;
 namespace NetSystem
 {
 
-    /// <summary>
-    /// Struct representing the satus of an API call
-    /// </summary>
-    public class CallStatus
-    {
-        public bool Complete { get; private set; }
-        public bool Error { get; private set; }
 
-        public FailureReason ErrorData { get; private set; }
-
-        public void SetNotComplete() { Complete = false; Error = true; }
-        public void SetSucess() { Complete = true; Error = false; }
-       // public void SetError() { Complete = true; Error = true; }
-        public void SetError(FailureReason reason) { Complete = true; Error = true; ErrorData = reason; }
-
-        public static CallStatus NotComplete => new CallStatus(complete: false, error: true);
-        //public static CallStatus Sucess => new CallStatus(complete: true, error: false);
-        //public static CallStatus Error => new CallStatus(complete: true, error: true);
-
-        private CallStatus(bool complete, bool error)
-        {
-            Complete = complete;
-            Error = error;
-            ErrorData = FailureReason.None;
-        }
-
-        public void Set(CallStatus from) { Complete = from.Complete; Error = from.Error; }
-
-        //public static Func<bool> CallComplete(CallStatus status) => () => status.complete;
-    }
 
 
     /// <summary>
-    /// Class which encapsulates the return values of an API call as well as if the call completed and was sucessful.
-    /// </summary>
-    public class CallResponse<T>
-    {
-        public T returnData;
-
-        public readonly CallStatus status;
-
-        public CallResponse()
-        {
-            //returnData = data;
-            returnData = default;
-            status = CallStatus.NotComplete;
-        }
-    }
-    /// <summary>
-    /// Paramaterless overload
+    /// Class which encapsulates if an API call was completed and was sucessful.
     /// </summary>
     public class CallResponse
     {
@@ -82,7 +37,61 @@ namespace NetSystem
         {
             status = CallStatus.NotComplete;
         }
+
+        /// <summary>
+        /// Class representing the satus of an API call
+        /// </summary>
+        public class CallStatus
+        {
+            public bool Complete { get; private set; }
+            public bool Error { get; private set; }
+
+            public FailureReason ErrorData { get; private set; }
+
+            public void SetNotComplete() { Complete = false; Error = true; }
+            public void SetSucess() { Complete = true; Error = false; }
+      
+
+            public void SetError(FailureReason reason) { Complete = true; Error = true; ErrorData = reason; }
+
+            internal static CallStatus NotComplete => new CallStatus(complete: false, error: true);
+
+
+
+
+            private CallStatus(bool complete, bool error)
+            {
+                Complete = complete;
+                Error = error;
+                ErrorData = FailureReason.None;
+            }
+
+            public void Set(CallStatus from) { Complete = from.Complete; Error = from.Error; }
+
+        }
     }
+
+
+
+    /// <summary>
+    /// Class which encapsulates the return values of an API call as well as if the call completed and was sucessful.
+    /// </summary>
+    public class CallResponse<T> : CallResponse
+    {
+        public T returnData;
+
+        public CallResponse() : base()
+        {
+            returnData = default;
+        }      
+        public CallResponse(T data) : base()
+        {
+            returnData = data;
+        }
+    }
+
+
+
 
     public enum FailureReason 
     { 
@@ -96,13 +105,10 @@ namespace NetSystem
     }
 
 
-
-
-
     public class APIOperationCallbacks
     {
-        readonly Action OnSucess;
-        readonly Action<FailureReason> OnFailure;
+        public readonly Action OnSucess;
+        public readonly Action<FailureReason> OnFailure;
 
         public APIOperationCallbacks(Action onSucess, Action<FailureReason> onfailure)
         {

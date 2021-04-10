@@ -9,13 +9,18 @@ namespace NetSystem
     using PlayFab.GroupsModels;
     public abstract class NetComponent : MonoBehaviour
     {
-        protected void ScriptExecutedfailure<T>(PlayFabError obj, CallResponse<T> callResponse)
+     
+        protected void ScriptExecutedfailure(PlayFabError obj, CallResponse callResponse)
         {
             Debug.LogError(obj.GenerateErrorReport());
-            callResponse.status.SetError();
-
+            callResponse.status.SetError(FailureReason.PlayFabError);
         }
 
+        /// <summary>
+        /// Deserialise an API response to a playfab object <see cref="{T}"/>. Returns <c>null</c> in case of error
+        /// </summary>
+        /// <param name="obj">A response from an API call</param>
+        /// <returns><see cref="{T}"/> or <c>null</c></returns>
         protected T DeserialiseResponseToPlayfabObject<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T : PlayFab.SharedModels.PlayFabResultCommon
         {
 
@@ -50,12 +55,17 @@ namespace NetSystem
             return response;
         }
 
-        protected T DeserialiseResponseToCutomObject<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+        /// <summary>
+        /// Deserialise an API response to a custom class <see cref="{T}"/>. Returns <c>null</c> in case of error
+        /// </summary>
+        /// <param name="obj">A response from an API call</param>
+        /// <returns><see cref="{T}"/> or <c>null</c></returns>
+        protected T DeserialiseResponseToCutomObject<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T : class
         {
             if (obj.Error != null)
             {
                 LogError(obj.Error);
-                return default;
+                return null;
             }
 
             object objResult = obj.FunctionResult;
@@ -63,7 +73,7 @@ namespace NetSystem
             if (objResult == null)
             {
                 LogObjectResultIsNullError(obj);
-                return default;
+                return null;
             }
 
             string stringValue = objResult.ToString();
@@ -76,7 +86,7 @@ namespace NetSystem
             catch (Exception)
             {
                 LogCannotDeserialiseError(obj);
-                return default;
+                return null;
             }
 
 

@@ -130,6 +130,7 @@ namespace NetSystem
                 if (response == null)
                 {
                     callResponse.status.SetError(FailureReason.InternalError);
+                    return;
                 }
 
                 //callResponse.returnData.AddRange(response.Groups);
@@ -172,6 +173,7 @@ namespace NetSystem
                 if (response == null)
                 {
                     callResponse.status.SetError(FailureReason.InternalError);
+                    return;
                 }
 
                 callResponse.returnData = response;
@@ -191,16 +193,17 @@ namespace NetSystem
             // gather member games if not already cached
             if (cachedMemberGames == null)
             {
-                CallStatus callStatus = CallStatus.NotComplete;
+                CallResponse response = new CallResponse();
+
                 var gatherCallbacks = new APIOperationCallbacks<List<NetworkGame>>(
-                    onSucess: (_) => callStatus.SetSucess()
-                    , onfailure: (FailureReason) => callStatus.SetError(FailureReason));
+                    onSucess: (_) => response.status.SetSucess()
+                    , onfailure: (FailureReason) => response.status.SetError(FailureReason));
 
                 yield return StartCoroutine(GetAllMyGames(gatherCallbacks));
 
-                if (callStatus.Error || cachedMemberGames == null)
+                if (response.status.Error || cachedMemberGames == null)
                 {
-                    resultsCallbacks.OnFailure(callStatus.ErrorData);
+                    resultsCallbacks.OnFailure(response.status.ErrorData);
                     yield break;
                 }
             }
@@ -263,6 +266,7 @@ namespace NetSystem
                 if (response == null)
                 {
                     getOpenGamesResponse.status.SetError(FailureReason.InternalError);
+                    return;
                 }
 
                 getOpenGamesResponse.returnData = response.Groups;
@@ -276,11 +280,73 @@ namespace NetSystem
 
 
 
-        public IEnumerator JoinOpenGameGroup(APIOperationCallbacks<NetworkGame> callbacks)
+        public IEnumerator JoinOpenGameGroup(GroupWithRoles groupToJoin, APIOperationCallbacks<NetworkGame> resultsCallback)
         {
-            throw new NotImplementedException();
+            // join the game
+            var joinGameResponse = new CallResponse();
+
+            yield return StartCoroutine(JoinGroup(groupToJoin.Group, joinGameResponse));
+
+            if (joinGameResponse.status.Error)
+            {
+                resultsCallback.OnFailure(joinGameResponse.status.ErrorData);
+                yield break;
+            }
+
+            // get the metadata
+            var getMetadataRespone = new CallResponse<NetworkGame.NetworkGameMetadata>();
+
+            yield return StartCoroutine(GetGroupMetaData(groupToJoin.Group, getMetadataRespone));
+
+            if (getMetadataRespone.status.Error)
+            {
+                resultsCallback.OnFailure(joinGameResponse.status.ErrorData);
+                yield break;
+            }
+
+
+            NetworkGame netGame = new NetworkGame(groupToJoin, getMetadataRespone.returnData);
+
+            resultsCallback.OnSucess(netGame);
+
+
         }
 
+        private IEnumerator JoinGroup(EntityKey group, CallResponse joinGroupResponse)
+        {
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "JoinGroup",
+                FunctionParameter = new
+                {
+                    Group = group,
+                    Entity = ClientEntity
+                }
+            };
+
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
+               request: request,
+               resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { JoinGroupSucess(obj); },
+               errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, joinGroupResponse)
+               );
+
+
+            void JoinGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+            {
+
+                if (obj.Error != null)
+                {
+                    joinGroupResponse.status.SetError(FailureReason.InternalError);
+                    return;
+                }
+               
+                joinGroupResponse.status.SetSucess();
+            }
+
+            yield return new WaitUntil(() => joinGroupResponse.status.Complete);
+
+        }
 
 
 

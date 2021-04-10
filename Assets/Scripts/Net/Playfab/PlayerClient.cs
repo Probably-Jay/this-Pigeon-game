@@ -46,18 +46,18 @@ namespace NetSystem
 
         private IEnumerator AnonymousLoginAsyc()
         {
-            CallStatus status = CallStatus.NotComplete;
+            CallResponse response = new CallResponse();
             switch (Application.platform)
             {
 
                 case RuntimePlatform.WindowsPlayer:
-                    WindowsAnonymousLogin(status);
+                    WindowsAnonymousLogin(response);
                     break;
                 case RuntimePlatform.WindowsEditor:
-                    WindowsAnonymousLogin(status);
+                    WindowsAnonymousLogin(response);
                     break;
                 case RuntimePlatform.Android:
-                    AndroidAnonymousLogin(status);
+                    AndroidAnonymousLogin(response);
                     break;
                 default:
                     throw new System.Exception();
@@ -70,14 +70,14 @@ namespace NetSystem
             //    yield return null;
             //}
 
-            yield return new WaitUntil(() => {Debug.Log("Connecting"); return status.Complete; });
+            yield return new WaitUntil(() => {Debug.Log("Connecting"); return response.status.Complete; });
 
             Debug.Log("Login return");
 
           
         }
 
-        private void AndroidAnonymousLogin(CallStatus status)
+        private void AndroidAnonymousLogin(CallResponse response)
         {
             var androidRequest = new PlayFab.ClientModels.LoginWithAndroidDeviceIDRequest()
             {
@@ -88,14 +88,14 @@ namespace NetSystem
            
             PlayFabClientAPI.LoginWithAndroidDeviceID(
                 androidRequest,
-                (PlayFab.ClientModels.LoginResult obj) => { LoginSucess(obj, status); },
-                (PlayFabError obj) => { LoginFailure(obj, status); }
+                (PlayFab.ClientModels.LoginResult obj) => { LoginSucess(obj, response); },
+                (PlayFabError obj) => { LoginFailure(obj, response); }
                 );
 
            
         }
 
-        private void WindowsAnonymousLogin(CallStatus status)
+        private void WindowsAnonymousLogin(CallResponse esponse)
         {
             PlayFab.ClientModels.LoginWithCustomIDRequest request = new PlayFab.ClientModels.LoginWithCustomIDRequest()
             {
@@ -107,8 +107,8 @@ namespace NetSystem
            // CallStatus status = CallStatus.NotComplete;
             PlayFabClientAPI.LoginWithCustomID(
                 request,
-                (PlayFab.ClientModels.LoginResult obj) => { LoginSucess(obj, status); },
-                (PlayFabError obj) => { LoginFailure(obj, status); }
+                (PlayFab.ClientModels.LoginResult obj) => { LoginSucess(obj, esponse); },
+                (PlayFabError obj) => { LoginFailure(obj, esponse); }
                 );
 
         }
@@ -127,17 +127,17 @@ namespace NetSystem
                 CreateAccount = true
             };
 
-            CallStatus status = CallStatus.NotComplete;
+            CallResponse response = new CallResponse();
             PlayFabClientAPI.LoginWithCustomID(
                 request,
-                (PlayFab.ClientModels.LoginResult obj) => LoginSucess(obj, status),
-                (PlayFabError obj) => LoginFailure(obj, status)
+                (PlayFab.ClientModels.LoginResult obj) => LoginSucess(obj, response),
+                (PlayFabError obj) => LoginFailure(obj, response)
                 );
 
   
         }
 
-        private void LoginSucess(PlayFab.ClientModels.LoginResult obj, CallStatus status)
+        private void LoginSucess(PlayFab.ClientModels.LoginResult obj, CallResponse response)
         {
 
             Debug.Log($"Login Succeeded");
@@ -153,15 +153,15 @@ namespace NetSystem
                 Type = obj.EntityToken.Entity.Type
             };
 
-            status.SetSucess();
+            response.status.SetSucess();
         
         }
 
-        private void LoginFailure(PlayFabError obj, CallStatus status)
+        private void LoginFailure(PlayFabError obj, CallResponse response)
         {
             Debug.LogError($"Login Failed");
             Debug.LogError(obj.GenerateErrorReport());
-            status.SetError();
+            response.status.SetError(FailureReason.PlayFabError);
         }
 
     }
