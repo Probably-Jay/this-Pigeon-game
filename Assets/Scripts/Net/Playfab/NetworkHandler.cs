@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PlayFab.GroupsModels;
 using UnityEngine;
 
 
@@ -14,62 +15,104 @@ namespace NetSystem
         [SerializeField] PlayerClient playerClient;
         MatchMaker matchMaker;
 
+       
+        
+
         private void Awake()
         {
             matchMaker = GetComponent<MatchMaker>();
             matchMaker.Init(playerClient);
         }
 
-        public void MatchMake()
+        public void GatherMemberGames()
         {
-            var callbacks = new APIOperationCallbacks<List<NetworkGame>>(OnGamesGatheredSucess, OnGamesGatherFailure);
+            var callbacks = new APIOperationCallbacks<List<NetworkGame>>(onSucess: OnGamesGatheredSucess, onfailure: OnGamesGatherFailure);
             StartCoroutine(matchMaker.GetAllMyGames(callbacks));
-
-          //  while(res)
-
         }
 
         private void OnGamesGatheredSucess(List<NetworkGame> games)
         {
-            Debug.Log("Overall sucess");
+            Debug.Log("Games Gathered");
+
+            if(games.Count == 0)
+            {
+                Debug.Log("No active games");
+                return;
+            }
+
             foreach (var game in games)
             {
                 Debug.Log(game.GroupName);
-                Debug.Log($"Open: {game.MetaData.}");
+              //  Debug.Log($"Open: {game.MetaData.}");
 
             }
         }
 
-        private void OnGamesGatherFailure()
+        private void OnGamesGatherFailure(FailureReason reason)
         {
             throw new NotImplementedException();
         }
 
-    }
-    public class NetworkGame
-    {
-        public PlayFab.CloudScriptModels.EntityKey GroupEntityKey => new PlayFab.CloudScriptModels.EntityKey() { Id = group.Group.Id,Type = group.Group.Type };
-        public string GroupName => group.GroupName;
-        public NetworkGameMetadata MetaData  => metaData;
-
-        readonly PlayFab.GroupsModels.GroupWithRoles group;
-        readonly NetworkGame.NetworkGameMetadata metaData;
-
-        public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData)
+        public void EnterNewGame()
         {
-            this.group = group;
-            this.metaData = gameMetaData;
+            var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(onSucess: OnGotOpenGameGroupsSucess, onfailure: OnGetOpenGamefailure);
+            StartCoroutine(matchMaker.GetOpenGameGroups(callbacks));
         }
 
-
-        public class NetworkGameMetadata
+        private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups)
         {
-            public readonly bool Open;
-            public readonly PlayFab.CloudScriptModels.EntityKey Player1;
-            public readonly PlayFab.CloudScriptModels.EntityKey Player2;
+            var groupToJoin = SelectGroupToJoin(groups);
+            var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnJoinedGameSucess, onfailure: OnJoinedGameSucess);
+            StartCoroutine(matchMaker.GetOpenGameGroups(callbacks));
         }
 
+        private object SelectGroupToJoin(List<GroupWithRoles> groups)
+        {
+            return groups[UnityEngine.Random.Range(0, groups.Count)];
+        }
+
+        private void OnGetOpenGamefailure(FailureReason reason)
+        {
+            switch (reason)
+            {
+               
+                case FailureReason.PlayFabError:
+                    UnexpectedPlayfabError();
+                    return;
+                case FailureReason.TooManyActiveGames:
+                    PlayerHasTooManyActiveGames();
+                    return;
+                case FailureReason.NoOpenGamesAvailable: // this is not a problem, just start a new game
+                    StartNewGame();
+                    return;
+                default:
+                    UnknownError();
+                    return;
+            }
+            
+        }
+
+        private void StartNewGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PlayerHasTooManyActiveGames()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UnexpectedPlayfabError()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UnknownError()
+        {
+            throw new NotImplementedException();
+        }
     }
+   
 
    
 

@@ -9,35 +9,50 @@ namespace NetSystem
     using PlayFab;
     using PlayFab.GroupsModels;
 
-    public class MatchMaker : MonoBehaviour
+    public class MatchMaker : NetComponent
     {
 
         PlayFab.CloudScriptModels.EntityKey ClientEntity => client.ClientEntityKey;
         PlayerClient client;
 
+        public List<NetworkGame> cachedMemberGames = null;
+
+        [SerializeField] int maximumActiveGames = 10;
+
+
         public void Init(PlayerClient client)
         {
             this.client = client;
-            
+
         }
 
-
+        /// <summary>
+        /// Get a list of all game groups this client is a member of
+        /// </summary>
+        /// <param name="resultCallbacks">An object containing the funcitons to be called on sucess or failure of this operation</param>
         public IEnumerator GetAllMyGames(APIOperationCallbacks<List<NetworkGame>> resultCallbacks)
         {
-            
+
+            if (cachedMemberGames != null)
+            {
+                Debug.Log("Cached member games found, returning");
+                resultCallbacks.OnSucess(cachedMemberGames);
+                yield break;
+            }
+
             // get the groups we are members of (including open unstarted games)
             var listGroupResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>();
 
-            yield return StartCoroutine(ListMyGroups(listGroupResponse));
+            yield return StartCoroutine(GetGroupsClientIsMemberOf(listGroupResponse));
 
             if (listGroupResponse.status.Error)
             {
-                resultCallbacks.OnFailure();
+                resultCallbacks.OnFailure(listGroupResponse.status.ErrorData);
                 yield break;
             }
 
             // if we aren't in any groups, return empty list
-            if(listGroupResponse.returnData.Count == 0)
+            if (listGroupResponse.returnData.Count == 0)
             {
                 resultCallbacks.OnSucess(new List<NetworkGame>());
                 yield break;
@@ -61,9 +76,9 @@ namespace NetSystem
             foreach (var response in gameDataRequestResponses)
             {
                 yield return new WaitUntil(() => { return response.status.Complete; });
-                if(response.status.Error)
+                if (response.status.Error)
                 {
-                    resultCallbacks.OnFailure();
+                    resultCallbacks.OnFailure(response.status.ErrorData);
                     yield break;
                 }
             }
@@ -78,18 +93,16 @@ namespace NetSystem
                 netGames.Add(netGame);
             }
 
+            cachedMemberGames = netGames;
+
             resultCallbacks.OnSucess(netGames);
 
         }
 
-     
-
         // private IEnumerator ListMyGroups( out (CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) response) // cannot pass ref param to iterator
         // private IEnumerator ListMyGroups( Action<(CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) > callback) // this was stupid
-        private IEnumerator ListMyGroups(CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>> callResponse)
+        private IEnumerator GetGroupsClientIsMemberOf(CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>> callResponse)
         {
-
-
 
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
@@ -102,21 +115,21 @@ namespace NetSystem
 
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
-                request, 
-                (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { ListMyGroupSucess(obj); },
-                (PlayFabError obj) => ScriptExecutedfailure(obj, callResponse)
+                request: request,
+                resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { ListMyGroupSucess(obj); },
+                errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, callResponse)
                 );
 
 
             // local function
-            void ListMyGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) 
+            void ListMyGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
             {
-              
-                var response = DeserialiseResponse<PlayFab.GroupsModels.ListMembershipResponse>(obj);
+
+                var response = DeserialiseResponseToPlayfabObject<PlayFab.GroupsModels.ListMembershipResponse>(obj);
 
                 if (response == null)
                 {
-                    callResponse.status.SetError();
+                    callResponse.status.SetError(FailureReason.InternalError);
                 }
 
                 //callResponse.returnData.AddRange(response.Groups);
@@ -130,6 +143,7 @@ namespace NetSystem
 
         }
 
+
         private IEnumerator GetGroupMetaData(EntityKey group, CallResponse<NetworkGame.NetworkGameMetadata> callResponse)
         {
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
@@ -142,9 +156,9 @@ namespace NetSystem
             };
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
-              request,
-              (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { GetDataSucess(obj); },
-              (PlayFabError obj) => ScriptExecutedfailure(obj, callResponse)
+              request: request,
+              resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { GetDataSucess(obj); },
+              errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, callResponse)
               );
 
 
@@ -152,12 +166,12 @@ namespace NetSystem
             void GetDataSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
             {
                 //var response = DeserialiseResponse<PlayFab.DataModels.GetObjectsResponse>(obj);
-               // var response = DeserialiseResponseGeneric<PlayFab.DataModels.ObjectResult>(obj);
-                var response = DeserialiseResponseGeneric<NetworkGame.NetworkGameMetadata>(obj);
+                // var response = DeserialiseResponseGeneric<PlayFab.DataModels.ObjectResult>(obj);
+                var response = DeserialiseResponseToCutomObject<NetworkGame.NetworkGameMetadata>(obj);
 
                 if (response == null)
                 {
-                    callResponse.status.SetError();
+                    callResponse.status.SetError(FailureReason.InternalError);
                 }
 
                 callResponse.returnData = response;
@@ -167,103 +181,105 @@ namespace NetSystem
             }
 
             yield return new WaitUntil(() => { Debug.Log("Loading"); return callResponse.status.Complete; });
-            Debug.Log("List fetched");
+
 
         }
-        private void ScriptExecutedfailure<T>(PlayFabError obj, CallResponse<T> callResponse)
+
+
+        public IEnumerator ValidateIfBelowGameLimit(APIOperationCallbacks resultsCallbacks)
         {
-            Debug.LogError(obj.GenerateErrorReport());
-            callResponse.status.SetError();
+            // gather member games if not already cached
+            if (cachedMemberGames == null)
+            {
+                CallStatus callStatus = CallStatus.NotComplete;
+                var gatherCallbacks = new APIOperationCallbacks<List<NetworkGame>>(
+                    onSucess: (_) => callStatus.SetSucess()
+                    , onfailure: (FailureReason) => callStatus.SetError(FailureReason));
+
+                yield return StartCoroutine(GetAllMyGames(gatherCallbacks));
+
+                if (callStatus.Error || cachedMemberGames == null)
+                {
+                    resultsCallbacks.OnFailure(callStatus.ErrorData);
+                    yield break;
+                }
+            }
+
+            // some upper limit on number of mambered games
+            if (cachedMemberGames.Count >= maximumActiveGames)
+            {
+                resultsCallbacks.OnFailure(FailureReason.TooManyActiveGames);
+                yield break;
+            }
+
+            resultsCallbacks.OnSucess();
+
+        }
+
+        public IEnumerator GetOpenGameGroups(APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>> resultsCallbacks)
+        {
             
+            // gather open games
+            var getOpenGamesResponse = new CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>>();
+
+            yield return StartCoroutine(GetOpenGamesFromServer(getOpenGamesResponse));
+
+            if (getOpenGamesResponse.status.Error)
+            {
+                resultsCallbacks.OnFailure(getOpenGamesResponse.status.ErrorData);
+                yield break;
+            }
+
+            // if there is an open game
+            if(getOpenGamesResponse.returnData.Count == 0)
+            {
+                resultsCallbacks.OnFailure(FailureReason.NoOpenGamesAvailable);
+                yield break;
+            }
+
+            resultsCallbacks.OnSucess(getOpenGamesResponse.returnData);
+
         }
 
-        private T DeserialiseResponse<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) where T : PlayFab.SharedModels.PlayFabResultCommon
+        private IEnumerator GetOpenGamesFromServer(CallResponse<List<GroupWithRoles>> getOpenGamesResponse)
         {
-
-            if (obj.Error != null)
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
-                LogError(obj.Error);
-                return null;
+                FunctionName = "ListOpenGroups"
+            };
+
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
+               request: request,
+               resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { ListOpenGroupSucess(obj); },
+               errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, getOpenGamesResponse)
+               );
+
+
+            void ListOpenGroupSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+            {
+                var response = DeserialiseResponseToPlayfabObject<PlayFab.GroupsModels.ListMembershipResponse>(obj);
+
+                if (response == null)
+                {
+                    getOpenGamesResponse.status.SetError(FailureReason.InternalError);
+                }
+
+                getOpenGamesResponse.returnData = response.Groups;
+
+                getOpenGamesResponse.status.SetSucess();
             }
 
-            object objResult = obj.FunctionResult;
+            yield return new WaitUntil(() => getOpenGamesResponse.status.Complete);
 
-            if(objResult == null)
-            {
-                LogObjectResultIsNullError(obj);
-                return null;
-            }
-
-            string stringValue = objResult.ToString();
-
-            T response;
-            try
-            {
-                response = JsonUtility.FromJson<T>(stringValue);
-            }
-            catch (Exception)
-            {
-                LogCannotDeserialiseError(obj);
-                return null;
-            }
-           
-
-            return response;
         }
 
-        private T DeserialiseResponseGeneric<T>(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+
+
+        public IEnumerator JoinOpenGameGroup(APIOperationCallbacks<NetworkGame> callbacks)
         {
-            if (obj.Error != null)
-            {
-                LogError(obj.Error);
-                return default;
-            }
-
-            object objResult = obj.FunctionResult;
-
-            if (objResult == null)
-            {
-                LogObjectResultIsNullError(obj);
-                return default;
-            }
-
-            string stringValue = objResult.ToString();
-
-            T response;
-            try
-            {
-                response = JsonUtility.FromJson<T>(stringValue);
-            }
-            catch (Exception)
-            {
-                LogCannotDeserialiseError(obj);
-                return default;
-            }
-
-
-            return response;
+            throw new NotImplementedException();
         }
-
-
-        private void LogCannotDeserialiseError(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
-        {
-            Debug.LogError($"Result from {obj.FunctionName} result {obj.FunctionResult} cannot be deserilaised");
-        }
-
-        private void LogObjectResultIsNullError(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
-        {
-            Debug.LogError($"Response from {obj.FunctionName} had no result");
-        }
-
-        private void LogError(PlayFab.CloudScriptModels.ScriptExecutionError error)
-        {
-            Debug.LogError(error.Error + " " + error.Message + " " + error.StackTrace);
-        }
-
-        //private void LogError(PlayFab.ClientModels.ScriptExecutionError error)
-        //{
-        //    Debug.LogError(error.Error + " " + error.Message + " " + error.StackTrace);
-        //}
 
 
 

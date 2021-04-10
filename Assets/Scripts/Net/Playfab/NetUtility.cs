@@ -31,10 +31,12 @@ namespace NetSystem
         public bool Complete { get; private set; }
         public bool Error { get; private set; }
 
+        public FailureReason ErrorData { get; private set; }
 
         public void SetNotComplete() { Complete = false; Error = true; }
         public void SetSucess() { Complete = true; Error = false; }
-        public void SetError() { Complete = true; Error = true; }
+       // public void SetError() { Complete = true; Error = true; }
+        public void SetError(FailureReason reason) { Complete = true; Error = true; ErrorData = reason; }
 
         public static CallStatus NotComplete => new CallStatus(complete: false, error: true);
         //public static CallStatus Sucess => new CallStatus(complete: true, error: false);
@@ -44,6 +46,7 @@ namespace NetSystem
         {
             Complete = complete;
             Error = error;
+            ErrorData = FailureReason.None;
         }
 
         public void Set(CallStatus from) { Complete = from.Complete; Error = from.Error; }
@@ -81,26 +84,41 @@ namespace NetSystem
         }
     }
 
+    public enum FailureReason 
+    { 
+        None
+
+        ,PlayFabError
+        ,InternalError
+
+        ,TooManyActiveGames
+        ,NoOpenGamesAvailable
+    }
+
+
+
+
+
     public class APIOperationCallbacks
     {
-        readonly Action onSucess;
-        readonly Action onFailure;
+        readonly Action OnSucess;
+        readonly Action<FailureReason> OnFailure;
 
-        APIOperationCallbacks(Action onScess, Action onfailure)
+        public APIOperationCallbacks(Action onSucess, Action<FailureReason> onfailure)
         {
-            this.onSucess = onScess;
-            this.onFailure = onfailure;
+            this.OnSucess = onSucess;
+            this.OnFailure = onfailure;
         }
 
     } 
     public class APIOperationCallbacks<Ts>
     {
         public readonly Action<Ts> OnSucess;
-        public readonly Action OnFailure;
+        public readonly Action<FailureReason> OnFailure;
 
-        public APIOperationCallbacks(Action<Ts> onScess, Action onfailure)
+        public APIOperationCallbacks(Action<Ts> onSucess, Action<FailureReason> onfailure)
         {
-            this.OnSucess = onScess;
+            this.OnSucess = onSucess;
             this.OnFailure = onfailure;
         }
 

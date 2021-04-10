@@ -114,7 +114,9 @@
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\MatchMaker.cs" />
+    <Compile Include="Assets\Scripts\Net\Playfab\NetComponent.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\NetUtility.cs" />
+    <Compile Include="Assets\Scripts\Net\Playfab\NetworkGame.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\NetworkHandler.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\PlayerClient.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\Test\LoginTest.cs" />
