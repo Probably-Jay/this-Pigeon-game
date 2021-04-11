@@ -11,7 +11,7 @@ using PlayFab.CloudScriptModels;
 
 //using PlayFab.CloudScriptModels;
 
-namespace Net
+namespace NetTest
 {
     public class RoomTest : MonoBehaviour
     {
@@ -82,37 +82,37 @@ namespace Net
             };
 
 
-            (bool complete, PlayFab.GroupsModels.GroupWithRoles group, bool error) ListGroupResult = (complete: false, group: null, error: true); // if never initilased past this point, assume error
+            (bool complete, PlayFab.GroupsModels.GroupWithRoles group, bool error) listGroupResult = (complete: false, group: null, error: true); // if never initilased past this point, assume error
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
                 request,
                 (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { 
-                    (ListGroupResult.group, ListGroupResult.error) = ListOpenGroupsSucess(obj); 
-                    ListGroupResult.complete = true; 
+                    (listGroupResult.group, listGroupResult.error) = ListOpenGroupsSucess(obj); 
+                    listGroupResult.complete = true; 
                 },
-                (PlayFabError obj) => { ScriptExecutedfailure(obj); (ListGroupResult.complete, ListGroupResult.error) = (true,true); }
+                (PlayFabError obj) => { ScriptExecutedfailure(obj); (listGroupResult.complete, listGroupResult.error) = (true,true); }
                 );
 
-            yield return new WaitUntil(()=>ListGroupResult.complete);
+            yield return new WaitUntil(()=>listGroupResult.complete);
 
             Debug.Log("Task complete");
 
-            if (ListGroupResult.error)
+            if (listGroupResult.error)
             {
                 Debug.Log("There was an error");
                 yield break;
             }
 
 
-            if (ListGroupResult.group == null)
+            if (listGroupResult.group == null)
             {
                 Debug.Log("No groups, making new one");
                 CreateGroupOnServer();
             }
             else
             {
-                Debug.Log($"Group: {ListGroupResult.group.GroupName} chosen... attempting to join");
-                JoinGroup(ListGroupResult.group.Group);
+                Debug.Log($"Group: {listGroupResult.group.GroupName} chosen... attempting to join");
+                JoinGroup(listGroupResult.group.Group);
             }
 
             listing = false; // todo this should await the above functions
