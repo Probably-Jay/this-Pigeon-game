@@ -81,7 +81,8 @@ namespace NetSystem
             T response;
             try
             {
-                response = JsonUtility.FromJson<T>(stringValue);
+                var data = JsonUtility.FromJson<T>(stringValue);
+                response = data;
             }
             catch (Exception)
             {

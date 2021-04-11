@@ -213,10 +213,68 @@ namespace NetSystem
                     yield break;
                 }
 
+                // do not cache this value
                 openGroups = getOpenGamesResponse.returnData;
             }
 
-            // if there is an open game
+            // if there are no open games
+            if (openGroups.Count == 0)
+            {
+                resultsCallbacks.OnFailure(FailureReason.NoOpenGamesAvailable);
+                yield break;
+            }
+
+
+            // remove games we are in
+            {
+                // gather member games if not already cached
+                if (cachedMemberGames == null)
+                {
+                    CallResponse response = new CallResponse();
+
+                    var gatherCallbacks = new APIOperationCallbacks<List<NetworkGame>>(
+                        onSucess: (_) => response.status.SetSucess()
+                        , onfailure: (FailureReason) => response.status.SetError(FailureReason));
+
+                    yield return StartCoroutine(GetAllMyGames(gatherCallbacks));
+
+                    if (response.status.Error)
+                    {
+                        switch (response.status.ErrorData)
+                        {
+                            case FailureReason.PlayerIsMemberOfNoGames:
+                                // do nothing
+                                break;
+                            default:
+                                resultsCallbacks.OnFailure(response.status.ErrorData);
+                                yield break;
+                        }
+                    }
+
+                }
+
+                // find matches
+                List<GroupWithRoles> toRemove = new List<GroupWithRoles>();
+                foreach (var memberGame in cachedMemberGames)
+                {
+                    foreach (var openGame in openGroups)
+                    {
+                        if(memberGame.GroupEntityKey.Id == openGame.Group.Id)
+                        {
+                            toRemove.Add(openGame);
+                        }
+                    }
+                }
+
+                // remove them
+                foreach (var game in toRemove)
+                {
+                    openGroups.Remove(game);
+                }
+            }
+
+
+            // if there are no open games
             if (openGroups.Count == 0)
             {
                 resultsCallbacks.OnFailure(FailureReason.NoOpenGamesAvailable);
@@ -328,6 +386,10 @@ namespace NetSystem
                 }
             }
 
+
+            // could validate game is actually open and we arn't already members... but we can just try and learn this from it failing
+
+
             // join the game
             {
                 var joinGameResponse = new CallResponse();
@@ -353,6 +415,7 @@ namespace NetSystem
                     resultsCallback.OnFailure(getMetadataRespone.status.ErrorData);
                     yield break;
                 }
+
                 metaData = getMetadataRespone.returnData;
             }
 
@@ -404,7 +467,7 @@ namespace NetSystem
         }
 
 
-        internal IEnumerator CreateGame(APIOperationCallbacks<NetworkGame> resultsCallback)
+        public IEnumerator CreateGame(APIOperationCallbacks<NetworkGame> resultsCallback)
         {
             // validate we are allowed to join a new game
             {
@@ -502,7 +565,7 @@ namespace NetSystem
                 }
             };
 
-            Debug.Log($"Name {name}");
+          
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
                request: request,

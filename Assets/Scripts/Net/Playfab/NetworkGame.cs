@@ -24,9 +24,9 @@ namespace NetSystem
 
         public class NetworkGameMetadata
         {
-            public readonly bool Open;
-            public readonly PlayFab.CloudScriptModels.EntityKey Player1;
-            public readonly PlayFab.CloudScriptModels.EntityKey Player2;
+            public bool Open;
+            public PlayFab.CloudScriptModels.EntityKey Player1;
+            public PlayFab.CloudScriptModels.EntityKey Player2;
         }
 
     }
