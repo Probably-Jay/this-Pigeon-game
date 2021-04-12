@@ -94,7 +94,7 @@ namespace NetSystem
             return response;
         }
 
-
+                  
         protected void LogCannotDeserialiseError(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
         {
             Debug.LogError($"Result from {obj.FunctionName} result {obj.FunctionResult} cannot be deserilaised");

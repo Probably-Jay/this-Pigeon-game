@@ -27,7 +27,7 @@ namespace NetSystem
             public bool Open;
             public PlayFab.CloudScriptModels.EntityKey Player1;
             public PlayFab.CloudScriptModels.EntityKey Player2;
-            public string SharedDataID;
+          //  public string SharedDataID;
         }
 
     }
