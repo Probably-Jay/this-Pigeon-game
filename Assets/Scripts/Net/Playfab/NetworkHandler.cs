@@ -37,7 +37,7 @@ namespace NetSystem
             gameDataHandler.networkGame = obj;
         }
 
-        public void GatherMemberGames()
+        public void GatherAllMemberGames()
         {
             var callbacks = new APIOperationCallbacks<List<NetworkGame>>(onSucess: OnGamesGatheredSucess, onfailure: OnGamesGatherFailure);
             StartCoroutine(matchMaker.GetAllMyGames(callbacks));
@@ -46,24 +46,15 @@ namespace NetSystem
         private void OnGamesGatheredSucess(List<NetworkGame> games)
         {
             // todo - list these to the player
-
-            Debug.Log("Games Gathered");
-
-            if(games.Count == 0)
-            {
-                Debug.Log("No active games");
-                return;
-            }
-
-            foreach (var game in games)
-            {
-                Debug.Log(game.GroupName);
-                Debug.Log($"Open: {game.GameOpenToJoin}");
-
-            }
+            throw new NotImplementedException();
         }
 
         private void OnGamesGatherFailure(FailureReason reason)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadActiveMemberGame(NetworkGame game)
         {
             throw new NotImplementedException();
         }
