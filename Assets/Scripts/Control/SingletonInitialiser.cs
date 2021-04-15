@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using NetSystem;
 
 // created Jay 04/03
 
@@ -7,36 +8,43 @@
  /// </summary>
 public class SingletonInitialiser : MonoBehaviour
 {
-    public GameObject eventsManager;
-    public GameObject applicationManager;
-    public GameObject sceneChangeController;
-    public GameObject saveManager;
-    public GameObject gameManager;
+    [SerializeField] GameObject eventsManager;
+    [SerializeField] GameObject applicationManager;
+    [SerializeField] GameObject sceneChangeController;
+    [SerializeField] GameObject saveManager;
+    [SerializeField] GameObject gameManager;
+    [SerializeField] GameObject networkHandler;
 
 
     private void Awake()
     {
-        if (EventsManager.InstanceExists) return;
-
         CreateSingletons();
     }
 
     private void CreateSingletons()
     {
-        var eventsManagerObject = Instantiate(eventsManager);
-        eventsManagerObject.GetComponent<EventsManager>().Initialise();
+        CreateSingleon<EventsManager>(eventsManager);
+        CreateSingleon<ApplicationManager>(applicationManager);
+        CreateSingleon<SceneChangeController>(sceneChangeController);
+        CreateSingleon<SaveManager>(saveManager);
+        CreateSingleon<NetworkHandler>(networkHandler);
+        CreateSingleon<GameManager>(gameManager);
+    }
 
-        var applicationManagerObject = Instantiate(applicationManager);
-        applicationManagerObject.GetComponent<ApplicationManager>().Initialise();
-       
-        var sceneChangeControllerObject = Instantiate(sceneChangeController);
-        sceneChangeControllerObject.GetComponent<SceneChangeController>().Initialise();
-        
-        var saveManagerObject = Instantiate(saveManager);
-        saveManagerObject.GetComponent<SaveManager>().Initialise();
+    private void CreateSingleon<T>(GameObject singletonPrefab) where T : Singleton<T>
+    {
+        if (Singleton<T>.InstanceExists)
+        {
+            return;
+        }
 
-        var gameManagerObject = Instantiate(gameManager);
-        gameManagerObject.GetComponent<GameManager>().Initialise();
-        
+        if(singletonPrefab == null)
+        {
+            Singleton<T>.WarnInstanceDoesNotExist();
+            return;
+        }
+
+        var singletonObject = Instantiate(singletonPrefab);
+        singletonObject.GetComponent<T>().Initialise();
     }
 }

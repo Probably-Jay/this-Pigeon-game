@@ -10,7 +10,7 @@ using UnityEngine.Events;
 /// <summary>
 /// Singlton base class. 
 /// <see cref="T"/> must be the type of the child inheriting from this class.
-/// You must override <see cref="Singleton{}.Awake"/> and call <see cref="Singleton{}.InitSingleton"/> in this method.
+/// You must override <see cref="Singleton{}.Initialise"/> and call <see cref="Singleton{}.InitSingleton"/> in this method.
 /// </summary>
 /// <typeparam name="T">The class *inheriting* from this class, the one that will be a singleton</typeparam>
 public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
@@ -28,7 +28,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
 
         private set => instance = value;
-    
+
     }
 
     /// <summary>
@@ -40,13 +40,13 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// <summary>
     /// Will throw <see cref="SingletonDoesNotExistException"/> if instance does not exist
     /// </summary>
-    public static void AssertInstanceExists() {if(!InstanceExists && Application.isPlaying) throw new SingletonDoesNotExistException(); }
-    
+    public static void AssertInstanceExists() { if (!InstanceExists && Application.isPlaying) throw new SingletonDoesNotExistException(); }
+
 
     /// <summary>
     /// Will output warning if instance doesnt exist
     /// </summary>d
-    protected static void WarnInstanceDoesNotExist()  {if (!InstanceExists && Application.isPlaying && !quitting) Debug.LogWarning(DoesNotExistMessage);}
+    public static void WarnInstanceDoesNotExist() { if (!InstanceExists && Application.isPlaying && !quitting) Debug.LogWarning(DoesNotExistMessage); }
 
 
 
@@ -54,7 +54,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// *The deriving class must impliment a <see cref="InitSingleton"/> call inside <see cref="T.Awake"/>*
     /// </summary>
     // public abstract void Awake(); // this was causing execution order issues
-
+ 
 
     /// <summary>
     /// *The deriving class must impliment a <see cref="InitSingleton"/> call inside <see cref="T.Initialise"/>*
@@ -70,8 +70,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         if (GetType() != typeof(T)) // this should never happen
         {
-            Debug.LogError($"Singletons can only referance their own types, {typeof(Singleton<T>)} cannot be used to template typeof {GetType()}");
-            throw new UnityException(); // this is really bad
+            throw new System.Exception($"Singletons can only referance their own types, {typeof(Singleton<T>)} cannot be used to template typeof {GetType()}"); // this is really bad
         }
 
         if (instance == null || instance == this) // if instance does not exist set this to instance
@@ -88,6 +87,15 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 
         AssertInstanceExists();
 
+    }
+
+    private void OnDestroy()
+    {
+        if(instance == this)
+        {
+            Debug.Log($"Destroying singlton instance");
+            instance = null;
+        }
     }
 
     private void OnApplicationQuit()
