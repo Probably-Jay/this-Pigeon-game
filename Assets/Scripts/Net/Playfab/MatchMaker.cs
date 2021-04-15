@@ -12,19 +12,18 @@ namespace NetSystem
     public class MatchMaker : NetComponent
     {
 
-        PlayFab.CloudScriptModels.EntityKey ClientEntity => client.ClientEntityKey;
-        PlayerClient client;
 
         public List<NetworkGame> cachedMemberGames = null;
 
         [SerializeField] int maximumActiveGames = 10;
 
+        PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
+     //   PlayerClient client;
 
-        public void Init(PlayerClient client)
-        {
-            this.client = client;
-
-        }
+        //public void Init()
+        //{
+          
+        //}
 
         /// <summary>
         /// Get a list of all game groups this client is a member of
@@ -156,7 +155,7 @@ namespace NetSystem
         {
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
-                FunctionName = "GetGroupData",
+                FunctionName = "GetGroupMetaData",
                 FunctionParameter = new
                 {
                     Group = group

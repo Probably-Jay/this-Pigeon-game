@@ -10,24 +10,44 @@ namespace NetSystem
 
 
     [RequireComponent(typeof(MatchMaker))]
-    public class NetworkHandler : MonoBehaviour
+    [RequireComponent(typeof(ServerGameDataHandler))]
+    [RequireComponent(typeof(PlayerClient))]
+    public class NetworkHandler : Singleton<NetworkHandler>
     {
-        [SerializeField] PlayerClient playerClient;
-        NetworkGame currentNetworkGame = null;
+        PlayerClient playerClient;
+        public PlayFab.CloudScriptModels.EntityKey ClientEntity => playerClient.ClientEntityKey;
 
+        public NetworkGame CurrentNetworkGame { get; set; } = null;
 
         MatchMaker matchMaker;
+        ServerGameDataHandler gameDataHandler;
 
-       
-        
+        new public static NetworkHandler Instance { get => Singleton<NetworkHandler>.Instance; }
 
-        private void Awake()
+        public override void Initialise()
         {
+            base.InitSingleton();
             matchMaker = GetComponent<MatchMaker>();
-            matchMaker.Init(playerClient);
+          
+
+            gameDataHandler = GetComponent<ServerGameDataHandler>();
+          
+
+            playerClient = GetComponent<PlayerClient>();
+
+           // AnonymousLogin();
         }
 
-        public void GatherMemberGames()
+        public void AnonymousLoginPlayer() => playerClient.AnonymousLogin();
+
+        public void AnonymousLoginDebugPlayer() => playerClient.DebugWindowsAnonymousLogin();
+
+        private void UpdateGame(NetworkGame obj)
+        {
+            CurrentNetworkGame = obj;
+        }
+
+        public void GatherAllMemberGames()
         {
             var callbacks = new APIOperationCallbacks<List<NetworkGame>>(onSucess: OnGamesGatheredSucess, onfailure: OnGamesGatherFailure);
             StartCoroutine(matchMaker.GetAllMyGames(callbacks));
@@ -36,24 +56,15 @@ namespace NetSystem
         private void OnGamesGatheredSucess(List<NetworkGame> games)
         {
             // todo - list these to the player
-
-            Debug.Log("Games Gathered");
-
-            if(games.Count == 0)
-            {
-                Debug.Log("No active games");
-                return;
-            }
-
-            foreach (var game in games)
-            {
-                Debug.Log(game.GroupName);
-                Debug.Log($"Open: {game.GameOpenToJoin}");
-
-            }
+            throw new NotImplementedException();
         }
 
         private void OnGamesGatherFailure(FailureReason reason)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadActiveMemberGame(NetworkGame game)
         {
             throw new NotImplementedException();
         }
@@ -101,9 +112,12 @@ namespace NetSystem
 
         private void OnJoinedGameSucess(NetworkGame obj)
         {
-            currentNetworkGame = obj;
-            Debug.Log($"Joined game {currentNetworkGame.GroupName}");
+            UpdateGame(obj);
+            Debug.Log($"Joined game {CurrentNetworkGame.GroupName}");
         }
+
+        
+
         private void OnJoinedGameFailure(FailureReason obj)
         {
             throw new NotImplementedException();
@@ -118,8 +132,8 @@ namespace NetSystem
 
         private void OnCreateGameSucess(NetworkGame obj)
         {
-            currentNetworkGame = obj;
-            Debug.Log($"Created game {currentNetworkGame.GroupName}");
+            UpdateGame(obj);
+            Debug.Log($"Created game {CurrentNetworkGame.GroupName}");
         }
 
         private void OnCreateGameFailure(FailureReason error)
@@ -131,6 +145,27 @@ namespace NetSystem
         private void PlayerHasTooManyActiveGames()
         {
             Debug.Log("Too many active games");
+            throw new NotImplementedException();
+        }
+
+
+
+
+
+        public void SendData()
+        {
+            var data = "Data to be sent";
+            var callbacks = new APIOperationCallbacks(onSucess: OnSendDataSucess, onfailure: OnSendDataFailure);
+            StartCoroutine(gameDataHandler.SaveDataToServer(data, callbacks));
+        }
+
+        private void OnSendDataSucess()
+        {
+            Debug.Log("Data sent");
+        }
+
+        private void OnSendDataFailure(FailureReason obj)
+        {
             throw new NotImplementedException();
         }
 
