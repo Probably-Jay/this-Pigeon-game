@@ -17,14 +17,13 @@ namespace NetSystem
 
         [SerializeField] int maximumActiveGames = 10;
 
-        PlayFab.CloudScriptModels.EntityKey ClientEntity => client.ClientEntityKey;
-        PlayerClient client;
+        PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
+     //   PlayerClient client;
 
-        public void Init(PlayerClient client)
-        {
-            this.client = client;
-
-        }
+        //public void Init()
+        //{
+          
+        //}
 
         /// <summary>
         /// Get a list of all game groups this client is a member of

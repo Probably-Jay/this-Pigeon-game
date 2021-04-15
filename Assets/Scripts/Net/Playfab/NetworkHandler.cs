@@ -11,30 +11,40 @@ namespace NetSystem
 
     [RequireComponent(typeof(MatchMaker))]
     [RequireComponent(typeof(ServerGameDataHandler))]
-    public class NetworkHandler : MonoBehaviour
+    [RequireComponent(typeof(PlayerClient))]
+    public class NetworkHandler : Singleton<NetworkHandler>
     {
-        [SerializeField] PlayerClient playerClient;
-        NetworkGame currentNetworkGame = null;
+        PlayerClient playerClient;
+        public PlayFab.CloudScriptModels.EntityKey ClientEntity => playerClient.ClientEntityKey;
 
+        public NetworkGame CurrentNetworkGame { get; set; } = null;
 
         MatchMaker matchMaker;
         ServerGameDataHandler gameDataHandler;
 
+        new public static NetworkHandler Instance { get => Singleton<NetworkHandler>.Instance; }
 
-
-        private void Awake()
+        public override void Initialise()
         {
+            base.InitSingleton();
             matchMaker = GetComponent<MatchMaker>();
-            matchMaker.Init(playerClient);
+          
 
             gameDataHandler = GetComponent<ServerGameDataHandler>();
-            gameDataHandler.Init(playerClient, currentNetworkGame);
+          
+
+            playerClient = GetComponent<PlayerClient>();
+
+           // AnonymousLogin();
         }
+
+        public void AnonymousLoginPlayer() => playerClient.AnonymousLogin();
+
+        public void AnonymousLoginDebugPlayer() => playerClient.DebugWindowsAnonymousLogin();
 
         private void UpdateGame(NetworkGame obj)
         {
-            currentNetworkGame = obj;
-            gameDataHandler.networkGame = obj;
+            CurrentNetworkGame = obj;
         }
 
         public void GatherAllMemberGames()
@@ -103,7 +113,7 @@ namespace NetSystem
         private void OnJoinedGameSucess(NetworkGame obj)
         {
             UpdateGame(obj);
-            Debug.Log($"Joined game {currentNetworkGame.GroupName}");
+            Debug.Log($"Joined game {CurrentNetworkGame.GroupName}");
         }
 
         
@@ -123,7 +133,7 @@ namespace NetSystem
         private void OnCreateGameSucess(NetworkGame obj)
         {
             UpdateGame(obj);
-            Debug.Log($"Created game {currentNetworkGame.GroupName}");
+            Debug.Log($"Created game {CurrentNetworkGame.GroupName}");
         }
 
         private void OnCreateGameFailure(FailureReason error)
@@ -144,8 +154,9 @@ namespace NetSystem
 
         public void SendData()
         {
+            var data = "Data to be sent";
             var callbacks = new APIOperationCallbacks(onSucess: OnSendDataSucess, onfailure: OnSendDataFailure);
-            StartCoroutine(gameDataHandler.SaveDataToServer("Please", callbacks));
+            StartCoroutine(gameDataHandler.SaveDataToServer(data, callbacks));
         }
 
         private void OnSendDataSucess()

@@ -11,16 +11,12 @@ namespace NetSystem
 
     public class ServerGameDataHandler : NetComponent
     {
-        PlayFab.CloudScriptModels.EntityKey ClientEntity => client.ClientEntityKey;
-        PlayerClient client;
+        PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
 
-        public NetworkGame networkGame;
+        public NetworkGame NetworkGame => NetworkHandler.Instance.CurrentNetworkGame;
 
-        public void Init(PlayerClient client, NetworkGame networkGame)
-        {
-            this.client = client;
-            this.networkGame = networkGame;
-        }
+        private NetworkGame networkGame;
+
 
         public IEnumerator SaveDataToServer(string data, APIOperationCallbacks resultsCallback)
         {
@@ -47,7 +43,7 @@ namespace NetSystem
                 FunctionName = "SetGroupSharedData",
                 FunctionParameter = new
                 {
-                    Group = networkGame.GroupEntityKey,
+                    Group = NetworkGame.GroupEntityKey,
                     Data = data
                 }
 
