@@ -190,11 +190,11 @@ namespace NetSystem
 
         public void ReceiveData()
         {
-            var callbacks = new APIOperationCallbacks<string>(onSucess: OnReceiveDataSucess, onfailure: OnReceiveDataFailure);
+            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(onSucess: OnReceiveDataSucess, onfailure: OnReceiveDataFailure);
             StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks));
         }
 
-        private void OnReceiveDataSucess(string data)
+        private void OnReceiveDataSucess(NetworkGame.RawData data)
         {
             throw new NotImplementedException();
         }

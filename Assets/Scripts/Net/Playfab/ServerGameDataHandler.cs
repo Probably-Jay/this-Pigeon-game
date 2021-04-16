@@ -14,9 +14,9 @@ namespace NetSystem
 
         public NetworkGame NetworkGame => NetworkHandler.Instance.NetGame.CurrentNetworkGame;
 
-        public IEnumerator GetDataFromTheServer(APIOperationCallbacks<string> resultsCallback)
+        public IEnumerator GetDataFromTheServer(APIOperationCallbacks<NetworkGame.RawData> resultsCallback)
         {
-            var getDataResponse = new CallResponse<string>();
+            var getDataResponse = new CallResponse<NetworkGame.RawData>();
             {
 
                 yield return StartCoroutine(ReceiveDataFromTheServer(getDataResponse));
@@ -31,7 +31,7 @@ namespace NetSystem
             resultsCallback.OnSucess(getDataResponse.returnData);
         }
 
-        private IEnumerator ReceiveDataFromTheServer(CallResponse<string> getDataResponse)
+        private IEnumerator ReceiveDataFromTheServer(CallResponse<NetworkGame.RawData> getDataResponse)
         {
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
@@ -67,7 +67,7 @@ namespace NetSystem
                 //    getDataResponse.status.SetError(FailureReason.InternalError);
                 //}
 
-              //  getDataResponse.returnData = result;
+                getDataResponse.returnData = result;
 
                 getDataResponse.status.SetSucess();
             }
