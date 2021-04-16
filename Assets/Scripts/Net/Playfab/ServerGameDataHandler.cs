@@ -53,7 +53,7 @@ namespace NetSystem
             {
   
               //  string result = DeserialiseResponseToCutomObject<string>(obj);
-                var result = DeserialiseResponseToCutomObject<NetworkGame.GameSharedData.RawData>(obj);
+                var result = DeserialiseResponseToCutomObject<NetworkGame.RawData>(obj);
 
                 if (result == null)
                 {
