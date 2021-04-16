@@ -15,8 +15,10 @@ namespace NetSystem
         [SerializeField] InputField gameInputField;
         [SerializeField] InputField dataInputField;
 
-        public void LoginPlayer() => NetworkHandler.Instance.AnonymousLoginPlayer();
-        public void DebugLoginPlayer() => NetworkHandler.Instance.AnonymousLoginDebugPlayer();
+        public void LoginPlayer() => NetworkHandler.Instance.AnonymousLoginPlayer(APIOperationCallbacks.DoNothing);
+        public void DebugLoginPlayer() => NetworkHandler.Instance.AnonymousLoginDebugPlayer(APIOperationCallbacks.DoNothing);
+
+        public void LogoutPlayer() => NetworkHandler.Instance.LogoutPlayer();
 
         public void JoinNewGame()
         {

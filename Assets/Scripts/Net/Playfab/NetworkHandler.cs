@@ -26,8 +26,9 @@ namespace NetSystem
 
 
         public ActiveGame NetGame { get; private set; } = null;
-        public PlayerClient PlayerClient { get; private set; } 
+        public PlayerClient PlayerClient { get; private set; }
 
+        public bool _useDebugAcountLogin = false;
 
         MatchMaker matchMaker;
         ServerGameDataHandler gameDataHandler;
@@ -55,9 +56,21 @@ namespace NetSystem
            // AnonymousLogin();
         }
 
-        public void AnonymousLoginPlayer() => PlayerClient.AnonymousLogin();
+        public void AnonymousLoginPlayer(APIOperationCallbacks callbacks)
+        {
+            PlayerClient.AnonymousLogin(callbacks);
+        }
 
-        public void AnonymousLoginDebugPlayer() => PlayerClient.DebugWindowsAnonymousLogin();
+        public void AnonymousLoginDebugPlayer(APIOperationCallbacks callbacks)
+        {
+            PlayerClient.AnonymousLogin(callbacks,true);
+        }
+
+        public void LogoutPlayer()
+        {
+            NetGame.ExitGame();
+            PlayerClient.Logout();
+        }
 
         private void UpdateGame(NetworkGame obj)
         {

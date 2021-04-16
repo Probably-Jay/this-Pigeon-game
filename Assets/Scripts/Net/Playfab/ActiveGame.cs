@@ -142,6 +142,8 @@ namespace NetSystem
 
         }
 
+     
+
         private IEnumerator JoinGroup(EntityKey group, CallResponse joinGroupResponse)
         {
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
@@ -178,6 +180,9 @@ namespace NetSystem
         }
 
 
-
+        public void ExitGame()
+        {
+            currentNetworkGame = null;
+        }
     }
 }

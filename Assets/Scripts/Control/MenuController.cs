@@ -16,17 +16,28 @@ public class MenuController : MonoBehaviour
         
     }
 
-    public void GoToMyGarden()
+    public void ConnectToGameServers()
     {
-        // Change to metagarden after metagarden added
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.ConnectingScene);
+    } 
+    
+    public void ConnectToGameServersAsDebugAccount()
+    {
+        NetSystem.NetworkHandler.Instance._useDebugAcountLogin = true;
+        ConnectToGameServers();
     }
 
-    public void GoToLastGarden()
-    {
-        // Change to last garden once multiple are available
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
-    }
+    //public void GoToMyGarden()
+    //{
+    //    // Change to metagarden after metagarden added
+    //    SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
+    //}
+
+    //public void GoToLastGarden()
+    //{
+    //    // Change to last garden once multiple are available
+    //    SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
+    //}
 
     public void GoToOptions()
     {
