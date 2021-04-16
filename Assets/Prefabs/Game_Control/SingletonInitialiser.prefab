@@ -53,3 +53,5 @@ MonoBehaviour:
     type: 3}
   gameManager: {fileID: 8936058246443212445, guid: 819ebb282f51a334981d1100e8f5dc74,
     type: 3}
+  networkHandler: {fileID: 400814234473690242, guid: 2502ba53634eba24083aedd710e5ba7a,
+    type: 3}

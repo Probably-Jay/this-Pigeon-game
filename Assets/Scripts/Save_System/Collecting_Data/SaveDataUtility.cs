@@ -162,9 +162,10 @@ namespace SaveSystemInternal
             data.hash = null; // reset hash
             var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
 
-            using (HashAlgorithm algorithm = SHA256.Create())
-                data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
+            data.hash = ComputeHash(jsonData);
         }
+
+      
 
         /// <summary>
         /// Overload for <see cref="SaveGameRegistryData"/>. Set a checksum hash based on the current data, this should remain the same if calculated on the same data, and so can be used to make sure file has not been altered
@@ -174,8 +175,23 @@ namespace SaveSystemInternal
             data.hash = null; // reset hash
             var jsonData = JsonUtility.ToJson(data); // get the json of the data without the hash
 
-            using (HashAlgorithm algorithm = SHA256.Create())
-                data.hash = algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(jsonData + "salt")); // use the json to set the hash
+            data.hash = ComputeHash(jsonData);
         }
+
+
+        private static byte[] ComputeHash(string dataToHash, string salt = "salt") 
+        {
+            using (HashAlgorithm algorithm = SHA256.Create())
+                return algorithm.ComputeHash(System.Text.Encoding.UTF8.GetBytes(dataToHash + salt)); // use the json to set the hash
+        }
+
+        public static string ComputeHashToAsciiString(string dataToHash, string salt = "salt")
+        {
+            byte[] hash;
+            using (HashAlgorithm algorithm = SHA256.Create())
+                hash = algorithm.ComputeHash(System.Text.Encoding.ASCII.GetBytes(dataToHash + salt)); 
+            return System.Text.Encoding.ASCII.GetString(hash);
+        }
+
     }
 }
