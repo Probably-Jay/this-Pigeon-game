@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using System;
 
@@ -9,7 +10,102 @@ namespace NetSystem
     using PlayFab.GroupsModels;
     public abstract class NetComponent : MonoBehaviour
     {
-     
+        protected PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
+
+        const int maximumActiveGames = 10;
+
+        protected bool ValidateIfBelowGameLimit(ReadOnlyCollection<NetworkGame> cachedMemberGames) // server ideally should handle this
+        {
+            int numberOfMemberGames = cachedMemberGames.Count;
+
+            // some upper limit on number of mambered games
+            if (numberOfMemberGames >= maximumActiveGames)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get the metadata of a group
+        /// </summary>
+        protected IEnumerator GetGroupMetaData(EntityKey group, CallResponse<NetworkGame.NetworkGameMetadata> callResponse)
+        {
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "GetGroupMetaData",
+                FunctionParameter = new
+                {
+                    Group = group
+                }
+            };
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
+              request: request,
+              resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { GetDataSucess(obj); },
+              errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, callResponse)
+              );
+
+
+            // local function
+            void GetDataSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+            {
+                var response = DeserialiseResponseToCutomObject<NetworkGame.NetworkGameMetadata>(obj);
+
+                if (response == null)
+                {
+                    callResponse.status.SetError(FailureReason.InternalError);
+                    return;
+                }
+
+                callResponse.returnData = response;
+
+                callResponse.status.SetSucess();
+
+            }
+
+            yield return new WaitUntil(() => { Debug.Log("Loading"); return callResponse.status.Complete; });
+
+
+        }
+
+
+        protected IEnumerator GetMemberGamesList(CallResponse<ReadOnlyCollection<NetworkGame>> response)
+        {
+            NetworkHandler.Instance.GatherAllMemberGames(
+                  onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) => {
+                      response.returnData = games;
+                      response.status.SetSucess();
+                  },
+                  onGamesGatherFailure: (FailureReason) => response.status.SetError(FailureReason)
+                  );
+
+            yield return new WaitUntil(() => response.status.Complete);
+
+            if (response.status.Error)
+            {
+                switch (response.status.ErrorData)
+                {
+                    case FailureReason.PlayerIsMemberOfNoGames:
+                        // do nothing
+                        break;
+                    default:
+                        response.status.SetError(response.status.ErrorData);
+                        yield break;
+                }
+            }
+
+            if (response.returnData == null)
+            {
+                response.status.SetError(FailureReason.InternalError);
+                yield break;
+            }
+
+            response.status.SetSucess();
+        }
+
+
         protected void ScriptExecutedfailure(PlayFabError obj, CallResponse callResponse)
         {
             Debug.LogError(obj.GenerateErrorReport());

@@ -30,5 +30,24 @@ namespace NetSystem
           //  public string SharedDataID;
         }
 
+        public class GameSharedData 
+        {
+            public string Value;
+            public string LastUpdated;
+
+        }
+
+        public class RawData
+        {
+            public string time;
+
+            public string gardenA;
+            public string gardenB;            
+            
+            public string prevGardenA;
+            public string prevGardenB;
+
+        }
+
     }
 }

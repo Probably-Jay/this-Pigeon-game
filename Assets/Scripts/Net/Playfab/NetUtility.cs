@@ -105,6 +105,8 @@ namespace NetSystem
 
         ,AlreadyHasOpenGame
 
+        ,PlayerIsNotAMemberOfThisGame
+
         ,UnknownError
     }
 

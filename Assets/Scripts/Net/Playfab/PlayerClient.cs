@@ -28,6 +28,11 @@ namespace NetSystem
         /// </summary>
         public System.DateTime? LastLoginTime { get; private set; }
 
+        /// <summary>
+        /// If the player is logged in
+        /// </summary>
+        public bool IsLoggedIn { get; private set; } = false;
+
         void Start()
         {
             //AnonymousLogin();
@@ -141,6 +146,8 @@ namespace NetSystem
         {
 
             Debug.Log($"Login Succeeded");
+
+            IsLoggedIn = true;
 
             NewAccountThisSession = obj.NewlyCreated;
 

@@ -11,12 +11,72 @@ namespace NetSystem
 
     public class ServerGameDataHandler : NetComponent
     {
-        PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
 
-        public NetworkGame NetworkGame => NetworkHandler.Instance.CurrentNetworkGame;
+        public NetworkGame NetworkGame => NetworkHandler.Instance.NetGame.CurrentNetworkGame;
 
-        private NetworkGame networkGame;
+        public IEnumerator GetDataFromTheServer(APIOperationCallbacks<string> resultsCallback)
+        {
+            var getDataResponse = new CallResponse<string>();
+            {
 
+                yield return StartCoroutine(ReceiveDataFromTheServer(getDataResponse));
+
+                if (getDataResponse.status.Error)
+                {
+                    resultsCallback.OnFailure(FailureReason.PlayFabError);
+                    yield break;
+                }
+            }
+
+            resultsCallback.OnSucess(getDataResponse.returnData);
+        }
+
+        private IEnumerator ReceiveDataFromTheServer(CallResponse<string> getDataResponse)
+        {
+            var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
+            {
+                FunctionName = "GetGroupSharedData",
+                FunctionParameter = new
+                {
+                    Group = NetworkGame.GroupEntityKey,
+                }
+            };
+
+            PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
+                request: request,
+                resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { ReceiveDataSucess(obj); },
+                errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, getDataResponse)
+                );
+
+            // local function
+            void ReceiveDataSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
+            {
+  
+              //  string result = DeserialiseResponseToCutomObject<string>(obj);
+                var result = DeserialiseResponseToCutomObject<NetworkGame.GameSharedData.RawData>(obj);
+
+                if (result == null)
+                {
+                    getDataResponse.status.SetError(FailureReason.InternalError);
+                    return;
+                }
+
+                //if (result == "")
+                //{
+                //    LogError(obj.Error);
+                //    getDataResponse.status.SetError(FailureReason.InternalError);
+                //}
+
+              //  getDataResponse.returnData = result;
+
+                getDataResponse.status.SetSucess();
+            }
+
+            yield return new WaitUntil(() => { Debug.Log("Getting"); return getDataResponse.status.Complete; });
+
+        }
+
+   
 
         public IEnumerator SaveDataToServer(string data, APIOperationCallbacks resultsCallback)
         {
@@ -38,12 +98,13 @@ namespace NetSystem
 
         private IEnumerator SendDataToServer(string data, CallResponse sendDataResponse)
         {
+            EntityKey groupEntityKey = NetworkGame.GroupEntityKey;
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
                 FunctionName = "SetGroupSharedData",
                 FunctionParameter = new
                 {
-                    Group = NetworkGame.GroupEntityKey,
+                    Group = groupEntityKey,
                     Data = data
                 }
 
