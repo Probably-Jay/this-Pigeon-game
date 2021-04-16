@@ -79,7 +79,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
         else // if instance already exists, desetroy self
         {
-            Debug.LogWarning(typeof(Singleton<T>) + " is a singleton, but multiple copies exist in the scene " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name + ", this instance will be destroyed", this.gameObject);
+            Debug.LogWarning($"{typeof(Singleton<T>)} is a singleton, but multiple copies exist in the scene {SceneManager.GetActiveScene().name}, this instance will be destroyed");
             Destroy(this.gameObject); // this will avoid meltdown but the actual other copy should be removed
         }
 
@@ -93,7 +93,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         if(instance == this)
         {
-            Debug.Log($"Destroying singlton instance");
+            if(!quitting) Debug.Log($"Destroying singlton instance");
             instance = null;
         }
     }
@@ -125,9 +125,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// </summary>
     static bool quitting = false;
 
-    
 
-    private static string DoesNotExistMessage { get=> $"{typeof(Singleton<T>)} is required by a script, but does not exist in (or has not been initialised in) scene \"{ UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}\"."; } 
+
+    private static string DoesNotExistMessage => $"{typeof(Singleton<T>)} is required by a script, but does not exist in (or has not been initialised in) scene \"{SceneManager.GetActiveScene().name}\".";
 
     [System.Serializable]
     protected class SingletonDoesNotExistException : System.Exception

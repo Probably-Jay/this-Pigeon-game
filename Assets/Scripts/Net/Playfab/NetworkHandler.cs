@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using PlayFab.GroupsModels;
 using UnityEngine;
 
@@ -9,51 +10,73 @@ namespace NetSystem
 {
 
 
+    [RequireComponent(typeof(ActiveGame))]
     [RequireComponent(typeof(MatchMaker))]
     [RequireComponent(typeof(ServerGameDataHandler))]
     [RequireComponent(typeof(PlayerClient))]
+    [RequireComponent(typeof(MemberGamesList))]
+    [RequireComponent(typeof(OpenGamesList))]
     public class NetworkHandler : Singleton<NetworkHandler>
     {
-        PlayerClient playerClient;
-        public PlayFab.CloudScriptModels.EntityKey ClientEntity => playerClient.ClientEntityKey;
+        new public static NetworkHandler Instance { get => Singleton<NetworkHandler>.Instance; }
+        public PlayFab.CloudScriptModels.EntityKey ClientEntity => PlayerClient.ClientEntityKey;
 
-        public NetworkGame CurrentNetworkGame { get; set; } = null;
+        public bool LoggedIn => PlayerClient.IsLoggedIn;
+        public bool InGame => LoggedIn && NetGame.IsInGame;
+
+
+        public ActiveGame NetGame { get; private set; } = null;
+        public PlayerClient PlayerClient { get; private set; } 
+
 
         MatchMaker matchMaker;
         ServerGameDataHandler gameDataHandler;
 
-        new public static NetworkHandler Instance { get => Singleton<NetworkHandler>.Instance; }
+        public MemberGamesList RemoteMemberGamesList { get; private set; }
+        public OpenGamesList RemoteOpenGamesList { get; private set; }
 
         public override void Initialise()
         {
             base.InitSingleton();
+
+            RemoteMemberGamesList = GetComponent<MemberGamesList>();
+            RemoteOpenGamesList = GetComponent<OpenGamesList>();
+
+            NetGame = GetComponent<ActiveGame>();
+
             matchMaker = GetComponent<MatchMaker>();
           
 
             gameDataHandler = GetComponent<ServerGameDataHandler>();
           
 
-            playerClient = GetComponent<PlayerClient>();
+            PlayerClient = GetComponent<PlayerClient>();
 
            // AnonymousLogin();
         }
 
-        public void AnonymousLoginPlayer() => playerClient.AnonymousLogin();
+        public void AnonymousLoginPlayer() => PlayerClient.AnonymousLogin();
 
-        public void AnonymousLoginDebugPlayer() => playerClient.DebugWindowsAnonymousLogin();
+        public void AnonymousLoginDebugPlayer() => PlayerClient.DebugWindowsAnonymousLogin();
 
         private void UpdateGame(NetworkGame obj)
         {
-            CurrentNetworkGame = obj;
+            NetGame.SetActiveNetorkGame(obj);
         }
 
-        public void GatherAllMemberGames()
+        public void GatherAllMemberGames(Action<ReadOnlyCollection<NetworkGame>> onGamesGatheredSucess, Action<FailureReason> onGamesGatherFailure)
         {
-            var callbacks = new APIOperationCallbacks<List<NetworkGame>>(onSucess: OnGamesGatheredSucess, onfailure: OnGamesGatherFailure);
-            StartCoroutine(matchMaker.GetAllMyGames(callbacks));
+            var callbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(onSucess: onGamesGatheredSucess, onfailure: onGamesGatherFailure);
+            StartCoroutine(RemoteMemberGamesList.GetAllMyGames(callbacks));
+        }        
+        
+        public void GatherAllOpenGames(Action<List<GroupWithRoles>> onGamesGatheredSucess, Action<FailureReason> onGamesGatherFailure)
+        {
+            var callbacks = new APIOperationCallbacks<List<GroupWithRoles>>(onSucess: onGamesGatheredSucess, onfailure: onGamesGatherFailure);
+            StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks)); ;
         }
 
-        private void OnGamesGatheredSucess(List<NetworkGame> games)
+        private void OnGamesGatheredSucess(ReadOnlyCollection<NetworkGame> games)
         {
             // todo - list these to the player
             throw new NotImplementedException();
@@ -69,10 +92,26 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
+        public void ResumeMemberGame(NetworkGame game)
+        {
+            var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnResumeGameSucess, onfailure: OnResumeGamefailure);
+            StartCoroutine(NetGame.ResumeMemberGame(game, callbacks));
+        }
+
+        private void OnResumeGameSucess(NetworkGame obj)
+        {
+            NetGame.SetActiveNetorkGame(obj);
+        }
+
+        private void OnResumeGamefailure(FailureReason obj)
+        {
+            throw new NotImplementedException();
+        }
+
         public void EnterNewGame()
         {
             var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(onSucess: OnGotOpenGameGroupsSucess, onfailure: OnGetOpenGamefailure);
-            StartCoroutine(matchMaker.GetOpenGameGroups(callbacks));
+            StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks));
         }
 
         private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups)
@@ -81,7 +120,7 @@ namespace NetSystem
             var groupToJoin = SelectGroupToJoin(groups);
             Debug.Log($"Open game found {groupToJoin.Group.Id}");
             var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnJoinedGameSucess, onfailure: OnJoinedGameFailure);
-            StartCoroutine(matchMaker.JoinOpenGameGroup(groupToJoin,callbacks));
+            StartCoroutine(NetGame.JoinOpenGameGroup(groupToJoin,callbacks));
         }
 
         private GroupWithRoles SelectGroupToJoin(List<GroupWithRoles> groups)
@@ -113,7 +152,7 @@ namespace NetSystem
         private void OnJoinedGameSucess(NetworkGame obj)
         {
             UpdateGame(obj);
-            Debug.Log($"Joined game {CurrentNetworkGame.GroupName}");
+            Debug.Log($"Joined game {NetGame.CurrentNetworkGame.GroupName}");
         }
 
         
@@ -133,7 +172,7 @@ namespace NetSystem
         private void OnCreateGameSucess(NetworkGame obj)
         {
             UpdateGame(obj);
-            Debug.Log($"Created game {CurrentNetworkGame.GroupName}");
+            Debug.Log($"Created game {NetGame.CurrentNetworkGame.GroupName}");
         }
 
         private void OnCreateGameFailure(FailureReason error)
@@ -149,8 +188,21 @@ namespace NetSystem
         }
 
 
+        public void ReceiveData()
+        {
+            var callbacks = new APIOperationCallbacks<string>(onSucess: OnReceiveDataSucess, onfailure: OnReceiveDataFailure);
+            StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks));
+        }
 
+        private void OnReceiveDataSucess(string data)
+        {
+            throw new NotImplementedException();
+        }
 
+        private void OnReceiveDataFailure(FailureReason obj)
+        {
+            throw new NotImplementedException();
+        }
 
         public void SendData()
         {
