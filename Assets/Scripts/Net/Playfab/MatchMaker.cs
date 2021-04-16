@@ -110,7 +110,6 @@ namespace NetSystem
                 FunctionName = "StartNewGameGroup",
                 FunctionParameter = new
                 {
-                    Entity = ClientEntity,
                     GroupName = name
                 }
             };

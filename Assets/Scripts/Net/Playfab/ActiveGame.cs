@@ -150,7 +150,6 @@ namespace NetSystem
                 FunctionParameter = new
                 {
                     Group = group,
-                    Entity = ClientEntity
                 }
             };
 

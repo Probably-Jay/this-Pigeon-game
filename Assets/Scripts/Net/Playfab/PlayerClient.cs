@@ -156,8 +156,7 @@ namespace NetSystem
             ClientEntityKey = new PlayFab.CloudScriptModels.EntityKey()
             {
                 Id = obj.EntityToken.Entity.Id
-                ,
-                Type = obj.EntityToken.Entity.Type
+                ,Type = obj.EntityToken.Entity.Type
             };
 
             response.status.SetSucess();

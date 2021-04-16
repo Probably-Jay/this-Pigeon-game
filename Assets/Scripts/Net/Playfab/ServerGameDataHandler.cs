@@ -78,7 +78,7 @@ namespace NetSystem
 
    
 
-        public IEnumerator SaveDataToServer(string data, APIOperationCallbacks resultsCallback)
+        public IEnumerator SaveDataToServer(NetworkGame.RawData data, APIOperationCallbacks resultsCallback)
         {
             {
                 var sendDataResponse = new CallResponse();
@@ -96,7 +96,7 @@ namespace NetSystem
 
         }
 
-        private IEnumerator SendDataToServer(string data, CallResponse sendDataResponse)
+        private IEnumerator SendDataToServer(NetworkGame.RawData data, CallResponse sendDataResponse)
         {
             EntityKey groupEntityKey = NetworkGame.GroupEntityKey;
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
@@ -105,8 +105,11 @@ namespace NetSystem
                 FunctionParameter = new
                 {
                     Group = groupEntityKey,
-                    Data = data
-                }
+                    Data = new {
+                        gardenA = data.gardenA,
+                        gardenB = data.gardenB
+                    }
+            }
 
             };
 

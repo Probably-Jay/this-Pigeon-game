@@ -145,10 +145,6 @@ namespace NetSystem
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
                 FunctionName = "ListMyGroups",
-                FunctionParameter = new
-                {
-                    Entity = ClientEntity
-                }
             };
 
 

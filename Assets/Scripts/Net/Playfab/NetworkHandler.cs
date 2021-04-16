@@ -196,7 +196,7 @@ namespace NetSystem
 
         private void OnReceiveDataSucess(NetworkGame.RawData data)
         {
-            throw new NotImplementedException();
+            Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\"");
         }
 
         private void OnReceiveDataFailure(FailureReason obj)
@@ -204,9 +204,8 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
-        public void SendData()
+        public void SendData(NetworkGame.RawData data)
         {
-            var data = "Data to be sent";
             var callbacks = new APIOperationCallbacks(onSucess: OnSendDataSucess, onfailure: OnSendDataFailure);
             StartCoroutine(gameDataHandler.SaveDataToServer(data, callbacks));
         }

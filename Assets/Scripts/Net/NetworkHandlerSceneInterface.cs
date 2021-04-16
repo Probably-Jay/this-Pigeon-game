@@ -12,7 +12,8 @@ namespace NetSystem
     /// </summary>
     public class NetworkHandlerSceneInterface : MonoBehaviour
     {
-        [SerializeField] InputField inputField;
+        [SerializeField] InputField gameInputField;
+        [SerializeField] InputField dataInputField;
 
         public void LoginPlayer() => NetworkHandler.Instance.AnonymousLoginPlayer();
         public void DebugLoginPlayer() => NetworkHandler.Instance.AnonymousLoginDebugPlayer();
@@ -29,23 +30,63 @@ namespace NetSystem
             if (!NetworkHandler.Instance.LoggedIn) return;
 
             NetworkHandler.Instance.GatherAllMemberGames(
-                onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) => Debug.Log($"Member of {games.Count} games"),
-                onGamesGatherFailure: (_) => Debug.LogError(_)
-                ) ;
+                onGamesGatheredSucess: ListGames,
+                onGamesGatherFailure: (FailureReason reason) =>
+                {
+                    if(reason == FailureReason.PlayerIsMemberOfNoGames)
+                    {
+                        Debug.Log("Member of no games");
+                        return;
+                    }
+                    Debug.LogError($"Request failed because of: {reason}");
+                });
         }
 
-        public void ResumeMemberGameFromInputFeild()
+        private void  ListGames(ReadOnlyCollection<NetworkGame> games)
         {
-            if (!NetworkHandler.Instance.LoggedIn) return;
+           
+            List<NetworkGame> openGames = new List<NetworkGame>();
+            List<NetworkGame> activeGames = new List<NetworkGame>();
+            foreach (var game in games)
+            {
+                if (game.GameOpenToJoin)
+                {
+                    openGames.Add(game);
+                }
+                else
+                {
+                    activeGames.Add(game);
+                }
+            }
 
-            ResumeMemberGame(int.Parse(inputField.text));
+            Debug.Log($"Member of {activeGames.Count} active games and {openGames.Count} open games");
+
+        }
+
+        public void ResumeMemberGameFromInputField()
+        {
+            if (!NetworkHandler.Instance.LoggedIn)
+            {
+                Debug.LogError("Not logged in");
+                return;
+            }
+
+            ResumeMemberGame(int.Parse(gameInputField.text));
         }
 
         private void ResumeMemberGame(int i)
         {
             NetworkHandler.Instance.GatherAllMemberGames(
-                   onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) => Resume(games[i]),
-                   onGamesGatherFailure: (_) => Debug.LogError(_)
+                   onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) =>
+                   {
+                       if(i>= games.Count)
+                       {
+                           Debug.LogError($"Index {i} is beyond the bounds of this member games array");
+                           return;
+                       }
+                       Resume(games[i]);
+                   },
+                   onGamesGatherFailure: (FailureReason reason) => Debug.LogError($"Request failed because of: {reason}")
                    );
         }
 
@@ -57,16 +98,30 @@ namespace NetSystem
 
         public void GetGameData()
         {
-            if (!NetworkHandler.Instance.InGame) return;
+            if (!NetworkHandler.Instance.InGame)
+            {
+                Debug.LogError("Not in a game");
+                return;
+            }
 
             NetworkHandler.Instance.ReceiveData();
         }  
         
         public void UpdateGameData()
         {
-            if (!NetworkHandler.Instance.InGame) return;
+            if (!NetworkHandler.Instance.InGame)
+            {
+                Debug.LogError("Not in a game");
+                return;
+            }
 
-            NetworkHandler.Instance.SendData();
+            var data = new NetworkGame.RawData()
+            {
+                gardenA = dataInputField.text,
+                gardenB = "Some other data"
+            };
+
+            NetworkHandler.Instance.SendData(data);
         }
     }
 }
