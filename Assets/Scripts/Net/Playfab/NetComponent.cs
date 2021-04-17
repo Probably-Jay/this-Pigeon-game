@@ -93,8 +93,9 @@ namespace NetSystem
                 switch (response.status.ErrorData)
                 {
                     case FailureReason.PlayerIsMemberOfNoGames:
-                        // do nothing, continue
-                        break;
+                        response.returnData = new ReadOnlyCollection<NetworkGame>(new List<NetworkGame>()); // set empty list
+                        response.status.SetError(response.status.ErrorData);
+                        yield break;
                     default:
                         response.status.SetError(response.status.ErrorData);
                         yield break;

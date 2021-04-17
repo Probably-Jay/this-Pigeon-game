@@ -19,7 +19,7 @@ namespace SceneControl
         [SerializeField] Button newGameButton;
         [SerializeField] GameObject enterGamePannel;
         [SerializeField] TMP_Text enterGameText;
-        [SerializeField] TMP_Text enterGameLoadingImage;
+        [SerializeField] Image enterGameLoadingImage;
 
        // Coroutine logginInCoroutine;
 
@@ -255,7 +255,7 @@ namespace SceneControl
             }
 
             enterGameText.enabled = true;
-            enterGameText.text = "You are not in any games, why not start a new one by pressing \"New Game\"";
+            enterGameText.text = "Game found";
             enterGameLoadingImage.enabled = false;
 
         }
@@ -266,12 +266,12 @@ namespace SceneControl
             switch (errorReason)
             {
                 case FailureReason.TooManyActiveGames:
-                    message = $"You have too many ongoing games! For this prototype there is a {NetComponent.maximumActiveGames} games limit. " +
+                    message = $"You have too many ongoing games!\nFor this prototype there is a {NetComponent.maximumActiveGames} games limit.\n" +
                         $"Consider finishing up an existing game before starting a new one.";
                     break;
                 case FailureReason.AboveOpenGamesLimit:
-                    message = $"There are no new open games available. You currenlty are hosting {NetComponent.maximumOpenGames} open games, wich is the current limit. " +
-                        $"Check back later and somone might have joined your game!";
+                    message = $"There are no new open games available.\nYou currenlty are hosting {NetComponent.maximumOpenGames} open game{(NetComponent.maximumOpenGames != 1 ? "s" : "")}, which is the current limit.\n" +
+                        $"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game" )}!";
                     break;
              default:
                     message = $"Unable find new game: {errorReason}";

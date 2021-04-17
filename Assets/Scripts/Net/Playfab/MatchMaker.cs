@@ -43,8 +43,18 @@ namespace NetSystem
 
                 if (response.status.Error)
                 {
-                    resultsCallback.OnFailure(response.status.ErrorData);
-                    yield break;
+                    //resultsCallback.OnFailure(response.status.ErrorData);
+                    //yield break;
+                    switch (response.status.ErrorData)
+                    {
+                        case FailureReason.PlayerIsMemberOfNoGames:
+                            // this is fine, continue 
+                            break;
+                        default:
+                            resultsCallback.OnFailure(response.status.ErrorData);
+                            yield break;
+                    }
+
                 }
 
                 cachedMemberGames = response.returnData;
