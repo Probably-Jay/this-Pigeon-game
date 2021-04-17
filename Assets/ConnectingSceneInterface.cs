@@ -47,7 +47,7 @@ namespace SceneControl
                 CallResponse getGamesResponse = GetGames();
                 yield return new WaitUntil(() => getGamesResponse.status.Complete);
 
-                if (getGamesResponse.status.Error)
+                if (getGamesResponse.status.Error && getGamesResponse.status.ErrorData != FailureReason.PlayerIsMemberOfNoGames)
                 {
                     yield break;
                 }
@@ -130,11 +130,17 @@ namespace SceneControl
                 (
                 onSucess: (games) =>
                 {
-                    response.status.SetSucess();
                     GamesGatheredSucess(games);
+                    response.status.SetSucess();
                 },
                 onfailure: (errorReason) =>
                 {
+                    if(errorReason == FailureReason.PlayerIsMemberOfNoGames)
+                    {
+                        MemberOfNoGames();
+                        response.status.SetSucess();
+                        return;
+                    }
                     GamesGatheredFailure(errorReason);
                     response.status.SetError(errorReason);
                 }
@@ -145,6 +151,7 @@ namespace SceneControl
             return response;
         }
 
+       
 
         private void GamesGatheredSucess(ReadOnlyCollection<NetworkGame> games)
         {
@@ -157,6 +164,13 @@ namespace SceneControl
             // todo, display all active games in list (maybe the open game too if we have one)
 
             messagText.text = $"Member of {activeGames.Count} active games and {openGames.Count} open games";
+        }
+
+        private void MemberOfNoGames()
+        {
+            messagText.enabled = true;
+            messagText.text = "You are not in any games, why not start a new one by pressing \"New Game\"";
+            loadingImage.enabled = false;
         }
 
         private void GamesGatheredFailure(FailureReason errorReason)
