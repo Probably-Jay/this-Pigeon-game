@@ -56,16 +56,35 @@ namespace NetSystem
         //        )) ;
         //}
 
+
         /// <summary>
-        /// Get a list of all game groups this client is a member of
+        /// Gathers all games this client is a member of, including unstarted open games. This data is cached.
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The cache was hit, or the open games were sucessfully gathered along with their metadata and cached</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error, or for one of the following reasons (retuned in callback): 
+        ///     <list type="bullet">
+        ///         <item>
+        ///         <term><see cref="FailureReason.PlayerIsMemberOfNoGames"/></term>
+        ///         <description>The player is not a member of any games. This is returned as an explicit error case to be handled</description>
+        ///         </item> 
+        ///     </list>
+        /// </para>
         /// </summary>
-        /// <param name="resultCallbacks">An object containing the funcitons to be called on sucess or failure of this operation</param>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         public IEnumerator GetAllMyGames(APIOperationCallbacks<ReadOnlyCollection<NetworkGame>> resultCallbacks)
         {
             // if we have the cache, return it
             if (HasRemoteGamesCached)
             {
-                Debug.Log("Cached member games found, returning");
+                Debug.Log("Cached member games found");
+
+                if (CachedMemberGames.Count == 0) // should still return no-games error here
+                {
+                    MemberGames = new List<NetworkGame>();
+                    resultCallbacks.OnFailure(FailureReason.PlayerIsMemberOfNoGames);
+                    yield break;
+                }
+
                 resultCallbacks.OnSucess(CachedMemberGames);
                 yield break;
             }
@@ -86,7 +105,7 @@ namespace NetSystem
                 groupsWeAreIn = listGroupResponse.returnData;
             }
 
-            // if we aren't in any groups, return empty list
+            // if we aren't in any groups, return empty list with error
             if (groupsWeAreIn.Count == 0)
             {
                 MemberGames = new List<NetworkGame>();
@@ -137,8 +156,7 @@ namespace NetSystem
 
         }
 
-        // private IEnumerator ListMyGroups( out (CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) response) // cannot pass ref param to iterator
-        // private IEnumerator ListMyGroups( Action<(CallStatus, List<PlayFab.GroupsModels.GroupWithRoles> ) > callback) // this was stupid
+
         private IEnumerator GetGroupsClientIsMemberOf(CallResponse<List<PlayFab.GroupsModels.GroupWithRoles>> callResponse)
         {
 
@@ -167,7 +185,6 @@ namespace NetSystem
                     return;
                 }
 
-                //callResponse.returnData.AddRange(response.Groups);
                 callResponse.returnData = response.Groups;
 
                 callResponse.status.SetSucess();

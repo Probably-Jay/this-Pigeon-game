@@ -125,18 +125,21 @@ namespace NetSystem
     { 
         None
 
-        ,PlayFabError
-        ,InternalError
-
+        /// An error occured within a call to playfab API. Often no meaninful distinction from <see cref="InternalError"/>
+        , PlayFabError
+        /// An error occured after a call to playfab API. Often no meaninful distinction from <see cref="InternalError"/>
+        , InternalError
+        
         ,PlayerIsMemberOfNoGames
 
         ,TooManyActiveGames
         ,NoOpenGamesAvailable
 
-        ,AlreadyHasOpenGame
+        ,AboveOpenGamesLimit
 
         ,PlayerIsNotAMemberOfThisGame
-
+        
+        /// The reason for the error is unknown, but the program entered an illegal state during an API call
         ,UnknownError
     }
 
@@ -174,7 +177,7 @@ namespace NetSystem
     }
 
     /// <summary>
-    /// Wrapper for callbacks to be invoked after playfab API call where sucessful calls will return a value
+    /// Wrapper for callbacks to be invoked after playfab API call where sucessful calls will return a value through the <see cref="OnSucess"/> callback
     /// </summary>
     /// <typeparam name="Ts">The type that <see cref="OnSucess"/> will take as a paramater</typeparam>
     public class APIOperationCallbacks<Ts>

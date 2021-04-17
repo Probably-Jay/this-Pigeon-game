@@ -12,7 +12,8 @@ namespace NetSystem
     {
         protected PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
 
-        const int maximumActiveGames = 10;
+        public const int maximumActiveGames = 10;
+        public const int maximumOpenGames = 1;
 
         protected bool ValidateIfBelowGameLimit(ReadOnlyCollection<NetworkGame> cachedMemberGames) // server ideally should handle this
         {
@@ -92,7 +93,7 @@ namespace NetSystem
                 switch (response.status.ErrorData)
                 {
                     case FailureReason.PlayerIsMemberOfNoGames:
-                        // do nothing
+                        // do nothing, continue
                         break;
                     default:
                         response.status.SetError(response.status.ErrorData);

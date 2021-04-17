@@ -17,10 +17,13 @@ namespace SceneControl
         [SerializeField] Image loadingImage;
         [SerializeField] Button backButton;
         [SerializeField] Button newGameButton;
+        [SerializeField] GameObject enterGamePannel;
+        [SerializeField] TMP_Text enterGameText;
+        [SerializeField] TMP_Text enterGameLoadingImage;
 
        // Coroutine logginInCoroutine;
 
-        const float rotationSpeed = 100;
+        const float rotationSpeed = 50;
 
         private void Start()
         {
@@ -33,6 +36,7 @@ namespace SceneControl
 
             DisableBackButton();
 
+            // log in
             {
                 CallResponse loginResponse = Login();
                 yield return new WaitUntil(() => loginResponse.status.Complete);
@@ -43,6 +47,7 @@ namespace SceneControl
                 }
             }
 
+            // get all member games
             {
                 CallResponse getGamesResponse = GetGames();
                 yield return new WaitUntil(() => getGamesResponse.status.Complete);
@@ -180,7 +185,7 @@ namespace SceneControl
             loadingImage.enabled = false;
         }
 
-
+        // called by button press
         public void EnterNewGame()
         {
             StartCoroutine(NewGame());
@@ -188,6 +193,8 @@ namespace SceneControl
 
         private IEnumerator NewGame()
         {
+            EnableEnterGamePannel();
+
             {
                 CallResponse newGameResponse = EnterNewGameCall();
                 yield return new WaitUntil(() => newGameResponse.status.Complete);
@@ -199,11 +206,12 @@ namespace SceneControl
             }
         }
 
+
         private CallResponse EnterNewGameCall()
         {
             var response = new CallResponse();
 
-            // pop-up here
+            StartCoroutine(ShowEnterGameDisplay("Finding new game...",response));
 
             var enterGamesCallback = new APIOperationCallbacks<NetworkGame>
                (
@@ -226,14 +234,53 @@ namespace SceneControl
             //StartCoroutine(ShowWaitingDisplay("Gathering games...", response)); // display
         }
 
+        private IEnumerator ShowEnterGameDisplay(string message, CallResponse callResponse)
+        {
+            enterGameText.enabled = true;
+            enterGameLoadingImage.enabled = true;
+            enterGameText.text = message;
+            while (!callResponse.status.Complete)
+            {
+                enterGameLoadingImage.transform.Rotate(0, 0, -rotationSpeed * Time.deltaTime); // spinny wheel
+                yield return null;
+            }
+        }
+
         private void NewGameEnteredSucess(NetworkGame game)
         {
-            throw new NotImplementedException();
+            if (!NetworkHandler.Instance.InGame)
+            {
+                NewGameEnteredFailure(FailureReason.UnknownError);
+                return;
+            }
+
+            enterGameText.enabled = true;
+            enterGameText.text = "You are not in any games, why not start a new one by pressing \"New Game\"";
+            enterGameLoadingImage.enabled = false;
+
         }
 
         private  void NewGameEnteredFailure(FailureReason errorReason)
         {
-            throw new NotImplementedException(); 
+            string message;
+            switch (errorReason)
+            {
+                case FailureReason.TooManyActiveGames:
+                    message = $"You have too many ongoing games! For this prototype there is a {NetComponent.maximumActiveGames} games limit. " +
+                        $"Consider finishing up an existing game before starting a new one.";
+                    break;
+                case FailureReason.AboveOpenGamesLimit:
+                    message = $"There are no new open games available. You currenlty are hosting {NetComponent.maximumOpenGames} open games, wich is the current limit. " +
+                        $"Check back later and somone might have joined your game!";
+                    break;
+             default:
+                    message = $"Unable find new game: {errorReason}";
+                    break;
+            }
+
+            enterGameText.enabled = true;
+            enterGameText.text = message;
+            enterGameLoadingImage.enabled = false;
         }
 
 
@@ -241,7 +288,12 @@ namespace SceneControl
         void DisableBackButton() => backButton.interactable = false;    
         
         void EnableNewGameButton() => newGameButton.gameObject.SetActive(true);
-        void DisableNewGameButton() => newGameButton.gameObject.SetActive(false);
+        void DisableNewGameButton() => newGameButton.gameObject.SetActive(false);        
+        
+        void EnableEnterGamePannel() => enterGamePannel.SetActive(true);
+        void DisableEnterGamePannel() => enterGamePannel.SetActive(false);
+
+
 
 
     }
