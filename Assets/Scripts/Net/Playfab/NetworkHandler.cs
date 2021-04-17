@@ -72,14 +72,13 @@ namespace NetSystem
             PlayerClient.Logout();
         }
 
-        private void UpdateGame(NetworkGame obj)
+        private void UpdateActiveGame(NetworkGame obj)
         {
             NetGame.SetActiveNetorkGame(obj);
         }
 
-        public void GatherAllMemberGames(Action<ReadOnlyCollection<NetworkGame>> onGamesGatheredSucess, Action<FailureReason> onGamesGatherFailure)
+        public void GatherAllMemberGames(APIOperationCallbacks<ReadOnlyCollection<NetworkGame>> callbacks)
         {
-            var callbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(onSucess: onGamesGatheredSucess, onfailure: onGamesGatherFailure);
             StartCoroutine(RemoteMemberGamesList.GetAllMyGames(callbacks));
         }        
         
@@ -121,18 +120,25 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
-        public void EnterNewGame()
+        public void EnterNewGame(APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(onSucess: OnGotOpenGameGroupsSucess, onfailure: OnGetOpenGamefailure);
+            var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(
+                onSucess: (groups) => { OnGotOpenGameGroupsSucess(groups, parentCallbacks); },
+                onfailure: (reason) => { OnGetOpenGamefailure(reason, parentCallbacks); });
+
             StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks));
         }
 
-        private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups)
+        private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups, APIOperationCallbacks<NetworkGame> parentCallbacks )
         {
 
             var groupToJoin = SelectGroupToJoin(groups);
             Debug.Log($"Open game found {groupToJoin.Group.Id}");
-            var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnJoinedGameSucess, onfailure: OnJoinedGameFailure);
+
+            var callbacks = new APIOperationCallbacks<NetworkGame>(
+                onSucess: (game) => { OnJoinedGameSucess(game, parentCallbacks); },
+                onfailure: (reason) => { OnJoinedGameFailure(reason, parentCallbacks); });
+
             StartCoroutine(NetGame.JoinOpenGameGroup(groupToJoin,callbacks));
         }
 
@@ -141,63 +147,68 @@ namespace NetSystem
             return groups[UnityEngine.Random.Range(0, groups.Count)]; // for now select a game at random
         }
 
-        private void OnGetOpenGamefailure(FailureReason reason)
+        private void OnGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             switch (reason)
             {
                 case FailureReason.PlayFabError:
-                    UnexpectedPlayfabError();
+                    UnexpectedPlayfabError(reason, parentCallbacks);
                     return;
                 case FailureReason.TooManyActiveGames:
-                    PlayerHasTooManyActiveGames();
+                    PlayerHasTooManyActiveGames(reason, parentCallbacks);
                     return;
                 case FailureReason.NoOpenGamesAvailable: // this is not a problem, just start a new game
                     Debug.Log("No open games, starting new game");
-                    StartNewGame();
+                    StartNewGame(parentCallbacks);
                     return;
                 default:
-                    UnknownError();
+                    UnknownError(reason,parentCallbacks);
                     return;
             }
             
         }
 
-        private void OnJoinedGameSucess(NetworkGame obj)
+        private void OnJoinedGameSucess(NetworkGame game, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            UpdateGame(obj);
+            UpdateActiveGame(game);
             Debug.Log($"Joined game {NetGame.CurrentNetworkGame.GroupName}");
+            parentCallbacks.OnSucess(game);
         }
 
         
 
-        private void OnJoinedGameFailure(FailureReason obj)
+        private void OnJoinedGameFailure(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            throw new NotImplementedException();
+            Debug.LogError(reason);
+            parentCallbacks.OnFailure(reason);
         }
 
 
-        private void StartNewGame()
+        private void StartNewGame(APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            var callbacks = new APIOperationCallbacks<NetworkGame>(OnCreateGameSucess, OnCreateGameFailure);
+            var callbacks = new APIOperationCallbacks<NetworkGame>(
+                onSucess: (game) => { OnCreateGameSucess(game, parentCallbacks); },
+                onfailure: (reason) => { OnCreateGameFailure(reason, parentCallbacks); });
             StartCoroutine(matchMaker.CreateGame(callbacks));
         }
 
-        private void OnCreateGameSucess(NetworkGame obj)
+        private void OnCreateGameSucess(NetworkGame game, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            UpdateGame(obj);
+            UpdateActiveGame(game);
             Debug.Log($"Created game {NetGame.CurrentNetworkGame.GroupName}");
+            parentCallbacks.OnSucess(game);
         }
 
-        private void OnCreateGameFailure(FailureReason error)
+        private void OnCreateGameFailure(FailureReason error, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             Debug.LogError(error);
-            throw new NotImplementedException();
+            parentCallbacks.OnFailure(error);
         }
 
-        private void PlayerHasTooManyActiveGames()
+        private void PlayerHasTooManyActiveGames(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             Debug.Log("Too many active games");
-            throw new NotImplementedException();
+            parentCallbacks.OnFailure(reason);
         }
 
 
@@ -233,14 +244,16 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
-        private void UnexpectedPlayfabError()
+        private void UnexpectedPlayfabError<T>(FailureReason reason, APIOperationCallbacks<T> parentCallbacks)
         {
-            throw new NotImplementedException();
+            Debug.LogError("There was an unexpected playfab error");
+            parentCallbacks.OnFailure(reason);
         }
 
-        private void UnknownError()
+        private void UnknownError<T>(FailureReason reason, APIOperationCallbacks<T> parentCallbacks)
         {
-            throw new NotImplementedException();
+            Debug.LogError($"There was an unexpected error: {reason}");
+            parentCallbacks.OnFailure(reason);
         }
     }
    

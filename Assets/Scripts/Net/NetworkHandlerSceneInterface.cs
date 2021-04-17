@@ -24,46 +24,39 @@ namespace NetSystem
         {
             if (!NetworkHandler.Instance.LoggedIn) return;
 
-            NetworkHandler.Instance.EnterNewGame();
+            NetworkHandler.Instance.EnterNewGame(APIOperationCallbacks<NetworkGame>.NoCallbacks);
         }
 
         public void ListMemberGames()
         {
             if (!NetworkHandler.Instance.LoggedIn) return;
 
-            NetworkHandler.Instance.GatherAllMemberGames(
-                onGamesGatheredSucess: ListGames,
-                onGamesGatherFailure: (FailureReason reason) =>
+            var gatherCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>> (
+                onSucess: ListGames,
+                onfailure: (FailureReason reason) =>
                 {
-                    if(reason == FailureReason.PlayerIsMemberOfNoGames)
+                    if (reason == FailureReason.PlayerIsMemberOfNoGames)
                     {
                         Debug.Log("Member of no games");
                         return;
                     }
                     Debug.LogError($"Request failed because of: {reason}");
                 });
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherCallbacks);
+               
         }
 
         private void  ListGames(ReadOnlyCollection<NetworkGame> games)
         {
-           
-            List<NetworkGame> openGames = new List<NetworkGame>();
-            List<NetworkGame> activeGames = new List<NetworkGame>();
-            foreach (var game in games)
-            {
-                if (game.GameOpenToJoin)
-                {
-                    openGames.Add(game);
-                }
-                else
-                {
-                    activeGames.Add(game);
-                }
-            }
+            List<NetworkGame> openGames, activeGames;
+            NetworkGame.SeperateOpenAndClosedGames(games, out openGames, out activeGames);
 
             Debug.Log($"Member of {activeGames.Count} active games and {openGames.Count} open games");
 
         }
+
+       
 
         public void ResumeMemberGameFromInputField()
         {
@@ -78,18 +71,20 @@ namespace NetSystem
 
         private void ResumeMemberGame(int i)
         {
-            NetworkHandler.Instance.GatherAllMemberGames(
-                   onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) =>
-                   {
-                       if(i>= games.Count)
-                       {
-                           Debug.LogError($"Index {i} is beyond the bounds of this member games array");
-                           return;
-                       }
-                       Resume(games[i]);
-                   },
-                   onGamesGatherFailure: (FailureReason reason) => Debug.LogError($"Request failed because of: {reason}")
-                   );
+            var gatherGamesCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(
+                  onSucess: (ReadOnlyCollection<NetworkGame> games) =>
+                  {
+                      if (i >= games.Count)
+                      {
+                          Debug.LogError($"Index {i} is beyond the bounds of this member games array");
+                          return;
+                      }
+                      Resume(games[i]);
+                  },
+                  onfailure: (FailureReason reason) => Debug.LogError($"Request failed because of: {reason}")
+                  );
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherGamesCallbacks);
         }
 
         private void Resume(NetworkGame game)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace NetSystem
@@ -47,6 +48,29 @@ namespace NetSystem
             public string prevGardenA;
             public string prevGardenB;
 
+        }
+
+        /// <summary>
+        /// Takes a collection of games and sorts them into active ongoing games and open unstarted games
+        /// </summary>
+        /// <param name="games"></param>
+        /// <param name="openGames"></param>
+        /// <param name="activeGames"></param>
+        public static void SeperateOpenAndClosedGames(ReadOnlyCollection<NetworkGame> games, out List<NetworkGame> openGames, out List<NetworkGame> activeGames)
+        {
+            openGames = new List<NetworkGame>();
+            activeGames = new List<NetworkGame>();
+            foreach (var game in games)
+            {
+                if (game.GameOpenToJoin)
+                {
+                    openGames.Add(game);
+                }
+                else
+                {
+                    activeGames.Add(game);
+                }
+            }
         }
 
     }

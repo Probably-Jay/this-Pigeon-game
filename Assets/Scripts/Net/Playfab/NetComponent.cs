@@ -73,13 +73,17 @@ namespace NetSystem
 
         protected IEnumerator GetMemberGamesList(CallResponse<ReadOnlyCollection<NetworkGame>> response)
         {
-            NetworkHandler.Instance.GatherAllMemberGames(
-                  onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) => {
+            var gatherGameCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(
+                  onSucess: (ReadOnlyCollection<NetworkGame> games) => {
                       response.returnData = games;
                       response.status.SetSucess();
                   },
-                  onGamesGatherFailure: (FailureReason) => response.status.SetError(FailureReason)
+                  onfailure: (FailureReason) => response.status.SetError(FailureReason)
                   );
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherGameCallbacks);
+
+
 
             yield return new WaitUntil(() => response.status.Complete);
 

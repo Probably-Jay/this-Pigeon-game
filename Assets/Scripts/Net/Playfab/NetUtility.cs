@@ -167,7 +167,7 @@ namespace NetSystem
         }
 
         /// <summary>
-        /// Helper constructor for callbacks with empty delegates
+        /// Helper constructor for do-nothing callbacks with empty delegates
         /// </summary>
         public static APIOperationCallbacks DoNothing => new APIOperationCallbacks(() => { }, (_) => { });
 
@@ -200,8 +200,10 @@ namespace NetSystem
             this.OnFailure = onfailure;
         }
 
-
-
+        /// <summary>
+        /// Helper constructor for do-nothing callbacks with empty delegates
+        /// </summary>
+        public static APIOperationCallbacks<Ts> NoCallbacks => new APIOperationCallbacks<Ts>((_) => { }, (_) => { });
 
     }
 
