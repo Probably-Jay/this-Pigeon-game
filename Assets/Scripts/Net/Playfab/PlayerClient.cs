@@ -44,43 +44,49 @@ namespace NetSystem
         /// <summary>
         /// Log in using <see cref="SystemInfo.deviceUniqueIdentifier"/> and no password
         /// </summary>
-        public void AnonymousLogin()
+        public void AnonymousLogin(APIOperationCallbacks loginCallbacks, bool debugAltLogin = false)
         {
-            StartCoroutine(AnonymousLoginAsyc());
+            StartCoroutine(AnonymousLoginAsyc(loginCallbacks, debugAltLogin));
         }
 
-        private IEnumerator AnonymousLoginAsyc()
+        private IEnumerator AnonymousLoginAsyc(APIOperationCallbacks loginCallbacks, bool debugAltLogin)
         {
             CallResponse response = new CallResponse();
-            switch (Application.platform)
+            switch (Application.platform) // auto detect login method needed
             {
-
                 case RuntimePlatform.WindowsPlayer:
                     WindowsAnonymousLogin(response);
                     break;
                 case RuntimePlatform.WindowsEditor:
-                    WindowsAnonymousLogin(response);
+                    {
+                        if (debugAltLogin)
+                        {
+                            WindowsAnonymousDebugLogin(response);
+                            break;
+                        }
+                        WindowsAnonymousLogin(response);
+                    }
                     break;
                 case RuntimePlatform.Android:
                     AndroidAnonymousLogin(response);
                     break;
                 default:
-                    throw new System.Exception();
-
+                    throw new System.Exception($"Sorry you cannot run this application on a {Application.platform}");
             }
 
-            //while (!status.complete)
-            //{
-            //    Debug.Log("Connecting");
-            //    yield return null;
-            //}
 
             yield return new WaitUntil(() => {Debug.Log("Connecting"); return response.status.Complete; });
 
-            Debug.Log("Login return");
+            if (response.status.Error)
+            {
+                loginCallbacks.OnFailure(response.status.ErrorData);
+                yield break;
+            }
 
+            loginCallbacks.OnSucess();
           
         }
+
 
         private void AndroidAnonymousLogin(CallResponse response)
         {
@@ -100,7 +106,7 @@ namespace NetSystem
            
         }
 
-        private void WindowsAnonymousLogin(CallResponse esponse)
+        private void WindowsAnonymousLogin(CallResponse response)
         {
             PlayFab.ClientModels.LoginWithCustomIDRequest request = new PlayFab.ClientModels.LoginWithCustomIDRequest()
             {
@@ -112,34 +118,33 @@ namespace NetSystem
            // CallStatus status = CallStatus.NotComplete;
             PlayFabClientAPI.LoginWithCustomID(
                 request,
-                (PlayFab.ClientModels.LoginResult obj) => { LoginSucess(obj, esponse); },
-                (PlayFabError obj) => { LoginFailure(obj, esponse); }
+                (PlayFab.ClientModels.LoginResult obj) => { LoginSucess(obj, response); },
+                (PlayFabError obj) => { LoginFailure(obj, response); }
                 );
 
         }
 
-        /// <summary>
-        /// Allow second user login for debugging
-        /// </summary>
-        public void DebugWindowsAnonymousLogin() // todo remove this
+        ///// <summary>
+        ///// Allow second user login for debugging
+        ///// </summary>
+        private void WindowsAnonymousDebugLogin(CallResponse response) // todo remove this
         {
             const string UDIModifier = "2";
 
             PlayFab.ClientModels.LoginWithCustomIDRequest request = new PlayFab.ClientModels.LoginWithCustomIDRequest()
             {
-                CustomId = SystemInfo.deviceUniqueIdentifier + UDIModifier
-                ,
+                CustomId = SystemInfo.deviceUniqueIdentifier + UDIModifier,
                 CreateAccount = true
             };
 
-            CallResponse response = new CallResponse();
+    
             PlayFabClientAPI.LoginWithCustomID(
                 request,
                 (PlayFab.ClientModels.LoginResult obj) => LoginSucess(obj, response),
                 (PlayFabError obj) => LoginFailure(obj, response)
                 );
 
-  
+
         }
 
         private void LoginSucess(PlayFab.ClientModels.LoginResult obj, CallResponse response)
@@ -168,6 +173,17 @@ namespace NetSystem
             Debug.LogError($"Login Failed");
             Debug.LogError(obj.GenerateErrorReport());
             response.status.SetError(FailureReason.PlayFabError);
+        }
+
+
+        public void Logout() // this never needs to be called
+        {
+            PlayFabClientAPI.ForgetAllCredentials();
+
+            IsLoggedIn = false;
+
+            //EventsManager.InvokeEvent(EventsManager.EventType.PostLogout);
+            Debug.Log("Logged out");
         }
 
     }

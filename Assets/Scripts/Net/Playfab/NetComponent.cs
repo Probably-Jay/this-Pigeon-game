@@ -12,7 +12,8 @@ namespace NetSystem
     {
         protected PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
 
-        const int maximumActiveGames = 10;
+        public const int maximumActiveGames = 10;
+        public const int maximumOpenGames = 1;
 
         protected bool ValidateIfBelowGameLimit(ReadOnlyCollection<NetworkGame> cachedMemberGames) // server ideally should handle this
         {
@@ -73,13 +74,17 @@ namespace NetSystem
 
         protected IEnumerator GetMemberGamesList(CallResponse<ReadOnlyCollection<NetworkGame>> response)
         {
-            NetworkHandler.Instance.GatherAllMemberGames(
-                  onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) => {
+            var gatherGameCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(
+                  onSucess: (ReadOnlyCollection<NetworkGame> games) => {
                       response.returnData = games;
                       response.status.SetSucess();
                   },
-                  onGamesGatherFailure: (FailureReason) => response.status.SetError(FailureReason)
+                  onfailure: (FailureReason) => response.status.SetError(FailureReason)
                   );
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherGameCallbacks);
+
+
 
             yield return new WaitUntil(() => response.status.Complete);
 
@@ -88,8 +93,9 @@ namespace NetSystem
                 switch (response.status.ErrorData)
                 {
                     case FailureReason.PlayerIsMemberOfNoGames:
-                        // do nothing
-                        break;
+                        response.returnData = new ReadOnlyCollection<NetworkGame>(new List<NetworkGame>()); // set empty list
+                        response.status.SetError(response.status.ErrorData);
+                        yield break;
                     default:
                         response.status.SetError(response.status.ErrorData);
                         yield break;

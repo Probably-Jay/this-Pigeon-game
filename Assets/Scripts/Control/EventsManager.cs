@@ -65,6 +65,12 @@ public class EventsManager : Singleton<EventsManager>
 
         , PlantReadyToGrow
 
+
+        #region NetCodeEvents
+
+        ,PostLogout
+        #endregion
+
         , QuitGame
     }
 
