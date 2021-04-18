@@ -96,8 +96,15 @@ namespace NetSystem
 
                     if (response.status.Error)
                     {
-                        resultsCallback.OnFailure(response.status.ErrorData);
-                        yield break;
+                        if(response.status.ErrorData == FailureReason.PlayerIsMemberOfNoGames)
+                        {
+                            // this is fine, do nothing
+                        }
+                        else
+                        {
+                            resultsCallback.OnFailure(response.status.ErrorData);
+                            yield break;
+                        }
                     }
 
                     cachedMemberGames = response.returnData;
@@ -156,7 +163,6 @@ namespace NetSystem
         }
 
      
-
         private IEnumerator JoinGroup(EntityKey group, CallResponse joinGroupResponse)
         {
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest

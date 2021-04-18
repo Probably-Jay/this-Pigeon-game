@@ -71,7 +71,20 @@ namespace NetSystem
 
         }
 
-
+        /// <summary>
+        /// Gathers all games this client is a member of, including unstarted open games. This data is cached.
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The cache was hit, or the open games were sucessfully gathered along with their metadata and cached</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error, or for one of the following reasons (retuned in callback): 
+        ///     <list type="bullet">
+        ///         <item>
+        ///         <term><see cref="FailureReason.PlayerIsMemberOfNoGames"/></term>
+        ///         <description>The player is not a member of any games. This is returned as an explicit error case to be handled</description>
+        ///         </item> 
+        ///     </list>
+        /// </para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         protected IEnumerator GetMemberGamesList(CallResponse<ReadOnlyCollection<NetworkGame>> response)
         {
             var gatherGameCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(

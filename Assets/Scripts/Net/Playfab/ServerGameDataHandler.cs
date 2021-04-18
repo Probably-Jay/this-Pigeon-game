@@ -14,6 +14,13 @@ namespace NetSystem
 
         public NetworkGame NetworkGame => NetworkHandler.Instance.NetGame.CurrentNetworkGame;
 
+        /// <summary>
+        /// Gets the data of the current game
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         public IEnumerator GetDataFromTheServer(APIOperationCallbacks<NetworkGame.RawData> resultsCallback)
         {
             var getDataResponse = new CallResponse<NetworkGame.RawData>();
@@ -52,7 +59,6 @@ namespace NetSystem
             void ReceiveDataSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
             {
   
-              //  string result = DeserialiseResponseToCutomObject<string>(obj);
                 var result = DeserialiseResponseToCutomObject<NetworkGame.RawData>(obj);
 
                 if (result == null)
@@ -60,12 +66,6 @@ namespace NetSystem
                     getDataResponse.status.SetError(FailureReason.InternalError);
                     return;
                 }
-
-                //if (result == "")
-                //{
-                //    LogError(obj.Error);
-                //    getDataResponse.status.SetError(FailureReason.InternalError);
-                //}
 
                 getDataResponse.returnData = result;
 

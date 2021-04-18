@@ -126,7 +126,7 @@ namespace NetSystem
                 metaData = getMetadataRespone.returnData;
             }
 
-            var networkGame = new NetworkGame(createdGroup, metaData);
+            var networkGame = new NetworkGame(createdGroup, metaData, newGame: true);
 
             NetworkHandler.Instance.RemoteMemberGamesList.Add(networkGame);
 

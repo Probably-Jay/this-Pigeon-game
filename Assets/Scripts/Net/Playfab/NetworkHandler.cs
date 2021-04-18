@@ -139,7 +139,7 @@ namespace NetSystem
         /// <summary>
         /// Enters new game. Will join an open game from the server if one is available, or will create a new game and publish it to the server.
         /// <para/> Upon completion will invoke one of the following callbacks :
-        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: A game was sucesfully joined</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: A game was sucesfully joined. Will return the <see cref="NetworkGame"/> that was joined</para>
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error, or for one of the following reasons (retuned in callback): 
         ///     <list type="bullet">
         ///         <item>
@@ -148,7 +148,7 @@ namespace NetSystem
         ///         </item> 
         ///         <item>        
         ///         <term><see cref="FailureReason.AboveOpenGamesLimit"/></term>
-        ///         <description>The user cannot create a new game as there are no open games on the server to join and they own too many open games to start a new one</description>
+        ///         <description>There are no open games on the server to join, but the user cannot create a new game as they own too many open games already</description>
         ///         </item>
         ///     </list>
         /// </para>
@@ -259,10 +259,15 @@ namespace NetSystem
         }
 
 
-
-        public void ReceiveData()
+        /// <summary>
+        /// Gets the data of the current game
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
+        public void ReceiveData(APIOperationCallbacks<NetworkGame.RawData> callbacks)
         {
-            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(onSucess: OnReceiveDataSucess, onfailure: OnReceiveDataFailure);
             StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks));
         }
 
