@@ -242,12 +242,12 @@ namespace SceneControl
             bool? begun = rawData.gameBegun == "true" ? true : (rawData.gameBegun == "false" ? (bool?)false : null);
             bool? complete = rawData.turnComplete == "true" ? true : (rawData.turnComplete == "false" ? (bool?)false : null);
 
-            if(!begun.HasValue)
+            if (!begun.HasValue)
             {
                 Debug.LogError($"received data error: \"begun\" value cold not be read");
                 return;
             }
-            else if (complete.HasValue)
+            if (!complete.HasValue)
             {
                 Debug.LogError($"received data error: \"complete\" is null");
                 return;
