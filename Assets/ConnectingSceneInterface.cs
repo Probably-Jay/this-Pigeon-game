@@ -213,10 +213,10 @@ namespace SceneControl
             if(game == null )
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
+                yield break;
             }
 
             //get the game data
-           // NetworkGame.RawData rawData = null;
             {
                 if (!game.NewGameJustCreated || true) // dont get the data from a brand new game
                 {
@@ -233,26 +233,44 @@ namespace SceneControl
                 }
             }
 
-            
+            if(game.rawData == null)
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+                yield break;
+            }
 
-            // SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.)
+            bool? allowedToTakeTurn = AllowedToTakeTurn(game.rawData);
+
+            if(allowedToTakeTurn == null)
+            {
+                NewGameJoinedFailure(FailureReason.InternalError);
+                yield break;
+            }
+
+            if(allowedToTakeTurn == false)
+            {
+                NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
+            }
+
+
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
 
         }
 
-        private void DebugOutRawData(NetworkGame.RawData rawData)
+        private bool? AllowedToTakeTurn(NetworkGame.RawData rawData)
         {
-            bool? begun = rawData.gameBegun == "true" ? true : (rawData.gameBegun == "false" ? (bool?)false : null);
-            bool? complete = rawData.turnComplete == "true" ? true : (rawData.turnComplete == "false" ? (bool?)false : null);
+            bool? begun = rawData.gameBegun == "true" ? true : (rawData.gameBegun == "false" ? ((bool?)false) : null);
+            bool? complete = rawData.turnComplete == "true" ? true : (rawData.turnComplete == "false" ? ((bool?)false) : null);
 
             if (!begun.HasValue)
             {
                 Debug.LogError($"received data error: \"begun\" value cold not be read");
-                return;
+                return null;
             }
             if (!complete.HasValue)
             {
                 Debug.LogError($"received data error: \"complete\" is null");
-                return;
+                return null;
             }
 
             if (rawData.turnBelongsTo == NetworkHandler.Instance.PlayerClient.ClientEntityKey.Id) // our turn
@@ -260,18 +278,18 @@ namespace SceneControl
                 if (!begun.Value)
                 {
                     Debug.Log("We may play as it is our turn and the game has not begun yet");
-                    return;
+                    return true;
                 }
 
                 if (!complete.Value)
                 {
                     Debug.Log("We may play as it is our turn and we have not marked the turn as complete");
-                    return;
+                    return true;
                 }
                 else
                 {
                     Debug.Log("We may not play as it was our turn but it has been marked as complete, and the companion has not yet taken their turn");
-                    return;
+                    return false;
                 }
             }
             else // their turn
@@ -279,18 +297,18 @@ namespace SceneControl
                 if (!begun.Value)
                 {
                     Debug.Log("We may not play as the game has not begun yet and it is our companion's turn");
-                    return;
+                    return false;
                 }
 
                 if (!complete.Value)
                 {
                     Debug.Log("We may not play as it is our companion's turn and they have not marked the turn as complete");
-                    return;
+                    return false;
                 }
                 else
                 {
                     Debug.Log("We may play as it was our companions turn but they have marked it as complete, we can now take over the turn");
-                    return;
+                    return true;
                 }
             }
         }
@@ -361,6 +379,10 @@ namespace SceneControl
                 case FailureReason.AboveOpenGamesLimit:
                     message = $"There are no new open games available.\nYou currenlty are hosting {NetComponent.maximumOpenGames} open game{(NetComponent.maximumOpenGames != 1 ? "s" : "")}, which is the current limit.\n" +
                         $"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game")}!";
+                    break;
+                case FailureReason.ItIsTheOtherPlayersTurn:
+                    message = $"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
+                        $"Why not come back in a bit?";
                     break;
                 default:
                     message = $"Unable find new game: {errorReason}";

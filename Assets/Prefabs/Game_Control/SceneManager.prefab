@@ -304,10 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuIndex: 0
   ConectingSceneIndex: 1
-  MoodSelect1BuildIndex: 2
-  MoodSelect2BuildIndex: -1
-  TutorialBuildIndex: -1
-  GameBuildIndex: -1
+  MoodSelectBuildIndex: 2
+  GameBuildIndex: 3
   LoadingScreen: {fileID: 1342758163303399546}
   progressBar: {fileID: 1342758163148460407}
 --- !u!114 &1586798845

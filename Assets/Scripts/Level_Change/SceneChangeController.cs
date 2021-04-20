@@ -23,7 +23,8 @@ public class SceneChangeController : Singleton<SceneChangeController>
 
         , ConnectingScene
                 
-        , MoodSelectScreen1
+        , MoodSelectScreen
+    //    , MoodSelectScreen1
     //    , MoodSelectScreen2
     //    , PersonalGarden
     //    , Tutorial
@@ -68,7 +69,8 @@ public class SceneChangeController : Singleton<SceneChangeController>
     {
         sceneBuildIndexesDictionary.Add(Scenes.MainMenu, MainMenuIndex);
         sceneBuildIndexesDictionary.Add(Scenes.ConnectingScene, ConectingSceneIndex);
-        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen1, MoodSelectBuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen, MoodSelectBuildIndex);
+       // sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen1, MoodSelectBuildIndex);
       //  sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen2, MoodSelect2BuildIndex);
        // sceneBuildIndexesDictionary.Add(Scenes.PersonalGarden, PersonalGardenBuildIndex);
       //  sceneBuildIndexesDictionary.Add(Scenes.Tutorial, TutorialBuildIndex);

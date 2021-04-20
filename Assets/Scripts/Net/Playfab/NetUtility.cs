@@ -138,6 +138,8 @@ namespace NetSystem
         ,AboveOpenGamesLimit
 
         ,PlayerIsNotAMemberOfThisGame
+
+        ,ItIsTheOtherPlayersTurn
         
         /// The reason for the error is unknown, but the program entered an illegal state during an API call
         ,UnknownError
