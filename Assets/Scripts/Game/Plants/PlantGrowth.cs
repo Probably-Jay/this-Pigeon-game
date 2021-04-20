@@ -41,11 +41,12 @@ namespace Plants
 
         [SerializeField] TendingState tendingState;
         public TendingState TendingState { get => tendingState; private set => tendingState = value; }
+        public int GrowthLevelMoodMultiplier { get; private set; } = 0;
 
 
 
         //Get the Renderer component for changing colours (temp, replace with actual different sprites later)
-      //  Renderer matRenderer;
+        //  Renderer matRenderer;
 
         SpriteRenderer spriteRenderer;
 
@@ -65,18 +66,17 @@ namespace Plants
         }
 
      
-        public int GrowthLevelMoodMultiplier { get; private set; } = 0;
 
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                foreach (var item in tendingState.GetRequiredActions())
-                {
-                    Debug.Log(item);
-                }
-            }
-        }
+        //private void Update()
+        //{
+        //    if (Input.GetMouseButtonDown(1))
+        //    {
+        //        foreach (var item in tendingState.GetRequiredActions())
+        //        {
+        //            Debug.Log(item);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Grow the plant or progress to the next growth stage

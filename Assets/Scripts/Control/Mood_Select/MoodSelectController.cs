@@ -10,11 +10,11 @@ public class MoodSelectController : MonoBehaviour
     [SerializeField] GoalStore goalStore;
 
 
-    public void NextMoodSelect()
-    {
-        SaveEmotion();
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen2);
-    }
+    //public void NextMoodSelect()
+    //{
+    //    SaveEmotion();
+    //    SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen2);
+    //}
 
     public void EnterGame()
     {

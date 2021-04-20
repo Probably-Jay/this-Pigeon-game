@@ -304,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuIndex: 0
   ConectingSceneIndex: 1
-  MoodSelect1BuildIndex: -1
+  MoodSelect1BuildIndex: 2
   MoodSelect2BuildIndex: -1
   TutorialBuildIndex: -1
   GameBuildIndex: -1

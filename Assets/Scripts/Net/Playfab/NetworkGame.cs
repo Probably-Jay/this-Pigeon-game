@@ -17,7 +17,7 @@ namespace NetSystem
 
 
         readonly PlayFab.GroupsModels.GroupWithRoles group;
-        readonly NetworkGame.NetworkGameMetadata metaData;
+        readonly NetworkGameMetadata metaData;
 
         public RawData rawData;
 

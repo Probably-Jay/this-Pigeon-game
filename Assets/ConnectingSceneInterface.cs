@@ -209,8 +209,14 @@ namespace SceneControl
                 game = newGameResponse.returnData;
             }
 
+
+            if(game == null )
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+            }
+
             //get the game data
-            NetworkGame.RawData rawData = null;
+           // NetworkGame.RawData rawData = null;
             {
                 if (!game.NewGameJustCreated || true) // dont get the data from a brand new game
                 {
@@ -223,15 +229,11 @@ namespace SceneControl
                         yield break;
                     }
 
-                    rawData = getGameDataResponse.returnData;
+                    game.rawData = getGameDataResponse.returnData;
                 }
             }
 
-            if(rawData != null)
-            {
-                DebugOutRawData(rawData);
-
-            }
+            
 
             // SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.)
 
