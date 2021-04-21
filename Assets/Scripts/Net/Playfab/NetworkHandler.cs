@@ -70,6 +70,7 @@ namespace NetSystem
         {
             NetGame.ExitGame();
             PlayerClient.Logout();
+            
         }
 
         private void UpdateActiveGame(NetworkGame obj)
