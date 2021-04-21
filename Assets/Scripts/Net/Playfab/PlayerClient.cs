@@ -181,6 +181,8 @@ namespace NetSystem
             PlayFabClientAPI.ForgetAllCredentials();
 
             IsLoggedIn = false;
+            ClientEntityKey = null;
+            LastLoginTime = null;
 
             //EventsManager.InvokeEvent(EventsManager.EventType.PostLogout);
             Debug.Log("Logged out");

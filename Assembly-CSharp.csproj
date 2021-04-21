@@ -63,7 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ActiveGamesListPopulator.cs" />
     <Compile Include="Assets\ConnectingSceneInterface.cs" />
+    <Compile Include="Assets\MemberGameSlot.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />

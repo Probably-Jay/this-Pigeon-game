@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PostAlpha/MoodSelectScreen.unity
     guid: 4a218b15d6cf2044992718a2c7dfb977
+  - enabled: 1
+    path: Assets/Scenes/PostAlpha/ComboScene3.unity
+    guid: 7eb32c996e6e72342b6ae5bdd281cc61
   m_configObjects: {}

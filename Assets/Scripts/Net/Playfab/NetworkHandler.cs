@@ -119,9 +119,18 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
-        public void ResumeMemberGame(NetworkGame game)
+        public void ResumeMemberGame(NetworkGame game, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            var callbacks = new APIOperationCallbacks<NetworkGame>(onSucess: OnResumeGameSucess, onfailure: OnResumeGamefailure);
+            
+            var callbacks = new APIOperationCallbacks<NetworkGame>(
+                onSucess: (joinedGame) => 
+                {
+                    OnResumeGameSucess(joinedGame);
+                    parentCallbacks.OnSucess(joinedGame);
+                }, 
+                onfailure: parentCallbacks.OnFailure
+            );
+
             StartCoroutine(NetGame.ResumeMemberGame(game, callbacks));
         }
 
@@ -260,15 +269,15 @@ namespace NetSystem
 
 
         /// <summary>
-        /// Gets the data of the current game
+        /// Gets the data of the provided game, of the current game if provided gameis null
         /// <para/> Upon completion will invoke one of the following callbacks :
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
         /// </summary>
         /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
-        public void ReceiveData(APIOperationCallbacks<NetworkGame.RawData> callbacks)
+        public void ReceiveData(APIOperationCallbacks<NetworkGame.RawData> callbacks, NetworkGame game = null)
         {
-            StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks));
+            StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks, game));
         }
 
         private void OnReceiveDataSucess(NetworkGame.RawData data)
