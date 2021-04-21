@@ -20,18 +20,23 @@ public class SceneChangeController : Singleton<SceneChangeController>
     public enum Scenes 
     {
         MainMenu
-        , MoodSelectScreen1
-        , MoodSelectScreen2
+
+        , ConnectingScene
+                
+        , MoodSelectScreen
+    //    , MoodSelectScreen1
+    //    , MoodSelectScreen2
     //    , PersonalGarden
-        , Tutorial
+    //    , Tutorial
         , Game
     }
 
     [SerializeField] int MainMenuIndex;
-    [SerializeField] int MoodSelect1BuildIndex;
-    [SerializeField] int MoodSelect2BuildIndex;
+    [SerializeField] int ConectingSceneIndex;
+    [SerializeField] int MoodSelectBuildIndex;
+    //[SerializeField] int MoodSelect2BuildIndex;
    // [SerializeField] int PersonalGardenBuildIndex;  
-    [SerializeField] int TutorialBuildIndex;
+    //[SerializeField] int TutorialBuildIndex;
     [SerializeField] int GameBuildIndex;
 
 
@@ -63,10 +68,12 @@ public class SceneChangeController : Singleton<SceneChangeController>
     private void CreateBuildIndexDictionary()
     {
         sceneBuildIndexesDictionary.Add(Scenes.MainMenu, MainMenuIndex);
-        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen1, MoodSelect1BuildIndex);
-        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen2, MoodSelect2BuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.ConnectingScene, ConectingSceneIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen, MoodSelectBuildIndex);
+       // sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen1, MoodSelectBuildIndex);
+      //  sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen2, MoodSelect2BuildIndex);
        // sceneBuildIndexesDictionary.Add(Scenes.PersonalGarden, PersonalGardenBuildIndex);
-        sceneBuildIndexesDictionary.Add(Scenes.Tutorial, TutorialBuildIndex);
+      //  sceneBuildIndexesDictionary.Add(Scenes.Tutorial, TutorialBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.Game, GameBuildIndex);
     }
 

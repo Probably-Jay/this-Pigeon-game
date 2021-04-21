@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace NetSystem
@@ -10,15 +11,21 @@ namespace NetSystem
         public string GroupName => group.GroupName;
         public bool GameOpenToJoin => metaData.Open;
 
+        public bool NewGameJustCreated { get; private set; }
+
         public List<PlayFab.CloudScriptModels.EntityKey> playerEntities => new List<PlayFab.CloudScriptModels.EntityKey>() { metaData.Player1, metaData.Player2 };
 
-        readonly PlayFab.GroupsModels.GroupWithRoles group;
-        readonly NetworkGame.NetworkGameMetadata metaData;
 
-        public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData)
+        readonly PlayFab.GroupsModels.GroupWithRoles group;
+        readonly NetworkGameMetadata metaData;
+
+        public RawData rawData;
+
+        public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData, bool newGame = false)
         {
             this.group = group;
             this.metaData = gameMetaData;
+            NewGameJustCreated = newGame;
         }
 
 
@@ -39,6 +46,10 @@ namespace NetSystem
 
         public class RawData
         {
+            public string gameBegun;
+            public string turnBelongsTo;
+            public string turnComplete;
+
             public string time;
 
             public string gardenA;
@@ -47,6 +58,29 @@ namespace NetSystem
             public string prevGardenA;
             public string prevGardenB;
 
+        }
+
+        /// <summary>
+        /// Takes a collection of games and sorts them into active ongoing games and open unstarted games
+        /// </summary>
+        /// <param name="games"></param>
+        /// <param name="openGames"></param>
+        /// <param name="activeGames"></param>
+        public static void SeperateOpenAndClosedGames(ReadOnlyCollection<NetworkGame> games, out List<NetworkGame> openGames, out List<NetworkGame> activeGames)
+        {
+            openGames = new List<NetworkGame>();
+            activeGames = new List<NetworkGame>();
+            foreach (var game in games)
+            {
+                if (game.GameOpenToJoin)
+                {
+                    openGames.Add(game);
+                }
+                else
+                {
+                    activeGames.Add(game);
+                }
+            }
         }
 
     }

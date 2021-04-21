@@ -14,12 +14,21 @@ namespace NetSystem
 
         public NetworkGame NetworkGame => NetworkHandler.Instance.NetGame.CurrentNetworkGame;
 
-        public IEnumerator GetDataFromTheServer(APIOperationCallbacks<NetworkGame.RawData> resultsCallback)
+        /// <summary>
+        /// Gets the data of the provided game (current game by default
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
+        public IEnumerator GetDataFromTheServer(APIOperationCallbacks<NetworkGame.RawData> resultsCallback, NetworkGame game = null)
         {
+            game = game != null ? game : NetworkGame;
+
             var getDataResponse = new CallResponse<NetworkGame.RawData>();
             {
 
-                yield return StartCoroutine(ReceiveDataFromTheServer(getDataResponse));
+                yield return StartCoroutine(ReceiveDataFromTheServer(getDataResponse, game));
 
                 if (getDataResponse.status.Error)
                 {
@@ -31,14 +40,15 @@ namespace NetSystem
             resultsCallback.OnSucess(getDataResponse.returnData);
         }
 
-        private IEnumerator ReceiveDataFromTheServer(CallResponse<NetworkGame.RawData> getDataResponse)
+        private IEnumerator ReceiveDataFromTheServer(CallResponse<NetworkGame.RawData> getDataResponse, NetworkGame game)
         {
+          //  EntityKey groupEntityKey = NetworkGame.GroupEntityKey;
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
             {
                 FunctionName = "GetGroupSharedData",
                 FunctionParameter = new
                 {
-                    Group = NetworkGame.GroupEntityKey,
+                    Group = game.GroupEntityKey,
                 }
             };
 
@@ -52,7 +62,6 @@ namespace NetSystem
             void ReceiveDataSucess(PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj)
             {
   
-              //  string result = DeserialiseResponseToCutomObject<string>(obj);
                 var result = DeserialiseResponseToCutomObject<NetworkGame.RawData>(obj);
 
                 if (result == null)
@@ -60,12 +69,6 @@ namespace NetSystem
                     getDataResponse.status.SetError(FailureReason.InternalError);
                     return;
                 }
-
-                //if (result == "")
-                //{
-                //    LogError(obj.Error);
-                //    getDataResponse.status.SetError(FailureReason.InternalError);
-                //}
 
                 getDataResponse.returnData = result;
 

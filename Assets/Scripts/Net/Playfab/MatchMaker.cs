@@ -13,7 +13,24 @@ namespace NetSystem
     public class MatchMaker : NetComponent
     {
 
-  
+        /// <summary>
+        /// Creates a new open game on the server, which will contain the calling client and the title entity.
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{NetworkGame}.OnSucess"/>: The game was sucessfuly created and entered, its metadata was gathered, and a new <see cref="NetworkGame"/> object has been stored</para>
+        /// <para><see cref="APIOperationCallbacks{NetworkGame}.OnFailure"/>: The call failed due to a networking error, or for one of the following reasons (retuned in callback): 
+        ///     <list type="bullet">
+        ///         <item>
+        ///         <term><see cref="FailureReason.TooManyActiveGames"/></term>
+        ///         <description>The user is a member of too many games to enter a new one</description>
+        ///         </item> 
+        ///         <item>
+        ///         <term><see cref="FailureReason.AboveOpenGamesLimit"/></term>
+        ///         <description>The user cannot create a new game as there are no open games to join and they own too many open games to start a new one</description>
+        ///         </item>
+        ///     </list>
+        /// </para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         public IEnumerator CreateGame(APIOperationCallbacks<NetworkGame> resultsCallback)
         {
             // gather member games
@@ -26,31 +43,46 @@ namespace NetSystem
 
                 if (response.status.Error)
                 {
-                    resultsCallback.OnFailure(response.status.ErrorData);
-                    yield break;
+                    //resultsCallback.OnFailure(response.status.ErrorData);
+                    //yield break;
+                    switch (response.status.ErrorData)
+                    {
+                        case FailureReason.PlayerIsMemberOfNoGames:
+                            // this is fine, continue 
+                            break;
+                        default:
+                            resultsCallback.OnFailure(response.status.ErrorData);
+                            yield break;
+                    }
+
                 }
 
                 cachedMemberGames = response.returnData;
                 
             }
 
-            // validate we are allowed to join a new game
-
-            if (!ValidateIfBelowGameLimit(cachedMemberGames))
+            // validate we are allowed to create a new game
             {
-                resultsCallback.OnFailure(FailureReason.TooManyActiveGames);
-                yield break;
-            }
-            
-
-
-
-            // validate we don't already have an open game
-            foreach (var game in cachedMemberGames)
-            {
-                if (game.GameOpenToJoin)
+                if (!ValidateIfBelowGameLimit(cachedMemberGames))
                 {
-                    resultsCallback.OnFailure(FailureReason.AlreadyHasOpenGame);
+                    resultsCallback.OnFailure(FailureReason.TooManyActiveGames);
+                    yield break;
+                }
+
+                // cont open games we are in
+                int myOpenGamesCount = 0;
+                foreach (var game in cachedMemberGames)
+                {
+                    if (game.GameOpenToJoin)
+                    {
+                        myOpenGamesCount++;
+                    }
+                }
+
+                // validate we are below open game limit
+                if (myOpenGamesCount >= maximumOpenGames)
+                {
+                    resultsCallback.OnFailure(FailureReason.AboveOpenGamesLimit);
                     yield break;
                 }
             }
@@ -94,7 +126,7 @@ namespace NetSystem
                 metaData = getMetadataRespone.returnData;
             }
 
-            var networkGame = new NetworkGame(createdGroup, metaData);
+            var networkGame = new NetworkGame(createdGroup, metaData, newGame: true);
 
             NetworkHandler.Instance.RemoteMemberGamesList.Add(networkGame);
 

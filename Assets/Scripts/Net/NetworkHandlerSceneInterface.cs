@@ -4,64 +4,64 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.UI;
 
+// jay
+
+
+
 namespace NetSystem
 {
     using PlayFab.CloudScriptModels;
     /// <summary>
     /// Debugging class, interface to <see cref="NetworkHandler"/> as scene buttons cannot referance singletons directly
     /// </summary>
+    [System.Obsolete("This is a test object and should not be used")]
     public class NetworkHandlerSceneInterface : MonoBehaviour
     {
         [SerializeField] InputField gameInputField;
         [SerializeField] InputField dataInputField;
 
-        public void LoginPlayer() => NetworkHandler.Instance.AnonymousLoginPlayer();
-        public void DebugLoginPlayer() => NetworkHandler.Instance.AnonymousLoginDebugPlayer();
+        public void LoginPlayer() => NetworkHandler.Instance.AnonymousLoginPlayer(APIOperationCallbacks.DoNothing);
+        public void DebugLoginPlayer() => NetworkHandler.Instance.AnonymousLoginDebugPlayer(APIOperationCallbacks.DoNothing);
+
+        public void LogoutPlayer() => NetworkHandler.Instance.LogoutPlayer();
 
         public void JoinNewGame()
         {
             if (!NetworkHandler.Instance.LoggedIn) return;
 
-            NetworkHandler.Instance.EnterNewGame();
+            NetworkHandler.Instance.EnterNewGame(APIOperationCallbacks<NetworkGame>.NoCallbacks);
         }
 
         public void ListMemberGames()
         {
             if (!NetworkHandler.Instance.LoggedIn) return;
 
-            NetworkHandler.Instance.GatherAllMemberGames(
-                onGamesGatheredSucess: ListGames,
-                onGamesGatherFailure: (FailureReason reason) =>
+            var gatherCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>> (
+                onSucess: ListGames,
+                onfailure: (FailureReason reason) =>
                 {
-                    if(reason == FailureReason.PlayerIsMemberOfNoGames)
+                    if (reason == FailureReason.PlayerIsMemberOfNoGames)
                     {
                         Debug.Log("Member of no games");
                         return;
                     }
                     Debug.LogError($"Request failed because of: {reason}");
                 });
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherCallbacks);
+               
         }
 
         private void  ListGames(ReadOnlyCollection<NetworkGame> games)
         {
-           
-            List<NetworkGame> openGames = new List<NetworkGame>();
-            List<NetworkGame> activeGames = new List<NetworkGame>();
-            foreach (var game in games)
-            {
-                if (game.GameOpenToJoin)
-                {
-                    openGames.Add(game);
-                }
-                else
-                {
-                    activeGames.Add(game);
-                }
-            }
+            List<NetworkGame> openGames, activeGames;
+            NetworkGame.SeperateOpenAndClosedGames(games, out openGames, out activeGames);
 
             Debug.Log($"Member of {activeGames.Count} active games and {openGames.Count} open games");
 
         }
+
+       
 
         public void ResumeMemberGameFromInputField()
         {
@@ -76,23 +76,25 @@ namespace NetSystem
 
         private void ResumeMemberGame(int i)
         {
-            NetworkHandler.Instance.GatherAllMemberGames(
-                   onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) =>
-                   {
-                       if(i>= games.Count)
-                       {
-                           Debug.LogError($"Index {i} is beyond the bounds of this member games array");
-                           return;
-                       }
-                       Resume(games[i]);
-                   },
-                   onGamesGatherFailure: (FailureReason reason) => Debug.LogError($"Request failed because of: {reason}")
-                   );
+            var gatherGamesCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(
+                  onSucess: (ReadOnlyCollection<NetworkGame> games) =>
+                  {
+                      if (i >= games.Count)
+                      {
+                          Debug.LogError($"Index {i} is beyond the bounds of this member games array");
+                          return;
+                      }
+                      Resume(games[i]);
+                  },
+                  onfailure: (FailureReason reason) => Debug.LogError($"Request failed because of: {reason}")
+                  );
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherGamesCallbacks);
         }
 
         private void Resume(NetworkGame game)
         {
-            NetworkHandler.Instance.ResumeMemberGame(game);
+            NetworkHandler.Instance.ResumeMemberGame(game, APIOperationCallbacks<NetworkGame>.NoCallbacks);
 
         }
 
@@ -104,7 +106,12 @@ namespace NetSystem
                 return;
             }
 
-            NetworkHandler.Instance.ReceiveData();
+            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+                onSucess: (data) => Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\""),
+                onfailure: (e) => Debug.LogError(e)
+                );
+
+            NetworkHandler.Instance.ReceiveData(callbacks);
         }  
         
         public void UpdateGameData()

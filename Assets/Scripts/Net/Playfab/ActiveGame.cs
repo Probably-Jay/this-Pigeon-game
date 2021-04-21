@@ -67,7 +67,20 @@ namespace NetSystem
             
         }
 
-
+        /// <summary>
+        /// Joins an open game on the server that was started by another player. This removes the title entity from the game and sets the game to "closed".
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{NetworkGame}.OnSucess"/>: The game was sucessfuly entered, its metadata was gathered, and a new <see cref="NetworkGame"/> object has been stored</para>
+        /// <para><see cref="APIOperationCallbacks{NetworkGame}.OnFailure"/>: The call failed due to a networking error, or for one of the following reasons (retuned in callback): 
+        ///     <list type="bullet">
+        ///         <item>
+        ///         <term><see cref="FailureReason.TooManyActiveGames"/></term>
+        ///         <description>The user is a member of too many games and is not allowed to enter a new one</description>
+        ///         </item> 
+        ///     </list>
+        /// </para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         public IEnumerator JoinOpenGameGroup(GroupWithRoles groupToJoin, APIOperationCallbacks<NetworkGame> resultsCallback)
         {
 
@@ -83,8 +96,15 @@ namespace NetSystem
 
                     if (response.status.Error)
                     {
-                        resultsCallback.OnFailure(response.status.ErrorData);
-                        yield break;
+                        if(response.status.ErrorData == FailureReason.PlayerIsMemberOfNoGames)
+                        {
+                            // this is fine, do nothing
+                        }
+                        else
+                        {
+                            resultsCallback.OnFailure(response.status.ErrorData);
+                            yield break;
+                        }
                     }
 
                     cachedMemberGames = response.returnData;
@@ -142,6 +162,7 @@ namespace NetSystem
 
         }
 
+     
         private IEnumerator JoinGroup(EntityKey group, CallResponse joinGroupResponse)
         {
             var request = new PlayFab.CloudScriptModels.ExecuteEntityCloudScriptRequest
@@ -178,6 +199,9 @@ namespace NetSystem
         }
 
 
-
+        public void ExitGame()
+        {
+            currentNetworkGame = null;
+        }
     }
 }

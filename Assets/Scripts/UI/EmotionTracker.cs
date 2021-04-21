@@ -31,12 +31,18 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
         EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
     }
 
+    /// <summary>
+    /// The mood given by the current state of the garden, re-calculated when a mood changes
+    /// </summary>
     public Dictionary<Player.PlayerEnum, TraitValue> GardenCurrentTraits { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
     {
         {Player.PlayerEnum.Player1, TraitValue.Uninitialised }
         ,{Player.PlayerEnum.Player2, TraitValue.Uninitialised }
     };   
     
+    /// <summary>
+    /// The trait values of the goal emotions of the gardens, set on instance creation based on <see cref="GameManager.Player1Goal"/>, <see cref="GameManager.Player2Goal"/>
+    /// </summary>
     public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary< Player.PlayerEnum, TraitValue>()    
     {
         { Player.PlayerEnum.Player1, Emotion.EmotionValues[GameManager.Instance.Player1Goal]}
@@ -44,6 +50,9 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
             
     };
 
+    /// <summary>
+    /// The goal emotions of the gardens, set on instance creation based on <see cref="GameManager.Player1Goal"/>, <see cref="GameManager.Player2Goal"/>
+    /// </summary>
     public Dictionary<Player.PlayerEnum, Emotion.Emotions> GardenGoalEmotions => new Dictionary<Player.PlayerEnum, Emotion.Emotions>()
     {
         { Player.PlayerEnum.Player1, GameManager.Instance.Player1Goal }

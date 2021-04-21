@@ -12,7 +12,8 @@ namespace NetSystem
     {
         protected PlayFab.CloudScriptModels.EntityKey ClientEntity => NetworkHandler.Instance.ClientEntity;
 
-        const int maximumActiveGames = 10;
+        public const int maximumActiveGames = 10;
+        public const int maximumOpenGames = 1;
 
         protected bool ValidateIfBelowGameLimit(ReadOnlyCollection<NetworkGame> cachedMemberGames) // server ideally should handle this
         {
@@ -70,16 +71,33 @@ namespace NetSystem
 
         }
 
-
+        /// <summary>
+        /// Gathers all games this client is a member of, including unstarted open games. This data is cached.
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The cache was hit, or the open games were sucessfully gathered along with their metadata and cached</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error, or for one of the following reasons (retuned in callback): 
+        ///     <list type="bullet">
+        ///         <item>
+        ///         <term><see cref="FailureReason.PlayerIsMemberOfNoGames"/></term>
+        ///         <description>The player is not a member of any games. This is returned as an explicit error case to be handled</description>
+        ///         </item> 
+        ///     </list>
+        /// </para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         protected IEnumerator GetMemberGamesList(CallResponse<ReadOnlyCollection<NetworkGame>> response)
         {
-            NetworkHandler.Instance.GatherAllMemberGames(
-                  onGamesGatheredSucess: (ReadOnlyCollection<NetworkGame> games) => {
+            var gatherGameCallbacks = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>(
+                  onSucess: (ReadOnlyCollection<NetworkGame> games) => {
                       response.returnData = games;
                       response.status.SetSucess();
                   },
-                  onGamesGatherFailure: (FailureReason) => response.status.SetError(FailureReason)
+                  onfailure: (FailureReason) => response.status.SetError(FailureReason)
                   );
+
+            NetworkHandler.Instance.GatherAllMemberGames(gatherGameCallbacks);
+
+
 
             yield return new WaitUntil(() => response.status.Complete);
 
@@ -88,8 +106,9 @@ namespace NetSystem
                 switch (response.status.ErrorData)
                 {
                     case FailureReason.PlayerIsMemberOfNoGames:
-                        // do nothing
-                        break;
+                        response.returnData = new ReadOnlyCollection<NetworkGame>(new List<NetworkGame>()); // set empty list
+                        response.status.SetError(response.status.ErrorData);
+                        yield break;
                     default:
                         response.status.SetError(response.status.ErrorData);
                         yield break;

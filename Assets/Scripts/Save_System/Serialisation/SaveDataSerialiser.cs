@@ -103,7 +103,7 @@ namespace SaveSystemInternal
 
             SaveDataUtility.SetHash(data);
 
-            var jsonData = JsonUtility.ToJson(data);
+            string jsonData = JsonUtility.ToJson(data);
 
             File.WriteAllText(path, jsonData); // will overwrite file there and then closes it
 
