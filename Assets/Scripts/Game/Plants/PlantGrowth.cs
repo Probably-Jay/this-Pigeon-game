@@ -166,8 +166,9 @@ namespace Plants
             }
 
             TendingState.Tend(action);
+            EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, new EventsManager.EventParams() { EnumData = action });
 
-           
+
 
         }
         public Collider2D GetActiveCollider()

@@ -87,6 +87,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
         //Debug.Log(plant);
         plant.Tend(ToolType);
+
     }
 
     public Rect GetWorldRect()

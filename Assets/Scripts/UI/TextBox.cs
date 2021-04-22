@@ -45,6 +45,8 @@ public class TextBox : MonoBehaviour
         thingsToSay.Add(content);
         myText.gameObject.SetActive(true);
         UpdateButtons();
+
+        EventsManager.InvokeEvent(EventsManager.EventType.OnDialogueOpen);
     }
     void SkipToEnd()
     {
@@ -78,7 +80,7 @@ public class TextBox : MonoBehaviour
     void UpdateButtons()
     {
         if (listFocus != 0)
-        {
+        {       
             backButton.SetActive(true);
         }
         else

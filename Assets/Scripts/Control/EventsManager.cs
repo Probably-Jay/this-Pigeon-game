@@ -55,6 +55,8 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
+
+        , OnDialogueOpen
         , DialogueSkip
         , DialogueNext
         , DialoguePrevious
@@ -65,9 +67,7 @@ public class EventsManager : Singleton<EventsManager>
 
         , PlantReadyToGrow
 
-        // Implement these properly for sfx
-        , SprayPlant
-        , WaterPlant
+      
 
         , QuitGame
     }
@@ -78,6 +78,7 @@ public class EventsManager : Singleton<EventsManager>
         NotEnoughPointsForAction // enum variable
         , SwappedGardenView // enum variable
         , AcheivedGoal // enum variable
+        , OnPerformedTendingAction // enum varailble
     }
 
     // update thsese with more data as needed

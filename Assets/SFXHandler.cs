@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,16 +20,15 @@ public class SFXHandler : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, Tools);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, Tools);
 
-        EventsManager.BindEvent(EventsManager.EventType.DialogueNext, Meow);
-        EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, Meow);
+        EventsManager.BindEvent(EventsManager.EventType.OnDialogueOpen, Meow);
 
         EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, Rake);
         EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, Rake);
-        EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, Rake);
+      //  EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, Rake);
 
-        EventsManager.BindEvent(EventsManager.EventType.WaterPlant, Water);
+        EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, TendedPlant);
 
-        EventsManager.BindEvent(EventsManager.EventType.SprayPlant, Spray);
+       
 
         // No Events Assigned
 
@@ -42,6 +42,9 @@ public class SFXHandler : MonoBehaviour
 
         //EventsManager.BindEvent(EventsManager.EventType.Stake, Stake);
     }
+
+ 
+
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, Bag);
@@ -49,25 +52,42 @@ public class SFXHandler : MonoBehaviour
                       
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, Tools);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, Tools);
-                      
-        EventsManager.UnbindEvent(EventsManager.EventType.DialogueNext, Meow);
-        EventsManager.UnbindEvent(EventsManager.EventType.DialoguePrevious, Meow);
-                      
+
+        EventsManager.UnbindEvent(EventsManager.EventType.OnDialogueOpen, Meow);
+
+
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, Rake);
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, Rake);
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, Rake);
                       
-        EventsManager.UnbindEvent(EventsManager.EventType.WaterPlant, Water);
-                      
-        EventsManager.UnbindEvent(EventsManager.EventType.SprayPlant, Spray);
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, TendedPlant);
+
     }
 
     // Play sound effect at specified index
     public void PlaySound(int idx)
     {
         clipSource.pitch = 1.0f;
-        clipSource.pitch += Random.Range(-0.1f, 0.1f);
+        clipSource.pitch += UnityEngine.Random.Range(-0.1f, 0.1f);
         clipSource.PlayOneShot(clipArray[idx]);
+    }
+
+    private void TendedPlant(EventsManager.EventParams eventParams)
+    {
+        var action = (Plants.PlantActions.TendingActions)eventParams.EnumData;
+
+        switch (action)
+        {
+            case Plants.PlantActions.TendingActions.Watering:
+                Water();
+                break;
+            case Plants.PlantActions.TendingActions.Spraying:
+                Spray();
+                break;
+            case Plants.PlantActions.TendingActions.Trimming:
+                
+                break;
+        }
     }
 
     /*
@@ -122,7 +142,7 @@ public class SFXHandler : MonoBehaviour
 
     void Rake()
     {
-        int type = Random.Range(0, 3);
+        int type = UnityEngine.Random.Range(0, 3);
         PlaySound(6 + type);
     }
 
@@ -143,7 +163,7 @@ public class SFXHandler : MonoBehaviour
 
     void Plant()
     {
-        int type = Random.Range(0, 2);
+        int type = UnityEngine.Random.Range(0, 2);
         PlaySound(13);
     }
 }
