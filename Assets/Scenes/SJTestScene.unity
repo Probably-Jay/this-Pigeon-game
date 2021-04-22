@@ -461,23 +461,11 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8402749796369453509}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &372419398 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 1a770c1573d33da48b4b5a5f9923b616,
-    type: 3}
-  m_PrefabInstance: {fileID: 2059205866}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &372419399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1a770c1573d33da48b4b5a5f9923b616,
     type: 3}
   m_PrefabInstance: {fileID: 2059205866}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &546174984 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 96d3d084c10f90149a67918743b3706e,
-    type: 3}
-  m_PrefabInstance: {fileID: 742261228}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &546174985 stripped
 Transform:
@@ -623,23 +611,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &624433268 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 1dcac2403b4511d4eacc7e0f5572effd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1707218247}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &624433269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1dcac2403b4511d4eacc7e0f5572effd,
     type: 3}
   m_PrefabInstance: {fileID: 1707218247}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &635724561 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 96d3d084c10f90149a67918743b3706e,
-    type: 3}
-  m_PrefabInstance: {fileID: 294228729}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &635724562 stripped
 Transform:
@@ -728,12 +704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2d52ea275564f41a117cc24817d95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &696992640 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 1dcac2403b4511d4eacc7e0f5572effd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1853410972}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &696992641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1dcac2403b4511d4eacc7e0f5572effd,
@@ -1051,12 +1021,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.14751655, y: 0.016279705}
   m_SizeDelta: {x: 7.5915265, y: 13.487075}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &977620596 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 1a770c1573d33da48b4b5a5f9923b616,
-    type: 3}
-  m_PrefabInstance: {fileID: 1800017391}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &977620597 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1a770c1573d33da48b4b5a5f9923b616,
@@ -1872,12 +1836,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1181466570 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2965380425453920542, guid: 1dcac2403b4511d4eacc7e0f5572effd,
-    type: 3}
-  m_PrefabInstance: {fileID: 847249561}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1181466571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1dcac2403b4511d4eacc7e0f5572effd,
@@ -2161,13 +2119,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be6afa8cb47e7747aa9f8d01a8624c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gardenID: 1
+  gardenplayerID: 0
   gardenSlots:
-  - {fileID: 1181466570}
-  - {fileID: 624433268}
-  - {fileID: 635724561}
-  - {fileID: 977620596}
-  seedStorage: {fileID: 1978450608}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  seedStorage: {fileID: 0}
+  gardenSeedIndicator: {fileID: 0}
 --- !u!1 &1428942197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,12 +2173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be6afa8cb47e7747aa9f8d01a8624c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gardenID: 1
+  gardenplayerID: 0
   gardenSlots:
-  - {fileID: 696992640}
-  - {fileID: 546174984}
-  - {fileID: 372419398}
-  seedStorage: {fileID: 1978450608}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  seedStorage: {fileID: 0}
+  gardenSeedIndicator: {fileID: 0}
 --- !u!1 &1612375560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,8 +2224,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SeedSelected: {fileID: 1978450608}
-  garden1Slots: {fileID: 1371908105}
-  garden2Slots: {fileID: 1428942197}
+  garden1Slots: {fileID: 0}
+  garden2Slots: {fileID: 0}
+  garden1SeedIndicator: {fileID: 0}
+  garden2SeedIndicator: {fileID: 0}
 --- !u!1 &1616478585
 GameObject:
   m_ObjectHideFlags: 0

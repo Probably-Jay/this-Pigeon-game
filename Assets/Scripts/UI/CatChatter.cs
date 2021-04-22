@@ -29,7 +29,7 @@ namespace Tutorial
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
 
-            BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent, SayNothing,
+            BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, SayNothing,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
 
             BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithRelaventPlants,
