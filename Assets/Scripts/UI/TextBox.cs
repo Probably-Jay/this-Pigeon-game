@@ -18,6 +18,7 @@ public class TextBox : MonoBehaviour
     {
         //forwardButtonText = forwardButton.GetComponentInChildren<Text>();
         //myText=this.GetComponentInChildren<Text>();
+        EventsManager.BindEvent(EventsManager.EventType.DialogueSkip, SkipToEnd);
         EventsManager.BindEvent(EventsManager.EventType.DialogueNext, NextWords);
         EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
         UpdateButtons();
@@ -25,6 +26,7 @@ public class TextBox : MonoBehaviour
 
     private void OnDisable()
     {
+        EventsManager.UnbindEvent(EventsManager.EventType.DialogueSkip, SkipToEnd);
         EventsManager.UnbindEvent(EventsManager.EventType.DialogueNext, NextWords);
         EventsManager.UnbindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
     }
@@ -44,9 +46,15 @@ public class TextBox : MonoBehaviour
         myText.gameObject.SetActive(true);
         UpdateButtons();
     }
+    void SkipToEnd()
+    {
+        listFocus = thingsToSay.Count - 1;
+        NextWords();
+    }
+
     void NextWords()
     {
-        if (thingsToSay.Count == listFocus+1)
+        if (listFocus + 1 >= thingsToSay.Count)
         {
             myText.gameObject.SetActive(false);
             thingsToSay.Clear();
@@ -77,6 +85,7 @@ public class TextBox : MonoBehaviour
         {
             backButton.SetActive(false);
         }
+
         if (listFocus == thingsToSay.Count - 1)
         {
             forwardButtonText.text = ("Close");

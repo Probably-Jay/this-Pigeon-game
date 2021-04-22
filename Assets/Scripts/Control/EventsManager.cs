@@ -55,6 +55,7 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
+        , DialogueSkip
         , DialogueNext
         , DialoguePrevious
         , PlantingBegin

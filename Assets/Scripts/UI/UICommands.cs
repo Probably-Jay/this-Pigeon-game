@@ -74,6 +74,7 @@ public class UICommands : MonoBehaviour
 
     }
     public void CloseSeedBag() { EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose); Debug.Log("Closed Bag"); }
+    public void Skip() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueSkip);
     public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
     public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
 }
