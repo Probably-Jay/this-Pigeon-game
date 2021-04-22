@@ -74,6 +74,8 @@ namespace Plants
 
             foreach (var action in Helper.Utility.GetEnumValues<TendingActions>())
             {
+                if (!icons.ContainsKey(action))
+                    continue;
                 icons[action].SetActive(false);
             }
 
@@ -81,7 +83,8 @@ namespace Plants
 
             for (int i = 0; i < requiredActions.Count; i++)
             {
-                var icon = icons[requiredActions[i]];
+                TendingActions requiredAction = requiredActions[i];
+                var icon = icons[requiredAction];
               //  icon.transform.position = GetPosition(i);
                 icon.SetActive(true);
             }

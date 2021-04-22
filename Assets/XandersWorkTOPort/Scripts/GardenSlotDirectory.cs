@@ -25,8 +25,11 @@ public class GardenSlotDirectory : MonoBehaviour
     }
     private void OnDisable()
     {
-        GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
-        GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
+        if (GameManager.InstanceExists)
+        {
+            GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
+            GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
+        }
     }
 
     public void AccessAppropriateSlotManager()
