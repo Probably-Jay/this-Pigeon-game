@@ -15,7 +15,6 @@ namespace Plants
         //    , Staking        
             , Spraying        
             , Trimming  
-            , Removing
         }
 
 

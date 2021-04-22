@@ -69,7 +69,7 @@ public class SlotManager : MonoBehaviour
             Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
             if (moodGoal.Overlaps(plant.TraitsUnscaled))
             {
-                EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent);
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant);
             }
         }
         else

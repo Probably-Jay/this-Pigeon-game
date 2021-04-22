@@ -32,7 +32,7 @@ public class EventsManager : Singleton<EventsManager>
 
      
         , PlacedOwnObject
-        , PlacedOwnObjectMoodRelavent
+        , PlacedOwnObjectMoodRelevant
         , PlacedCompanionObject
         , RemovedOwnObject
         , WateredOwnPlant // perhaps rename to "maintained own object"
@@ -62,8 +62,11 @@ public class EventsManager : Singleton<EventsManager>
        // , AddedToEmotionGoal
         ,ToolDropped
 
-
         , PlantReadyToGrow
+
+        // Implement these properly for sfx
+        , SprayPlant
+        , WaterPlant
 
         , QuitGame
     }

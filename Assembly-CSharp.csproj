@@ -175,6 +175,7 @@
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+     <Compile Include="Assets\VolumeHandler.cs" />
      <Compile Include="Assets\XandersWorkTOPort\Scripts\GardenSlotDirectory.cs" />
      <Compile Include="Assets\XandersWorkTOPort\Scripts\SeedIndicator.cs" />
      <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotControls.cs" />
