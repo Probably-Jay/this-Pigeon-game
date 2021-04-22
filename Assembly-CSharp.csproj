@@ -55,7 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GoalSliderScript.cs" />
+     <Compile Include="Assets\SFXHandler.cs" />
      <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
      <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
@@ -96,6 +96,7 @@
      <Compile Include="Assets\Scripts\Game\Turns\PlayerGardenSignControl.cs" />
      <Compile Include="Assets\Scripts\Game\Turns\TurnDisplayControl.cs" />
      <Compile Include="Assets\Scripts\Game\Turns\TurnTracker.cs" />
+     <Compile Include="Assets\Scripts\GoalSliderScript.cs" />
      <Compile Include="Assets\Scripts\Inventory\HideShowInventory.cs" />
      <Compile Include="Assets\Scripts\Inventory\HomeButton.cs" />
      <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
@@ -130,6 +131,7 @@
      <Compile Include="Assets\Scripts\UI\ToolDrag.cs" />
      <Compile Include="Assets\Scripts\UI\UICommands.cs" />
      <Compile Include="Assets\Scripts\UI\WindowOpener.cs" />
+     <Compile Include="Assets\Scripts\_SaveDemonstration.cs" />
      <Compile Include="Assets\Scripts\~Deprecated\CallChangeScene.cs" />
      <Compile Include="Assets\Scripts\~Deprecated\PlantFinder.cs" />
      <Compile Include="Assets\Scripts\~Deprecated\PlantManager.cs" />
@@ -177,7 +179,6 @@
      <Compile Include="Assets\XandersWorkTOPort\Scripts\SeedIndicator.cs" />
      <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotControls.cs" />
      <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotManager.cs" />
-     <Compile Include="Assets\_SaveDemonstration.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

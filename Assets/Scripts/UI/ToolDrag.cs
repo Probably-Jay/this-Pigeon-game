@@ -19,7 +19,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
     bool isPickedUp;
     public CanvasScaler myCanvasScaler;
     public Vector2 offset;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         green = Color.green;
         startingPostition = this.transform.localPosition;
         myImage = this.GetComponent<Image>();
-        offset = myImage.rectTransform.TransformVector(offset);
+        //offset = myImage.rectTransform.TransformVector(offset);
         //Vector2
         //Vector2.Scale(offset, myImage.rectTransform.rect.size/2);
         //Vector2.Scale(offset, myImage.rectTransform.lossyScale);
@@ -35,19 +35,19 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
         //Debug.Log(myImage.rectTransform.rect.Contains);
     }
-    
+
     //public void OnPointerDown(PointerEventData eventData) { Debug.Log(eventData.pointerId); }
     // Update is called once per frame
     void Update()
     {
         myRect = myImage.rectTransform.rect;
-       // Debug.Log(myCanvasScaler.referenceResolution.x/ (Screen.currentResolution.width));
+        // Debug.Log(myCanvasScaler.referenceResolution.x/ (Screen.currentResolution.width));
         //myRect.x += this.transform.position.x;
         //myRect.y += this.transform.position.y;
         //Debug.Log(myRect);
         //EditorGUI.DrawRect(new Rect(myRect.position,myRect.size), green );
         //Debug.Log(myImage.rectTransform.rect);
-        if (myRect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition))&&GameManager.Instance.InOwnGarden)
+        if (myRect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)) && GameManager.Instance.InOwnGarden)
         {
             isMouseOver = true;
             //Debug.Log("in");
@@ -63,7 +63,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         }
         if (isPickedUp)
         {
-            this.transform.position = Input.mousePosition + (new Vector3(offset.x, offset.y)); ;
+            this.transform.position = Input.mousePosition;// + (new Vector3(offset.x, offset.y)); //Offset makes it less intuitive somehow
             worldPosition = Camera.main.ScreenToWorldPoint(this.transform.position);
 
             if (!Input.GetMouseButton(0))
@@ -90,13 +90,12 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (plant == null)
             return;
 
-        Debug.Log(plant);
+        //Debug.Log(plant);
         plant.Tend(ToolType);
-
-
     }
+
     public TendingActions ToolType => toolType;
     //needs to have a getter for what kind of tool it is
     //I agree but like how, I don't know how the tools are listed, used a string for now, perhaps use a dictionary in the slots?
-
+    //Why did you two make the process of using tools so convoluted? It goes through like five separate layers of functions that just call each other
 }

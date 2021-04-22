@@ -14,11 +14,12 @@ namespace Plants
             Watering
         //    , Staking        
             , Spraying        
-            , Trimming       
+            , Trimming  
+            , Removing
         }
 
 
-        [CreateAssetMenu(menuName = "Plants/TendingRequiremnts", order = 1)]
+        [CreateAssetMenu(menuName = "Plants/TendingRequirements", order = 1)]
         public class TendingState : ScriptableObject
         {
             [SerializeField] Plant.PlantSize plantSize;

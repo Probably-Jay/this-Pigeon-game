@@ -20,6 +20,7 @@ public class InputControls : MonoBehaviour
     {
         Planting,
         Watering,
+        Digging,
         // Add More To Match Tending Actions (trim, brush, etc)
 
     }
@@ -34,8 +35,8 @@ public class InputControls : MonoBehaviour
     public GridManager gridManager;
 
     // pont at which the object should fire its ray from
-    //Vector3 newRayOriginPoint;
-    // for storing the demensions of this object to let the tiles know how many of them this object requires
+    // Vector3 newRayOriginPoint;
+    // for storing the dimensions of this object to let the tiles know how many of them this object requires
     Vector3 objectSize;
 
     Vector3 newObjectLocation;
@@ -67,7 +68,6 @@ public class InputControls : MonoBehaviour
                     break;
 
                 case CursorState.Watering:
-
                     TryWaterObject();
                     break;
 
@@ -99,19 +99,18 @@ public class InputControls : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        Debug.Log("WET WET WET");
+
+  
         if (Physics.Raycast(ray, out hit, 100.0f))
         {
             if (hit.transform != null && hit.transform.gameObject.tag == "Object")
             {
-
-                // turns moving on for the object you hit
                 hitObject = hit.transform.gameObject;
                 var plant = hitObject.GetComponent<Plant>();
 
                 if (plant != null)
                     plant.Tend(Plants.PlantActions.TendingActions.Watering);
-
-              
             }
         }
     }
