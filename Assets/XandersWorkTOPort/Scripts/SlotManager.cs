@@ -69,7 +69,7 @@ public class SlotManager : MonoBehaviour
             Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
             if (moodGoal.Overlaps(plant.TraitsUnscaled))
             {
-                EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelavent);
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant);
             }
         }
         else
@@ -96,30 +96,47 @@ public class SlotManager : MonoBehaviour
         return null;
     }
     
-    public Plant PlantMouseIsIn()
+    /// <summary>
+    /// Returns the plant of the slot the mouse is in, else returns null
+    /// </summary>
+    public Plant PlantOfSlotMouseIsIn(ToolDrag tool)
     {
        
         foreach (var slot in gardenSlots)
         {
        
-            if (slot.plantsInThisSlot.Count!=0) {
+            if (slot.plantsInThisSlot.Count!=0)
+            {
                 var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
-                Collider2D plantCollider = plant.PlantGrowth.GetActiveCollider();
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                mousePos.z = plantCollider.transform.position.z;
 
-                if (plantCollider.OverlapPoint(mousePos))
-                {
+            
+                Rect plantRect = GetPlantRect(plant);
+
+               /// plantZPos = plantRect.z
+
+                Rect toolRect = tool.GetWorldRect();
+
+
+                if (plantRect.Overlaps(toolRect))
+                {  
                     return plant;
                 }
             }
-                
-
-            
         }
         return null;
     }
-    
+
+    private static Rect GetPlantRect(Plant plant)
+    {
+        Collider2D plantCollider = plant.PlantGrowth.GetActiveCollider();
+
+        Bounds plantBouds = plantCollider.bounds;
+
+        var plantRect = new Rect(plantBouds.min.x, plantBouds.min.y, plantBouds.size.x, plantBouds.size.y);
+
+        return plantRect;
+    }
+
 
     public void ShowSlots(int requiredSlotType)
     {       

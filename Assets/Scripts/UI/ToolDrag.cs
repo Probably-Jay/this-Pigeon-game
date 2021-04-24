@@ -7,69 +7,57 @@ using Plants;
 using Plants.PlantActions;
 
 //Created Zap 26/03
+// refactored jay 22/04
 public class ToolDrag : MonoBehaviour //IPointerDownHandler
 {
-    Color green;
     [SerializeField] TendingActions toolType;
-    public Image myImage;
-    Rect myRect;
+    public Image image;
+
     Vector3 startingPostition;
-    bool isMouseOver;
-    Vector3 worldPosition;
-    bool isPickedUp;
-    public CanvasScaler myCanvasScaler;
-    public Vector2 offset;
-    
+
+    bool pickedUp;
+
+    public Rect Rect => image.rectTransform.rect;
+
+    public Vector3 WorldPosition => Camera.main.ScreenToWorldPoint(this.transform.position);
+
+    public TendingActions ToolType => toolType;
+
+    public RectTransform RectTransform { get; set; }
+
+
     // Start is called before the first frame update
     void Start()
     {
-
-        green = Color.green;
         startingPostition = this.transform.localPosition;
-        myImage = this.GetComponent<Image>();
-        offset = myImage.rectTransform.TransformVector(offset);
-        //Vector2
-        //Vector2.Scale(offset, myImage.rectTransform.rect.size/2);
-        //Vector2.Scale(offset, myImage.rectTransform.lossyScale);
-        //Debug.Log(offset);
+        image = this.GetComponent<Image>();
+        RectTransform = GetComponent<RectTransform>();
 
-        //Debug.Log(myImage.rectTransform.rect.Contains);
     }
-    
-    //public void OnPointerDown(PointerEventData eventData) { Debug.Log(eventData.pointerId); }
-    // Update is called once per frame
+
+
     void Update()
     {
-        myRect = myImage.rectTransform.rect;
-       // Debug.Log(myCanvasScaler.referenceResolution.x/ (Screen.currentResolution.width));
-        //myRect.x += this.transform.position.x;
-        //myRect.y += this.transform.position.y;
-        //Debug.Log(myRect);
-        //EditorGUI.DrawRect(new Rect(myRect.position,myRect.size), green );
-        //Debug.Log(myImage.rectTransform.rect);
-        if (myRect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition))&&GameManager.Instance.InOwnGarden)
-        {
-            isMouseOver = true;
-            //Debug.Log("in");
-        }
-        else
-        {
-            isMouseOver = false;
-            //Debug.Log("out");
-        }
+       
+
+        bool isMouseOver = ContainsMouse(Rect);
+
+
         if (Input.GetMouseButtonDown(0) && isMouseOver)
         {
-            isPickedUp = true;
+            pickedUp = true;
         }
-        if (isPickedUp)
+
+
+        if (pickedUp)
         {
-            this.transform.position = Input.mousePosition + (new Vector3(offset.x, offset.y)); ;
-            worldPosition = Camera.main.ScreenToWorldPoint(this.transform.position);
+            this.transform.position = Input.mousePosition;
+            //worldPosition = Camera.main.ScreenToWorldPoint(this.transform.position);
 
             if (!Input.GetMouseButton(0))
             {
-                isPickedUp = false;
-                TendPlant(); //this is where you would tend the plant 
+                pickedUp = false;
+                AttemptToTendPlant(); 
             }
         }
         else
@@ -77,26 +65,50 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             this.transform.localPosition = startingPostition;
         }
     }
-    public Vector3 GetWorldPosition()
+
+    private bool ContainsMouse(Rect myRect)
     {
-        return worldPosition;
+        if (myRect.Contains(image.rectTransform.InverseTransformPoint(Input.mousePosition)) && GameManager.Instance.InOwnGarden)
+        {
+            return true;
+        }
+
+        return false;
     }
 
-    void TendPlant()
+
+    void AttemptToTendPlant()
     {
-        var a = GameManager.Instance.SlotManagers[GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible];
-        Plant plant = a.PlantMouseIsIn();
+        SlotManager currentGardenSlotManager = GameManager.Instance.SlotManagers[GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible];
+        Plant plant = currentGardenSlotManager.PlantOfSlotMouseIsIn(this);
 
         if (plant == null)
             return;
 
-        Debug.Log(plant);
+        //Debug.Log(plant);
         plant.Tend(ToolType);
 
-
     }
-    public TendingActions ToolType => toolType;
-    //needs to have a getter for what kind of tool it is
-    //I agree but like how, I don't know how the tools are listed, used a string for now, perhaps use a dictionary in the slots?
+
+    public Rect GetWorldRect()
+    {
+        Vector3[] corners = new Vector3[4];
+        RectTransform.GetWorldCorners(corners);
+
+        Vector3[] worldCorners = new Vector3[4];
+        for (int i = 0; i < corners.Length; i++)
+        {
+            worldCorners[i] = Camera.main.ScreenToWorldPoint(corners[i]);
+           // worldCorners[i].z = ZPos;
+        }
+
+        var size = worldCorners[2] - worldCorners[0];
+
+        var center = worldCorners[0] + (size / 2f);
+
+        var worldBounds = new Bounds(center, size);
+        var worldRect = new Rect(worldBounds.min.x, worldBounds.min.y, worldBounds.size.x, worldBounds.size.y);
+        return worldRect;
+    }
 
 }

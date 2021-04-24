@@ -32,7 +32,7 @@ public class EventsManager : Singleton<EventsManager>
 
      
         , PlacedOwnObject
-        , PlacedOwnObjectMoodRelavent
+        , PlacedOwnObjectMoodRelevant
         , PlacedCompanionObject
         , RemovedOwnObject
         , WateredOwnPlant // perhaps rename to "maintained own object"
@@ -55,13 +55,15 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
+
+        , OnDialogueOpen
+        , DialogueSkip
         , DialogueNext
         , DialoguePrevious
         , PlantingBegin
 
        // , AddedToEmotionGoal
         ,ToolDropped
-
 
         , PlantReadyToGrow
 
@@ -80,6 +82,7 @@ public class EventsManager : Singleton<EventsManager>
         NotEnoughPointsForAction // enum variable
         , SwappedGardenView // enum variable
         , AcheivedGoal // enum variable
+        , OnPerformedTendingAction // enum varailble
     }
 
     // update thsese with more data as needed
