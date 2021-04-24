@@ -55,12 +55,16 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
+        ,OnSeedBagClose
 
         , OnDialogueOpen
+        , OnDialogueClose
         , DialogueSkip
         , DialogueNext
         , DialoguePrevious
         , PlantingBegin
+
+        , moodSlidersExplination
 
        // , AddedToEmotionGoal
         ,ToolDropped
@@ -336,4 +340,5 @@ public class EventsManager : Singleton<EventsManager>
         ClearEvents();
     }
 
+  
 }

@@ -13,7 +13,7 @@ using Plants;
 public class SlotManager : MonoBehaviour
 {
     public Player.PlayerEnum gardenplayerID ;
-    public List<SlotControls> gardenSlots;
+    [SerializeField] List<SlotControls> gardenSlots;
 
    // SlotControls slotControls;
 
