@@ -21,7 +21,7 @@ public class GoalScripttAnimationController : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.OnDialogueClose, SlightlySmaller);
 
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, SlightlyBigger);
-        EventsManager.BindEvent(EventsManager.EventType.OnDialogueClose, SlightlySmaller);
+        EventsManager.BindEvent(EventsManager.EventType.OnSeedBagClose, SlightlySmaller);
     }
 
     private void Bigger() => animator.SetBool("bigger", true);

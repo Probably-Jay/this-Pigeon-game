@@ -31,5 +31,6 @@ public class SeedBag : MonoBehaviour
     void CloseBag()
     {
         this.gameObject.SetActive(false);
+        EventsManager.InvokeEvent(EventsManager.EventType.OnSeedBagClose);
     }
 }
