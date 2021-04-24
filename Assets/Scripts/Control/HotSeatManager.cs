@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 // created jay 12/02
 
-// uncomment when needed
-//[System.Obsolete("This class should no longer be useed as it was developed for MVP only")]
+
+//[System.Obsolete("This class should no longer be useed as it was developed for MVP only")] // uncomment when needed
 /// <summary>
 /// Tempoary class for managing hotseating the players, managed by <see cref="GameManager"/>
 /// </summary>

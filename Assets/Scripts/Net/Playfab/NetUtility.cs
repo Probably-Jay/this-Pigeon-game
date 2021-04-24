@@ -138,6 +138,8 @@ namespace NetSystem
         ,AboveOpenGamesLimit
 
         ,PlayerIsNotAMemberOfThisGame
+
+        ,ItIsTheOtherPlayersTurn
         
         /// The reason for the error is unknown, but the program entered an illegal state during an API call
         ,UnknownError
@@ -218,6 +220,37 @@ namespace NetSystem
              return clientEntity.Id + "-" + time.Ticks.ToString();
 
               
+        }
+
+        public static bool? AllowedToTakeTurn(NetworkGame.RawData rawData) // todo replace this with actual struct
+        {
+            bool? begun = rawData.gameBegun == "true" ? true : (rawData.gameBegun == "false" ? ((bool?)false) : null);
+            bool? complete = rawData.turnComplete == "true" ? true : (rawData.turnComplete == "false" ? ((bool?)false) : null);
+            bool ourTurn = rawData.turnBelongsTo == NetworkHandler.Instance.PlayerClient.ClientEntityKey.Id;
+
+           
+
+            if (!begun.HasValue)
+            {
+                return null;
+            }
+
+            if (!complete.HasValue)
+            {
+                return null;
+            }
+
+            // if the game has not begun and it is our turn then we started the game and we can take the first move
+            if (!begun.Value)
+            {
+                return ourTurn;
+            }
+
+            // if the turn is not complete, we can play if it is our turn (naturally), if the turn is complete we can play if it is (was) our oponents turn
+            return !complete.Value ? ourTurn : !ourTurn;
+
+
+
         }
 
     }

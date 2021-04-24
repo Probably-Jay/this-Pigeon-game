@@ -4,7 +4,7 @@ using UnityEngine;
 using Plants;
 public class GardenSlotDirectory : MonoBehaviour
 {
-    public GameObject SeedSelected;
+    [SerializeField] CurrentSeedStorage SeedSelected;
 
     GameObject currentPlantSeed;
 
@@ -34,7 +34,7 @@ public class GardenSlotDirectory : MonoBehaviour
 
     public void AccessAppropriateSlotManager()
     {
-        currentPlantSeed = SeedSelected.GetComponent<CurrentSeedStorage>().GetCurrentPlant();
+        currentPlantSeed = SeedSelected.GetCurrentPlant();
 
         int requiredSlotType = currentPlantSeed.GetComponent<Plant>().requiredSlot;
 

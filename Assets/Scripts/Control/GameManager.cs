@@ -57,8 +57,10 @@ public class GameManager : Singleton<GameManager>
 
     void BeginGame()
     {
-        Player1Goal = GoalStore.GetGoal();
-        Player2Goal = GoalStore.GetAltGoal();
+        //Player1Goal = GoalStore.GetGoal();
+        //Player2Goal = GoalStore.GetAltGoal();
+        Player1Goal = GoalStore.GetLoaclGoal(); // both for now, to be replaced when loading introduced
+        Player2Goal = GoalStore.GetLoaclGoal();
     }
 
     public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);

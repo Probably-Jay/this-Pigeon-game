@@ -6,7 +6,9 @@ using UnityEngine;
 public class TurnTracker
 {
     public int Turn { get; private set; } = 0;
-
+    /// <summary>
+    /// If the turn is currently active and started ( there is a breif period after end turn button is pressed where this is false) 
+    /// </summary>
     public bool TurnActive { get; private set; }
     /// <summary>
     /// The current player's turn (player 0 goes first)

@@ -4,12 +4,17 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.UI;
 
+// jay
+
+
+
 namespace NetSystem
 {
     using PlayFab.CloudScriptModels;
     /// <summary>
     /// Debugging class, interface to <see cref="NetworkHandler"/> as scene buttons cannot referance singletons directly
     /// </summary>
+    [System.Obsolete("This is a test object and should not be used")]
     public class NetworkHandlerSceneInterface : MonoBehaviour
     {
         [SerializeField] InputField gameInputField;
@@ -89,7 +94,7 @@ namespace NetSystem
 
         private void Resume(NetworkGame game)
         {
-            NetworkHandler.Instance.ResumeMemberGame(game);
+            NetworkHandler.Instance.ResumeMemberGame(game, APIOperationCallbacks<NetworkGame>.NoCallbacks);
 
         }
 
@@ -101,7 +106,12 @@ namespace NetSystem
                 return;
             }
 
-            NetworkHandler.Instance.ReceiveData();
+            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+                onSucess: (data) => Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\""),
+                onfailure: (e) => Debug.LogError(e)
+                );
+
+            NetworkHandler.Instance.ReceiveData(callbacks);
         }  
         
         public void UpdateGameData()

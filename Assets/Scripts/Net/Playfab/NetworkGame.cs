@@ -11,15 +11,21 @@ namespace NetSystem
         public string GroupName => group.GroupName;
         public bool GameOpenToJoin => metaData.Open;
 
+        public bool NewGameJustCreated { get; private set; }
+
         public List<PlayFab.CloudScriptModels.EntityKey> playerEntities => new List<PlayFab.CloudScriptModels.EntityKey>() { metaData.Player1, metaData.Player2 };
 
-        readonly PlayFab.GroupsModels.GroupWithRoles group;
-        readonly NetworkGame.NetworkGameMetadata metaData;
 
-        public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData)
+        readonly PlayFab.GroupsModels.GroupWithRoles group;
+        readonly NetworkGameMetadata metaData;
+
+        public RawData rawData;
+
+        public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData, bool newGame = false)
         {
             this.group = group;
             this.metaData = gameMetaData;
+            NewGameJustCreated = newGame;
         }
 
 
@@ -40,6 +46,10 @@ namespace NetSystem
 
         public class RawData
         {
+            public string gameBegun;
+            public string turnBelongsTo;
+            public string turnComplete;
+
             public string time;
 
             public string gardenA;

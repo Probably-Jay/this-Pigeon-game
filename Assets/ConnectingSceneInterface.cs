@@ -8,11 +8,15 @@ using TMPro;
 using NetSystem;
 using System;
 
-namespace SceneControl
+// jay
+
+namespace SceneInterface
 {
 
     public class ConnectingSceneInterface : MonoBehaviour
     {
+        [SerializeField] ActiveGamesListPopulator gamesList; 
+
         [SerializeField] TMP_Text messagText;
         [SerializeField] Image loadingImage;
         [SerializeField] Button backButton;
@@ -48,15 +52,54 @@ namespace SceneControl
             }
 
             // get all member games
+            ReadOnlyCollection<NetworkGame> memberGames = null;
             {
-                CallResponse getGamesResponse = GetGames();
+                CallResponse<ReadOnlyCollection<NetworkGame>> getGamesResponse = GetGames();
                 yield return new WaitUntil(() => getGamesResponse.status.Complete);
 
                 if (getGamesResponse.status.Error && getGamesResponse.status.ErrorData != FailureReason.PlayerIsMemberOfNoGames)
                 {
                     yield break;
                 }
+                memberGames = getGamesResponse.returnData;
             }
+
+            if(memberGames == null)
+            {
+                GamesGatheredFailure(FailureReason.InternalError);
+                yield break;
+            }
+
+            // get the games metadatas 
+            {
+                var rawDataResponses = new List<CallResponse<NetworkGame.RawData>>();
+                foreach (var game in  memberGames)
+                {
+                    CallResponse<NetworkGame.RawData> getGameDataResponse = GetGameDataCall(game); // this call is async, we can bunch a load of them up
+                    rawDataResponses.Add(getGameDataResponse);
+                }
+
+                for (int i = 0; i < rawDataResponses.Count; i++)
+                {
+                    var call = rawDataResponses[i];
+                    var game = memberGames[i];
+
+                    yield return new WaitUntil(() => call.status.Complete); // wait for them to complete
+
+                    if (call.status.Error)
+                    {
+                        Debug.LogError(call.status.ErrorData);
+                        yield break;
+                    }
+
+                    NetworkGame.RawData data = call.returnData;
+
+                    game.rawData = data; // set each game's raw data
+
+                }
+            }
+
+            gamesList.Populate(memberGames);
 
             EnableBackButton();
 
@@ -125,9 +168,9 @@ namespace SceneControl
             loadingImage.enabled = false;
         }
 
-        private CallResponse GetGames()
+        private CallResponse<ReadOnlyCollection<NetworkGame>> GetGames()
         {
-            var response = new CallResponse();
+            var response = new CallResponse<ReadOnlyCollection<NetworkGame>>();
 
             StartCoroutine(ShowWaitingDisplay("Gathering games...", response)); // display
 
@@ -136,13 +179,15 @@ namespace SceneControl
                 onSucess: (games) =>
                 {
                     GamesGatheredSucess(games);
+                    response.returnData = games;
                     response.status.SetSucess();
                 },
                 onfailure: (errorReason) =>
                 {
                     if(errorReason == FailureReason.PlayerIsMemberOfNoGames)
                     {
-                        MemberOfNoGames();
+                        GamesGatheredButMemberOfNoGames();
+                        response.returnData = new ReadOnlyCollection<NetworkGame>(new List<NetworkGame>());
                         response.status.SetSucess();
                         return;
                     }
@@ -166,12 +211,18 @@ namespace SceneControl
             List<NetworkGame> openGames, activeGames;
             NetworkGame.SeperateOpenAndClosedGames(games, out openGames, out activeGames);
 
-            // todo, display all active games in list (maybe the open game too if we have one)
-
             messagText.text = $"Member of {activeGames.Count} active games and {openGames.Count} open games";
         }
 
-        private void MemberOfNoGames()
+        //private void PopulateListDisplay(List<NetworkGame> openGames, List<NetworkGame> activeGames)
+        //{
+        //    List<NetworkGame> sortedGames = new List<NetworkGame>();
+        //    sortedGames.AddRange(activeGames);
+        //    sortedGames.AddRange(openGames);
+        //    gamesList.Populate(sortedGames);
+        //}
+
+        private void GamesGatheredButMemberOfNoGames()
         {
             messagText.enabled = true;
             messagText.text = "You are not in any games, why not start a new one by pressing \"New Game\"";
@@ -195,21 +246,76 @@ namespace SceneControl
         {
             EnableEnterGamePannel();
 
+            // join the new game
+            NetworkGame game;
             {
-                CallResponse newGameResponse = EnterNewGameCall();
+                CallResponse<NetworkGame> newGameResponse = JoinNewGameCall();
                 yield return new WaitUntil(() => newGameResponse.status.Complete);
 
-                if (newGameResponse.status.Error)
+                if (newGameResponse.status.Error) // do not continue in the case of error
                 {
                     yield break;
                 }
+
+                game = newGameResponse.returnData;
             }
+
+
+            if(game == null )
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+                yield break;
+            }
+
+            //get the game data
+            {
+                if (!game.NewGameJustCreated || true) // -- get the data from a brand new game
+                {
+                    CallResponse<NetworkGame.RawData> getGameDataResponse = GetGameDataCall(game);
+
+                    yield return new WaitUntil(() => getGameDataResponse.status.Complete);
+
+                    if (getGameDataResponse.status.Error)
+                    {
+                        yield break;
+                    }
+
+                    game.rawData = getGameDataResponse.returnData;
+                }
+            }
+
+            // validate game can be joined (to change)
+            {
+                if (game.rawData == null)
+                {
+                    NewGameJoinedFailure(FailureReason.UnknownError);
+                    yield break;
+                }
+
+                bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);
+
+                if (allowedToTakeTurn == null)
+                {
+                    NewGameJoinedFailure(FailureReason.InternalError);
+                    yield break;
+                }
+
+                if (allowedToTakeTurn == false)
+                {
+                    NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
+                }
+            }
+
+
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
+
         }
 
+      
 
-        private CallResponse EnterNewGameCall()
+        private CallResponse<NetworkGame> JoinNewGameCall()
         {
-            var response = new CallResponse();
+            var response = new CallResponse<NetworkGame>();
 
             StartCoroutine(ShowEnterGameDisplay("Finding new game...",response));
 
@@ -217,12 +323,13 @@ namespace SceneControl
                (
                onSucess: (game) =>
                {
+                   response.returnData = game;
                    response.status.SetSucess();
-                   NewGameEnteredSucess(game);
+                   NewGameJoinedSucess(game);
                },
                onfailure: (errorReason) =>
                {
-                   NewGameEnteredFailure(errorReason);
+                   NewGameJoinedFailure(errorReason);
                    response.status.SetError(errorReason);
                }
                );
@@ -231,7 +338,6 @@ namespace SceneControl
 
             return response;
 
-            //StartCoroutine(ShowWaitingDisplay("Gathering games...", response)); // display
         }
 
         private IEnumerator ShowEnterGameDisplay(string message, CallResponse callResponse)
@@ -246,11 +352,11 @@ namespace SceneControl
             }
         }
 
-        private void NewGameEnteredSucess(NetworkGame game)
+        private void NewGameJoinedSucess(NetworkGame game)
         {
             if (!NetworkHandler.Instance.InGame)
             {
-                NewGameEnteredFailure(FailureReason.UnknownError);
+                NewGameJoinedFailure(FailureReason.UnknownError);
                 return;
             }
 
@@ -260,7 +366,8 @@ namespace SceneControl
 
         }
 
-        private  void NewGameEnteredFailure(FailureReason errorReason)
+
+        private void NewGameJoinedFailure(FailureReason errorReason)
         {
             string message;
             switch (errorReason)
@@ -271,9 +378,13 @@ namespace SceneControl
                     break;
                 case FailureReason.AboveOpenGamesLimit:
                     message = $"There are no new open games available.\nYou currenlty are hosting {NetComponent.maximumOpenGames} open game{(NetComponent.maximumOpenGames != 1 ? "s" : "")}, which is the current limit.\n" +
-                        $"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game" )}!";
+                        $"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game")}!";
                     break;
-             default:
+                case FailureReason.ItIsTheOtherPlayersTurn:
+                    message = $"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
+                        $"Why not come back in a bit?";
+                    break;
+                default:
                     message = $"Unable find new game: {errorReason}";
                     break;
             }
@@ -284,6 +395,96 @@ namespace SceneControl
         }
 
 
+    
+        private CallResponse<NetworkGame.RawData> GetGameDataCall(NetworkGame game)
+        {
+            var response = new CallResponse<NetworkGame.RawData>();
+
+            StartCoroutine(ShowEnterGameDisplay("Entering game...", response)); // display
+
+            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+                onSucess: (result) => { 
+                    GetGameDataSucess(result, game);
+                    response.returnData = result;
+                    response.status.SetSucess();
+                },
+
+                onfailure: (e) =>
+                {
+                    GetGameDataFailure(e);
+                    response.status.SetError(e);
+                });
+
+            NetworkHandler.Instance.ReceiveData(callbacks, game);
+
+            return response;
+
+        }
+
+        private void GetGameDataFailure(FailureReason e)
+        {
+            var message = $"The game data could not be accessed: {e}";
+
+            enterGameText.enabled = true;
+            enterGameText.text = message;
+            enterGameLoadingImage.enabled = false;
+        }
+
+        private void GetGameDataSucess(NetworkGame.RawData result, NetworkGame game)
+        {
+            game.rawData = result;
+        }
+
+        public void ResumeGame(NetworkGame game)
+        {
+            APIOperationCallbacks<NetworkGame> callbacks = new APIOperationCallbacks<NetworkGame>(ResumedGameSucess,ResumedGameFailure);
+            NetworkHandler.Instance.ResumeMemberGame(game, callbacks);
+        }
+
+        private void ResumedGameSucess(NetworkGame game)
+        {
+            if (game.rawData == null)
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+                return;
+            }
+
+            bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);
+
+            if (allowedToTakeTurn == null)
+            {
+                NewGameJoinedFailure(FailureReason.InternalError);
+                return;
+            }
+
+            if (allowedToTakeTurn == false)
+            {
+                NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
+            }
+
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
+        }
+
+        private void ResumedGameFailure(FailureReason e)
+        {
+            string message;
+
+            if (e != FailureReason.ItIsTheOtherPlayersTurn)
+            {
+                message = $"Something went wrong, the game could not be joined: {e}";
+            }
+            else
+            {
+                message = $"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
+                         $"Why not come back in a bit?";
+
+            }
+
+            enterGameText.enabled = true;
+            enterGameText.text = message;
+            enterGameLoadingImage.enabled = false;
+        }
+
         void EnableBackButton() => backButton.interactable = true;
         void DisableBackButton() => backButton.interactable = false;    
         
@@ -293,7 +494,11 @@ namespace SceneControl
         void EnableEnterGamePannel() => enterGamePannel.SetActive(true);
         void DisableEnterGamePannel() => enterGamePannel.SetActive(false);
 
-
+        public void ToMainMenu()
+        {
+            NetworkHandler.Instance.LogoutPlayer();
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
+        }
 
 
     }
