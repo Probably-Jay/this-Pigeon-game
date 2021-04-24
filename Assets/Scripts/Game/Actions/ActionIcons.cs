@@ -10,6 +10,6 @@ namespace Plants.PlantActions
      //   public GameObject staking;
         public GameObject spraying;
         public GameObject trimming;
-
+        public GameObject removing;
     }
 }

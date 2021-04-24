@@ -7,6 +7,7 @@ using Plants;
 using Plants.PlantActions;
 
 //Created Zap 26/03
+//Edited Scott 23/04
 public class ToolDrag : MonoBehaviour //IPointerDownHandler
 {
     Color green;
@@ -50,12 +51,12 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (myRect.Contains(myImage.rectTransform.InverseTransformPoint(Input.mousePosition)) && GameManager.Instance.InOwnGarden)
         {
             isMouseOver = true;
-            //Debug.Log("in");
+           // Debug.Log("in");
         }
         else
         {
             isMouseOver = false;
-            //Debug.Log("out");
+          //  Debug.Log("out");
         }
         if (Input.GetMouseButtonDown(0) && isMouseOver)
         {
@@ -90,12 +91,18 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (plant == null)
             return;
 
-        //Debug.Log(plant);
-        plant.Tend(ToolType);
+        if (ToolType != TendingActions.Removing)
+        {
+            //Debug.Log(plant);
+            plant.Tend(ToolType);
+        }
+        else {
+            plant.gameObject.SetActive(false);
+            EventsManager.InvokeEvent(EventsManager.EventType.PlantChangedStats);
+        }
     }
 
     public TendingActions ToolType => toolType;
     //needs to have a getter for what kind of tool it is
     //I agree but like how, I don't know how the tools are listed, used a string for now, perhaps use a dictionary in the slots?
-    //Why did you two make the process of using tools so convoluted? It goes through like five separate layers of functions that just call each other
 }
