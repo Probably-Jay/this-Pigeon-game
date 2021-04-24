@@ -25,6 +25,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
     public RectTransform RectTransform { get; set; }
 
+    public Vector3 originalScale;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +48,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (Input.GetMouseButtonDown(0) && isMouseOver)
         {
             pickedUp = true;
+            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta ,new Vector2(2f, 2f));
         }
 
 
@@ -57,6 +60,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             if (!Input.GetMouseButton(0))
             {
                 pickedUp = false;
+                Vector3.Scale(this.transform.localScale, new Vector3(0.5f, 0.5f));
                 AttemptToTendPlant(); 
             }
         }
