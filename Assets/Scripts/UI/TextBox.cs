@@ -62,6 +62,7 @@ public class TextBox : MonoBehaviour
             thingsToSay.Clear();
             listFocus = 0;
             this.gameObject.SetActive(false);
+            EventsManager.InvokeEvent(EventsManager.EventType.OnDialogueClose);
         }
         else
         {
