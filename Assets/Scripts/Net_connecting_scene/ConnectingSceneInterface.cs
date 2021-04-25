@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 using NetSystem;
+using SaveSystem;
 using System;
 
 // jay
@@ -306,6 +307,24 @@ namespace SceneInterface
                 }
             }
 
+            // create a local save of the game
+            {
+                SaveSystemInternal.GameMetaData localMetaGameData = SaveManager.Instance.CreateNewGame(new SaveSystemInternal.GameMetaData(game));
+                if (localMetaGameData == null) // was unsucessful
+                {
+                    NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                    NetworkHandler.Instance.LogoutPlayer();
+                    yield break;
+                }
+
+                // set this save to be active
+                if (!SaveManager.Instance.OpenGame(localMetaGameData))
+                {
+                    NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                    NetworkHandler.Instance.LogoutPlayer();
+                    yield break;
+                }
+            }
 
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
 

@@ -18,5 +18,11 @@ namespace SaveSystemInternal
         public string gameID;
         //public string gameName;
 
+
+        public GameMetaData(NetSystem.NetworkGame netGame)
+        {
+            gameID = netGame.GroupEntityKey.Id;
+        }
+
     }
 }
