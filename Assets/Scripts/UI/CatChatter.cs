@@ -29,7 +29,7 @@ namespace Tutorial
         {
             myArrows = GetComponent<ArrowEnabler>();
             BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartedThirdTurn ,condition:()=> { return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 5; });
+            BindEvent(EventsManager.EventType.NewTurnBegin, StartedThirdTurn ,condition:()=> { return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4; });
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
@@ -183,13 +183,18 @@ namespace Tutorial
             }
 
   
-            myBox.Say("When you're ready, you can choose a seed to plant by tapping this seed basket!");
+            myBox.Say("When you're ready, you can choose which seed to plant this turn by tapping this seed basket!");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.SeedBox);
         }
 
         private string GetEmotionOutput(string emotion) => $"<b>{emotion}</b>";
 
-        void StartedThirdTurn() { }
+        void StartedThirdTurn() {
+            myBox.Say("Looks like both you and your partner are getting along nicely!");
+            myBox.Say("Did you know you can gift them a plant?");
+            myBox.Say("Simply go to their garden and plant a seed!");
+            myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
+        }
 
 
         void PlantedFirstPlant()

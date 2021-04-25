@@ -5,7 +5,7 @@ namespace Tutorial
 {
     public class ArrowEnabler : MonoBehaviour
     {
-        public ArrowScript[] arrows = new ArrowScript[3];
+        public ArrowScript[] arrows = new ArrowScript[4];
         public Dictionary<ArrowScript.ArrowPurpose, ArrowScript> arrowDex = new Dictionary<ArrowScript.ArrowPurpose, ArrowScript>() { };
         // Start is called before the first frame update
         void Start()
@@ -14,6 +14,7 @@ namespace Tutorial
             arrowDex.Add(ArrowScript.ArrowPurpose.SeedBox, arrows[0]);
             arrowDex.Add(ArrowScript.ArrowPurpose.WateringCan, arrows[1]);
             arrowDex.Add(ArrowScript.ArrowPurpose.MoodIndicator, arrows[2]);
+            arrowDex.Add(ArrowScript.ArrowPurpose.SwapGarden, arrows[3]);
             Debug.Log(arrows[1]);
             //EnableArrow(ArrowScript.ArrowPurpose.WateringCan);
         }

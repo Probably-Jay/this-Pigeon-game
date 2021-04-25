@@ -19,7 +19,8 @@ public class ArrowScript : MonoBehaviour
         SeedBox,
         ToolBox,
         WateringCan,
-        MoodIndicator
+        MoodIndicator,
+        SwapGarden
 
     }
     private void OnEnable()
@@ -28,6 +29,7 @@ public class ArrowScript : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, SeedBagEnd);
 
         EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
+        EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
 
     }
     private void OnDisable()
@@ -35,6 +37,7 @@ public class ArrowScript : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, ToolBoxEnd);
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, SeedBagEnd);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
+        EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
     }
     // Start is called before the first frame update
     void Start()
@@ -124,6 +127,13 @@ public class ArrowScript : MonoBehaviour
     {
         
         if ((myPurpose == ArrowPurpose.WateringCan))
+        {
+            Deactivate();
+        }
+    }
+    void SwapGardensEnd(EventsManager.EventParams eventParams)
+    {
+        if ((myPurpose==ArrowPurpose.SwapGarden))
         {
             Deactivate();
         }
