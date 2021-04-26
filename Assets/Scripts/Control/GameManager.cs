@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mood;
+using System;
 
 // created jay 12/02
 // converted to non-hotseat jay 26/04
@@ -32,7 +33,14 @@ namespace GameCore
         public Player LocalPlayer => OnlineTurnManager.LocalPlayer;
         public Player.PlayerEnum LocalPlayerID => OnlineTurnManager.LocalPlayer.EnumID;
 
+        /// <summary>
+        /// The player owns the turn and is currently playing
+        /// </summary>
         public bool Playing => OnlineTurnManager.TurnTracker.CanPlayTurn;
+
+        /// <summary>
+        /// The player does not own the turn and is not currently playing
+        /// </summary>
         public bool Spectating => !Playing;
 
 
@@ -60,26 +68,67 @@ namespace GameCore
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.StartGame, BeginGame);
+            EventsManager.BindEvent(EventsManager.EventType.EnterGameScene, BeginOrResumeGame);
         }
 
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.StartGame, BeginGame);
+            EventsManager.UnbindEvent(EventsManager.EventType.EnterGameScene, BeginOrResumeGame);
         }
 
 
 
 
-        void BeginGame()
+        void BeginOrResumeGame()
         {
+            if (OnlineTurnManager.Game.CurrentNetworkGame.NewGameJustCreated)
+            {
+                BeginNewGame();
+                return;
+            }
+
+            ResumeGame();
+
+
             //Player1Goal = GoalStore.GetGoal();
             //Player2Goal = GoalStore.GetAltGoal();
             //Player1Goal = GoalStore.GetLoaclGoal(); // both for now, to be replaced when loading introduced
            //Player2Goal = GoalStore.GetLoaclGoal();
         }
 
-        public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
+        private void ResumeGame()
+        {
+
+            OnlineTurnManager.ResumedGame();
+            EmotionTracker.ResumeGame();
+
+            if (Playing)
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
+                if(OnlineTurnManager.TurnTracker.Turn <= 2)
+                {
+                    EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
+                }
+            }
+            else
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
+            }
+            EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
+
+        }
+
+        private void BeginNewGame()
+        {
+            OnlineTurnManager.InitialiseNewGame();
+            EmotionTracker.InitialiseNewGame();
+
+            EventsManager.InvokeEvent(EventsManager.EventType.StartNewGame);
+            EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
+            EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
+        }
+
+       // public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
 
         // public void RegisterSlotManager(Player.PlayerEnum player, SlotManager slotManager) => SlotManagers.Add(player, slotManager);
         // public void UnregisterSlotManager(Player.PlayerEnum player) => SlotManagers.Remove(player);

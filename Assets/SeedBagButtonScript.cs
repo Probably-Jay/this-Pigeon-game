@@ -9,16 +9,28 @@ namespace SceneUI
     public class SeedBagButtonScript : MonoBehaviour
     {
 
-        private void Update()
+        private void OnEnable()
         {
-            if (GameManager.Instance.Spectating)
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                gameObject.SetActive(true);
-            }
+            EventsManager.BindEvent(EventsManager.EventType.StartNewGame, UnHideBag);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideBag);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideBag);
+        }
+
+        private void OnDisable()
+        {
+            EventsManager.UnbindEvent(EventsManager.EventType.StartNewGame, UnHideBag);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideBag);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideBag);
+        }
+
+        private void UnHideBag()
+        {
+            gameObject.SetActive(true);
+        }
+
+        private void HideBag()
+        {
+            gameObject.SetActive(false);
         }
 
         public void OpenSeedBag()

@@ -17,11 +17,11 @@ namespace Plants
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.EndTurn, GrowIfShould);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, GrowIfShould);
         }
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, GrowIfShould);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, GrowIfShould);
         }
 
 

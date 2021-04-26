@@ -32,13 +32,30 @@ namespace SceneUI
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.EndTurn, DisableButton);
-            EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, EnableButton);
+            EventsManager.BindEvent(EventsManager.EventType.CompleteTurn, HideButton);
+            EventsManager.BindEvent(EventsManager.EventType.StartNewGame, UnHideButton);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideButton);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
         }
+
+      
+
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, DisableButton);
-            EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, EnableButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.CompleteTurn, HideButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.StartNewGame, UnHideButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
+        }
+
+        private void HideButton()
+        {
+            button.gameObject.SetActive(false);
+        }        
+        
+        private void UnHideButton()
+        {
+            button.gameObject.SetActive(true);
         }
 
         private void EnableButton()

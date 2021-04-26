@@ -31,7 +31,7 @@ namespace GameCore
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.EndTurn, EndTurn);
+           // EventsManager.BindEvent(EventsManager.EventType.EndTurn, EndTurn);
 
             EventsManager.BindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
             EventsManager.BindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
@@ -39,7 +39,7 @@ namespace GameCore
 
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, EndTurn);
+           // EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, EndTurn);
 
             EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceOwnObject, TryPlaceOwnObject);
             EventsManager.UnbindEvent(EventsManager.EventType.triedToPlaceCompanionObject, TryPlaceCompanionObject);
@@ -78,7 +78,7 @@ namespace GameCore
             TurnTracker.ProgressTurn();
             SetActivePlayer();
             ActivePlayer.StartTurn();
-            EventsManager.InvokeEvent(EventsManager.EventType.NewTurnBegin);
+        //    EventsManager.InvokeEvent(EventsManager.EventType.NewTurnBegin);
         }
 
         void EndTurn()

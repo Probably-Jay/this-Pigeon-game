@@ -30,14 +30,13 @@ public class GoalSliderScript : MonoBehaviour
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.GardenStatsUpdated, UpdateTraitsDisplay);
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateTraitsDisplay);
+        EventsManager.BindEvent(EventsManager.EventType.GameLoaded, UpdateTraitsDisplay);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.GardenStatsUpdated, UpdateTraitsDisplay);
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateTraitsDisplay);
-
+        EventsManager.UnbindEvent(EventsManager.EventType.GameLoaded, UpdateTraitsDisplay);
     }
 
 

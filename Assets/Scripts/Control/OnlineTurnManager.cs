@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NetSystem;
+using System;
 
 namespace GameCore
 {
@@ -15,13 +16,11 @@ namespace GameCore
 
 
 
-        ActiveGame Game => NetworkHandler.Instance.NetGame;
-        PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
+        public ActiveGame Game => NetworkHandler.Instance.NetGame;
         public Player LocalPlayer { get; private set; }
-
         public OnlineTurnTracker TurnTracker { get; private set; } = new OnlineTurnTracker();
 
- 
+        PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
 
 
         private void Initialise()
@@ -30,7 +29,6 @@ namespace GameCore
             LocalPlayer.Init(PlayerClient);
         //    players.Add(LocalPlayer.EnumID, LocalPlayer);
         }
-
         
 
         private Player InstantiatePlayer() 
@@ -39,6 +37,29 @@ namespace GameCore
             playerObject.transform.SetParent(transform);
             Player player = playerObject.GetComponent<Player>();
             return player;
+        }
+
+
+        public void ResumedGame()
+        {
+            Initialise();
+
+            if (GameManager.Instance.Playing)
+            {
+                
+            }
+            else
+            {
+
+            }
+            TurnTracker.ResumedGame();
+            throw new System.NotImplementedException();
+        }
+
+        public void InitialiseNewGame()
+        {
+            Initialise();
+            TurnTracker.InitialiseNewGame();
         }
     }
 }

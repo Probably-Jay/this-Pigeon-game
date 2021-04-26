@@ -4,6 +4,8 @@ using UnityEngine;
 
 // jay 07/03
 
+
+
 public class GameSceneControl : MonoBehaviour
 {
     public void Menu() => SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
@@ -12,7 +14,7 @@ public class GameSceneControl : MonoBehaviour
 
     private void Start()
     {
-        EventsManager.InvokeEvent(EventsManager.EventType.StartGame);
+        EventsManager.InvokeEvent(EventsManager.EventType.EnterGameScene);
     }
 
 

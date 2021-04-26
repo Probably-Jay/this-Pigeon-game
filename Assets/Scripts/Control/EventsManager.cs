@@ -18,12 +18,13 @@ public class EventsManager : Singleton<EventsManager>
     // events with no parameters
     public enum EventType
     {
-        EndTurn
-        , NewTurnBegin
+       // EndTurn
+       // , NewTurnBegin
 
-        , BeginSceneLoad
+         BeginSceneLoad
         , SceneLoadComplete
         , EnterNewScene
+        , EnterGameScene
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
 
@@ -45,7 +46,13 @@ public class EventsManager : Singleton<EventsManager>
         , PlantChangedStats
         , GardenStatsUpdated
 
-        , StartGame
+       // , StartGame
+        , StartNewGame
+        , GameLoaded
+        , FirstTimeEnteringGame
+        , ResumeGameOwnTurn
+        , ResumeGameSpectating
+        , CompleteTurn
         , GameOver
 
         , ToolBoxOpen
@@ -61,7 +68,7 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
-        , moodSlidersExplination
+        , MoodSlidersExplination
 
        // , AddedToEmotionGoal
         ,ToolDropped

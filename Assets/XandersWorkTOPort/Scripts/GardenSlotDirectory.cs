@@ -10,8 +10,10 @@ public class GardenSlotDirectory : MonoBehaviour
 
     GameObject currentPlantSeed;
 
-    public SlotManager garden1Slots;
-    public SlotManager garden2Slots;
+    [SerializeField] SlotManager garden1Slots;
+    [SerializeField] SlotManager garden2Slots;
+
+    SlotManager localPlayerSlotManager;
 
    // SeedIndicator seedIndicator;
 
@@ -19,25 +21,31 @@ public class GardenSlotDirectory : MonoBehaviour
     public SeedIndicator garden2SeedIndicator;
 
 
-
-    private void OnEnable()
+    private void Start()
     {
-       // GameManager.Instance.RegisterSlotManager(garden1Slots.gardenplayerID, garden1Slots);
-       // GameManager.Instance.RegisterSlotManager(garden2Slots.gardenplayerID, garden2Slots);
-      // GameManager.Instance.RegisterLocalSlotManager()
-       throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
-
+        localPlayerSlotManager = GameManager.Instance.LocalPlayerID == Player.PlayerEnum.Player1 ? garden1Slots : garden2Slots;
+        GameManager.Instance.RegisterLocalSlotManager(localPlayerSlotManager);
     }
-    private void OnDisable()
-    {
-        if (GameManager.InstanceExists)
-        {
-            //GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
-            //GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
-            throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
 
-        }
-    }
+    //private void OnEnable()
+    //{
+    //   // GameManager.Instance.RegisterSlotManager(garden1Slots.gardenplayerID, garden1Slots);
+    //   // GameManager.Instance.RegisterSlotManager(garden2Slots.gardenplayerID, garden2Slots);
+    //   //var localSlot =
+    //  // GameManager.Instance.RegisterLocalSlotManager()
+    //   throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
+    //}
+    //private void OnDisable()
+    //{
+    //    if (GameManager.InstanceExists)
+    //    {
+    //        //GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
+    //        //GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
+    //        throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
+    //    }
+    //}
 
     public void AccessAppropriateSlotManager()
     {

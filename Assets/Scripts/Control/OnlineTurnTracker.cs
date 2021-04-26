@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +58,8 @@ namespace GameCore
             return true;
         }
 
+        
+
         /// <summary>
         /// Mark the turn as complete and ready to be claimed by the remote player
         /// </summary>
@@ -72,6 +75,21 @@ namespace GameCore
             return true;
         }
 
+        /// <summary>
+        /// Initialise a brand new game
+        /// </summary>
+        public void InitialiseNewGame()
+        {
+            Turn = 0;
+            TurnComplete = false;
+            TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
+        }
+
+
+        public void ResumedGame()
+        {
+            throw new System.NotImplementedException();
+        }
        
 
 

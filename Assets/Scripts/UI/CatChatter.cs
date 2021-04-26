@@ -25,7 +25,8 @@ namespace Tutorial
 
         private void OnEnable()
         {
-            BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
+            BindEvent(EventsManager.EventType.FirstTimeEnteringGame, StartTurnOne);
+
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
@@ -33,20 +34,20 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, SayNothing,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
 
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithRelaventPlants,
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, StartTurnTwoWithRelaventPlants,
                       condition: () =>
                       {
                           return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
                       }); 
             
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithNoRelaventPlants,
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, StartTurnTwoWithNoRelaventPlants,
                       condition: () =>
                       {
                           return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
                       });
 
 
-            BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, MoodRelevantPlantReachesMaturity,
                 condition: () => 
                 {
                     TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
@@ -213,7 +214,7 @@ namespace Tutorial
 
         void ExplainTraits()
         {
-            EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplination);
+            EventsManager.InvokeEvent(EventsManager.EventType.MoodSlidersExplination);
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
             myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");

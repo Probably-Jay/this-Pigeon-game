@@ -22,16 +22,14 @@ namespace GameCore
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
+            EventsManager.BindEvent(EventsManager.EventType.GameLoaded, UpdateGardenStats);
             EventsManager.BindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
-            EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
         }
 
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
+            EventsManager.UnbindEvent(EventsManager.EventType.GameLoaded, UpdateGardenStats);
             EventsManager.UnbindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
-            EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
         }
 
         ///// <summary>
@@ -90,7 +88,15 @@ namespace GameCore
             //}
         }
 
+        internal void InitialiseNewGame()
+        {
+            throw new NotImplementedException();
+        }
 
+        public void ResumeGame()
+        {
+            throw new NotImplementedException();
+        }
 
         public void UpdateGardenStats()
         {

@@ -25,15 +25,15 @@ public class PlayerGardenSignControl : MonoBehaviour
         UpdateSigns();
     }
 
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
-    }
+    //private void OnEnable()
+    //{
+    //    EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
+    //}
 
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
-    }
+    //private void OnDisable()
+    //{
+    //    EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
+    //}
 
     private void UpdateSigns() => StartCoroutine(UpdateSignsDelayed());
 
