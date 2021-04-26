@@ -130,6 +130,8 @@ namespace NetSystem
         /// An error occured after a call to playfab API. Often no meaninful distinction from <see cref="InternalError"/>
         , InternalError
         
+        , LocalSaveSystemError
+        
         ,PlayerIsMemberOfNoGames
 
         ,TooManyActiveGames

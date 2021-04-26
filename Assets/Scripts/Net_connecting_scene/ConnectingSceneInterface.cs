@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 using NetSystem;
+using SaveSystem;
 using System;
 
 // jay
@@ -97,6 +98,11 @@ namespace SceneInterface
                     game.rawData = data; // set each game's raw data
 
                 }
+            }
+
+            // update the list of local saves of these games
+            {
+                SaveManager.Instance.UpdateSavedGameListAndRegistyFile(memberGames);
             }
 
             gamesList.Populate(memberGames);
@@ -306,6 +312,24 @@ namespace SceneInterface
                 }
             }
 
+            // create a local save of the game
+            {
+                SaveSystemInternal.GameMetaData localMetaGameData = SaveManager.Instance.CreateNewGame(new SaveSystemInternal.GameMetaData(game));
+                if (localMetaGameData == null) // was unsucessful
+                {
+                    NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                    NetworkHandler.Instance.LogoutPlayer();
+                    yield break;
+                }
+
+                // set this save to be active
+                if (!SaveManager.Instance.OpenGame(localMetaGameData))
+                {
+                    NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                    NetworkHandler.Instance.LogoutPlayer();
+                    yield break;
+                }
+            }
 
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
 
@@ -447,6 +471,29 @@ namespace SceneInterface
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 return;
+            }
+
+            // open local game file
+            {
+                SaveSystemInternal.GameMetaData localGameMetadata = new SaveSystemInternal.GameMetaData(game);
+                bool sucess = SaveManager.Instance.OpenGame(localGameMetadata);
+                // if this fails, try create a new game and join that
+                if (!sucess)
+                {
+                    Debug.LogError("Local save of member game does not exist, creating new");
+                    var newLocalGame = SaveManager.Instance.CreateNewGame(localGameMetadata);
+                    if(newLocalGame == null)
+                    {
+                        NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                        return;
+                    }
+                    sucess = SaveManager.Instance.OpenGame(localGameMetadata);
+                    if (!sucess)
+                    {
+                        NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                        return;
+                    }
+                }
             }
 
             bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);

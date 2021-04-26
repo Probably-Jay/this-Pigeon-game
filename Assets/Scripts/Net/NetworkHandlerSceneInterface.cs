@@ -14,7 +14,7 @@ namespace NetSystem
     /// <summary>
     /// Debugging class, interface to <see cref="NetworkHandler"/> as scene buttons cannot referance singletons directly
     /// </summary>
-    [System.Obsolete("This is a test object and should not be used")]
+    [System.Obsolete("This is a test object and should not be used, see " + nameof(SceneInterface.ConnectingSceneInterface))]
     public class NetworkHandlerSceneInterface : MonoBehaviour
     {
         [SerializeField] InputField gameInputField;

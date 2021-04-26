@@ -69,8 +69,9 @@ public class EventsManager : Singleton<EventsManager>
        // , AddedToEmotionGoal
         ,ToolDropped
 
-        , PlantReadyToGrow
+        ,PlantReadyToGrow
 
+        ,SaveGatheredData
 
         #region NetCodeEvents
 
