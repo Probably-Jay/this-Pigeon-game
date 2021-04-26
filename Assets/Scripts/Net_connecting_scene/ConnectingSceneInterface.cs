@@ -100,6 +100,11 @@ namespace SceneInterface
                 }
             }
 
+            // update the list of local saves of these games
+            {
+                SaveManager.Instance.UpdateSavedGameListAndRegistyFile(memberGames);
+            }
+
             gamesList.Populate(memberGames);
 
             EnableBackButton();
@@ -466,6 +471,29 @@ namespace SceneInterface
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 return;
+            }
+
+            // open local game file
+            {
+                SaveSystemInternal.GameMetaData localGameMetadata = new SaveSystemInternal.GameMetaData(game);
+                bool sucess = SaveManager.Instance.OpenGame(localGameMetadata);
+                // if this fails, try create a new game and join that
+                if (!sucess)
+                {
+                    Debug.LogError("Local save of member game does not exist, creating new");
+                    var newLocalGame = SaveManager.Instance.CreateNewGame(localGameMetadata);
+                    if(newLocalGame == null)
+                    {
+                        NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                        return;
+                    }
+                    sucess = SaveManager.Instance.OpenGame(localGameMetadata);
+                    if (!sucess)
+                    {
+                        NewGameJoinedFailure(FailureReason.LocalSaveSystemError);
+                        return;
+                    }
+                }
             }
 
             bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);

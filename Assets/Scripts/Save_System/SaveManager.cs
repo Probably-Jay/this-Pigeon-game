@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using System.Security.Cryptography;
 
@@ -222,8 +223,77 @@ namespace SaveSystem
             }
         }
 
+        /// <summary>
+        /// Updates the local file list of saved member games with the one from the server
+        /// </summary>
+        /// <param name="netMemberGames">List of local member games from the server</param>
+        public void UpdateSavedGameListAndRegistyFile(ReadOnlyCollection<NetSystem.NetworkGame> netMemberGames)
+        {
+            CleanRegistryFile();
+
+            List<GameMetaData> localGames = GetAllStoredGames();
+            List<GameMetaData> toRemove = new List<GameMetaData>();
+            List<NetSystem.NetworkGame> toAdd = new List<NetSystem.NetworkGame>();
+
+            foreach (var localGame in localGames)
+            {
+                MarkNonDiplicatesForRemoval(netMemberGames, toRemove, localGame);
+            }
+
+            foreach (var game in toRemove)
+            {
+                DeleteGame(game);
+            }
+
+            foreach (var netGame in netMemberGames)
+            {
+                MarkNonDuplicatesForAddition(localGames, toAdd, netGame);
+            }
+
+            foreach (var game in toAdd)
+            {
+                CreateNewGame(new GameMetaData(game));
+            }
+        }
+
+
 
         #region Internal Functions
+        private void MarkNonDiplicatesForRemoval(ReadOnlyCollection<NetSystem.NetworkGame> netMemberGames, List<GameMetaData> toRemove, GameMetaData localGame)
+        {
+            bool contains = false;
+            foreach (var netGame in netMemberGames)
+            {
+                if (netGame.GroupEntityKey.Id == localGame.gameID)
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains)
+            {
+                toRemove.Add(localGame);
+            }
+        }
+        private void MarkNonDuplicatesForAddition(List<GameMetaData> localGames, List<NetSystem.NetworkGame> toAdd, NetSystem.NetworkGame netGame)
+        {
+            bool contains = false;
+            foreach (var localGame in localGames)
+            {
+                if (netGame.GroupEntityKey.Id == localGame.gameID)
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains)
+            {
+                toAdd.Add(netGame);
+            }
+        }
+
+
+
 
         //private GameMetaData CreateNewGameData()
         //{
