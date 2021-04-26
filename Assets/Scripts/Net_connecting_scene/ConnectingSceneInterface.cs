@@ -331,7 +331,8 @@ namespace SceneInterface
                 }
             }
 
-            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
+            NetworkHandler.Instance.ContinueToGame(SceneChangeController.Scenes.MoodSelectScreen);
+
 
         }
 
@@ -509,7 +510,9 @@ namespace SceneInterface
                 NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
             }
 
-            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
+            NetworkHandler.Instance.ContinueToGame(SceneChangeController.Scenes.Game);
+
+            
         }
 
         private void ResumedGameFailure(FailureReason e)

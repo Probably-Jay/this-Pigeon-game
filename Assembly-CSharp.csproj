@@ -78,6 +78,8 @@
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
     <Compile Include="Assets\Scripts\Control\MenuController.cs" />
     <Compile Include="Assets\Scripts\Control\Mood_Select\MoodSelectController.cs" />
+    <Compile Include="Assets\Scripts\Control\OnlineTurnManager.cs" />
+    <Compile Include="Assets\Scripts\Control\OnlineTurnTracker.cs" />
     <Compile Include="Assets\Scripts\Control\Personal_Garden\PersonalGardenController.cs" />
     <Compile Include="Assets\Scripts\Control\Player.cs" />
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />

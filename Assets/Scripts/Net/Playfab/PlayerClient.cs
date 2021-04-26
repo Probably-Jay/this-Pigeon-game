@@ -33,13 +33,9 @@ namespace NetSystem
         /// </summary>
         public bool IsLoggedIn { get; private set; } = false;
 
-        void Start()
-        {
-            //AnonymousLogin();
-        }
+        public int PlayerGameEnumValue { get; set; }
 
-
-
+        
 
         /// <summary>
         /// Log in using <see cref="SystemInfo.deviceUniqueIdentifier"/> and no password

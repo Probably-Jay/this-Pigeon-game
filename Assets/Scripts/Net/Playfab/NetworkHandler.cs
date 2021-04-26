@@ -307,6 +307,22 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
+        public bool ContinueToGame(SceneChangeController.Scenes game)
+        {
+            if(PlayerClient == null || !PlayerClient.IsLoggedIn)
+            {
+                return false;
+            }
+
+            if(NetGame == null || !NetGame.IsInGame)
+            {
+                return true;
+            }
+
+            SceneChangeController.Instance.ChangeScene(game);
+            return true;
+        }
+
         //private void UnexpectedPlayfabError<T>(FailureReason reason, APIOperationCallbacks<T> parentCallbacks)
         //{
         //    Debug.LogError("There was an unexpected playfab error");

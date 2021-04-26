@@ -230,7 +230,7 @@ namespace NetSystem
             bool? complete = rawData.turnComplete == "true" ? true : (rawData.turnComplete == "false" ? ((bool?)false) : null);
             bool ourTurn = rawData.turnBelongsTo == NetworkHandler.Instance.PlayerClient.ClientEntityKey.Id;
 
-           
+
 
             if (!begun.HasValue)
             {
@@ -249,12 +249,14 @@ namespace NetSystem
             }
 
             // if the turn is not complete, we can play if it is our turn (naturally), if the turn is complete we can play if it is (was) our oponents turn
-            return !complete.Value ? ourTurn : !ourTurn;
-
-
+            return CanTakeTurn(complete, ourTurn);
 
         }
 
+        private static bool? CanTakeTurn(bool? complete, bool ourTurn)
+        {
+            return !complete.Value ? ourTurn : !ourTurn;
+        }
     }
 
 }
