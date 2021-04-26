@@ -8,10 +8,11 @@ using Mood;
 
 using TMPro;
 using System;
+using GameCore;
 
 // created scott
 
-// altered Jay 02/04
+// altered Jay 02/04, 26/04
 
 public class GoalSliderScript : MonoBehaviour
 {
@@ -89,24 +90,21 @@ public class GoalSliderScript : MonoBehaviour
        // int activePlayer = (int)GameManager.Instance.ActivePlayer.PlayerEnumValue;
 
 
-        Player.PlayerEnum activePlayer = GameManager.Instance.ActivePlayerID;
-        Mood.TraitValue currentTraits = GameManager.Instance.EmotionTracker.GardenCurrentTraits[activePlayer];
-        Mood.TraitValue goalTraits = GameManager.Instance.EmotionTracker.GardenGoalTraits[activePlayer];
+       // Player.PlayerEnum activePlayer = GameManager.Instance.LocalPlayerID;
+        Mood.TraitValue currentTraits = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
+        Mood.Emotion goalEmotion = GameManager.Instance.EmotionTracker.EmotionGoal;
+        Mood.TraitValue goalTraits = goalEmotion.traits;
 
 
 
-        Mood.TraitValue traits = GameManager.Instance.EmotionTracker.GardenGoalTraits[activePlayer];
+       // Mood.TraitValue traits = GameManager.Instance.EmotionTracker.GardenGoalTraits[activePlayer];
 
-        (Mood.TraitValue.Scales, Mood.TraitValue.Scales) traitsInEmotion = Mood.Emotion.GetScalesInEmotion(GameManager.Instance.EmotionTracker.GardenGoalEmotions[activePlayer]);
+        (Mood.TraitValue.Scales, Mood.TraitValue.Scales) traitsInEmotion = Mood.Emotion.GetScalesInEmotion(goalEmotion.enumValue);
 
         SetBarColors(traitsInEmotion.Item1, traitsInEmotion.Item2);
 
         SetBarValue(currentTraits[traitsInEmotion.Item1], goalTraits[traitsInEmotion.Item1], MoodTraitOne);
         SetBarValue(currentTraits[traitsInEmotion.Item2], goalTraits[traitsInEmotion.Item2], MoodTraitTwo);
-
-
-       
-
 
     }
 

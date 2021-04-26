@@ -27,7 +27,7 @@ namespace NetSystem
             }
         }
 
-        public object ClientEntity => NetworkHandler.Instance.ClientEntity;
+    
 
         private List<NetworkGame> memberGames = null;
 

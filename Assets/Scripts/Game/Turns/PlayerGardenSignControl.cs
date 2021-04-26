@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using GameCore;
 
 // jay 27/03
-
+// obsoleted jay 26/04
+[System.Obsolete("This class is no longer in use",true)]
 public class PlayerGardenSignControl : MonoBehaviour
 {
 
@@ -41,20 +43,20 @@ public class PlayerGardenSignControl : MonoBehaviour
     {
         if(turnUpdateDelay>0) yield return new WaitForSeconds(turnUpdateDelay);
 
-        switch (GameManager.Instance.ActivePlayerID)
-        {
-            case Player.PlayerEnum.Player1:
-                player1GardenText.text = yourGarden;
-                player2GardenText.text = yourCompanionsGarden;
-                break;
-            case Player.PlayerEnum.Player2:
-                player1GardenText.text = yourCompanionsGarden;
-                player2GardenText.text = yourGarden;
-                break;
-            default:
-                player1GardenText.text = "-";
-                player2GardenText.text = "-";
-                break;
-        }
+        //switch (GameManager.Instance.ActivePlayerID)
+        //{
+        //    case Player.PlayerEnum.Player1:
+        //        player1GardenText.text = yourGarden;
+        //        player2GardenText.text = yourCompanionsGarden;
+        //        break;
+        //    case Player.PlayerEnum.Player2:
+        //        player1GardenText.text = yourCompanionsGarden;
+        //        player2GardenText.text = yourGarden;
+        //        break;
+        //    default:
+        //        player1GardenText.text = "-";
+        //        player2GardenText.text = "-";
+        //        break;
+        //}
     }
 }

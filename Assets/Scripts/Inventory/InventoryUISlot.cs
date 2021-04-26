@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameCore;
 
 // jay 05/02
 
@@ -45,9 +46,9 @@ public class InventoryUISlot : MonoBehaviour
 
     public void ItemSelected()
     {
-        if(GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == GameManager.Instance.ActivePlayerID) // our turn
+        if(GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == GameManager.Instance.LocalPlayerID) 
         {
-            if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) 
+            if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace)) 
             {
                 SpawnObject();
             }
@@ -55,7 +56,7 @@ public class InventoryUISlot : MonoBehaviour
         }
         else
         {
-            if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace))
+            if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace))
             {
                 SpawnObject();
             }

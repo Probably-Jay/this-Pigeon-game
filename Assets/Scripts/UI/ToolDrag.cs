@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using Plants;
 using Plants.PlantActions;
+using GameCore;
 
 //Created Zap 26/03
 // refactored jay 22/04
@@ -40,7 +41,10 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
     void Update()
     {
-       
+        if (GameManager.Instance.Spectating)
+        {
+            return;
+        }
 
         bool isMouseOver = ContainsMouse(Rect);
 
@@ -83,7 +87,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
     void AttemptToTendPlant()
     {
-        SlotManager currentGardenSlotManager = GameManager.Instance.SlotManagers[GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible];
+        SlotManager currentGardenSlotManager = GameManager.Instance.LocalPlayerSlotManager;
         Plant plant = currentGardenSlotManager.PlantOfSlotMouseIsIn(this);
 
         if (plant == null)

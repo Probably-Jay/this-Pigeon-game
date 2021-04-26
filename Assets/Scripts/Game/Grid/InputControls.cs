@@ -28,7 +28,7 @@ public class InputControls : MonoBehaviour
     public CursorState cursorMode = CursorState.Planting;
 
     //PlantItem plantPlaced;
-    EmotionTracker displayManager;
+    //EmotionTracker displayManager;
 
    // MoodAtributes PlantStats;
 
@@ -46,7 +46,7 @@ public class InputControls : MonoBehaviour
     private void Awake()
     {
         gridManager = GameObject.FindObjectOfType<GridManager>();
-        displayManager = GameObject.FindObjectOfType<EmotionTracker>();
+       // displayManager = GameObject.FindObjectOfType<EmotionTracker>();
     }
 
 

@@ -71,7 +71,7 @@ namespace SaveSystem
             player.EnumID = Player.PlayerEnum.Player2;
 
             go1.transform.position = new Vector3(1, 2, 3);
-            plant.PlantOwner = player;
+          //  plant.PlantOwner = player;
             plant.plantname = Plant.PlantName.Phess;
 
 

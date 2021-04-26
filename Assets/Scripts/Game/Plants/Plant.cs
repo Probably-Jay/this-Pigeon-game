@@ -79,7 +79,7 @@ namespace Plants {
         public TraitValue Traits => new TraitValue(Social, Joyful, Energetic, Painful);
         public TraitValue TraitsUnscaled => new TraitValue(social, joyful, energetic, painful);
 
-        public Player PlantOwner { get; set; }
+       // public Player PlantOwner { get; set; }
 
 
 
@@ -97,7 +97,9 @@ namespace Plants {
 
 
             // Get current player
-            PlantOwner = GameManager.Instance.GetPlayer(GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible); // Load system will break here
+
+            //PlantOwner = GameCore.GameManager.Instance.GetPlayer(GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible); // Load system will break here
+           // throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
 
             //// Set if in local or other garden
             //if (plantOwner.PlayerEnumValue == 0)

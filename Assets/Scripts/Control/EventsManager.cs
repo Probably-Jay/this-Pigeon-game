@@ -13,9 +13,6 @@ using UnityEngine.Events;
 public class EventsManager : Singleton<EventsManager>
 {
 
-
-
-
     // Update these enum with new events to expand this class' functionality
 
     // events with no parameters

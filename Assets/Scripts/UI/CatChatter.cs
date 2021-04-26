@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mood;
 using System;
+using GameCore;
 
 // created zap and jay 28/03
 
@@ -15,7 +16,7 @@ namespace Tutorial
         public TextBox myBox;
 
 
-        private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
+        private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
 
 
         bool hasEverPlantedMoodRelaventPlant = false;
@@ -35,21 +36,21 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithRelaventPlants,
                       condition: () =>
                       {
-                          return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
+                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
                       }); 
             
             BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithNoRelaventPlants,
                       condition: () =>
                       {
-                          return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
+                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
                       });
 
 
             BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
                 condition: () => 
                 {
-                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.GardenCurrentTraits[GameManager.Instance.ActivePlayerID];
-                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
+                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
 
 
                     float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
@@ -96,10 +97,8 @@ namespace Tutorial
 
         void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
-
-            if (GameManager.Instance.ActivePlayerID != player1)
+            if (!GameManager.Instance.Playing)
                 return;
-           
 
 
             if (condition == null || condition())
@@ -120,7 +119,7 @@ namespace Tutorial
         
         void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
-            if (GameManager.Instance.ActivePlayerID != player1)
+            if (!GameManager.Instance.Playing)
                 return;
 
 
@@ -260,7 +259,7 @@ namespace Tutorial
             myBox.Say("You did it! Your garden now reflects your mood as well as you communicated it.");
 
 
-            var goal = GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
+            var goal = GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
 
             switch (goal)
             {

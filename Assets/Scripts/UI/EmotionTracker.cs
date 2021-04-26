@@ -9,108 +9,134 @@ using Mood;
 // created by Alexander Purvis 04/03
 // Edited SJ 10/03
 // Edited again Jay 10/03, 26/03  
+// converted to non-hotseat jay 26/04
 
-/// <summary>
-/// Manages the garden's emotions
-/// </summary>
-public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
+namespace GameCore
 {
-
-
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
-        EventsManager.BindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
-    }
-
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
-        EventsManager.UnbindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
-    }
-
     /// <summary>
-    /// The mood given by the current state of the garden, re-calculated when a mood changes
+    /// Manages the garden's emotions
     /// </summary>
-    public Dictionary<Player.PlayerEnum, TraitValue> GardenCurrentTraits { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
+    public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
     {
-        {Player.PlayerEnum.Player1, TraitValue.Uninitialised }
-        ,{Player.PlayerEnum.Player2, TraitValue.Uninitialised }
-    };   
-    
-    /// <summary>
-    /// The trait values of the goal emotions of the gardens, set on instance creation based on <see cref="GameManager.Player1Goal"/>, <see cref="GameManager.Player2Goal"/>
-    /// </summary>
-    public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary< Player.PlayerEnum, TraitValue>()    
-    {
-        { Player.PlayerEnum.Player1, Emotion.EmotionValues[GameManager.Instance.Player1Goal]}
-        ,{Player.PlayerEnum.Player2, Emotion.EmotionValues[GameManager.Instance.Player2Goal] }
-            
-    };
-
-    /// <summary>
-    /// The goal emotions of the gardens, set on instance creation based on <see cref="GameManager.Player1Goal"/>, <see cref="GameManager.Player2Goal"/>
-    /// </summary>
-    public Dictionary<Player.PlayerEnum, Emotion.Emotions> GardenGoalEmotions => new Dictionary<Player.PlayerEnum, Emotion.Emotions>()
-    {
-        { Player.PlayerEnum.Player1, GameManager.Instance.Player1Goal }
-        ,{Player.PlayerEnum.Player2, GameManager.Instance.Player2Goal }
-
-    };
 
 
-    public bool HasAcheivedGoal(Player.PlayerEnum player) => GardenCurrentTraits[player] >= GardenGoalTraits[player];
-
- 
-
-    private void CheckForAcheivedGoal()
-    {
-        if (HasAcheivedGoal(Player.PlayerEnum.Player1)){
-            EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = Player.PlayerEnum.Player1 });
-        }
-
-        if (HasAcheivedGoal(Player.PlayerEnum.Player2)){
-            EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = Player.PlayerEnum.Player2 });
-        }
-    }
-
-
-
-    public void UpdateGardenStats()
-    {
-        foreach (var player in Player.PlayerEnumValueList)
+        private void OnEnable()
         {
-            var currentState = GetCurrentGardenStats(player);
-            if(GardenCurrentTraits[player] == currentState)
+            EventsManager.BindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
+            EventsManager.BindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
+            EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
+        }
+
+        private void OnDisable()
+        {
+            EventsManager.UnbindEvent(EventsManager.EventType.StartGame, UpdateGardenStats);
+            EventsManager.UnbindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
+            EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, CheckForAcheivedGoal);
+        }
+
+        ///// <summary>
+        ///// The mood given by the current state of the garden, re-calculated when a mood changes
+        ///// </summary>
+        //public Dictionary<Player.PlayerEnum, TraitValue> GardenCurrentTraits { get; } = new Dictionary<Player.PlayerEnum, TraitValue>()
+        //{
+        //    {Player.PlayerEnum.Player1, TraitValue.Uninitialised }
+        //    ,{Player.PlayerEnum.Player2, TraitValue.Uninitialised }
+        //};
+
+        ///// <summary>
+        ///// The trait values of the goal emotions of the gardens, set on instance creation based on <see cref="GameManager.Player1Goal"/>, <see cref="GameManager.Player2Goal"/>
+        ///// </summary>
+        //public Dictionary<Player.PlayerEnum, TraitValue> GardenGoalTraits => new Dictionary<Player.PlayerEnum, TraitValue>()
+        //{
+        //    { Player.PlayerEnum.Player1, Emotion.EmotionValues[GameManager.Instance.Player1Goal]}
+        //    ,{Player.PlayerEnum.Player2, Emotion.EmotionValues[GameManager.Instance.Player2Goal] }
+
+        //};
+
+        ///// <summary>
+        ///// The goal emotions of the gardens, set on instance creation based on <see cref="GameManager.Player1Goal"/>, <see cref="GameManager.Player2Goal"/>
+        ///// </summary>
+        //public Dictionary<Player.PlayerEnum, Emotion.Emotions> GardenGoalEmotions => new Dictionary<Player.PlayerEnum, Emotion.Emotions>()
+        //{
+        //    { Player.PlayerEnum.Player1, GameManager.Instance.Player1Goal }
+        //    ,{Player.PlayerEnum.Player2, GameManager.Instance.Player2Goal }
+
+        //};
+
+        public Emotion EmotionGoal { get; private set; } = Emotion.Uninitialised;
+        public TraitValue CurrentGardenTraits { get; private set; } = TraitValue.Uninitialised;
+
+
+        // public bool HasAcheivedGoal(Player.PlayerEnum player) => GardenCurrentTraits[player] >= GardenGoalTraits[player];
+
+        public bool PlayerHasAcheivedGoal() => CurrentGardenTraits >= EmotionGoal.traits;
+
+
+
+        private void CheckForAcheivedGoal()
+        {
+            if (PlayerHasAcheivedGoal())
             {
-                continue;
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = GameManager.Instance.LocalPlayerID });
+            }
+            //if (HasAcheivedGoal(Player.PlayerEnum.Player1))
+            //{
+            //    EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = Player.PlayerEnum.Player1 });
+            //}
+
+            //if (HasAcheivedGoal(Player.PlayerEnum.Player2))
+            //{
+            //    EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = Player.PlayerEnum.Player2 });
+            //}
+        }
+
+
+
+        public void UpdateGardenStats()
+        {
+            var newGardenState = GetLocalGardenStats();
+            if(CurrentGardenTraits == newGardenState)
+            {
+                return; // we do not need to signal update as this is already up to date
             }
 
-            GardenCurrentTraits[player] = currentState;
+            CurrentGardenTraits = newGardenState;
             EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
+
+            //foreach (var player in Player.PlayerEnumValueList)
+            //{
+            //    var currentState = GetCurrentGardenStats(player);
+            //    if (GardenCurrentTraits[player] == currentState)
+            //    {
+            //        continue;
+            //    }
+
+            //    GardenCurrentTraits[player] = currentState;
+            //    EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
+            //}
         }
-    }
 
-    private TraitValue GetCurrentGardenStats(Player.PlayerEnum player)
-    {
-        TraitValue value = TraitValue.Zero;
-        var plants = GameManager.Instance.SlotManagers[player].GetAllPlants();
-
-        foreach (var plant in plants)
+        private TraitValue GetLocalGardenStats()
         {
-            value += plant.Traits;
+            TraitValue value = TraitValue.Zero;
+            var plants = GameManager.Instance.LocalPlayerSlotManager.GetAllPlants();
+
+            foreach (var plant in plants)
+            {
+                value += plant.Traits;
+            }
+
+            return value;
         }
 
-        return value;
+        public void ResetGardenStats()
+        {
+            CurrentGardenTraits = TraitValue.Zero;
+            //GardenCurrentTraits[Player.PlayerEnum.Player1] = TraitValue.Zero;
+            //GardenCurrentTraits[Player.PlayerEnum.Player2] = TraitValue.Zero;
+        }
     }
-
-    public void ResetGardenStats()
-    {
-        GardenCurrentTraits[Player.PlayerEnum.Player1] = TraitValue.Zero;
-        GardenCurrentTraits[Player.PlayerEnum.Player2] = TraitValue.Zero;
-    }
+}
 
     //public void AddToGardenStats(Player.PlayerEnum player, TraitValue traits)
     //{
@@ -172,4 +198,4 @@ public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
 
 
 
-}
+

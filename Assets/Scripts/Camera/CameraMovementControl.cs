@@ -19,36 +19,37 @@ public class CameraMovementControl : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, SwitchToActivePlayer);
-    }
+    //private void OnEnable()
+    //{
+    //    EventsManager.BindEvent(EventsManager.EventType.EndTurn, SwitchToActivePlayer);
+    //}
 
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, SwitchToActivePlayer);
-    }
+    //private void OnDisable()
+    //{
+    //    EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, SwitchToActivePlayer);
+    //}
 
 
     private void Start()
     {
-        CurrentGardenView = GameManager.Instance.ActivePlayerID;
-    }
-    void DoNotingFirstTime()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, SwitchToActivePlayer);
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, DoNotingFirstTime);
+        CurrentGardenView = GameCore.GameManager.Instance.LocalPlayerID;
     }
 
-    void SwitchToActivePlayer()
-    {
+    //void DoNotingFirstTime()
+    //{
+    //    EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, SwitchToActivePlayer);
+    //    EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, DoNotingFirstTime);
+    //}
 
-        //  if(currentGardenVeiw == Player.PlayerEnum.Player0 &&)
+    //void SwitchToActivePlayer()
+    //{
+
+    //    //  if(currentGardenVeiw == Player.PlayerEnum.Player0 &&)
 
 
-        Player.PlayerEnum player = GameManager.Instance.ActivePlayerID == Player.PlayerEnum.Player1? Player.PlayerEnum.Player2 : Player.PlayerEnum.Player1; ;
-        SwapVeiwTo(player);
-    }
+    //    //Player.PlayerEnum player = GameCore.GameManager.Instance.ActivePlayerID == Player.PlayerEnum.Player1? Player.PlayerEnum.Player2 : Player.PlayerEnum.Player1; ;
+    //    SwapVeiwTo(player);
+    //}
 
     public void SwapPlayers() => SwapVeiwTo(OtherGardenVeiw);
 

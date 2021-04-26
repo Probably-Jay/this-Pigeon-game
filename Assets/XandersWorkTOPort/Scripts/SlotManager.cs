@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
+using GameCore;
 
 // please sign script creation
 
@@ -66,8 +67,9 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
 
-            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
-            if (moodGoal.Overlaps(plant.TraitsUnscaled))
+            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.EmotionGoal.traits;
+
+            if (moodGoal.Overlaps(plant.TraitsUnscaled)) // for tutorial
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant);
             }
@@ -109,13 +111,9 @@ public class SlotManager : MonoBehaviour
             {
                 var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
 
-            
                 Rect plantRect = GetPlantRect(plant);
 
-               /// plantZPos = plantRect.z
-
                 Rect toolRect = tool.GetWorldRect();
-
 
                 if (plantRect.Overlaps(toolRect))
                 {  

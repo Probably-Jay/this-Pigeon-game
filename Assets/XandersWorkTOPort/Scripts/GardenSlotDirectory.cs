@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Plants;
+using GameCore;
+using System;
 public class GardenSlotDirectory : MonoBehaviour
 {
     [SerializeField] CurrentSeedStorage SeedSelected;
@@ -20,15 +22,20 @@ public class GardenSlotDirectory : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.RegisterSlotManager(garden1Slots.gardenplayerID, garden1Slots);
-        GameManager.Instance.RegisterSlotManager(garden2Slots.gardenplayerID, garden2Slots);
+       // GameManager.Instance.RegisterSlotManager(garden1Slots.gardenplayerID, garden1Slots);
+       // GameManager.Instance.RegisterSlotManager(garden2Slots.gardenplayerID, garden2Slots);
+      // GameManager.Instance.RegisterLocalSlotManager()
+       throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
     }
     private void OnDisable()
     {
         if (GameManager.InstanceExists)
         {
-            GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
-            GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
+            //GameManager.Instance.UnregisterSlotManager(garden1Slots.gardenplayerID);
+            //GameManager.Instance.UnregisterSlotManager(garden2Slots.gardenplayerID);
+            throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
         }
     }
 

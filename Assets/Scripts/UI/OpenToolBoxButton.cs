@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 //Created Zap 27/03, adapted from EndTurnButtonScript.cs
 public class OpenToolBoxButton : MonoBehaviour
@@ -54,7 +56,17 @@ public class OpenToolBoxButton : MonoBehaviour
     }
     void EnableButton()
     {
-        if (GameManager.Instance.InOwnGarden)
+        if (GameCore.GameManager.Instance.Spectating)
+        {
+            HideButton();
+            return;
+        }
+        else
+        {
+            UnHideButton();
+        }
+
+        if (GameCore.GameManager.Instance.InOwnGarden)
         {
             button.interactable = true;
         }
@@ -74,14 +86,33 @@ public class OpenToolBoxButton : MonoBehaviour
     }
     void UpdateButton()
     {
-        
-        if (GameManager.Instance.InOwnGarden)
+        if (GameCore.GameManager.Instance.Spectating)
         {
-            EnableButton();
+            HideButton();
+            return;
         }
         else
         {
+            UnHideButton();
+        }
+
+        if (!GameCore.GameManager.Instance.InOwnGarden)
+        {
             DisableButton();
         }
+        else
+        {
+            EnableButton();
+        }
+    }
+
+    private void HideButton()
+    {
+        button.gameObject.SetActive(false);
+    }
+    
+    private void UnHideButton()
+    {
+        button.gameObject.SetActive(true);
     }
 }

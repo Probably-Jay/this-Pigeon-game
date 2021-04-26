@@ -19,19 +19,7 @@ namespace GameCore
         PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
         public Player LocalPlayer { get; private set; }
 
-        OnlineTurnTracker onlineTurnTracker;
-
-
-
-
-
-
-
-        private void Start()
-        {
-           
-        }
-
+        public OnlineTurnTracker TurnTracker { get; private set; } = new OnlineTurnTracker();
 
  
 
@@ -40,7 +28,7 @@ namespace GameCore
         {
             LocalPlayer = InstantiatePlayer();
             LocalPlayer.Init(PlayerClient);
-            players.Add(LocalPlayer.EnumID, LocalPlayer);
+        //    players.Add(LocalPlayer.EnumID, LocalPlayer);
         }
 
         

@@ -18,9 +18,11 @@ namespace SceneUI
 
         public void CallEndTurn() {
             gardenSlotDirectory.HideAllSlotsAndHideIndicators();
-            GameManager.Instance.EndTurn();
+         //   GameManager.Instance.EndTurn();
+            throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
         }
-       
+
         Button button;
 
         private void Awake()

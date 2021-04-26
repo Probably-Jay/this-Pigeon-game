@@ -15,7 +15,7 @@ using Mood;
 // depracated Jay 02/04
 
 
-[System.Obsolete("Replaced by " + nameof(EmotionTracker),true)]
+[System.Obsolete("Replaced by " + nameof(GameCore.EmotionTracker),true)]
 public class GoalManagerScript : MonoBehaviour
 {
   

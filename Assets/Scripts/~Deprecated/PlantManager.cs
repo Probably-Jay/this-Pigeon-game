@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // depracated jay 26/03
 
 
-[System.Obsolete("This class has been replaced by " + nameof(EmotionTracker) +" and " + nameof(GoalManagerScript) ,true)]
+[System.Obsolete("This class has been replaced by " + nameof(GameCore.EmotionTracker) +" and " + nameof(GoalManagerScript) ,true)]
 
 public class PlantManager : MonoBehaviour
 {
