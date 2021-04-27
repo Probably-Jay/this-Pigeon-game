@@ -270,7 +270,7 @@ namespace NetSystem
 
 
         /// <summary>
-        /// Gets the data of the provided game, of the current game if provided gameis null
+        /// Gets the data of the provided <paramref name="game"/>, or of the current game if provided <paramref name="game"/> is null
         /// <para/> Upon completion will invoke one of the following callbacks :
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
@@ -291,21 +291,20 @@ namespace NetSystem
             throw new NotImplementedException();
         }
 
-        public void SendData(NetworkGame.RawData data)
+        public void SendData(APIOperationCallbacks callbacks, NetworkGame.RawData data)
         {
-            var callbacks = new APIOperationCallbacks(onSucess: OnSendDataSucess, onfailure: OnSendDataFailure);
             StartCoroutine(gameDataHandler.SaveDataToServer(data, callbacks));
         }
 
-        private void OnSendDataSucess()
-        {
-            Debug.Log("Data sent");
-        }
+        //private void OnSendDataSucess()
+        //{
+        //    Debug.Log("Data sent");
+        //}
 
-        private void OnSendDataFailure(FailureReason obj)
-        {
-            throw new NotImplementedException();
-        }
+        //private void OnSendDataFailure(FailureReason obj)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public bool ContinueToGame(SceneChangeController.Scenes game)
         {

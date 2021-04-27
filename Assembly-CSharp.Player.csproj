@@ -644,7 +644,6 @@
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\DataManager.cs" />
-    <Compile Include="Assets\Scripts\Data_Managment\GameState.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\GardenDataPacket.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\PlayerDataPacket.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\ActionIcons.cs" />
