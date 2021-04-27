@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mood;
 using System;
+using Tutorial;
 
 // created zap and jay 28/03
 
@@ -22,9 +23,13 @@ namespace Tutorial
 
         delegate bool Condition();
 
+        ArrowEnabler myArrows;
+
         private void OnEnable()
         {
+            myArrows = GetComponent<ArrowEnabler>();
             BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
+            BindEvent(EventsManager.EventType.NewTurnBegin, StartedThirdTurn ,condition:()=> { return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4; });
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
@@ -178,10 +183,18 @@ namespace Tutorial
             }
 
   
-            myBox.Say("When you're ready, you can choose a seed to plant by tapping this seed basket!");
+            myBox.Say("When you're ready, you can choose which seed to plant this turn by tapping this seed basket!");
+            myArrows.EnableArrow(ArrowScript.ArrowPurpose.SeedBox);
         }
 
         private string GetEmotionOutput(string emotion) => $"<b>{emotion}</b>";
+
+        void StartedThirdTurn() {
+            myBox.Say("Looks like both you and your partner are getting along nicely!");
+            myBox.Say("Did you know you can gift them a plant?");
+            myBox.Say("Simply go to their garden and plant a seed!");
+            myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
+        }
 
 
         void PlantedFirstPlant()
@@ -209,7 +222,12 @@ namespace Tutorial
         void ExplainTending()
         {
             myBox.Say("Don't forget to water it by using the can in the toolbox!");
-
+            EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, ActivateCanArrow);
+        }
+        void ActivateCanArrow()
+        {
+            EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, ActivateCanArrow);
+            myArrows.EnableArrow(ArrowScript.ArrowPurpose.WateringCan);
         }
 
         void ExplainTraits()
@@ -218,7 +236,7 @@ namespace Tutorial
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
             myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");
-            myBox.Say($"Did you know that <b>emotions</b> are made up of <b>traits</b>?");
+            myBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
             myBox.Say($"For example, {emotion} is made up of <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
             myBox.Say($"A plant only contributes toward your garden's <b>emotion</b> once it fully matured, so make sure to tend to your plants!");
           
@@ -230,7 +248,7 @@ namespace Tutorial
             myBox.Say("Looks like that plant really needed that!");
             myBox.Say("By the start of your next turn it will probably have grown!");
             myBox.Say("Plants will only grow if they have been well looked after, so make sure to keep an eye out for thier needs.");
-            myBox.Say($"You can use the ecofriendly spray to chase away any bugs and use the shears to trim extra leaves too!");
+            myBox.Say($"You can use the humane repellant to chase away any bugs and use the shears to trim extra leaves too!");
         }
 
         void MoodRelevantPlantReachesMaturity()
