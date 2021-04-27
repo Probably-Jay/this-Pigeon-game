@@ -8,6 +8,8 @@ public class PlayerDataPacket : MonoBehaviour
 
     // game data
     public int turnCounter = 0;
+    public string turnOwner = "NULL";
+    public bool compleate = false;
 
     // player 1 data
     public string player1ID = "NULL";

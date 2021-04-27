@@ -23,7 +23,6 @@ public class GardenDataPacket : MonoBehaviour
                      bool Action3,
                      bool Action4)
         {
-
             plantType = PlantType;
             slotNumber = SlotNumber;
             stage = Stage;
@@ -31,9 +30,8 @@ public class GardenDataPacket : MonoBehaviour
             action1 = Action1;
             action2 = Action2;
             action3 = Action3;
-            action4 = Action4;
+            action4 = Action4;          
         }
-      
     }
 
    public List<Plant> newestGarden1;
