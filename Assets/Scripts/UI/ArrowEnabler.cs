@@ -8,10 +8,11 @@ namespace Tutorial
         public ArrowScript[] arrows = new ArrowScript[4];
         public Dictionary<ArrowScript.ArrowPurpose, ArrowScript> arrowDex = new Dictionary<ArrowScript.ArrowPurpose, ArrowScript>() { };
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             Debug.Log(arrows[0]);
             arrowDex.Add(ArrowScript.ArrowPurpose.SeedBox, arrows[0]);
+            Debug.Log(arrowDex[ArrowScript.ArrowPurpose.SeedBox]);
             arrowDex.Add(ArrowScript.ArrowPurpose.WateringCan, arrows[1]);
             arrowDex.Add(ArrowScript.ArrowPurpose.MoodIndicator, arrows[2]);
             arrowDex.Add(ArrowScript.ArrowPurpose.SwapGarden, arrows[3]);
@@ -27,7 +28,7 @@ namespace Tutorial
         }
         public void EnableArrow(ArrowScript.ArrowPurpose key)
         {
-
+            Debug.Log(key);
             arrowDex[key].gameObject.SetActive(true);
             arrowDex[key].SetPurpose(key);
         }

@@ -791,33 +791,6 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>E:/github/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PlayFab.csproj">
