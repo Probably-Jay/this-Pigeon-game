@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/PostAlpha/Connecting-Scene.unity
     guid: 602e89817eeb12f4eb2057214cbd4533
   - enabled: 1
-    path: Assets/Scenes/PostAlpha/MoodSelectScreen.unity
+    path: Assets/Scenes/PostAlpha/MoodSelectScreen 1.unity
     guid: 4a218b15d6cf2044992718a2c7dfb977
   - enabled: 1
     path: Assets/Scenes/PostAlpha/ComboScene3.unity
