@@ -33,7 +33,7 @@ public class EventsManager : Singleton<EventsManager>
         , PlacedOwnObjectMoodRelevant
         , PlacedCompanionObject
         , RemovedOwnObject
-        , WateredOwnPlant // perhaps rename to "maintained own object"
+      //  , WateredOwnPlant // perhaps rename to "maintained own object"
 
         , triedToPlaceOwnObject
         , triedToPlaceCompanionObject
@@ -76,6 +76,7 @@ public class EventsManager : Singleton<EventsManager>
         ,PlantReadyToGrow
 
         ,SaveGatheredData
+    
 
         #region NetCodeEvents
 
@@ -92,13 +93,24 @@ public class EventsManager : Singleton<EventsManager>
         , SwappedGardenView // enum variable
         , AcheivedGoal // enum variable
         , OnPerformedTendingAction // enum varailble
+
+        , OnPlantPlanted
     }
 
     // update thsese with more data as needed
     public struct EventParams
     {
-        public int IntData;
-        public Enum EnumData;
+        public int IntData1;
+        public int IntData2;
+        public int IntData3;
+        public Enum EnumData1;
+        public Enum EnumData2;
+
+        public bool Bool1;
+        public bool Bool2;
+        public bool Bool3;
+
+
     }
 
     protected static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property

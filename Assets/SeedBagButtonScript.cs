@@ -52,7 +52,7 @@ namespace SceneUI
             }
             else if (GameManager.Instance.InOwnGarden)
             {
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData1 = TurnPoints.PointType.SelfObjectPlace });
             }
 
 
@@ -63,7 +63,7 @@ namespace SceneUI
             }
             else if (!GameManager.Instance.InOwnGarden)
             {
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.OtherObjectPlace });
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData1 = TurnPoints.PointType.OtherObjectPlace });
             }
             // end of Xanders edit
 

@@ -74,7 +74,7 @@ public class SFXHandler : MonoBehaviour
 
     private void TendedPlant(EventsManager.EventParams eventParams)
     {
-        var action = (Plants.PlantActions.TendingActions)eventParams.EnumData;
+        var action = (Plants.PlantActions.TendingActions)eventParams.EnumData1;
 
         switch (action)
         {

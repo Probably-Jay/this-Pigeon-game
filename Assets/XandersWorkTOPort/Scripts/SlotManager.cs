@@ -55,13 +55,20 @@ public class SlotManager : MonoBehaviour
     {
         newPlant = seedStorage.GetCurrentPlant();
         slotControls.SpawnPlantInSlot(newPlant);
+
+        newPlant.GetComponent<Plant>().Init(
+         garden: (int)GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
+         slot: gardenSlots.IndexOf(slotControls)
+         );
+
+
         seedStorage.isStoringSeed = false;
-        InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
+        InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>(), slotControls);
 
         HideSlots();
     }
 
-    private static void InvokePlantedEvent(Plant plant)
+    private void InvokePlantedEvent(Plant plant, SlotControls slotControls)
     {
         if (GameManager.Instance.InOwnGarden)
         {
@@ -78,6 +85,19 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedCompanionObject);
         }
+
+
+        var requiredActions = plant.PlantGrowth.TendingState.GetRequiredActions();
+        EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPlantPlanted, new EventsManager.EventParams()
+        {
+            EnumData1 = plant.plantname, // play type
+            EnumData2 = GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible, // gardenSlot
+            IntData1 = gardenSlots.IndexOf(slotControls),// slot number
+            IntData2 = plant.PlantGrowth.TendingState.CurrentGrowthStage, // stage
+            Bool1 = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering), // watering
+            Bool2 = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying), // spraying
+            Bool3 = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming), // trimming
+        });
     }
 
 

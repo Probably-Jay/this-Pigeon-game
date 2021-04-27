@@ -23,9 +23,10 @@ namespace GameCore
         PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
 
 
-        private void Initialise()
+        private void Initialise(Player.PlayerEnum playerID)
         {
             LocalPlayer = InstantiatePlayer();
+            LocalPlayer.playerClient.PlayerGameEnumValue = playerID;
             LocalPlayer.Init(PlayerClient);
         //    players.Add(LocalPlayer.EnumID, LocalPlayer);
         }
@@ -40,9 +41,11 @@ namespace GameCore
         }
 
 
-        public void ResumedGame()
+        public void ResumedGame(Player.PlayerEnum player)
         {
-            Initialise();
+          //  Game.CurrentNetworkGame.
+
+            Initialise(player);
 
             if (GameManager.Instance.Playing)
             {
@@ -58,8 +61,27 @@ namespace GameCore
 
         public void InitialiseNewGame()
         {
-            Initialise();
+            Initialise(Player.PlayerEnum.Player1);
             TurnTracker.InitialiseNewGame();
+        }
+
+        public void EndTurn()
+        {
+
+            TurnTracker.CompleteTurn();
+
+
+
+            switch (LocalPlayer.EnumID)
+            {
+                case Player.PlayerEnum.Player1:
+                    GameManager.Instance.DataManager.ResetPlayer2ActionPoints();
+                    break;
+                case Player.PlayerEnum.Player2:
+                    GameManager.Instance.DataManager.ResetPlayer1ActionPoints();
+                    break;
+            }
+
         }
     }
 }

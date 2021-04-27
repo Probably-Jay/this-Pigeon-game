@@ -9,7 +9,7 @@ public class PlayerDataPacket : MonoBehaviour
     // game data
     public int turnCounter = 0;
     public string turnOwner = "NULL";
-    public bool turnCompleate = false;
+    public bool turnComplete = false;
 
     // player 1 data
     public string player1ID = "NULL";

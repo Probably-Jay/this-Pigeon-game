@@ -99,7 +99,7 @@ public class TurnPointsUI : MonoBehaviour
 
     void FlashRed(EventsManager.EventParams param)
     {
-        switch ((TurnPoints.PointType)param.EnumData)
+        switch ((TurnPoints.PointType)param.EnumData1)
         {
             case TurnPoints.PointType.SelfObjectPlace:
                 animatorPlaceOwnPlantPoints.SetTrigger("FlashRed");

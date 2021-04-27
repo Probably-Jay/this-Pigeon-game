@@ -8,7 +8,7 @@ namespace GameCore
     /// <summary>
     /// Class to track the players turn in the online game
     /// </summary>
-    public class OnlineTurnTracker : MonoBehaviour
+    public class OnlineTurnTracker 
     {
         public int Turn { get; private set; } = 0;
 
@@ -72,6 +72,11 @@ namespace GameCore
             }
 
             TurnComplete = true;
+            Turn++;
+
+            GameManager.Instance.DataManager.IncrementTurnCounter();
+            GameManager.Instance.DataManager.SetStateOfTurnComplete(true);
+
             return true;
         }
 
@@ -83,6 +88,8 @@ namespace GameCore
             Turn = 0;
             TurnComplete = false;
             TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
+
+            GameManager.Instance.DataManager.InitialiseTurnCounter();
         }
 
 

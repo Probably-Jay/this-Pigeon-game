@@ -52,11 +52,10 @@ namespace NetSystem
 
             public string time;
 
-            public string gardenA;
-            public string gardenB;            
+            public string gardenData;
+            public string playerData;            
             
-            public string prevGardenA;
-            public string prevGardenB;
+         
 
         }
 

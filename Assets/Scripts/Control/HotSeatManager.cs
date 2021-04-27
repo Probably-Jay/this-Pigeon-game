@@ -119,7 +119,7 @@ namespace GameCore
             }
             else
             {
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = pointType }); // invoke event to inform player they are out of this kind of point
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData1 = pointType }); // invoke event to inform player they are out of this kind of point
             }
 
         }

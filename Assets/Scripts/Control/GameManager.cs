@@ -43,6 +43,11 @@ namespace GameCore
         /// </summary>
         public bool Spectating => !Playing;
 
+        public int NewGameMoodGoalTemp;
+
+
+        public DataManager DataManager { get; private set; }
+
 
        // public Player.PlayerEnum ActivePlayerID => ActivePlayer.EnumID;
 
@@ -77,10 +82,20 @@ namespace GameCore
         }
 
 
-
+        public void EndTurn()
+        {
+            if (Spectating)
+            {
+                return;
+            }
+            OnlineTurnManager.EndTurn();
+        }
 
         void BeginOrResumeGame()
         {
+            DataManager = FindObjectOfType<DataManager>();
+
+
             if (OnlineTurnManager.Game.CurrentNetworkGame.NewGameJustCreated)
             {
                 BeginNewGame();
@@ -99,13 +114,25 @@ namespace GameCore
         private void ResumeGame()
         {
 
-            OnlineTurnManager.ResumedGame();
-            EmotionTracker.ResumeGame();
+            bool firstTimeEnteringGame = OnlineTurnManager.TurnTracker.Turn == 1;
+            if (firstTimeEnteringGame)
+            {
+                OnlineTurnManager.ResumedGame(Player.PlayerEnum.Player2);
+                EmotionTracker.InitialiseNewGame(NewGameMoodGoalTemp);
+            }
+            else
+            {
+                // OnlineTurnManager.ResumedGame(Player.PlayerEnum.Player2); // tofix
+                EmotionTracker.ResumeGame();
+                throw new NotImplementedException();
+            }
+
 
             if (Playing)
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
-                if(OnlineTurnManager.TurnTracker.Turn <= 2)
+
+                if (firstTimeEnteringGame)
                 {
                     EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
                 }
@@ -120,8 +147,14 @@ namespace GameCore
 
         private void BeginNewGame()
         {
+
+
+
+
             OnlineTurnManager.InitialiseNewGame();
-            EmotionTracker.InitialiseNewGame();
+
+
+            EmotionTracker.InitialiseNewGame(NewGameMoodGoalTemp);
 
             EventsManager.InvokeEvent(EventsManager.EventType.StartNewGame);
             EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
@@ -134,9 +167,7 @@ namespace GameCore
         // public void UnregisterSlotManager(Player.PlayerEnum player) => SlotManagers.Remove(player);
 
         public void RegisterLocalSlotManager(SlotManager slotManager) => LocalPlayerSlotManager = slotManager;
-      
 
-
-
+     
     }
 }

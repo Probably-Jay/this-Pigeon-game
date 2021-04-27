@@ -240,7 +240,7 @@ namespace Tutorial
 
         void NoMorePoints(EventsManager.EventParams eventParams)
         {
-            switch ((TurnPoints.PointType)eventParams.EnumData)
+            switch ((TurnPoints.PointType)eventParams.EnumData1)
             {
                 case TurnPoints.PointType.SelfObjectPlace:
                     myBox.Say("Whoa there! You can only plant one plant in your garden each turn!");  
@@ -254,7 +254,7 @@ namespace Tutorial
 
         private void AcheivedGoal(EventsManager.EventParams eventParams)
         {
-            if ((Player.PlayerEnum)eventParams.EnumData != player1)
+            if ((Player.PlayerEnum)eventParams.EnumData1 != player1)
                 return;
 
             myBox.Say("You did it! Your garden now reflects your mood as well as you communicated it.");

@@ -117,6 +117,14 @@ namespace SaveSystem
             }
             return false;
         }
+        
+        public bool SaveGame(NetSystem.NetworkGame.RawData data)
+        {
+            if (!GameOpen) return false;
+
+            return saveGameManager.OverwriteSaveFile(data);
+        }
+
 
         private bool StageSaveData()
         {

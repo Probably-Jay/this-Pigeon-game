@@ -62,12 +62,12 @@ public class CameraMovementControl : MonoBehaviour
             case Player.PlayerEnum.Player1:
                 animator.SetTrigger("SwapToPlayerOne");
                 CurrentGardenView = Player.PlayerEnum.Player1;
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData = CurrentGardenView });
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData1 = CurrentGardenView });
                 break;
             case Player.PlayerEnum.Player2:
                 animator.SetTrigger("SwapToPlayerTwo");
                 CurrentGardenView = Player.PlayerEnum.Player2;
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData = CurrentGardenView });
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData1 = CurrentGardenView });
                 break;
         }
     }

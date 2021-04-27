@@ -60,6 +60,15 @@ namespace Plants {
         public PlantName plantname;
 
 
+        int storedInSlot;
+        int storedInGarden;
+        public void Init(int garden, int slot)
+        {
+            storedInGarden = garden;
+            storedInSlot = slot;
+        }
+
+
         [SerializeField] PlantSize thisPlantsSize;
 
         [SerializeField] public int requiredSlot = 1;
@@ -130,9 +139,15 @@ namespace Plants {
         /// <summary>
         /// Tend the plant. No effect if this plant does not need this action taken
         /// </summary>
-        public void Tend(TendingActions action) => PlantGrowth.Tend(action);
+        public void Tend(TendingActions action)
+        {
+            bool tended = PlantGrowth.Tend(action);
 
+            if (!tended)
+                return;
 
+            GameCore.GameManager.Instance.DataManager.RemoveTendingActionFromPlant(storedInGarden, storedInSlot, action);
+        }
     }
 
 }

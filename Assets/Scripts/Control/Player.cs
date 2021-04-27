@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
     private void CheckWin(EventsManager.EventParams eventParams)
     {
-        if((PlayerEnum)eventParams.EnumData == EnumID)
+        if((PlayerEnum)eventParams.EnumData1 == EnumID)
         {
             HasAcheivedGoal = true;
         }

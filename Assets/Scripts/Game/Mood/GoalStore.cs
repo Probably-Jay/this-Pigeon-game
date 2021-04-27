@@ -9,33 +9,34 @@ using System;
 // altered jay 27/03
 // altered jay 20/04
 
+[System.Obsolete("Depracated, save it instead",true)]
 public class GoalStore : MonoBehaviour
 {
     //private const string goalKeyPlayer1 = "Goal_Player1";
     //private const string goalKeyPlayer2 = "Goal_Player2";
 
-    private const string goalKeyLocalPlayer = "Goal_PlayerLocal";
+  //  private const string goalKeyLocalPlayer = "Goal_PlayerLocal";
 
 
 
 
-    //[SerializeField] Dropdown dropdownPlayer1;
-   // [SerializeField] Dropdown dropdownPlayer2;
+  //  //[SerializeField] Dropdown dropdownPlayer1;
+  // // [SerializeField] Dropdown dropdownPlayer2;
 
-    [SerializeField] Dropdown dropdown;
-   // [SerializeField] Player.PlayerEnum player;
+  //  [SerializeField] Dropdown dropdown;
+  // // [SerializeField] Player.PlayerEnum player;
 
-    public void StoreLocalGoal() => StoreGoal((Emotion.Emotions)dropdown.value);
+  ////  public void StoreLocalGoal() => StoreGoal((Emotion.Emotions)dropdown.value);
 
-    private static void StoreGoal(Emotion.Emotions goal)
-    {
-        PlayerPrefs.SetInt(goalKeyLocalPlayer, (int)goal);
-    }
+  //  //private static void StoreGoal(Emotion.Emotions goal)
+  //  //{
+  //  //    PlayerPrefs.SetInt(goalKeyLocalPlayer, (int)goal);
+  //  //}
 
-    public static Emotion.Emotions GetLoaclGoal()
-    {
-        return (Emotion.Emotions)PlayerPrefs.GetInt(goalKeyLocalPlayer);
-    }
+  //  //public static Emotion.Emotions GetLoaclGoal()
+  //  //{
+  //  //    return (Emotion.Emotions)PlayerPrefs.GetInt(goalKeyLocalPlayer);
+  //  //}
 
     //public void StoreGoal() => StoreGoal(player, (Emotion.Emotions)dropdown.value);
 

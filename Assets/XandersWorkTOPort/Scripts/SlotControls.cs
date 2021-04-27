@@ -95,6 +95,7 @@ public class SlotControls : MonoBehaviour
 
         plantsInThisSlot.Add(newPlant);
 
+     
         SlotOccupied();
     }
 

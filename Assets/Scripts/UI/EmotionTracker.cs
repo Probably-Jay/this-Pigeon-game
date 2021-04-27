@@ -61,7 +61,7 @@ namespace GameCore
 
         //};
 
-        public Emotion EmotionGoal { get; private set; } = Emotion.Uninitialised;
+        public Emotion EmotionGoal { get; private set; } 
         public TraitValue CurrentGardenTraits { get; private set; } = TraitValue.Uninitialised;
 
 
@@ -75,7 +75,7 @@ namespace GameCore
         {
             if (PlayerHasAcheivedGoal())
             {
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = GameManager.Instance.LocalPlayerID });
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData1 = GameManager.Instance.LocalPlayerID });
             }
             //if (HasAcheivedGoal(Player.PlayerEnum.Player1))
             //{
@@ -88,9 +88,19 @@ namespace GameCore
             //}
         }
 
-        internal void InitialiseNewGame()
+        public void InitialiseNewGame(int newGameMoodGoalTemp)
         {
-            throw new NotImplementedException();
+            EmotionGoal = new Emotion((Mood.Emotion.Emotions)newGameMoodGoalTemp);
+
+            switch (GameCore.GameManager.Instance.LocalPlayerID)
+            {
+                case Player.PlayerEnum.Player1:
+                    GameCore.GameManager.Instance.DataManager.SetPlayer1GoalMood(newGameMoodGoalTemp);
+                    break;
+                case Player.PlayerEnum.Player2:
+                    GameCore.GameManager.Instance.DataManager.SetPlayer2GoalMood(newGameMoodGoalTemp);
+                    break;
+            }
         }
 
         public void ResumeGame()

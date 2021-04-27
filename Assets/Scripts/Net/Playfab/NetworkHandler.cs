@@ -281,16 +281,23 @@ namespace NetSystem
             StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks, game));
         }
 
-        private void OnReceiveDataSucess(NetworkGame.RawData data)
-        {
-            Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\"");
-        }
+        //private void OnReceiveDataSucess(NetworkGame.RawData data)
+        //{
+        //    Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\"");
+        //}
 
         private void OnReceiveDataFailure(FailureReason obj)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Sends the data provided to the server, overwiting the current save data
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully sent</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         public void SendData(APIOperationCallbacks callbacks, NetworkGame.RawData data)
         {
             StartCoroutine(gameDataHandler.SaveDataToServer(data, callbacks));

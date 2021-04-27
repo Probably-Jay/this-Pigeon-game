@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameCore;
 
 namespace SceneUI
 {
@@ -18,8 +19,10 @@ namespace SceneUI
 
         public void CallEndTurn() {
             gardenSlotDirectory.HideAllSlotsAndHideIndicators();
-         //   GameManager.Instance.EndTurn();
-            throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
+            GameManager.Instance.EndTurn();
+
+          //  throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
 
         }
 
@@ -29,6 +32,8 @@ namespace SceneUI
         {
             button = GetComponent<Button>();
         }
+
+
 
         private void OnEnable()
         {

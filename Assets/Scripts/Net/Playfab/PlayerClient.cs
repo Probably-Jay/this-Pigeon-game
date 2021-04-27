@@ -33,7 +33,7 @@ namespace NetSystem
         /// </summary>
         public bool IsLoggedIn { get; private set; } = false;
 
-        public int PlayerGameEnumValue { get; set; }
+        public Player.PlayerEnum PlayerGameEnumValue { get; set; }
 
         
 

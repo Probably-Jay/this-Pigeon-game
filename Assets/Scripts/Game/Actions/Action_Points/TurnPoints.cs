@@ -60,23 +60,42 @@ public class TurnPoints : MonoBehaviour
     {
         EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, DecreaseOurPlacePoints);
         EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, DecreaseCompanionPlacePoints);
- //       EventsManager.BindEvent(EventsManager.EventType.RemovedOwnObject, DecreaseOurRemovePoints);
-  //      EventsManager.BindEvent(EventsManager.EventType.WateredOwnPlant, DecreaseOurWaterPoints);
     }
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, DecreaseOurPlacePoints);
         EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, DecreaseCompanionPlacePoints);
-   //     EventsManager.UnbindEvent(EventsManager.EventType.RemovedOwnObject, DecreaseOurRemovePoints);
-  //      EventsManager.UnbindEvent(EventsManager.EventType.WateredOwnPlant, DecreaseOurWaterPoints);
     }
 
-    private void DecreaseOurPlacePoints() => DecreasePoints(PointType.SelfObjectPlace);
-    private void DecreaseCompanionPlacePoints() => DecreasePoints(PointType.OtherObjectPlace);
-  //  private void DecreaseOurRemovePoints() => DecreasePoints(PointType.SelfObjectRemove);
-  //  private void DecreaseOurWaterPoints() => DecreasePoints(PointType.SelfAddWater);
+    private void DecreaseOurPlacePoints()
+    {
+        DecreasePoints(PointType.SelfObjectPlace);
+        switch (GameCore.GameManager.Instance.LocalPlayer.EnumID)
+        {
+            case Player.PlayerEnum.Player1:
+                GameCore.GameManager.Instance.DataManager.SpendPlayer1SelfAction();
+                break;
+            case Player.PlayerEnum.Player2:
+                GameCore.GameManager.Instance.DataManager.SpendPlayer2SelfAction();
+                break;
+        }
+    }
 
+    private void DecreaseCompanionPlacePoints()
+    {
+        DecreasePoints(PointType.OtherObjectPlace);
+        switch (GameCore.GameManager.Instance.LocalPlayer.EnumID)
+        {
+            case Player.PlayerEnum.Player1:
+                GameCore.GameManager.Instance.DataManager.SpendPlayer1OtherAction();
+                break;
+            case Player.PlayerEnum.Player2:
+                GameCore.GameManager.Instance.DataManager.SpendPlayer2OtherAction();
+                break;
+        }
+    }
+   
 
 
 
