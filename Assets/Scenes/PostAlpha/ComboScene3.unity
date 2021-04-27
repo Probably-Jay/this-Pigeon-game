@@ -595,7 +595,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.4
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2116,7 +2116,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.555
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2464,12 +2464,12 @@ GameObject:
   - component: {fileID: 886193661}
   - component: {fileID: 886193662}
   m_Layer: 0
-  m_Name: 
+  m_Name: Ambient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &886193661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2490,7 +2490,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000035925, y: -117}
   m_SizeDelta: {x: 571.74164, y: 23.928436}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &886193662
@@ -2539,7 +2539,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5897,6 +5897,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a0715114117f1934f8228abe0d3eb939,
         type: 3}
+    - target: {fileID: 5025938813569760176, guid: ffd4bd3b9a4359a49988e886b79d9c95,
+        type: 3}
+      propertyPath: yourCompanionsGarden
+      value: Your Pal's Garden
+      objectReference: {fileID: 0}
     - target: {fileID: 5753532738032052921, guid: ffd4bd3b9a4359a49988e886b79d9c95,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -6093,6 +6098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71597b8a313f9574090ea58046eac6a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1001 &6150358321100856491
 PrefabInstance:
   m_ObjectHideFlags: 0
