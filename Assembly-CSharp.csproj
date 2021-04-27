@@ -85,6 +85,10 @@
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
+    <Compile Include="Assets\Scripts\Data_Managment\DataManager.cs" />
+    <Compile Include="Assets\Scripts\Data_Managment\GameState.cs" />
+    <Compile Include="Assets\Scripts\Data_Managment\GardenDataPacket.cs" />
+    <Compile Include="Assets\Scripts\Data_Managment\PlayerDataPacket.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\ActionIcons.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPoints.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\Action_Points\TurnPointsUI.cs" />
@@ -764,35 +768,16 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.Timeline.Editor.csproj">
+      <Project>{2D0C966F-8370-F3D6-880B-37209C5F271D}</Project>
+      <Name>Unity.Timeline.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.VSCode.Editor.csproj">
+      <Project>{F87BA412-1363-5D26-F6DC-59D967764AE3}</Project>
+      <Name>Unity.VSCode.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="PlayFab.csproj">
       <Project>{B307CCA4-F366-0CDF-EF21-A135AED825D8}</Project>
       <Name>PlayFab</Name>
@@ -800,6 +785,18 @@
     <ProjectReference Include="PlayFabEditorExtensions.csproj">
       <Project>{90B93E1E-87CF-37B5-79EF-7F057D1C96C6}</Project>
       <Name>PlayFabEditorExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
+      <Project>{D093E313-D5B2-788C-4F45-F929F7395B9C}</Project>
+      <Name>Unity.TextMeshPro.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{3EB81A55-19AC-B55D-8A62-52CD4DDB776A}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Timeline.csproj">
+      <Project>{EA8967D7-A135-C133-FF5D-26BF1681C414}</Project>
+      <Name>Unity.Timeline</Name>
     </ProjectReference>
     <ProjectReference Include="TestFolderAssembly.csproj">
       <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
@@ -809,9 +806,25 @@
       <Project>{EC17CE76-C0F1-DF09-A477-4F38A095F787}</Project>
       <Name>PlayFabSDKEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
+      <Project>{A04DF00C-C071-A6B4-CED8-E98EB705296E}</Project>
+      <Name>Unity.CollabProxy.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Rider.Editor.csproj">
+      <Project>{E7FCA8B5-DA00-F141-4AA7-F6C1D2E4EADE}</Project>
+      <Name>Unity.Rider.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.TextMeshPro.csproj">
+      <Project>{A88DBC45-B8DF-3525-6A3F-3384EEF39049}</Project>
+      <Name>Unity.TextMeshPro</Name>
+    </ProjectReference>
     <ProjectReference Include="Helper.csproj">
       <Project>{8EC6C8C5-D3BB-D64F-8C83-460E93FFB41D}</Project>
       <Name>Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
+      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
