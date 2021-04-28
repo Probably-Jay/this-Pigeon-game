@@ -62,6 +62,8 @@ namespace GameCore
 
         public SlotManager LocalPlayerSlotManager { get; private set; }
 
+        SlotManager[] SlotManagers = new SlotManager[2];
+
         //public Dictionary<Player.PlayerEnum, SlotManager> SlotManagers { get; private set; } = new Dictionary<Player.PlayerEnum, SlotManager>();
 
         public override void Initialise()
@@ -88,7 +90,12 @@ namespace GameCore
             {
                 return;
             }
+
             OnlineTurnManager.EndTurn();
+
+
+
+            EventsManager.InvokeEvent(EventsManager.EventType.SaveGatheredData);
         }
 
         void BeginOrResumeGame()
@@ -105,10 +112,12 @@ namespace GameCore
             ResumeGame();
 
 
-            //Player1Goal = GoalStore.GetGoal();
-            //Player2Goal = GoalStore.GetAltGoal();
-            //Player1Goal = GoalStore.GetLoaclGoal(); // both for now, to be replaced when loading introduced
-           //Player2Goal = GoalStore.GetLoaclGoal();
+        
+        }
+
+        private void SetLocalSlotManager()
+        {
+            LocalPlayerSlotManager = SlotManagers[(int)LocalPlayerID];
         }
 
         private void ResumeGame()
@@ -126,6 +135,8 @@ namespace GameCore
                 EmotionTracker.ResumeGame();
                 throw new NotImplementedException();
             }
+
+            SetLocalSlotManager();
 
 
             if (Playing)
@@ -148,26 +159,27 @@ namespace GameCore
         private void BeginNewGame()
         {
 
-
-
-
             OnlineTurnManager.InitialiseNewGame();
 
 
             EmotionTracker.InitialiseNewGame(NewGameMoodGoalTemp);
+
+            SetLocalSlotManager();
 
             EventsManager.InvokeEvent(EventsManager.EventType.StartNewGame);
             EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
             EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
         }
 
-       // public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
+        // public void EndTurn() => EventsManager.InvokeEvent(EventsManager.EventType.EndTurn);
 
         // public void RegisterSlotManager(Player.PlayerEnum player, SlotManager slotManager) => SlotManagers.Add(player, slotManager);
         // public void UnregisterSlotManager(Player.PlayerEnum player) => SlotManagers.Remove(player);
 
-        public void RegisterLocalSlotManager(SlotManager slotManager) => LocalPlayerSlotManager = slotManager;
-
-     
+        public void RegisterLocalSlotManager(SlotManager slotManager, Player.PlayerEnum gardenplayerID)
+        {
+            //LocalPlayerSlotManager = slotManager;
+            SlotManagers[(int)gardenplayerID] = slotManager;
+        }
     }
 }

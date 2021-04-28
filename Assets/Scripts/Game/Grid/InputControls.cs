@@ -109,8 +109,8 @@ public class InputControls : MonoBehaviour
                 hitObject = hit.transform.gameObject;
                 var plant = hitObject.GetComponent<Plant>();
 
-                if (plant != null)
-                    plant.Tend(Plants.PlantActions.TendingActions.Watering);
+                //if (plant != null)
+                //    plant.Tend(Plants.PlantActions.TendingActions.Watering);
             }
         }
     }

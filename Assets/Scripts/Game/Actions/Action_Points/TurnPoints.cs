@@ -32,7 +32,7 @@ public class TurnPoints : MonoBehaviour
     Dictionary<PointType, int> points;
 
 
-    public void StartTurn()
+    public void Initialise()
     {
         points[PointType.SelfObjectPlace] = placeOwnPlantPointsInitial;
         points[PointType.OtherObjectPlace] = placeCompanionPlantPointsInitial;

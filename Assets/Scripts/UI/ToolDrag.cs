@@ -91,9 +91,11 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         Plant plant = currentGardenSlotManager.PlantOfSlotMouseIsIn(this);
 
         if (plant == null)
+        {
             return;
+        }
 
-        //Debug.Log(plant);
+   
         plant.Tend(ToolType);
 
     }

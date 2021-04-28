@@ -20,23 +20,41 @@ namespace GameCore
         public Player LocalPlayer { get; private set; }
         public OnlineTurnTracker TurnTracker { get; private set; } = new OnlineTurnTracker();
 
-        PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
+//PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
 
 
         private void Initialise(Player.PlayerEnum playerID)
         {
-            LocalPlayer = InstantiatePlayer();
-            LocalPlayer.playerClient.PlayerGameEnumValue = playerID;
-            LocalPlayer.Init(PlayerClient);
-        //    players.Add(LocalPlayer.EnumID, LocalPlayer);
+            LocalPlayer = InstantiatePlayer(playerID);
+            GameManager.Instance.DataManager.ResetPlayer1ActionPoints();
+            GameManager.Instance.DataManager.ResetPlayer2ActionPoints();
+
+            //GameManager.Instance.DataManager.PlayerData;
+
+            switch (LocalPlayer.EnumID)
+            {
+                case Player.PlayerEnum.Player1:
+                    GameManager.Instance.DataManager.PlayerData.player1ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
+
+                    break;
+                case Player.PlayerEnum.Player2:
+                    GameManager.Instance.DataManager.PlayerData.player2ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
+
+                    break;
+ 
+            }
+
+            //    players.Add(LocalPlayer.EnumID, LocalPlayer);
         }
         
 
-        private Player InstantiatePlayer() 
+        private Player InstantiatePlayer(Player.PlayerEnum playerID) 
         {
             GameObject playerObject = Instantiate(playerPrefab);
             playerObject.transform.SetParent(transform);
             Player player = playerObject.GetComponent<Player>();
+            player.Init(NetworkHandler.Instance.PlayerClient);
+            player.PlayerClient.PlayerGameEnumValue = playerID;
             return player;
         }
 
@@ -63,6 +81,8 @@ namespace GameCore
         {
             Initialise(Player.PlayerEnum.Player1);
             TurnTracker.InitialiseNewGame();
+            LocalPlayer.TurnPoints.Initialise();
+            GameManager.Instance.DataManager.PlayerData.turnOwner = LocalPlayer.PlayerClient.ClientEntityKey.Id;
         }
 
         public void EndTurn()

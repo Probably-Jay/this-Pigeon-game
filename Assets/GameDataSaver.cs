@@ -13,8 +13,7 @@ namespace NetSystem
     public class GameDataSaver : MonoBehaviour
     {
 
-        GardenDataPacket gardenData;
-        PlayerDataPacket playerData;
+       
 
 
 
@@ -32,10 +31,13 @@ namespace NetSystem
 
         private void SaveGame()
         {
+            GardenDataPacket gardenData = GameCore.GameManager.Instance.DataManager.GardenData;
+            PlayerDataPacket playerData = GameCore.GameManager.Instance.DataManager.PlayerData;
+
             NetworkGame.RawData rawData = new NetworkGame.RawData()
             {
-                turnBelongsTo = playerData.turnOwner,
-                turnComplete = JsonUtility.ToJson(playerData.turnComplete), // might work
+                //turnBelongsTo = JsonUtility.ToJson(playerData.turnOwner),
+                turnComplete = playerData.turnComplete  ? "True" : "False", // might work
                 gardenData = JsonUtility.ToJson(gardenData),
                 playerData = JsonUtility.ToJson(playerData)
             };
@@ -49,12 +51,12 @@ namespace NetSystem
 
         private void SendSaveDataSucess()
         {
-            throw new NotImplementedException();
+            Debug.Log("Sent sucess");
         }
 
         private void SendSaveDataFailure(FailureReason reason)
         {
-            throw new NotImplementedException();
+            Debug.LogError($"Failed {reason}");
         }
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    PlayerDataPacket playerData;
-    GardenDataPacket gardenData;
-
     int plantPositionInList = 0;
+
+    public PlayerDataPacket PlayerData { get; private set; }
+    public GardenDataPacket GardenData { get; private set; }
 
     //int plantType = 0;
     //int stage = 0;
@@ -20,8 +20,8 @@ public class DataManager : MonoBehaviour
 
     void Awake()
     {
-        playerData = GetComponent<PlayerDataPacket>();
-        gardenData = GetComponent<GardenDataPacket>();
+        PlayerData = GetComponent<PlayerDataPacket>();
+        GardenData = GetComponent<GardenDataPacket>();
     }
 
     private void OnEnable()
@@ -68,7 +68,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void InitialiseTurnCounter()
     {
-        playerData.turnCounter =0;
+        PlayerData.turnCounter =0;
     }
     
     /// <summary>
@@ -76,7 +76,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void IncrementTurnCounter()
     {
-        playerData.turnCounter++;
+        PlayerData.turnCounter++;
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetTheTurnsOwner(string newTurnOwner)
     {
-        playerData.turnOwner = newTurnOwner;
+        PlayerData.turnOwner = newTurnOwner;
     }
 
     /// <summary>
@@ -92,7 +92,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetStateOfTurnComplete(bool currentTurnComplete)
     {
-        playerData.turnComplete = currentTurnComplete;
+        PlayerData.turnComplete = currentTurnComplete;
     }
 
     // Player 1 data
@@ -102,7 +102,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetPlayer1ID(string newID)
    {
-        playerData.player1ID = newID;
+        PlayerData.player1ID = newID;
    }
 
 
@@ -111,24 +111,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetPlayer1GoalMood(int chosenMood)
     {
-        switch (chosenMood)
-        {
-            case 1:
-                playerData.player1ChosenMood = PlayerDataPacket.Moods.Mood1;
-                break;
-            case 2:
-                playerData.player1ChosenMood = PlayerDataPacket.Moods.Mood2;
-                break;
-            case 3:
-                playerData.player1ChosenMood = PlayerDataPacket.Moods.Mood3;
-                break;
-            case 4:
-                playerData.player1ChosenMood = PlayerDataPacket.Moods.Mood4;
-                break;
-            default:
-               
-                break;
-        }     
+        PlayerData.player1ChosenMood = chosenMood;
     }
 
     /// <summary>
@@ -137,7 +120,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetPlayer1AchivedMood(bool moodAchived)
     {
-        playerData.player1MoodAchieved = moodAchived;
+        PlayerData.player1MoodAchieved = moodAchived;
     }
 
     /// <summary>
@@ -145,7 +128,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SpendPlayer1SelfAction()
     {
-        playerData.player1SelfActions--;
+        PlayerData.player1SelfActions--;
     }
 
     /// <summary>
@@ -153,7 +136,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SpendPlayer1OtherAction()
     {
-        playerData.player1OtherActions--;
+        PlayerData.player1OtherActions--;
     }
 
     /// <summary>
@@ -161,8 +144,8 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void ResetPlayer1ActionPoints()
     {
-        playerData.player1SelfActions = 1;
-        playerData.player1SelfActions = 1;
+        PlayerData.player1SelfActions = 1;
+        PlayerData.player1OtherActions = 1;
     }
 
 
@@ -173,7 +156,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetPlayer2ID(string newID)
     {
-       playerData.player2ID = newID;
+       PlayerData.player2ID = newID;
     }
 
     /// <summary>
@@ -181,24 +164,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetPlayer2GoalMood(int chosenMood)
     {
-        switch (chosenMood)
-        {
-            case 1:
-                playerData.player2ChosenMood = PlayerDataPacket.Moods.Mood1;
-                break;
-            case 2:
-                playerData.player2ChosenMood = PlayerDataPacket.Moods.Mood2;
-                break;
-            case 3:
-                playerData.player2ChosenMood = PlayerDataPacket.Moods.Mood3;
-                break;
-            case 4:
-                playerData.player2ChosenMood = PlayerDataPacket.Moods.Mood4;
-                break;
-            default:
-
-                break;
-        }
+        PlayerData.player2ChosenMood = chosenMood;
     }
 
     /// <summary>
@@ -207,7 +173,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SetPlayer2AchivedMood(bool moodAchived)
     {
-        playerData.player2MoodAchieved = moodAchived;
+        PlayerData.player2MoodAchieved = moodAchived;
     }
 
     /// <summary>
@@ -215,7 +181,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SpendPlayer2SelfAction()
     {
-        playerData.player2SelfActions--;
+        PlayerData.player2SelfActions--;
     }
 
     /// <summary>
@@ -223,7 +189,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void SpendPlayer2OtherAction()
     {
-        playerData.player2OtherActions--;
+        PlayerData.player2OtherActions--;
     }
 
     /// <summary>
@@ -231,8 +197,8 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void ResetPlayer2ActionPoints()
     {
-        playerData.player2SelfActions = 1;
-        playerData.player2SelfActions = 1;
+        PlayerData.player2SelfActions = 1;
+        PlayerData.player2OtherActions = 1;
     }
 
     //Garden Data
@@ -249,11 +215,11 @@ public class DataManager : MonoBehaviour
     bool trimming)
     {
         //gardenData.newestGarden1.Add(new GardenDataPacket.Plant(plantType, slotNumber, stage, action1, action2, action3, action4));
-        for (int i = 0; i < gardenData.newestGarden1.Length; i++)
+        for (int i = 0; i < GardenData.newestGarden1.Length; i++)
         {
-            if(gardenData.newestGarden1[i] == null)
+            if(!GardenData.newestGarden1[i].Initilised)
             {
-                gardenData.newestGarden1[i] = new GardenDataPacket.Plant(plantType, slotNumber, stage, watering, spraying, trimming);
+                GardenData.newestGarden1[i] = new GardenDataPacket.Plant(plantType, slotNumber, stage, watering, spraying, trimming);
                 return;
             }
         }
@@ -268,16 +234,16 @@ public class DataManager : MonoBehaviour
         // cycle through garden1s list of plants till the plant with the correct slot number is found
         // then remove that plant from the list
 
-        for (int i = 0; i < gardenData.newestGarden1.Length; i++)
+        for (int i = 0; i < GardenData.newestGarden1.Length; i++)
         {
-            if(gardenData.newestGarden1[i] == null)
+            if(!GardenData.newestGarden1[i].Initilised)
             {
                 continue;
             }
 
-            if (gardenData.newestGarden1[i].slotNumber == slotNumber)
+            if (GardenData.newestGarden1[i].slotNumber == slotNumber)
             {
-                gardenData.newestGarden1[i] = null;
+                GardenData.newestGarden1[i].Uninitialise();
             }
         }
     }
@@ -292,11 +258,11 @@ public class DataManager : MonoBehaviour
         bool spraying,
         bool trimming)
     {
-        for (int i = 0; i < gardenData.newestGarden2.Length; i++)
+        for (int i = 0; i < GardenData.newestGarden2.Length; i++)
         {
-            if (gardenData.newestGarden2[i] == null)
+            if (!GardenData.newestGarden2[i].Initilised)
             {
-                gardenData.newestGarden2[i] = new GardenDataPacket.Plant(plantType, slotNumber, stage, watering, spraying, trimming);
+                GardenData.newestGarden2[i] = new GardenDataPacket.Plant(plantType, slotNumber, stage, watering, spraying, trimming);
                 return;
             }
         }
@@ -306,20 +272,20 @@ public class DataManager : MonoBehaviour
     /// <summary>
     ///  Removes a new Plant from player twos garden
     /// </summary>
-    public void removePlantFromGarden2(int slotNumber)
+    public void RemovePlantFromGarden2(int slotNumber)
     {
         // cycle through garden2s list of plants till the plant with the correct slot number is found
         // then remve that plant from the list
-        for (int i = 0; i < gardenData.newestGarden2.Length; i++)
+        for (int i = 0; i < GardenData.newestGarden2.Length; i++)
         {
-            if (gardenData.newestGarden2[i] == null)
+            if (!GardenData.newestGarden2[i].Initilised)
             {
                 continue;
             }
 
-            if (gardenData.newestGarden2[i].slotNumber == slotNumber)
+            if (GardenData.newestGarden2[i].slotNumber == slotNumber)
             {
-                gardenData.newestGarden2[i] = null;
+                GardenData.newestGarden2[i] = null;
             }
         }
     }
@@ -327,66 +293,65 @@ public class DataManager : MonoBehaviour
     /// <summary>
     ///  Searches the appropriate garden for the appropriate Plant then copies that plants data 
     /// </summary>
-    void FindPlantInList(int gardenNumber, int slotNumber)
+    bool FindPlantInList(int gardenNumber, int slotNumber)
     {
-        if (gardenNumber == 1)
+        if (gardenNumber == 0)
         {
             // cycle through garden1s list of plants till the plant with the correct slot number
-            for (int i = 0; i < gardenData.newestGarden1.Length; i++)
+            for (int i = 0; i < GardenData.newestGarden1.Length; i++)
             {
-                if (gardenData.newestGarden1[i] == null)
+                if (!GardenData.newestGarden1[i].Initilised)
                 {
                     continue;
                 }
 
-                if (gardenData.newestGarden1[i].slotNumber == slotNumber)
+                if (GardenData.newestGarden1[i].slotNumber == slotNumber)
                 {
                     // when the plant is found store the position in the list and all the data in that plant
                     plantPositionInList = i;
 
-                    //plantType = gardenData.newestGarden1[i].plantType;                
-                    //stage = gardenData.newestGarden1[i].stage;
+                    return true;
 
-                    //action1 = gardenData.newestGarden1[i].action1;
-                    //action2 = gardenData.newestGarden1[i].action2;
-                    //action3 = gardenData.newestGarden1[i].action3;
-                    //action4 = gardenData.newestGarden1[i].action4;
                 }
             }
         }
         else
         {
             // cycle through garden2s list of plants till the plant with the correct slot number is found 
-            for (int i = 0; i < gardenData.newestGarden2.Length; i++)
+            for (int i = 0; i < GardenData.newestGarden2.Length; i++)
             {
-                if (gardenData.newestGarden2[i].slotNumber == slotNumber)
+                if (!GardenData.newestGarden2[i].Initilised)
                 {
-                    if (gardenData.newestGarden2[i] == null)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
+
+                if (GardenData.newestGarden2[i].slotNumber == slotNumber)
+                {
+
 
                     // when the plant is found store the position in the list and all the data in that plant
                     plantPositionInList = i;
 
-                    //plantType = gardenData.newestGarden2[i].plantType;
-                    //stage = gardenData.newestGarden2[i].stage;
+                    return true;
 
-                    //action1 = gardenData.newestGarden2[i].action1;
-                    //action2 = gardenData.newestGarden2[i].action2;
-                    //action3 = gardenData.newestGarden2[i].action3;
-                    //action4 = gardenData.newestGarden2[i].action4;
+;
                 }
             }
         }
+        return false;
     }
 
 
 
+    /*
     public void AddTendingActionToPlant(int gardenNumber, int slotNumber, Plants.PlantActions.TendingActions tendingAction)
     {
 
-        FindPlantInList(gardenNumber, slotNumber);
+        if (!FindPlantInList(gardenNumber, slotNumber))
+        {
+            Debug.LogError("Cannot find plant");
+            return;
+        }
 
 
 
@@ -396,31 +361,31 @@ public class DataManager : MonoBehaviour
             case Plants.PlantActions.TendingActions.Watering:
                 if (gardenNumber == 1)
                 {
-                    gardenData.newestGarden1[plantPositionInList].watering = true;
+                    GardenData.newestGarden1[plantPositionInList].watering = true;
                 }
                 else
                 {
-                    gardenData.newestGarden2[plantPositionInList].watering = true;
+                    GardenData.newestGarden2[plantPositionInList].watering = true;
                 }
                 break;
             case Plants.PlantActions.TendingActions.Spraying:
                 if (gardenNumber == 1)
                 {
-                    gardenData.newestGarden1[plantPositionInList].spraying = true;
+                    GardenData.newestGarden1[plantPositionInList].spraying = true;
                 }
                 else
                 {
-                    gardenData.newestGarden2[plantPositionInList].spraying = true;
+                    GardenData.newestGarden2[plantPositionInList].spraying = true;
                 }
                 break;
             case Plants.PlantActions.TendingActions.Trimming:
                 if (gardenNumber == 1)
                 {
-                    gardenData.newestGarden1[plantPositionInList].trimming = true;
+                    GardenData.newestGarden1[plantPositionInList].trimming = true;
                 }
                 else
                 {
-                    gardenData.newestGarden2[plantPositionInList].trimming = true;
+                    GardenData.newestGarden2[plantPositionInList].trimming = true;
                 }
                 break;
             //case 4:
@@ -436,11 +401,14 @@ public class DataManager : MonoBehaviour
         }
 
     }
-
     public void RemoveTendingActionFromPlant(int gardenNumber, int slotNumber, Plants.PlantActions.TendingActions tendingAction)
     {
 
-        FindPlantInList(gardenNumber, slotNumber);
+        if (!FindPlantInList(gardenNumber, slotNumber))
+        {
+            Debug.LogError("Cannot find plant");
+            return;
+        }
 
         // override the data for the desired tending action
         switch (tendingAction)
@@ -448,57 +416,76 @@ public class DataManager : MonoBehaviour
             case Plants.PlantActions.TendingActions.Watering:
                 if (gardenNumber == 1)
                 {
-                    gardenData.newestGarden1[plantPositionInList].watering = false;
+                    GardenData.newestGarden1[plantPositionInList].watering = false;
                 }
                 else
                 {
-                    gardenData.newestGarden2[plantPositionInList].watering = false;
+                    GardenData.newestGarden2[plantPositionInList].watering = false;
                 }
                 break;
             case Plants.PlantActions.TendingActions.Spraying:
                 if (gardenNumber == 1)
                 {
-                    gardenData.newestGarden1[plantPositionInList].spraying = false;
+                    GardenData.newestGarden1[plantPositionInList].spraying = false;
                 }
                 else
                 {
-                    gardenData.newestGarden2[plantPositionInList].spraying = false;
+                    GardenData.newestGarden2[plantPositionInList].spraying = false;
                 }
                 break;
             case Plants.PlantActions.TendingActions.Trimming:
                 if (gardenNumber == 1)
                 {
-                    gardenData.newestGarden1[plantPositionInList].trimming = false;
+                    GardenData.newestGarden1[plantPositionInList].trimming = false;
                 }
                 else
                 {
-                    gardenData.newestGarden2[plantPositionInList].trimming = false;
+                    GardenData.newestGarden2[plantPositionInList].trimming = false;
                 }
                 break;
-            //default:
-            //    if (gardenNumber == 1)
-            //    {
-            //        gardenData.newestGarden1[plantPositionInList].action4 = false;
-            //    }
-            //    else
-            //    {
-            //        gardenData.newestGarden2[plantPositionInList].action4 = false;
-            //    }
-            //    break;
         }
+    }
+    */
+
+    public void UpdatePlantTendingActions(Plants.Plant plant)
+    {
+        if (!FindPlantInList(plant.StoredInGarden, plant.StoredInSlot))
+        {
+            Debug.LogError("Cannot find plant");
+            return;
+        }
+
+        switch ((Player.PlayerEnum)plant.StoredInGarden)
+        {
+            case Player.PlayerEnum.Player1:
+                GardenData.newestGarden1[plantPositionInList].watering = plant.RequiresAction(Plants.PlantActions.TendingActions.Watering);
+                GardenData.newestGarden1[plantPositionInList].spraying = plant.RequiresAction(Plants.PlantActions.TendingActions.Spraying);
+                GardenData.newestGarden1[plantPositionInList].trimming = plant.RequiresAction(Plants.PlantActions.TendingActions.Trimming);
+                break;
+            case Player.PlayerEnum.Player2:
+                GardenData.newestGarden2[plantPositionInList].watering = plant.RequiresAction(Plants.PlantActions.TendingActions.Watering);
+                GardenData.newestGarden2[plantPositionInList].spraying = plant.RequiresAction(Plants.PlantActions.TendingActions.Spraying);
+                GardenData.newestGarden2[plantPositionInList].trimming = plant.RequiresAction(Plants.PlantActions.TendingActions.Trimming);
+                break;
+        }
+
     }
 
     public void GrowPlant(int gardenNumber, int slotNumber)
     {
-        FindPlantInList(gardenNumber, slotNumber);
+        if(!FindPlantInList(gardenNumber, slotNumber))
+        {
+            Debug.LogError("Cannot find plant");
+            return;
+        }
 
         if (gardenNumber == 1)
         {
-            gardenData.newestGarden1[plantPositionInList].stage++;  
+            GardenData.newestGarden1[plantPositionInList].stage++;  
         }
         else
         {
-            gardenData.newestGarden2[plantPositionInList].stage++;
+            GardenData.newestGarden2[plantPositionInList].stage++;
         }
     }
 }

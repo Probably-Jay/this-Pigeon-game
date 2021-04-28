@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public enum PlayerEnum { Player1 = 0, Player2 = 1 };
     public static readonly PlayerEnum[] PlayerEnumValueList = (PlayerEnum[])System.Enum.GetValues(typeof(PlayerEnum));
 
-    public NetSystem.PlayerClient playerClient { get; private set; }
+    public NetSystem.PlayerClient PlayerClient { get; private set; }
 
     public TurnPoints TurnPoints { get; private set; }
     public PlayerEnum EnumID { get; set; }
@@ -44,14 +44,15 @@ public class Player : MonoBehaviour
 
     public void StartTurn()
     {
-        TurnPoints.StartTurn();
+        TurnPoints.Initialise();
     }
 
     public void Init(NetSystem.PlayerClient netPlayer)
     {
-        playerClient = netPlayer;
+        PlayerClient = netPlayer;
         EnumID = (Player.PlayerEnum)netPlayer.PlayerGameEnumValue;
         TurnPoints = GetComponent<TurnPoints>();
+        
     }
 
 }

@@ -60,14 +60,16 @@ namespace Plants {
         public PlantName plantname;
 
 
-        int storedInSlot;
-        int storedInGarden;
+        public int StoredInGarden { get; private set; }
+        public int StoredInSlot { get; private set; }
+
         public void Init(int garden, int slot)
         {
-            storedInGarden = garden;
-            storedInSlot = slot;
+            StoredInGarden = garden;
+            StoredInSlot = slot;
         }
 
+        public bool RequiresAction(TendingActions tendingActions) => PlantGrowth.TendingState.GetRequiredActions().Contains(tendingActions);
 
         [SerializeField] PlantSize thisPlantsSize;
 
@@ -130,6 +132,7 @@ namespace Plants {
         public PlantSize ThisPlantsSize => thisPlantsSize;
 
 
+
         //public Player PlantOwner { get => PlantOwner1; set => PlantOwner1 = value; }
 
 
@@ -144,9 +147,11 @@ namespace Plants {
             bool tended = PlantGrowth.Tend(action);
 
             if (!tended)
+            {
                 return;
+            }
 
-            GameCore.GameManager.Instance.DataManager.RemoveTendingActionFromPlant(storedInGarden, storedInSlot, action);
+            GameCore.GameManager.Instance.DataManager.UpdatePlantTendingActions(this);
         }
     }
 

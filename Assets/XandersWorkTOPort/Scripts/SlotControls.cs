@@ -88,7 +88,7 @@ public class SlotControls : MonoBehaviour
     }
 
 
-    public void SpawnPlantInSlot(GameObject PlantToSpawn)
+    public GameObject SpawnPlantInSlot(GameObject PlantToSpawn)
     {
         GameObject newPlant = Instantiate(PlantToSpawn, transform);
         newPlant.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z -1);
@@ -97,6 +97,7 @@ public class SlotControls : MonoBehaviour
 
      
         SlotOccupied();
+        return newPlant;
     }
 
     public List<Plant> GetAllPlants()

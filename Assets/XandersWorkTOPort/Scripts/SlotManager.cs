@@ -54,16 +54,15 @@ public class SlotManager : MonoBehaviour
     private void PlantPlant(SlotControls slotControls)
     {
         newPlant = seedStorage.GetCurrentPlant();
-        slotControls.SpawnPlantInSlot(newPlant);
+        var plantedPlant = slotControls.SpawnPlantInSlot(newPlant);
 
-        newPlant.GetComponent<Plant>().Init(
-         garden: (int)GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
-         slot: gardenSlots.IndexOf(slotControls)
-         );
-
+        plantedPlant.GetComponent<Plant>().Init(
+            garden: (int)GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
+            slot: gardenSlots.IndexOf(slotControls)
+        );
 
         seedStorage.isStoringSeed = false;
-        InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>(), slotControls);
+        InvokePlantedEvent(plantedPlant.GetComponent<Plants.Plant>(), slotControls);
 
         HideSlots();
     }
@@ -87,17 +86,50 @@ public class SlotManager : MonoBehaviour
         }
 
 
-        var requiredActions = plant.PlantGrowth.TendingState.GetRequiredActions();
-        EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPlantPlanted, new EventsManager.EventParams()
+        ReadOnlyCollection<Plants.PlantActions.TendingActions> requiredActions = plant.PlantGrowth.TendingState.GetRequiredActions();
+
+        Plant.PlantName plantname = plant.plantname;
+        int slotNumber = gardenSlots.IndexOf(slotControls);
+        bool watering = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering);
+        bool spraying = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying);
+        bool trimming = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming);
+
+        switch (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible)
         {
-            EnumData1 = plant.plantname, // play type
-            EnumData2 = GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible, // gardenSlot
-            IntData1 = gardenSlots.IndexOf(slotControls),// slot number
-            IntData2 = plant.PlantGrowth.TendingState.CurrentGrowthStage, // stage
-            Bool1 = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering), // watering
-            Bool2 = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying), // spraying
-            Bool3 = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming), // trimming
-        });
+            case Player.PlayerEnum.Player1:
+                GameManager.Instance.DataManager.AddPlantToGarden1(
+                    plantType: (int)plantname,
+                    slotNumber: slotNumber,
+                    stage: 0,
+                    watering: watering,
+                    spraying: spraying,
+                    trimming: trimming
+                    ) ;
+                break;
+            case Player.PlayerEnum.Player2:
+                GameManager.Instance.DataManager.AddPlantToGarden2(
+                   plantType: (int)plantname,
+                   slotNumber: slotNumber,
+                   stage: 0,
+                   watering: watering,
+                   spraying: spraying,
+                   trimming: trimming
+                   );
+                break;
+        }
+
+
+
+        //EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPlantPlanted, new EventsManager.EventParams()
+        //{
+        //    EnumData1 = plant.plantname, // play type
+        //    EnumData2 = GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible, // gardenSlot
+        //    IntData1 = gardenSlots.IndexOf(slotControls),// slot number
+        //    IntData2 = plant.PlantGrowth.TendingState.CurrentGrowthStage, // stage
+        //    Bool1 = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering), // watering
+        //    Bool2 = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying), // spraying
+        //    Bool3 = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming), // trimming
+        //});
     }
 
 

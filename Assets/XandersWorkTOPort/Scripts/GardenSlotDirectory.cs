@@ -13,7 +13,7 @@ public class GardenSlotDirectory : MonoBehaviour
     [SerializeField] SlotManager garden1Slots;
     [SerializeField] SlotManager garden2Slots;
 
-    SlotManager localPlayerSlotManager;
+   // SlotManager localPlayerSlotManager;
 
    // SeedIndicator seedIndicator;
 
@@ -21,10 +21,11 @@ public class GardenSlotDirectory : MonoBehaviour
     public SeedIndicator garden2SeedIndicator;
 
 
-    private void Start()
+    private void Awake()
     {
-        localPlayerSlotManager = GameManager.Instance.LocalPlayerID == Player.PlayerEnum.Player1 ? garden1Slots : garden2Slots;
-        GameManager.Instance.RegisterLocalSlotManager(localPlayerSlotManager);
+       // localPlayerSlotManager = GameManager.Instance.LocalPlayerID == Player.PlayerEnum.Player1 ? garden1Slots : garden2Slots;
+        GameManager.Instance.RegisterLocalSlotManager(garden1Slots, garden1Slots.gardenplayerID);
+        GameManager.Instance.RegisterLocalSlotManager(garden2Slots, garden2Slots.gardenplayerID);
     }
 
     //private void OnEnable()

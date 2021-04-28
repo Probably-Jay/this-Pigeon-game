@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class PlayerDataPacket : MonoBehaviour
 {
     public enum Moods { Mood1, Mood2, Mood3, Mood4 };
 
     // game data
     public int turnCounter = 0;
-    public string turnOwner = "NULL";
+    public string turnOwner = "";
     public bool turnComplete = false;
 
     // player 1 data
-    public string player1ID = "NULL";
-    public Moods player1ChosenMood = Moods.Mood1;
+    public string player1ID = "";
+    public int player1ChosenMood;
     public bool player1MoodAchieved = false;
 
     public int player1SelfActions;
@@ -21,8 +22,8 @@ public class PlayerDataPacket : MonoBehaviour
 
 
     // player 2 data
-    public string player2ID = "NULL";
-    public Moods player2ChosenMood = Moods.Mood1;
+    public string player2ID = "";
+    public int player2ChosenMood;
     public bool player2MoodAchieved = false;
 
     public int player2SelfActions;
