@@ -83,12 +83,12 @@ public class SlotManager : MonoBehaviour
     {
         foreach (var slot in gardenSlots)
         {
-            var colider = slot.gameObject.GetComponent<BoxCollider2D>();
+            var collider = slot.gameObject.GetComponent<BoxCollider2D>();
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = colider.transform.position.z;
+            mousePos.z = collider.transform.position.z;
 
-            if (colider.OverlapPoint(mousePos))
+            if (collider.OverlapPoint(mousePos))
             {
                 return slot;
             }

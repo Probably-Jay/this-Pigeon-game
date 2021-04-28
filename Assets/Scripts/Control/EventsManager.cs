@@ -73,6 +73,9 @@ public class EventsManager : Singleton<EventsManager>
 
         ,SaveGatheredData
 
+        , TryRemovePlant    // For triggering "are you sure" menu
+        , RemovedPlant      // For triggering sfx
+
         #region NetCodeEvents
 
         ,PostLogout
