@@ -37,7 +37,7 @@ namespace NetSystem
             NetworkGame.RawData rawData = new NetworkGame.RawData()
             {
                 //turnBelongsTo = JsonUtility.ToJson(playerData.turnOwner),
-                turnComplete = playerData.turnComplete  ? "True" : "False", // might work
+                turnComplete = playerData.turnComplete  ? "true" : "false", // might work
                 gardenData = JsonUtility.ToJson(gardenData),
                 playerData = JsonUtility.ToJson(playerData)
             };

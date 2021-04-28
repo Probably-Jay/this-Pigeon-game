@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Obsolete("Depracted",true)]
 public class MenuSwap : MonoBehaviour
 {
-     public void GoToMainMenu()
+    public void GoToMainMenu()
     {
         SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
     }

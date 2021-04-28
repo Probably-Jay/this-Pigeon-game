@@ -257,6 +257,7 @@ namespace NetSystem
             UpdateActiveGame(game);
             Debug.Log($"Created game {NetGame.CurrentNetworkGame.GroupName}");
             parentCallbacks.OnSucess(game);
+           
         }
 
         /// <summary>
@@ -276,9 +277,39 @@ namespace NetSystem
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
         /// </summary>
         /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
-        public void ReceiveData(APIOperationCallbacks<NetworkGame.RawData> callbacks, NetworkGame game = null)
+        public void ReceiveData(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, NetworkGame game = null)
         {
+            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+                onSucess: (rawData) => OnReceiveDataSucess(parentCallbacks, game, rawData),
+                onfailure: (e) => OnReceiveDataFailure(parentCallbacks, e)
+                );
+
             StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks, game));
+        }
+
+        private void OnReceiveDataSucess(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, NetworkGame game, NetworkGame.RawData data)
+        {
+            if(game == null)
+            {
+                game = NetGame.CurrentNetworkGame;
+            }
+
+            game.rawData = data;
+
+            var sucess = game.DeserilaiseRawData(data);
+
+            if (!sucess)
+            {
+                OnReceiveDataFailure(parentCallbacks, FailureReason.InternalError);
+                return;
+            }
+
+            parentCallbacks.OnSucess(game.usableData);
+        }
+
+        private void OnReceiveDataFailure(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, FailureReason e)
+        {
+            parentCallbacks.OnFailure(e);
         }
 
         //private void OnReceiveDataSucess(NetworkGame.RawData data)
@@ -286,10 +317,10 @@ namespace NetSystem
         //    Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\"");
         //}
 
-        private void OnReceiveDataFailure(FailureReason obj)
-        {
-            throw new NotImplementedException();
-        }
+        //private void OnReceiveDataFailure(FailureReason obj)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Sends the data provided to the server, overwiting the current save data

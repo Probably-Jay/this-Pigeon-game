@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mood;
 using System;
+using NetSystem;
 
 // created jay 12/02
 // converted to non-hotseat jay 26/04
@@ -94,8 +95,7 @@ namespace GameCore
             OnlineTurnManager.EndTurn();
 
 
-
-            EventsManager.InvokeEvent(EventsManager.EventType.SaveGatheredData);
+            SaveGame();
         }
 
         void BeginOrResumeGame()
@@ -103,7 +103,8 @@ namespace GameCore
             DataManager = FindObjectOfType<DataManager>();
 
 
-            if (OnlineTurnManager.Game.CurrentNetworkGame.NewGameJustCreated)
+            ActiveGame netGame = NetworkHandler.Instance.NetGame;
+            if (netGame.CurrentNetworkGame.NewGameJustCreated)
             {
                 BeginNewGame();
                 return;
@@ -123,37 +124,167 @@ namespace GameCore
         private void ResumeGame()
         {
 
-            bool firstTimeEnteringGame = OnlineTurnManager.TurnTracker.Turn == 1;
-            if (firstTimeEnteringGame)
+            //bool firstTimeEnteringGame = OnlineTurnManager.TurnTracker.Turn == 1;
+            //if()
+
+            var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
+            
+            string netPlayerGameBelongsTo = game.usableData.gameStartedBy;
+            string player1ID = netPlayerGameBelongsTo;
+            string player2ID = game.usableData.playerData.player2ID;
+
+            Player.PlayerEnum playerWeAre = GetPlayerWeAre();
+            Player.PlayerEnum playerWhoOwnsTurn = game.usableData.playerData.turnOwner == NetSystem.NetworkHandler.Instance.ClientEntity.Id ? playerWeAre : Player.OtherPlayer(playerWeAre);
+
+            bool turnComplete = game.usableData.turnComplete;
+            bool ourTurn = (playerWhoOwnsTurn == playerWeAre);
+
+            if (NetUtility.CanClaimTurn(turnComplete, ourTurn))
             {
-                OnlineTurnManager.ResumedGame(Player.PlayerEnum.Player2);
-                EmotionTracker.InitialiseNewGame(NewGameMoodGoalTemp);
+                // claim turn
+                QuickClaimTurn(game);
+                turnComplete = false;
+                ourTurn = true;
+                playerWhoOwnsTurn =  playerWeAre ;
+
             }
-            else
+
+            bool playing = NetSystem.NetUtility.CanTakeTurn(turnComplete, ourTurn);
+
+            if (playing)
             {
-                // OnlineTurnManager.ResumedGame(Player.PlayerEnum.Player2); // tofix
-                EmotionTracker.ResumeGame();
-                throw new NotImplementedException();
-            }
-
-            SetLocalSlotManager();
-
-
-            if (Playing)
-            {
-                EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
-
-                if (firstTimeEnteringGame)
+                switch (playerWeAre)
                 {
-                    EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
+                    case Player.PlayerEnum.Player1:
+                        ResumePlayingPlayer1(player1ID);
+                        break;
+                    case Player.PlayerEnum.Player2:
+                        ResumePlayingPlayer2(player2ID);
+                        break;
                 }
             }
             else
             {
-                EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
+                switch (playerWeAre)
+                {
+                    case Player.PlayerEnum.Player1:
+                        ResumeSpectatingPlayer1(player1ID);
+                        break;
+                    case Player.PlayerEnum.Player2:
+                        ResumeSpectatingPlayer2(player2ID);
+                        break;
+                }
             }
-            EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
 
+
+
+            //if (Playing)
+            //{
+
+            //    if (!game.usableData.gameBegun) // will always be player 1
+            //    {
+            //        BeginNewGame();
+            //        return;
+            //    }
+
+            //    OnlineTurnManager.ResumedGamePlaying(playerWeAre);
+            //    EmotionTracker.ResumeGame();
+                        
+
+            //    SetLocalSlotManager();
+
+            //    EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
+            //}
+            //else
+            //{
+            //    //var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
+
+            //    if (!game.usableData.gameBegun) // will always be player 2
+            //    {
+            //       // BeginNewGame();
+            //        return;
+            //    }
+
+            //    if(playerWeAre == Player.PlayerEnum.Player2 && game.usableData.playerData.player2ID == null)
+            //    {
+            //        // player 2 just joined the game
+            //    }
+
+
+            //    SetLocalSlotManager();
+
+            //    EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
+            //}
+            //EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
+
+        }
+
+        private static void QuickClaimTurn(NetworkGame game)
+        {
+            game.usableData.playerData.turnOwner = NetSystem.NetworkHandler.Instance.ClientEntity.Id;
+            game.usableData.playerData.turnComplete = false;
+        }
+
+
+        private void ResumePlayingPlayer1(string player1ID)
+        {
+            var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
+
+            if (!game.usableData.gameBegun) // will always be player 1
+            {
+                BeginNewGame();
+                return;
+            }
+
+            OnlineTurnManager.ResumedGamePlaying(Player.PlayerEnum.Player1, Player.PlayerEnum.Player1);
+            EmotionTracker.ResumeGame(Player.PlayerEnum.Player1);
+
+            SetLocalSlotManager();
+
+            EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
+
+        }
+
+        private void ResumePlayingPlayer2(string player2ID)
+        {
+            var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
+
+            if (!game.usableData.gameBegun) // will not happen
+            {
+                throw new Exception();
+            }
+
+
+            // might be first time logging on
+            if(player2ID == "" || player2ID == "NULL")
+            {
+
+            }
+
+
+
+        }
+
+        private void ResumeSpectatingPlayer1(string player1ID)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ResumeSpectatingPlayer2(string player2ID)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Player.PlayerEnum GetPlayerWeAre()
+        {
+            if (NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.gameStartedBy == NetworkHandler.Instance.PlayerClient.ClientEntityKey.Id)
+            {
+                return Player.PlayerEnum.Player1;
+            }
+            else
+            {
+                return Player.PlayerEnum.Player2;
+            }
         }
 
         private void BeginNewGame()
@@ -180,6 +311,21 @@ namespace GameCore
         {
             //LocalPlayerSlotManager = slotManager;
             SlotManagers[(int)gardenplayerID] = slotManager;
+        }
+
+        public void QuitToMenu()
+        {
+            SaveGame();
+            NetSystem.NetworkHandler.Instance.LogoutPlayer();
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
+        }
+
+        public void SaveGame()
+        {
+            if (!Spectating)
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.SaveGatheredData);
+            }
         }
     }
 }

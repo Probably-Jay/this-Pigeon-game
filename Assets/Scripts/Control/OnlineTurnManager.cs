@@ -16,7 +16,7 @@ namespace GameCore
 
 
 
-        public ActiveGame Game => NetworkHandler.Instance.NetGame;
+       // public ActiveGame Game => NetworkHandler.Instance.NetGame;
         public Player LocalPlayer { get; private set; }
         public OnlineTurnTracker TurnTracker { get; private set; } = new OnlineTurnTracker();
 
@@ -26,8 +26,7 @@ namespace GameCore
         private void Initialise(Player.PlayerEnum playerID)
         {
             LocalPlayer = InstantiatePlayer(playerID);
-            GameManager.Instance.DataManager.ResetPlayer1ActionPoints();
-            GameManager.Instance.DataManager.ResetPlayer2ActionPoints();
+
 
             //GameManager.Instance.DataManager.PlayerData;
 
@@ -58,24 +57,25 @@ namespace GameCore
             return player;
         }
 
-
-        public void ResumedGame(Player.PlayerEnum player)
+        private void ReLoad(Player.PlayerEnum playerID)
         {
-          //  Game.CurrentNetworkGame.
-
-            Initialise(player);
-
-            if (GameManager.Instance.Playing)
-            {
-                
-            }
-            else
-            {
-
-            }
-            TurnTracker.ResumedGame();
-            throw new System.NotImplementedException();
+            LocalPlayer = InstantiatePlayer(playerID);
+           
         }
+
+    
+
+        public void ResumedGamePlaying(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
+        {
+            ReLoad(playerWeAre);
+            TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTurn);
+            LocalPlayer.TurnPoints.Resume(playerWeAre);
+
+            GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
+
+        }
+
+
 
         public void InitialiseNewGame()
         {
@@ -83,6 +83,14 @@ namespace GameCore
             TurnTracker.InitialiseNewGame();
             LocalPlayer.TurnPoints.Initialise();
             GameManager.Instance.DataManager.PlayerData.turnOwner = LocalPlayer.PlayerClient.ClientEntityKey.Id;
+        }
+
+        public void JoinedGameNew()
+        {
+            //Initialise(Player.PlayerEnum.Player2);
+            //TurnTracker.InitialiseNewGame();
+            //LocalPlayer.TurnPoints.Initialise();
+            //GameManager.Instance.DataManager.PlayerData.turnOwner = LocalPlayer.PlayerClient.ClientEntityKey.Id;
         }
 
         public void EndTurn()

@@ -90,12 +90,19 @@ namespace GameCore
             TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
 
             GameManager.Instance.DataManager.InitialiseTurnCounter();
+             
         }
 
 
-        public void ResumedGame()
+        public void ResumedGame(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
         {
-            throw new System.NotImplementedException();
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+            Turn = data.turnCounter;
+            TurnComplete = data.turnComplete;
+            TurnOwner = playerWhoOwnsTurn;
+
+            GameManager.Instance.DataManager.SetTurnCounter(Turn);
+
         }
        
 

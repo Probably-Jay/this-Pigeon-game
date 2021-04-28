@@ -103,9 +103,20 @@ namespace GameCore
             }
         }
 
-        public void ResumeGame()
+        public void ResumeGame(Player.PlayerEnum playerWeAre)
         {
-            throw new NotImplementedException();
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+            switch (playerWeAre)
+            {
+                case Player.PlayerEnum.Player1:
+                    EmotionGoal = new Emotion((Mood.Emotion.Emotions)data.player1ChosenMood);
+                    GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
+                    break;
+                case Player.PlayerEnum.Player2:
+                    EmotionGoal = new Emotion((Mood.Emotion.Emotions)data.player2ChosenMood);
+                    GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player2ChosenMood);
+                    break;
+            }
         }
 
         public void UpdateGardenStats()

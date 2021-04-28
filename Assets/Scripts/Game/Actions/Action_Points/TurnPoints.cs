@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameCore;
+using System;
 
 // created jay 12/02
 
@@ -36,9 +38,36 @@ public class TurnPoints : MonoBehaviour
     {
         points[PointType.SelfObjectPlace] = placeOwnPlantPointsInitial;
         points[PointType.OtherObjectPlace] = placeCompanionPlantPointsInitial;
-    //    points[PointType.SelfObjectRemove] = removeOwnPlantPointsInitial;
-    //    points[PointType.SelfAddWater] = waterOwnPlantPointsInitial;
+        GameManager.Instance.DataManager.ResetPlayer1ActionPoints();
+        GameManager.Instance.DataManager.ResetPlayer2ActionPoints();
+
     }
+
+    public void Resume(Player.PlayerEnum playerWeAre)
+    {
+        PlayerDataPacket data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+        int selfActionPlayer1 = data.player1SelfActions;
+        int otherActionPlayer1 = data.player1OtherActions;
+
+        int selfActionPlayer2 = data.player2SelfActions;
+        int otherActionPlayer2 = data.player2OtherActions;
+
+        GameManager.Instance.DataManager.SetPlayer1ActionPoints(selfActionPlayer1, otherActionPlayer1);
+        GameManager.Instance.DataManager.SetPlayer2ActionPoints(selfActionPlayer2, otherActionPlayer2);
+
+        switch (playerWeAre)
+        {
+            case Player.PlayerEnum.Player1:
+                points[PointType.SelfObjectPlace] = selfActionPlayer1;
+                points[PointType.OtherObjectPlace] = otherActionPlayer1;
+                break;
+            case Player.PlayerEnum.Player2:
+                points[PointType.SelfObjectPlace] = selfActionPlayer2;
+                points[PointType.OtherObjectPlace] = otherActionPlayer2;
+                break;
+        }
+    }
+
 
     private void Awake()
     {
@@ -81,6 +110,8 @@ public class TurnPoints : MonoBehaviour
                 break;
         }
     }
+
+    
 
     private void DecreaseCompanionPlacePoints()
     {

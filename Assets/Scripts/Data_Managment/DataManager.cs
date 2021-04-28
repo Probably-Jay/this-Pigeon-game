@@ -69,6 +69,11 @@ public class DataManager : MonoBehaviour
     public void InitialiseTurnCounter()
     {
         PlayerData.turnCounter =0;
+    }    
+    
+    public void SetTurnCounter(int value)
+    {
+        PlayerData.turnCounter =value;
     }
     
     /// <summary>
@@ -146,6 +151,12 @@ public class DataManager : MonoBehaviour
     {
         PlayerData.player1SelfActions = 1;
         PlayerData.player1OtherActions = 1;
+    } 
+    
+    public void SetPlayer1ActionPoints(int self,int other)
+    {
+        PlayerData.player1SelfActions = 1;
+        PlayerData.player1OtherActions = 1;
     }
 
 
@@ -200,6 +211,13 @@ public class DataManager : MonoBehaviour
         PlayerData.player2SelfActions = 1;
         PlayerData.player2OtherActions = 1;
     }
+
+    public void SetPlayer2ActionPoints(int self, int other)
+    {
+        PlayerData.player2SelfActions = 1;
+        PlayerData.player2OtherActions = 1;
+    }
+
 
     //Garden Data
 

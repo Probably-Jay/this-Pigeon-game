@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     public PlayerEnum EnumID { get; set; }
     public bool HasAcheivedGoal { get; private set; } = false;
 
-
+    public static PlayerEnum OtherPlayer(PlayerEnum player) => player == PlayerEnum.Player1 ? PlayerEnum.Player2 : PlayerEnum.Player1;
 
 
     private void OnEnable()

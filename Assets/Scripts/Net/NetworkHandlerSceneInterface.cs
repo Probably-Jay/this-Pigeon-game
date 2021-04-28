@@ -111,7 +111,7 @@ namespace NetSystem
                 onfailure: (e) => Debug.LogError(e)
                 );
 
-            NetworkHandler.Instance.ReceiveData(callbacks);
+           // NetworkHandler.Instance.ReceiveData(callbacks);
         }  
         
         public void UpdateGameData()

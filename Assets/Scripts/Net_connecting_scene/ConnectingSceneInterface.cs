@@ -71,12 +71,12 @@ namespace SceneInterface
                 yield break;
             }
 
-            // get the games metadatas 
+            // get the games data
             {
-                var rawDataResponses = new List<CallResponse<NetworkGame.RawData>>();
+                var rawDataResponses = new List<CallResponse<NetworkGame.UsableData>>();
                 foreach (var game in  memberGames)
                 {
-                    CallResponse<NetworkGame.RawData> getGameDataResponse = GetGameDataCall(game); // this call is async, we can bunch a load of them up
+                    CallResponse<NetworkGame.UsableData> getGameDataResponse = GetGameDataCall(game); // this call is async, we can bunch a load of them up
                     rawDataResponses.Add(getGameDataResponse);
                 }
 
@@ -93,9 +93,10 @@ namespace SceneInterface
                         yield break;
                     }
 
-                    NetworkGame.RawData data = call.returnData;
+                    NetworkGame.UsableData data = call.returnData;
 
-                    game.rawData = data; // set each game's raw data
+     
+
 
                 }
             }
@@ -277,7 +278,7 @@ namespace SceneInterface
             {
                 if (!game.NewGameJustCreated || true) // -- get the data from a brand new game
                 {
-                    CallResponse<NetworkGame.RawData> getGameDataResponse = GetGameDataCall(game);
+                    CallResponse<NetworkGame.UsableData> getGameDataResponse = GetGameDataCall(game);
 
                     yield return new WaitUntil(() => getGameDataResponse.status.Complete);
 
@@ -285,20 +286,19 @@ namespace SceneInterface
                     {
                         yield break;
                     }
-
-                    game.rawData = getGameDataResponse.returnData;
+                  
                 }
             }
 
             // validate game can be joined (to change)
             {
-                if (game.rawData == null)
+                if (game.usableData == null)
                 {
                     NewGameJoinedFailure(FailureReason.UnknownError);
                     yield break;
                 }
 
-                bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);
+                bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.usableData);
 
                 if (allowedToTakeTurn == null)
                 {
@@ -421,13 +421,13 @@ namespace SceneInterface
 
 
     
-        private CallResponse<NetworkGame.RawData> GetGameDataCall(NetworkGame game)
+        private CallResponse<NetworkGame.UsableData> GetGameDataCall(NetworkGame game)
         {
-            var response = new CallResponse<NetworkGame.RawData>();
+            var response = new CallResponse<NetworkGame.UsableData>();
 
-            StartCoroutine(ShowEnterGameDisplay("Entering game...", response)); // display
+            StartCoroutine(ShowEnterGameDisplay("Getting Games...", response)); // display
 
-            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+            var callbacks = new APIOperationCallbacks<NetworkGame.UsableData>(
                 onSucess: (result) => { 
                     GetGameDataSucess(result, game);
                     response.returnData = result;
@@ -455,9 +455,9 @@ namespace SceneInterface
             enterGameLoadingImage.enabled = false;
         }
 
-        private void GetGameDataSucess(NetworkGame.RawData result, NetworkGame game)
+        private void GetGameDataSucess(NetworkGame.UsableData result, NetworkGame game)
         {
-            game.rawData = result;
+           
         }
 
         public void ResumeGame(NetworkGame game)
@@ -468,7 +468,7 @@ namespace SceneInterface
 
         private void ResumedGameSucess(NetworkGame game)
         {
-            if (game.rawData == null)
+            if (game.usableData == null)
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 return;
@@ -497,7 +497,7 @@ namespace SceneInterface
                 }
             }
 
-            bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);
+            bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.usableData);
 
             if (allowedToTakeTurn == null)
             {

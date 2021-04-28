@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace NetSystem
         readonly NetworkGameMetadata metaData;
 
         public RawData rawData;
+        public UsableData usableData;
 
         public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData, bool newGame = false)
         {
@@ -47,6 +49,7 @@ namespace NetSystem
         public class RawData
         {
             public string gameBegun;
+            public string gameStartedBy;
             public string turnBelongsTo;
             public string turnComplete;
 
@@ -54,10 +57,78 @@ namespace NetSystem
 
             public string gardenData;
             public string playerData;            
-            
-         
-
         }
+
+        public class UsableData
+        {
+            public bool gameBegun;
+            public string gameStartedBy;
+            public string turnBelongsTo;
+
+            public bool turnComplete;
+
+            public string time;
+
+            public GardenDataPacket gardenData;
+            public PlayerDataPacket playerData;
+
+         
+        }
+
+
+        public bool DeserilaiseRawData(RawData rawData)
+        {
+            usableData = new UsableData();
+
+            {
+                bool? begun = ParseBool(rawData.gameBegun);
+                if (!begun.HasValue)
+                {
+                    return false;
+                }
+                usableData.gameBegun = begun.Value;
+            }
+
+            {
+                var turnComplete = ParseBool(rawData.turnComplete);
+                if (!turnComplete.HasValue)
+                {
+                    return false;
+                }
+                usableData.gameBegun = turnComplete.Value;
+            }
+
+            usableData.gameStartedBy = rawData.gameStartedBy;
+            usableData.turnBelongsTo = rawData.turnBelongsTo;
+
+            
+
+            try
+            {
+                usableData.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
+                usableData.playerData = JsonUtility.FromJson<PlayerDataPacket>(rawData.playerData);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool? ParseBool(string data)
+        {
+            if(data == "true")
+            {
+                return true;
+            }
+            if(data == "false")
+            {
+                return false;
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// Takes a collection of games and sorts them into active ongoing games and open unstarted games
