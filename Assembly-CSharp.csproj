@@ -149,6 +149,7 @@
     <Compile Include="Assets\Scripts\UI\ArrowEnabler.cs" />
     <Compile Include="Assets\Scripts\UI\ArrowScript.cs" />
     <Compile Include="Assets\Scripts\UI\CatChatter.cs" />
+    <Compile Include="Assets\Scripts\UI\CreditsButton.cs" />
     <Compile Include="Assets\Scripts\UI\EmotionTracker.cs" />
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
