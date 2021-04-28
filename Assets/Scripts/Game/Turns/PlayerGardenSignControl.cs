@@ -13,7 +13,7 @@ public class PlayerGardenSignControl : MonoBehaviour
     [SerializeField] TMP_Text player2GardenText;
 
     [SerializeField] string yourGarden = "Your Garden";
-    [SerializeField] string yourCompanionsGarden = "Your Companion's Garden";
+    [SerializeField] string yourCompanionsGarden = "Companion's Garden";
 
     [SerializeField, Range(0, 1)] float turnUpdateDelay;
 
