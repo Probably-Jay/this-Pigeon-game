@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 //created Zap 26/03
 // edited Xander 22/04/2021
+
+
 public class UICommands : MonoBehaviour
 {
     //[SerializeField] Button button;
@@ -73,7 +75,11 @@ public class UICommands : MonoBehaviour
 
 
     }
-    public void CloseSeedBag() { EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose); Debug.Log("Closed Bag"); }
+    public void CloseSeedBag() { 
+        
+        EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose); 
+        Debug.Log("Closed Bag"); 
+    }
     public void Skip() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueSkip);
     public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
     public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
