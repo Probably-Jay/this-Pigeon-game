@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class GardenDataPacket : MonoBehaviour
+public class GardenDataPacket
 {
-
-
-
     [System.Serializable]
     public class Plant
     {
@@ -20,7 +17,6 @@ public class GardenDataPacket : MonoBehaviour
         public bool spraying;
         public bool trimming;
         //  public bool action4;
-
 
         public Plant()
         {
@@ -49,8 +45,8 @@ public class GardenDataPacket : MonoBehaviour
         public void Uninitialise() => plantType = -1;
     }
 
-    public Plant[] newestGarden1 = new Plant[10] { new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant() };
-    public Plant[] newestGarden2 = new Plant[10] { new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant() };
+    [SerializeField] public Plant[] newestGarden1 = new Plant[10] { new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant() };
+    [SerializeField] public Plant[] newestGarden2 = new Plant[10] { new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant(), new Plant() };
 
     //public List<Plant> oldGarden1;
     // public List<Plant> oldGarden2;

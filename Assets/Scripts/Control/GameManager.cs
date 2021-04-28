@@ -92,10 +92,17 @@ namespace GameCore
                 return;
             }
 
-            OnlineTurnManager.EndTurn();
 
+            EndTurnAndSaveGame();
+        }
 
-            SaveGame();
+        private void EndTurnAndSaveGame()
+        {
+            if (!Spectating)
+            {
+                OnlineTurnManager.EndTurn();
+                EventsManager.InvokeEvent(EventsManager.EventType.SaveGatheredData);
+            }
         }
 
         void BeginOrResumeGame()
@@ -153,126 +160,85 @@ namespace GameCore
 
             if (playing)
             {
-                switch (playerWeAre)
-                {
-                    case Player.PlayerEnum.Player1:
-                        ResumePlayingPlayer1(player1ID);
-                        break;
-                    case Player.PlayerEnum.Player2:
-                        ResumePlayingPlayer2(player2ID);
-                        break;
-                }
+                ResumePlaying(playerWeAre, player2ID);
             }
             else
             {
-                switch (playerWeAre)
-                {
-                    case Player.PlayerEnum.Player1:
-                        ResumeSpectatingPlayer1(player1ID);
-                        break;
-                    case Player.PlayerEnum.Player2:
-                        ResumeSpectatingPlayer2(player2ID);
-                        break;
-                }
+                ResumeSpectating(playerWeAre, playerWhoOwnsTurn, player2ID);
             }
 
+            // load the garden
 
-
-            //if (Playing)
-            //{
-
-            //    if (!game.usableData.gameBegun) // will always be player 1
-            //    {
-            //        BeginNewGame();
-            //        return;
-            //    }
-
-            //    OnlineTurnManager.ResumedGamePlaying(playerWeAre);
-            //    EmotionTracker.ResumeGame();
-                        
-
-            //    SetLocalSlotManager();
-
-            //    EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
-            //}
-            //else
-            //{
-            //    //var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
-
-            //    if (!game.usableData.gameBegun) // will always be player 2
-            //    {
-            //       // BeginNewGame();
-            //        return;
-            //    }
-
-            //    if(playerWeAre == Player.PlayerEnum.Player2 && game.usableData.playerData.player2ID == null)
-            //    {
-            //        // player 2 just joined the game
-            //    }
-
-
-            //    SetLocalSlotManager();
-
-            //    EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
-            //}
-            //EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
+            EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
 
         }
 
         private static void QuickClaimTurn(NetworkGame game)
         {
+            Debug.Log("Claiming turn");
             game.usableData.playerData.turnOwner = NetSystem.NetworkHandler.Instance.ClientEntity.Id;
             game.usableData.playerData.turnComplete = false;
+            game.usableData.NewTurn = true;
         }
 
 
-        private void ResumePlayingPlayer1(string player1ID)
+        private void ResumePlaying(Player.PlayerEnum playerWeAre, string player2ID)
         {
+            Debug.Log("Resuming game playing");
+
             var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
 
-            if (!game.usableData.gameBegun) // will always be player 1
+            if (playerWeAre == Player.PlayerEnum.Player1 && !game.usableData.gameBegun)  // game has not begun
             {
                 BeginNewGame();
                 return;
             }
 
-            OnlineTurnManager.ResumedGamePlaying(Player.PlayerEnum.Player1, Player.PlayerEnum.Player1);
-            EmotionTracker.ResumeGame(Player.PlayerEnum.Player1);
+            if (playerWeAre == Player.PlayerEnum.Player2 && Player2NotInGame(player2ID))
+            {
+                OnlineTurnManager.JoinedGameNewPlaying(Player.PlayerEnum.Player2, Player.PlayerEnum.Player2);
+            }
+            else
+            {
+                OnlineTurnManager.ResumedGamePlaying(playerWeAre, playerWeAre);
+
+            }
+
+            EmotionTracker.ResumeGame(playerWeAre);
 
             SetLocalSlotManager();
 
             EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
-
         }
+        
 
-        private void ResumePlayingPlayer2(string player2ID)
+        private void ResumeSpectating(Player.PlayerEnum playerWeAre,Player.PlayerEnum turnOwner, string player2ID)
         {
-            var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
-
-            if (!game.usableData.gameBegun) // will not happen
-            {
-                throw new Exception();
-            }
+            Debug.Log("Resuming game spectating");
 
 
             // might be first time logging on
-            if(player2ID == "" || player2ID == "NULL")
+            if (playerWeAre == Player.PlayerEnum.Player2 && Player2NotInGame(player2ID))
             {
+                OnlineTurnManager.JoinedGameNewSpectator(Player.PlayerEnum.Player2, Player.PlayerEnum.Player2);
+            }
+            else
+            {
+                OnlineTurnManager.ResumedGameSpectating(playerWeAre, turnOwner);
 
             }
 
 
+            EmotionTracker.ResumeGame(playerWeAre);
 
+            SetLocalSlotManager();
+
+            EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
         }
 
-        private void ResumeSpectatingPlayer1(string player1ID)
+        private bool Player2NotInGame(string player2ID)
         {
-            throw new NotImplementedException();
-        }
-
-        private void ResumeSpectatingPlayer2(string player2ID)
-        {
-            throw new NotImplementedException();
+            return player2ID == "" || player2ID == "NULL";
         }
 
         private Player.PlayerEnum GetPlayerWeAre()
@@ -289,6 +255,7 @@ namespace GameCore
 
         private void BeginNewGame()
         {
+            Debug.Log("Begin new game");
 
             OnlineTurnManager.InitialiseNewGame();
 

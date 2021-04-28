@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerDataPacket : MonoBehaviour
+public class PlayerDataPacket
 {
-    public enum Moods { Mood1, Mood2, Mood3, Mood4 };
+ 
 
     // game data
     public int turnCounter = 0;

@@ -117,7 +117,10 @@ namespace GameCore
                     GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player2ChosenMood);
                     break;
             }
+
         }
+
+       
 
         public void UpdateGardenStats()
         {
@@ -162,6 +165,7 @@ namespace GameCore
             //GardenCurrentTraits[Player.PlayerEnum.Player1] = TraitValue.Zero;
             //GardenCurrentTraits[Player.PlayerEnum.Player2] = TraitValue.Zero;
         }
+
     }
 }
 

@@ -20,8 +20,8 @@ public class DataManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerData = GetComponent<PlayerDataPacket>();
-        GardenData = GetComponent<GardenDataPacket>();
+        PlayerData = new PlayerDataPacket();
+        GardenData = new GardenDataPacket();
     }
 
     private void OnEnable()

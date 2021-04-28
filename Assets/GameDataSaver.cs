@@ -13,9 +13,7 @@ namespace NetSystem
     public class GameDataSaver : MonoBehaviour
     {
 
-       
-
-
+     
 
         private void OnEnable()
         {
@@ -25,7 +23,7 @@ namespace NetSystem
 
         private void OnDisable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.SaveGatheredData, SaveGame);
+            EventsManager.UnbindEvent(EventsManager.EventType.SaveGatheredData, SaveGame);
         }
 
 

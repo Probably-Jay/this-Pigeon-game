@@ -71,13 +71,17 @@ namespace GameCore
                 return false;
             }
 
-            TurnComplete = true;
-            Turn++;
+            SetEndTurnInData();
 
-            GameManager.Instance.DataManager.IncrementTurnCounter();
-            GameManager.Instance.DataManager.SetStateOfTurnComplete(true);
+            TurnComplete = true;
+
 
             return true;
+        }
+
+        private static void SetEndTurnInData()
+        {
+            GameManager.Instance.DataManager.SetStateOfTurnComplete(true);
         }
 
         /// <summary>
@@ -96,9 +100,17 @@ namespace GameCore
 
         public void ResumedGame(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
         {
-            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
-            Turn = data.turnCounter;
-            TurnComplete = data.turnComplete;
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+
+            if (data.NewTurn)
+            {
+                data.playerData.turnCounter++;
+                data.playerData.turnComplete = false;
+                data.playerData.turnOwner = NetSystem.NetworkHandler.Instance.ClientEntity.Id;
+            }
+
+            Turn = data.playerData.turnCounter;
+            TurnComplete = data.playerData.turnComplete;
             TurnOwner = playerWhoOwnsTurn;
 
             GameManager.Instance.DataManager.SetTurnCounter(Turn);

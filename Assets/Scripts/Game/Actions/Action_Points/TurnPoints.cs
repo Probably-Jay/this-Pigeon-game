@@ -45,12 +45,28 @@ public class TurnPoints : MonoBehaviour
 
     public void Resume(Player.PlayerEnum playerWeAre)
     {
-        PlayerDataPacket data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
-        int selfActionPlayer1 = data.player1SelfActions;
-        int otherActionPlayer1 = data.player1OtherActions;
+        var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+        int selfActionPlayer1 = data.playerData.player1SelfActions;
+        int otherActionPlayer1 = data.playerData.player1OtherActions;
 
-        int selfActionPlayer2 = data.player2SelfActions;
-        int otherActionPlayer2 = data.player2OtherActions;
+        int selfActionPlayer2 = data.playerData.player2SelfActions;
+        int otherActionPlayer2 = data.playerData.player2OtherActions;
+
+
+        if (data.NewTurn)
+        {
+            switch (playerWeAre)
+            {
+                case Player.PlayerEnum.Player1:
+                    selfActionPlayer1 = placeOwnPlantPointsInitial;
+                    otherActionPlayer1 = placeCompanionPlantPointsInitial;
+                    break;
+                case Player.PlayerEnum.Player2:
+                    selfActionPlayer2 = placeOwnPlantPointsInitial;
+                    otherActionPlayer2 = placeCompanionPlantPointsInitial;
+                    break;
+            }
+        }
 
         GameManager.Instance.DataManager.SetPlayer1ActionPoints(selfActionPlayer1, otherActionPlayer1);
         GameManager.Instance.DataManager.SetPlayer2ActionPoints(selfActionPlayer2, otherActionPlayer2);
@@ -68,6 +84,20 @@ public class TurnPoints : MonoBehaviour
         }
     }
 
+    public void ResumeSpectator(Player.PlayerEnum playerWeAre)
+    {
+        switch (playerWeAre)
+        {
+            case Player.PlayerEnum.Player1:
+                points[PointType.SelfObjectPlace] = 0;
+                points[PointType.OtherObjectPlace] = 0;
+                break;
+            case Player.PlayerEnum.Player2:
+                points[PointType.SelfObjectPlace] = 0;
+                points[PointType.OtherObjectPlace] = 0;
+                break;
+        }
+    }
 
     private void Awake()
     {
@@ -82,6 +112,9 @@ public class TurnPoints : MonoBehaviour
     public int GetPoints(PointType type) => points[type];
     public bool HasPointsLeft(PointType type) => GetPoints(type) > 0;
     public void SetPoints(PointType type, int value) => points[type] = value >= 0 ? value : 0;
+
+   
+
     public void DecreasePoints(PointType type) => SetPoints(type, GetPoints(type) - 1);
 
 

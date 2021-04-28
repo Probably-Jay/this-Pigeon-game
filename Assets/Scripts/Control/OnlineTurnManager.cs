@@ -23,27 +23,27 @@ namespace GameCore
 //PlayerClient PlayerClient => NetworkHandler.Instance.PlayerClient;
 
 
-        private void Initialise(Player.PlayerEnum playerID)
+        private void Initialise(Player.PlayerEnum playerWeAre)
         {
-            LocalPlayer = InstantiatePlayer(playerID);
+            LocalPlayer = InstantiatePlayer(playerWeAre);
 
 
-            //GameManager.Instance.DataManager.PlayerData;
-
-            switch (LocalPlayer.EnumID)
+            switch (playerWeAre)
             {
                 case Player.PlayerEnum.Player1:
                     GameManager.Instance.DataManager.PlayerData.player1ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
-
                     break;
                 case Player.PlayerEnum.Player2:
                     GameManager.Instance.DataManager.PlayerData.player2ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
-
                     break;
- 
             }
 
             //    players.Add(LocalPlayer.EnumID, LocalPlayer);
+        }
+        private void ReLoad(Player.PlayerEnum playerID)
+        {
+            LocalPlayer = InstantiatePlayer(playerID);
+           
         }
         
 
@@ -51,22 +51,31 @@ namespace GameCore
         {
             GameObject playerObject = Instantiate(playerPrefab);
             playerObject.transform.SetParent(transform);
+
             Player player = playerObject.GetComponent<Player>();
-            player.Init(NetworkHandler.Instance.PlayerClient);
-            player.PlayerClient.PlayerGameEnumValue = playerID;
+            player.Init(NetworkHandler.Instance.PlayerClient, playerID);
+           
+
             return player;
         }
 
-        private void ReLoad(Player.PlayerEnum playerID)
+
+
+
+        public void InitialiseNewGame()
         {
-            LocalPlayer = InstantiatePlayer(playerID);
-           
+            Debug.Log("Initilisng game");
+
+            Initialise(Player.PlayerEnum.Player1);
+            TurnTracker.InitialiseNewGame();
+            LocalPlayer.TurnPoints.Initialise();
+            GameManager.Instance.DataManager.PlayerData.turnOwner = LocalPlayer.PlayerClient.ClientEntityKey.Id;
         }
-
-    
-
         public void ResumedGamePlaying(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
         {
+            Debug.Log("Resumed game playing");
+
+
             ReLoad(playerWeAre);
             TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTurn);
             LocalPlayer.TurnPoints.Resume(playerWeAre);
@@ -75,22 +84,36 @@ namespace GameCore
 
         }
 
-
-
-        public void InitialiseNewGame()
+        public void JoinedGameNewPlaying(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTheTurn)
         {
-            Initialise(Player.PlayerEnum.Player1);
-            TurnTracker.InitialiseNewGame();
-            LocalPlayer.TurnPoints.Initialise();
-            GameManager.Instance.DataManager.PlayerData.turnOwner = LocalPlayer.PlayerClient.ClientEntityKey.Id;
+            Debug.Log("Joined game playing");
+
+            Initialise(playerWeAre);
+            TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTheTurn);
+            LocalPlayer.TurnPoints.Resume(playerWeAre);
+
+            GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
+        } 
+        
+        public void JoinedGameNewSpectator(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTheTurn)
+        {
+            Debug.Log("Joined game spectating");
+
+            Initialise(playerWeAre);
+            TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTheTurn);
+            LocalPlayer.TurnPoints.ResumeSpectator(playerWeAre);
+
+            GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
         }
 
-        public void JoinedGameNew()
+
+        public void ResumedGameSpectating(Player.PlayerEnum playerWeAre, Player.PlayerEnum PlayerWhosTurnItIs)
         {
-            //Initialise(Player.PlayerEnum.Player2);
-            //TurnTracker.InitialiseNewGame();
-            //LocalPlayer.TurnPoints.Initialise();
-            //GameManager.Instance.DataManager.PlayerData.turnOwner = LocalPlayer.PlayerClient.ClientEntityKey.Id;
+            ReLoad(playerWeAre);
+            TurnTracker.ResumedGame(playerWeAre, PlayerWhosTurnItIs);
+            LocalPlayer.TurnPoints.ResumeSpectator(playerWeAre);
+
+            GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
         }
 
         public void EndTurn()
@@ -111,5 +134,7 @@ namespace GameCore
             }
 
         }
+
+       
     }
 }

@@ -47,10 +47,11 @@ public class Player : MonoBehaviour
         TurnPoints.Initialise();
     }
 
-    public void Init(NetSystem.PlayerClient netPlayer)
+    public void Init(NetSystem.PlayerClient netPlayer, Player.PlayerEnum playerWeAre)
     {
         PlayerClient = netPlayer;
-        EnumID = (Player.PlayerEnum)netPlayer.PlayerGameEnumValue;
+        EnumID = playerWeAre;
+        PlayerClient.PlayerGameEnumValue = playerWeAre;
         TurnPoints = GetComponent<TurnPoints>();
         
     }

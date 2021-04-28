@@ -72,6 +72,8 @@ namespace NetSystem
             public GardenDataPacket gardenData;
             public PlayerDataPacket playerData;
 
+            public bool NewTurn = false;
+
          
         }
 
@@ -95,21 +97,23 @@ namespace NetSystem
                 {
                     return false;
                 }
-                usableData.gameBegun = turnComplete.Value;
+                usableData.turnComplete = turnComplete.Value;
             }
 
             usableData.gameStartedBy = rawData.gameStartedBy;
             usableData.turnBelongsTo = rawData.turnBelongsTo;
 
+         
             
-
+            
             try
             {
-                usableData.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
                 usableData.playerData = JsonUtility.FromJson<PlayerDataPacket>(rawData.playerData);
+                usableData.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.LogError($"Deserilisation error: {e}");
                 return false;
             }
 
