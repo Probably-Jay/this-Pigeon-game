@@ -33,6 +33,13 @@ namespace SceneUI
             button = GetComponent<Button>();
         }
 
+        private void Start()
+        {
+            if (GameCore.GameManager.Instance.Spectating)
+            {
+                HideButton();
+            }
+        }
 
 
         private void OnEnable()
