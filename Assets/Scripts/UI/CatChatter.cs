@@ -147,9 +147,12 @@ namespace Tutorial
         #endregion
 
 
+        public void GetPoked()
+        {
+            EventsManager.InvokeEvent(EventsManager.EventType.PokePet);
+        }
 
-        void SayNothing() { }
-
+        void SayNothing() { } 
 
         void StartTurnOne()
         {

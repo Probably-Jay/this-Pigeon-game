@@ -56,6 +56,7 @@ public class EventsManager : Singleton<EventsManager>
         , SeedbagShuffle
         , PlacedTallPlant
         , PlacedSmallPlant
+        , PokePet
 
         , OnDialogueOpen
         , OnDialogueClose

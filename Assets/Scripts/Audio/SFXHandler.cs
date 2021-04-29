@@ -30,6 +30,9 @@ public class SFXHandler : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, Tools);
                       
         EventsManager.BindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
+        EventsManager.BindEvent(EventsManager.EventType.DialogueNext, PetSounds);
+        EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, PetSounds);
+        EventsManager.BindEvent(EventsManager.EventType.PokePet, PetSounds);
 
         EventsManager.BindEvent(EventsManager.EventType.PlacedSmallPlant, SmallPlant);
         EventsManager.BindEvent(EventsManager.EventType.PlacedTallPlant, TallPlant);
@@ -66,22 +69,22 @@ public class SFXHandler : MonoBehaviour
     }
 
     // Play sound effect at specified index
-    private void PlaySound(int idx)
+    private void PlaySound(int idx, bool rnd)
     {
         clipSource.pitch = 1.0f;
-        clipSource.pitch += UnityEngine.Random.Range(-0.1f, 0.1f);
+        if (rnd) {
+            clipSource.pitch += UnityEngine.Random.Range(-0.15f, 0.15f);
+        }
         clipSource.PlayOneShot(clipArray[idx]);
     }
 
     void PetSounds() {
-
-        // Swap if pets are not longer tied to p1 / p2
+         // Swap if pets are not longer tied to p1 / p2
         if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player1) {
             Meow();
         } else {
             Bark();
         }
-    
     }
 
 
@@ -100,9 +103,9 @@ public class SFXHandler : MonoBehaviour
             case Plants.PlantActions.TendingActions.Trimming:
                 Cut();
                 break;
-            case Plants.PlantActions.TendingActions.Staking:
-                Stake();
-                break;
+            //case Plants.PlantActions.TendingActions.Staking:
+           //     Stake();
+           //     break;
             case Plants.PlantActions.TendingActions.Removing:
                 Rake();
                 break;
@@ -139,85 +142,85 @@ public class SFXHandler : MonoBehaviour
 
     void TestNoise()
     {
-        PlaySound(0);
+        PlaySound(0, false);
     }
 
     void Bag()
     {
-        PlaySound(1);
+        PlaySound(1, true);
     }
 
     void Bark()
     {
         int type = UnityEngine.Random.Range(0, 3);
-        PlaySound(2 + type);
+        PlaySound(2 + type, true);
     }
 
     void Sparkle()
     {
-        PlaySound(5);
+        PlaySound(5, false);
     }
 
     void Hose()
     {
-        PlaySound(6);
+        PlaySound(6, true);
     }
 
     void Meow()
     {
         int type = UnityEngine.Random.Range(0, 3);
-        PlaySound(7 + type);
+        PlaySound(7 + type, true);
     }
 
     void Cut()
     {
-        PlaySound(11);
+        PlaySound(11, true);
     }
 
     void Pop()
     {
-        PlaySound(12);
+        PlaySound(12, false);
     }
 
     void Rake()
     {
         int type = UnityEngine.Random.Range(0, 3);
-        PlaySound(13 + type);
+        PlaySound(13 + type, false);
     }
 
     void Seeds()
     {
         int type = UnityEngine.Random.Range(0, 2);
-        PlaySound(19 + type);
+        PlaySound(17 + type, true);
     }
 
     void SmallPlant()
     {
-        PlaySound(20);
+        PlaySound(20, false);
     }
 
     void Spray()
     {
-        PlaySound(21);
+        PlaySound(21, true);
     }
 
     void Stake()
     {
-        PlaySound(22);
+        PlaySound(22, true);
     }
 
     void TallPlant()
     {
-        PlaySound(23);
+        PlaySound(23, false);
     }
 
     void Tools()
     {
-        PlaySound(24);
+        PlaySound(24, true);
     }
 
     void Water()
     {
-        PlaySound(25);
+        PlaySound(25, true);
     }
 }
