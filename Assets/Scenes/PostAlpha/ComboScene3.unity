@@ -8914,6 +8914,16 @@ PrefabInstance:
       propertyPath: offset.y
       value: -20
       objectReference: {fileID: 0}
+    - target: {fileID: 2623775919038927302, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Name
+      value: ToolWater
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775919360856829, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Name
+      value: ToolStake
+      objectReference: {fileID: 0}
     - target: {fileID: 2623775919586302852, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -8983,6 +8993,46 @@ PrefabInstance:
         type: 3}
       propertyPath: offset.y
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775919772558153, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Name
+      value: ToolShear
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920293981280, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: toolType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920293981280, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920293981281, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920293981281, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920293981281, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920293981282, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Name
+      value: ToolShovel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623775920799851712, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_Name
+      value: ToolSpray
       objectReference: {fileID: 0}
     - target: {fileID: 3158014293137813087, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
