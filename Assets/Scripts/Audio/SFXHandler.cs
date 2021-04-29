@@ -13,31 +13,34 @@ public class SFXHandler : MonoBehaviour
     public AudioSource clipSource;
 
     void OnEnable()
-    {                 
+    {
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, Bag);
         EventsManager.BindEvent(EventsManager.EventType.SeedBagClose, Bag);
-                      
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, Sparkle); // Still not got a specific use for Sparkle, using this as temp
-                      
-        EventsManager.BindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
-                      
-        EventsManager.BindEvent(EventsManager.EventType.SeedbagShuffle, Seeds);
-                      
-        EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, Bag);
-        EventsManager.BindEvent(EventsManager.EventType.SeedBagClose, Bag);
-                      
+
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, Tools);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, Tools);
-                      
-        EventsManager.BindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
-        EventsManager.BindEvent(EventsManager.EventType.DialogueNext, PetSounds);
-        EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, PetSounds);
-        EventsManager.BindEvent(EventsManager.EventType.PokePet, PetSounds);
 
-        EventsManager.BindEvent(EventsManager.EventType.PlacedSmallPlant, SmallPlant);
-        EventsManager.BindEvent(EventsManager.EventType.PlacedTallPlant, TallPlant);
-                      
+        EventsManager.BindEvent(EventsManager.EventType.OnDialogueOpen, Meow);
+
+        EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, Rake);
+        EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, Rake);
+      //  EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, Rake);
+
         EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, TendedPlant);
+
+       
+
+        // No Events Assigned
+
+        //EventsManager.BindEvent(EventsManager.EventType.Sparkle, Sparkle);
+
+        //EventsManager.BindEvent(EventsManager.EventType.Cut, Cut);
+
+        //EventsManager.BindEvent(EventsManager.EventType.Pop, Pop);
+
+        //EventsManager.BindEvent(EventsManager.EventType.Rake, Rake);
+
+        //EventsManager.BindEvent(EventsManager.EventType.Stake, Stake);
     }
 
  
@@ -47,46 +50,27 @@ public class SFXHandler : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, Bag);
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagClose, Bag);
                       
-        EventsManager.UnbindEvent(EventsManager.EventType.QuitGame, Sparkle); // Still not got a specific use for Sparkle, using this as temp
-                      
-        EventsManager.UnbindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
-                      
-        EventsManager.UnbindEvent(EventsManager.EventType.SeedbagShuffle, Seeds);
-                      
-        EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, Bag);
-        EventsManager.UnbindEvent(EventsManager.EventType.SeedBagClose, Bag);
-                      
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, Tools);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, Tools);
-                      
-        EventsManager.UnbindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
 
-        EventsManager.UnbindEvent(EventsManager.EventType.PlacedSmallPlant, SmallPlant);
-        EventsManager.UnbindEvent(EventsManager.EventType.PlacedTallPlant, TallPlant);
+        EventsManager.UnbindEvent(EventsManager.EventType.OnDialogueOpen, Meow);
+
+
+        EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, Rake);
+        EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, Rake);
+        EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, Rake);
                       
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, TendedPlant);
 
     }
 
     // Play sound effect at specified index
-    private void PlaySound(int idx, bool rnd)
+    public void PlaySound(int idx)
     {
         clipSource.pitch = 1.0f;
-        if (rnd) {
-            clipSource.pitch += UnityEngine.Random.Range(-0.15f, 0.15f);
-        }
+        clipSource.pitch += UnityEngine.Random.Range(-0.1f, 0.1f);
         clipSource.PlayOneShot(clipArray[idx]);
     }
-
-    void PetSounds() {
-         // Swap if pets are not longer tied to p1 / p2
-        if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player1) {
-            Meow();
-        } else {
-            Bark();
-        }
-    }
-
 
     private void TendedPlant(EventsManager.EventParams eventParams)
     {
@@ -101,126 +85,85 @@ public class SFXHandler : MonoBehaviour
                 Spray();
                 break;
             case Plants.PlantActions.TendingActions.Trimming:
-                Cut();
-                break;
-            //case Plants.PlantActions.TendingActions.Staking:
-           //     Stake();
-           //     break;
-            case Plants.PlantActions.TendingActions.Removing:
-                Rake();
-                break;
-
-            // case Plants.PlantActions.TendingActions.Hose: // Was told to include hose noise, we don't seem to have a hose?
-            //     Hose();
-            //     break;
-
-            // This shouldn't happen
-            default:
-                TestNoise();
+                
                 break;
         }
     }
 
     /*
-    0: TEST
-    1: BAG
-    2-4: BARK
-    5: DING / SPARKLE
-    6: HOSE
-    7-10: MEOW
-    11: CUT
-    12: POP
-    13-16: RAKE 
-    17-19: SEED SHUFFLE
-    20: SMALL PLANT
-    21: SPRAY
-    22: STAKE
-    23: TALL PLANT
-    24: TOOLBOX
-    25: WATER
+    0 - BAG
+    1 - SPARKLE
+    2 - SPRAY
+    3 - TOOLS
+    4 - CUT
+    5 - POP
+    6 - RAKE1
+    7 - RAKE2
+    8 - RAKE3
+    9 - RAKE4
+    10 - STAKE
+    11 - WATER
+    12 - MEOW
+
+    13 - SINGLE
+    14 - TALL
+    15 - WIDE
     */
 
-    void TestNoise()
-    {
-        PlaySound(0, false);
-    }
-
-    void Bag()
-    {
-        PlaySound(1, true);
-    }
-
-    void Bark()
-    {
-        int type = UnityEngine.Random.Range(0, 3);
-        PlaySound(2 + type, true);
+    void Bag() {
+        PlaySound(0);
     }
 
     void Sparkle()
     {
-        PlaySound(5, false);
+        PlaySound(1);
     }
 
-    void Hose()
+
+    void Spray()
     {
-        PlaySound(6, true);
+        PlaySound(2);
     }
 
-    void Meow()
+    void Tools()
     {
-        int type = UnityEngine.Random.Range(0, 3);
-        PlaySound(7 + type, true);
+        PlaySound(3);
     }
 
     void Cut()
     {
-        PlaySound(11, true);
+        PlaySound(4);
     }
 
     void Pop()
     {
-        PlaySound(12, false);
+        PlaySound(5);
     }
 
     void Rake()
     {
         int type = UnityEngine.Random.Range(0, 3);
-        PlaySound(13 + type, false);
-    }
-
-    void Seeds()
-    {
-        int type = UnityEngine.Random.Range(0, 2);
-        PlaySound(17 + type, true);
-    }
-
-    void SmallPlant()
-    {
-        PlaySound(20, false);
-    }
-
-    void Spray()
-    {
-        PlaySound(21, true);
+        PlaySound(6 + type);
     }
 
     void Stake()
     {
-        PlaySound(22, true);
-    }
-
-    void TallPlant()
-    {
-        PlaySound(23, false);
-    }
-
-    void Tools()
-    {
-        PlaySound(24, true);
+        PlaySound(10);
     }
 
     void Water()
     {
-        PlaySound(25, true);
+        PlaySound(11);
+    }
+
+    void Meow()
+    {
+        PlaySound(12);
+    }
+
+    void Plant()
+    {
+        int type = UnityEngine.Random.Range(0, 2);
+        PlaySound(13);
     }
 }

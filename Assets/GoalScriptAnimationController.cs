@@ -17,7 +17,7 @@ public class GoalScripttAnimationController : MonoBehaviour
     private void OnEnable()
     {
 
-        EventsManager.BindEvent(EventsManager.EventType.moodSlidersExplanation, SlightlyBigger);
+        EventsManager.BindEvent(EventsManager.EventType.moodSlidersExplination, SlightlyBigger);
         EventsManager.BindEvent(EventsManager.EventType.OnDialogueClose, SlightlySmaller);
 
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, SlightlyBigger);

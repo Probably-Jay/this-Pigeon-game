@@ -12,6 +12,10 @@ using UnityEngine.Events;
 /// </summary>
 public class EventsManager : Singleton<EventsManager>
 {
+
+
+
+
     // Update these enum with new events to expand this class' functionality
 
     // events with no parameters
@@ -51,12 +55,7 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
-        , OnSeedBagClose
-
-        , SeedbagShuffle
-        , PlacedTallPlant
-        , PlacedSmallPlant
-        , PokePet
+        ,OnSeedBagClose
 
         , OnDialogueOpen
         , OnDialogueClose
@@ -65,7 +64,7 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
-        , moodSlidersExplanation
+        , moodSlidersExplination
 
        // , AddedToEmotionGoal
         ,ToolDropped

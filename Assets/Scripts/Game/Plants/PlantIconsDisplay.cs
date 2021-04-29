@@ -36,7 +36,6 @@ namespace Plants
             //   AddIconObject(TendingActions.Staking, iconActions.staking);
             AddIconObject(TendingActions.Spraying, iconActions.spraying);
             AddIconObject(TendingActions.Trimming, iconActions.trimming);
-            AddIconObject(TendingActions.Removing, iconActions.removing);
         }
 
         private void OnEnable()

@@ -18,12 +18,18 @@ public class PlantButton : MonoBehaviour
         gardenSlotDirectory = GameObject.FindObjectOfType<GardenSlotDirectory>();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
     public void GoToPlanting()
     {
-        EventsManager.InvokeEvent(EventsManager.EventType.SeedbagShuffle);
         seedStorage.SetCurrentPlant(myPlant);
         seedStorage.isStoringSeed = true;
         EventsManager.InvokeEvent(EventsManager.EventType.PlantingBegin);
+      //  Debug.Log("Begin Planting Mode");
 
         gardenSlotDirectory.AccessAppropriateSlotManager();
     }

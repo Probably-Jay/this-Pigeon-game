@@ -260,12 +260,9 @@ namespace Tutorial
         #endregion
 
 
-        public void GetPoked()
-        {
-            EventsManager.InvokeEvent(EventsManager.EventType.PokePet);
-        }
 
-        void SayNothing() { } 
+        void SayNothing() { }
+
 
         void StartTurnOne()
         {
@@ -350,7 +347,7 @@ namespace Tutorial
 
         void ExplainTraits()
         {
-            EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplanation);
+            EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplination);
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
  //           myBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
