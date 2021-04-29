@@ -42,7 +42,7 @@ public class SlotManager : MonoBehaviour
 
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
-                        PlantPlant(slotControls);
+                        PlantPlant(slotControls,slotNumber);
                         gardenSeedIndicator.HideIndicator();
                     }
                 }
@@ -50,10 +50,10 @@ public class SlotManager : MonoBehaviour
        }
     }
 
-    private void PlantPlant(SlotControls slotControls)
+    private void PlantPlant(SlotControls slotControls, int slotNumber)
     {
         newPlant = seedStorage.GetCurrentPlant();
-        slotControls.SpawnPlantInSlot(newPlant);
+        slotControls.SpawnPlantInSlot(newPlant, slotNumber);
         seedStorage.isStoringSeed = false;
         InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
 
@@ -176,7 +176,7 @@ public class SlotManager : MonoBehaviour
 
         var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
 
-        slotControls.SpawnPlantInSlot(newPlant);  
+        slotControls.SpawnPlantInSlot(newPlant, slotNumber);  
     }
 
     public void ClearGarden()
