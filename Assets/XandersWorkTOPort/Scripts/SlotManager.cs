@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
 
-// please sign script creation
+// Created by Alexander purvis 
 
-// all-plants-getter added - Jay 
+// Plant-getters added - Jay 
 
-
+// eddited by Alexander purvis 29/04/2021
 
 public class SlotManager : MonoBehaviour
 {
@@ -16,16 +16,16 @@ public class SlotManager : MonoBehaviour
     [SerializeField] List<SlotControls> gardenSlots;
 
    // SlotControls slotControls;
-
     public CurrentSeedStorage seedStorage;
     GameObject newPlant;
 
    // SeedIndicator seedIndicator;
-
     public SeedIndicator gardenSeedIndicator;
 
+    // for network to add plants
+    [SerializeField] List<GameObject> plantList;
 
-  
+
     private void Update()
     {          
        if (seedStorage.isStoringSeed)
@@ -100,23 +100,17 @@ public class SlotManager : MonoBehaviour
     /// Returns the plant of the slot the mouse is in, else returns null
     /// </summary>
     public Plant PlantOfSlotMouseIsIn(ToolDrag tool)
-    {
-       
+    {     
         foreach (var slot in gardenSlots)
         {
-       
             if (slot.plantsInThisSlot.Count!=0)
             {
                 var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
-
-            
+                
                 Rect plantRect = GetPlantRect(plant);
 
                /// plantZPos = plantRect.z
-
                 Rect toolRect = tool.GetWorldRect();
-
-
                 if (plantRect.Overlaps(toolRect))
                 {  
                     return plant;
@@ -150,7 +144,6 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-
     public void HideSlots()
     {
         for (int gridNumber = 0; gridNumber < gardenSlots.Count; gridNumber++)
@@ -168,7 +161,30 @@ public class SlotManager : MonoBehaviour
         }
 
         return new ReadOnlyCollection<Plant>(plants);
-
     }
 
+    public void RemovePlantWithTrowel(int slotNumber)
+    {
+        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+        slotControls.RemovePlantFromSlot();
+    }
+
+    // NetworkFunctions 
+    public void AddPlantFromServer(int slotNumber, int plantNumber)
+    {
+        newPlant = plantList[plantNumber];
+
+        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+
+        slotControls.SpawnPlantInSlot(newPlant);  
+    }
+
+    public void ClearGarden()
+    {
+        for(int i =0; i< gardenSlots.Count; i++)
+        {
+            var slotControls = gardenSlots[i].GetComponent<SlotControls>();
+            slotControls.RemovePlantFromSlot();
+        }    
+    }
 }

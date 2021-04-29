@@ -4319,6 +4319,13 @@ MonoBehaviour:
   - {fileID: 644590926}
   seedStorage: {fileID: 1978450609}
   gardenSeedIndicator: {fileID: 1045226491}
+  plantList:
+  - {fileID: 7482797900834251163, guid: 8147ae79c89f075478b595b6c64aec8d, type: 3}
+  - {fileID: 7482797900834251163, guid: 5b9579312a0e7954a870505a4dcde6ec, type: 3}
+  - {fileID: 7482797900834251163, guid: 19cfaef8119cac041a316501623c3ec9, type: 3}
+  - {fileID: 7482797900834251163, guid: cf8945210246af74bada16fd82af17a3, type: 3}
+  - {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed, type: 3}
+  - {fileID: 7482797900834251163, guid: 62ab624a9538e2c478aab8cc811a8ace, type: 3}
 --- !u!1001 &1376126936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4475,6 +4482,13 @@ MonoBehaviour:
   - {fileID: 775784677}
   seedStorage: {fileID: 1978450609}
   gardenSeedIndicator: {fileID: 297034759}
+  plantList:
+  - {fileID: 7482797900834251163, guid: 8147ae79c89f075478b595b6c64aec8d, type: 3}
+  - {fileID: 7482797900834251163, guid: 5b9579312a0e7954a870505a4dcde6ec, type: 3}
+  - {fileID: 7482797900834251163, guid: 19cfaef8119cac041a316501623c3ec9, type: 3}
+  - {fileID: 7482797900834251163, guid: cf8945210246af74bada16fd82af17a3, type: 3}
+  - {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed, type: 3}
+  - {fileID: 7482797900834251163, guid: 62ab624a9538e2c478aab8cc811a8ace, type: 3}
 --- !u!4 &1452677166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1dcac2403b4511d4eacc7e0f5572effd,
