@@ -232,7 +232,7 @@ namespace Tutorial
 
         void ExplainTraits()
         {
-            EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplination);
+            EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplanation);
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
             myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");

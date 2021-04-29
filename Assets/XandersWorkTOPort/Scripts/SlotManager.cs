@@ -66,6 +66,23 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
 
+            switch (plant.ThisPlantsSize)
+            {
+                case Plant.PlantSize.Wide:
+                    EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
+                    // Is wide even a thing anymore?
+                    break;
+                case Plant.PlantSize.Tall:
+                    EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
+                    break;
+                case Plant.PlantSize.Single:
+                    EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
+                    break;
+                default:
+                    EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
+                    break;
+            }
+
             Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
             if (moodGoal.Overlaps(plant.TraitsUnscaled))
             {
