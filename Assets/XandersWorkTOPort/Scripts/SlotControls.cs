@@ -98,17 +98,6 @@ public class SlotControls : MonoBehaviour
         SlotOccupied();
     }
 
-    public void RemovePlantFromSlot()
-    {
-        for (int i = 0; i < plantsInThisSlot.Count; i++)
-        {
-            Destroy(plantsInThisSlot[i]);
-        }
-
-        FreeSlot();
-    }
-
-
     public List<Plant> GetAllPlants()
     {
         List<Plant> plants = new List<Plant>();

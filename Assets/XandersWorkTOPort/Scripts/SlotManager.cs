@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
 
-// Created by Alexander purvis 
+// please sign script creation
 
-// Plant-getters added - Jay 
+// all-plants-getter added - Jay 
 
-// eddited by Alexander purvis 29/04/2021
+
 
 public class SlotManager : MonoBehaviour
 {
@@ -16,16 +16,16 @@ public class SlotManager : MonoBehaviour
     [SerializeField] List<SlotControls> gardenSlots;
 
    // SlotControls slotControls;
+
     public CurrentSeedStorage seedStorage;
     GameObject newPlant;
 
    // SeedIndicator seedIndicator;
+
     public SeedIndicator gardenSeedIndicator;
 
-    // for network to add plants
-    [SerializeField] List<GameObject> plantList;
 
-
+  
     private void Update()
     {          
        if (seedStorage.isStoringSeed)
@@ -62,6 +62,23 @@ public class SlotManager : MonoBehaviour
 
     private static void InvokePlantedEvent(Plant plant)
     {
+        switch (plant.ThisPlantsSize)
+        {
+            case Plant.PlantSize.Wide:
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
+                // Is wide even a thing anymore?
+                break;
+            case Plant.PlantSize.Tall:
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
+                break;
+            case Plant.PlantSize.Single:
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
+                break;
+            default:
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
+                break;
+        }
+
         if (GameManager.Instance.InOwnGarden)
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
@@ -83,12 +100,12 @@ public class SlotManager : MonoBehaviour
     {
         foreach (var slot in gardenSlots)
         {
-            var colider = slot.gameObject.GetComponent<BoxCollider2D>();
+            var collider = slot.gameObject.GetComponent<BoxCollider2D>();
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = colider.transform.position.z;
+            mousePos.z = collider.transform.position.z;
 
-            if (colider.OverlapPoint(mousePos))
+            if (collider.OverlapPoint(mousePos))
             {
                 return slot;
             }
@@ -100,17 +117,23 @@ public class SlotManager : MonoBehaviour
     /// Returns the plant of the slot the mouse is in, else returns null
     /// </summary>
     public Plant PlantOfSlotMouseIsIn(ToolDrag tool)
-    {     
+    {
+       
         foreach (var slot in gardenSlots)
         {
+       
             if (slot.plantsInThisSlot.Count!=0)
             {
                 var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
-                
+
+            
                 Rect plantRect = GetPlantRect(plant);
 
                /// plantZPos = plantRect.z
+
                 Rect toolRect = tool.GetWorldRect();
+
+
                 if (plantRect.Overlaps(toolRect))
                 {  
                     return plant;
@@ -144,6 +167,7 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+
     public void HideSlots()
     {
         for (int gridNumber = 0; gridNumber < gardenSlots.Count; gridNumber++)
@@ -161,30 +185,7 @@ public class SlotManager : MonoBehaviour
         }
 
         return new ReadOnlyCollection<Plant>(plants);
+
     }
 
-    public void RemovePlantWithTrowel(int slotNumber)
-    {
-        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
-        slotControls.RemovePlantFromSlot();
-    }
-
-    // NetworkFunctions 
-    public void AddPlantFromServer(int slotNumber, int plantNumber)
-    {
-        newPlant = plantList[plantNumber];
-
-        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
-
-        slotControls.SpawnPlantInSlot(newPlant);  
-    }
-
-    public void ClearGarden()
-    {
-        for(int i =0; i< gardenSlots.Count; i++)
-        {
-            var slotControls = gardenSlots[i].GetComponent<SlotControls>();
-            slotControls.RemovePlantFromSlot();
-        }    
-    }
 }

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 //created Zap 26/03
 // edited Xander 22/04/2021
-
-
 public class UICommands : MonoBehaviour
 {
     //[SerializeField] Button button;
@@ -23,7 +21,6 @@ public class UICommands : MonoBehaviour
 
     public void OpenToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxOpen);
     public void CloseToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
-    public GameObject myBox;
 
     
 
@@ -76,14 +73,8 @@ public class UICommands : MonoBehaviour
 
 
     }
-    public void CloseSeedBag() { 
-        
-        EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose); 
-        Debug.Log("Closed Bag"); 
-    }
+    public void CloseSeedBag() { EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose); Debug.Log("Closed Bag"); }
     public void Skip() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueSkip);
     public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
     public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
-    public void ConfirmTrowel() => EventsManager.InvokeEvent(EventsManager.EventType.RemovedOwnObject);
-    public void CloseBox() => myBox.SetActive(false);
 }
