@@ -7,9 +7,10 @@ namespace Plants.PlantActions
     public class ActionIcons : ScriptableObject
     {
         public GameObject watering;
-     //   public GameObject staking;
+        public GameObject staking;
         public GameObject spraying;
         public GameObject trimming;
+        public GameObject removing;
 
     }
 }
