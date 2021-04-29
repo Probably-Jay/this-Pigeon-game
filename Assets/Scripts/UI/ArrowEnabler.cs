@@ -29,7 +29,12 @@ namespace Tutorial
         }
         public void EnableArrow(ArrowScript.ArrowPurpose key)
         {
-            Debug.Log(key);
+            /*
+            if (key == ArrowScript.ArrowPurpose.WateringCan)
+            {
+                UnbindArrowEnabling(ArrowScript.ArrowPurpose.WateringCan, EventsManager.EventType.ToolBoxOpen);
+            }
+            */
             arrowDex[key].gameObject.SetActive(true);
             arrowDex[key].SetPurpose(key);
         }
@@ -40,6 +45,10 @@ namespace Tutorial
         public void BindArrowEnabling(ArrowScript.ArrowPurpose purpose, EventsManager.EventType eventType)
         {
             EventsManager.BindEvent(eventType, () => EnableArrow(purpose));
+        }
+        public void UnbindArrowEnabling(ArrowScript.ArrowPurpose purpose, EventsManager.EventType eventType)
+        {
+            EventsManager.UnbindEvent(eventType, () => EnableArrow(purpose));
         }
     }
 }

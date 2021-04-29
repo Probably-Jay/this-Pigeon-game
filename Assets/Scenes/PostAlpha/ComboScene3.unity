@@ -2158,6 +2158,7 @@ MonoBehaviour:
   pulseSpeed: 1
   myAnimator: {fileID: 0}
   myPurpose: 0
+  visibleTime: 7
 --- !u!95 &768976662
 Animator:
   serializedVersion: 3
@@ -5379,6 +5380,7 @@ MonoBehaviour:
   pulseSpeed: 1
   myAnimator: {fileID: 0}
   myPurpose: 0
+  visibleTime: 7
 --- !u!95 &1740899003
 Animator:
   serializedVersion: 3

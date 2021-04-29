@@ -41,6 +41,7 @@ public class ArrowScript : MonoBehaviour
     {
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, ToolBoxEnd);
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, SeedBagEnd);
+        EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, HideWateringCanArrow);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
     }
