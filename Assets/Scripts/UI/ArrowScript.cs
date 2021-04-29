@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Tutorial;
 
 public class ArrowScript : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class ArrowScript : MonoBehaviour
     public float pulseSpeed = 0.01f;
     public Animator myAnimator;
     public ArrowPurpose myPurpose;
+    private float timer;
+    public float visibleTime=7f;
+    ArrowEnabler arrowEnabler;
 
     public enum ArrowPurpose
     {
@@ -25,17 +29,19 @@ public class ArrowScript : MonoBehaviour
     }
     private void OnEnable()
     {
+        arrowEnabler = FindObjectOfType<ArrowEnabler>();
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, ToolBoxEnd);
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, SeedBagEnd);
-
+        EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, HideWateringCanArrow);
         EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
-
+        timer = 0f;
     }
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, ToolBoxEnd);
         EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, SeedBagEnd);
+        EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, HideWateringCanArrow);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
     }
@@ -48,6 +54,7 @@ public class ArrowScript : MonoBehaviour
         myAnimator = this.GetComponent<Animator>();
         //myAnimator.speed = 0.1f;
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -61,6 +68,11 @@ public class ArrowScript : MonoBehaviour
         {
             myAnimator.SetBool("doesDrag", true);
             startDrag = false;
+        }
+        timer += Time.deltaTime;
+        if (timer > visibleTime)
+        {
+            MoodIndicationEnd();
         }
     }
     void UpdatePulse()
@@ -102,6 +114,15 @@ public class ArrowScript : MonoBehaviour
             startDrag = true;
         }
     }
+    void HideWateringCanArrow()
+    {
+        if(myPurpose == ArrowPurpose.WateringCan)
+        {
+            arrowEnabler.BindArrowEnabling(myPurpose, EventsManager.EventType.ToolBoxOpen);
+            this.gameObject.SetActive(false);
+        }
+    }
+
     void MoodIndicationEnd()
     {
         if (myPurpose == ArrowPurpose.MoodIndicator)

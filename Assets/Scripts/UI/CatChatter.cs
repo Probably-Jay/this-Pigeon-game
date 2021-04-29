@@ -4,8 +4,11 @@ using UnityEngine;
 using Mood;
 using System;
 using Tutorial;
+using Plants;
 
 // created zap and jay 28/03
+// edited zap 24/04 (added arrow system integration)
+// edited Zap 28/04 (added nudging feature)
 
 namespace Tutorial
 {
@@ -15,8 +18,12 @@ namespace Tutorial
         private const Player.PlayerEnum player1 = Player.PlayerEnum.Player1;
         public TextBox myBox;
 
+        public int nudgeTime = 20;
+
+        private float secondsSinceAction=0f;
 
         private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
+
 
 
         bool hasEverPlantedMoodRelaventPlant = false;
@@ -25,8 +32,34 @@ namespace Tutorial
 
         ArrowEnabler myArrows;
 
+        enum PlayerAction
+        {
+               PlacePlant
+            ,  TendPlant
+            ,  GiftPlant
+            ,  EndTurn
+        }
+
+        private PlayerAction nextAction;
+
+        private void Update()
+        {
+            if (secondsSinceAction > nudgeTime)
+            {
+                secondsSinceAction = 0f;
+                CheckAndNudgePlayer();
+            }
+            else
+            {
+                secondsSinceAction += Time.deltaTime;
+            }
+        }
+
         private void OnEnable()
         {
+            EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, ParamaterResetActionTimer);
+            EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, ParamaterResetActionTimer);
+            EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
             myArrows = GetComponent<ArrowEnabler>();
             BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
             BindEvent(EventsManager.EventType.NewTurnBegin, StartedThirdTurn ,condition:()=> { return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4; });
@@ -72,6 +105,86 @@ namespace Tutorial
             //EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
 
            // BindEvent(EventsManager.EventType.PlantReadyToGrow,)
+        }
+
+        void ResetActionTimer()
+        {
+            secondsSinceAction = 0f;
+        }
+        void ParamaterResetActionTimer(EventsManager.EventParams eventParams)
+        {
+            ResetActionTimer();
+        }
+        bool PlayerNeedsToTend(Player.PlayerEnum player)
+        {
+            bool tendingRequired = false;
+            foreach (Plant plant in GameManager.Instance.SlotManagers[player].GetAllPlants())
+            {
+                if (plant.PlantGrowth.TendingState.ReadyToProgressStage == false)
+                {
+                    //Plants.PlantActions.TendingActions[] actions = Enum.GetValues(typeof(Plants.PlantActions.TendingActions));
+                    //foreach (var action in (Plants.PlantActions.TendingActions)System.Enum.GetValues(typeof(Plants.PlantActions.TendingActions)))
+                    foreach (var action in Helper.Utility.GetEnumValues<Plants.PlantActions.TendingActions>())
+                    {
+                        if (plant.PlantGrowth.TendingState.CanTend(action) == true)
+                        {
+                            tendingRequired = true;
+                        }
+                    }
+                    
+                }
+            }
+            return tendingRequired;
+        }
+        void CheckAndNudgePlayer()
+        {
+            bool tendingRequired = PlayerNeedsToTend(Player.PlayerEnum.Player1);
+            if (GameManager.Instance.ActivePlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
+            {
+                nextAction = PlayerAction.PlacePlant;
+            }
+            else if(tendingRequired)
+            {
+                nextAction = PlayerAction.TendPlant;
+            }
+            else if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4))
+            {
+                nextAction = PlayerAction.GiftPlant;
+            }
+            else
+            {
+                nextAction = PlayerAction.EndTurn;
+            }
+            if (myBox.gameObject.activeSelf == false)
+            {
+                NudgePlayer(nextAction);
+            }
+        }
+        void NudgePlayer(PlayerAction action)
+        {
+            myBox.gameObject.SetActive(true);
+            switch (action)
+            {
+                case PlayerAction.PlacePlant:
+                    myBox.Say("Remember you can still open the seed bag to choose a plant to plant!");
+                    myArrows.EnableArrow(ArrowScript.ArrowPurpose.SeedBox);
+                    break;
+                case PlayerAction.TendPlant:
+                    myBox.Say("Your plants still some attention!");
+                    myBox.Say("You can drag items from the toolbox to attend to their needs!");
+                    myArrows.EnableArrow(ArrowScript.ArrowPurpose.ToolBox);
+                    break;
+                case PlayerAction.GiftPlant:
+                    myBox.Say("You can still give your partner a plant before you go!");
+                    myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
+                    break;
+                case PlayerAction.EndTurn:
+                    myBox.Say("That's all we can do right now until your partner gets back!");
+                    myBox.Say("Feel free to hang around though!");
+                    break;
+                default:
+                    break;
+            }
         }
 
         #region BindingAndUnbinding
@@ -171,6 +284,7 @@ namespace Tutorial
                 case "Lonely":
                     myBox.Say($"I'm sorry to hear that you're feeling {GetEmotionOutput(emotion)}");
                     myBox.Say($"Why not share that with your partner, too?");
+                    myBox.Say("We can have this garden communicate that feeling through the plants you choose!");
                     break;
                 case "Stressed":
                     myBox.Say($"You're {GetEmotionOutput(emotion)}? Then you've come to the right place!");
@@ -186,16 +300,16 @@ namespace Tutorial
             }
 
   
-            myBox.Say("When you're ready, you can choose which seed to plant this turn by tapping this seed basket!");
+            myBox.Say("When you're ready, you can choose which seed to plant!");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.SeedBox);
         }
 
         private string GetEmotionOutput(string emotion) => $"<b>{emotion}</b>";
 
         void StartedThirdTurn() {
-            myBox.Say("Looks like both you and your partner are getting along nicely!");
-            myBox.Say("Did you know you can gift them a plant?");
-            myBox.Say("Simply go to their garden and plant a seed!");
+            myBox.Say("Hi there! did you know you and your partner can help each other out?");
+            myBox.Say("If you go to their garden, you can plant a plant just for them!");
+            myBox.Say("Remember that they're trying to communicate an emotion too!");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
         }
 
@@ -209,8 +323,9 @@ namespace Tutorial
         void StartTurnTwoWithRelaventPlants()
         {
             myBox.Say("Good morning!");
-            ExplainTraits();
             myBox.Say($"That last plant was super in sync with you...");
+            ExplainTraits();
+            
             myBox.Say("Why not plant another with a different trait from your mood?");
 
         }
@@ -238,10 +353,12 @@ namespace Tutorial
             EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplanation);
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
-            myBox.Say($"The <b>emotion</b> you chose is {emotion}, right?");
-            myBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
-            myBox.Say($"For example, {emotion} is made up of <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
-            myBox.Say($"A plant only contributes toward your garden's <b>emotion</b> once it fully matured, so make sure to tend to your plants!");
+ //           myBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
+//            myBox.Say($"For example, when we started, you said you were {emotion}");
+            myBox.Say($"\'{emotion}\' consists of two traits. <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
+            myArrows.EnableArrow(ArrowScript.ArrowPurpose.MoodIndicator);
+            myBox.Say($"A fully grown plant will help your garden communicate its trait!");
+            //myBox.Say($"With a little help from your partner, your garden will be communicating {emotion} in no time!");
           
         }
 
@@ -250,13 +367,14 @@ namespace Tutorial
         {
             myBox.Say("Looks like that plant really needed that!");
             myBox.Say("By the start of your next turn it will probably have grown!");
-            myBox.Say("Plants will only grow if they have been well looked after, so make sure to keep an eye out for thier needs.");
-            myBox.Say($"You can use the humane repellant to chase away any bugs and use the shears to trim extra leaves too!");
+            //myBox.Say("Plants will only grow if they have been well looked after, so make sure to keep an eye out for thier needs.");
+            //myBox.Say($"You can use the humane repellant to chase away any bugs and use the shears to trim extra leaves too!");
         }
 
         void MoodRelevantPlantReachesMaturity()
         {
             myBox.Say("Now this garden is really getting going!");
+            myArrows.EnableArrow(ArrowScript.ArrowPurpose.MoodIndicator);
         }
 
         void NoMorePoints(EventsManager.EventParams eventParams)
