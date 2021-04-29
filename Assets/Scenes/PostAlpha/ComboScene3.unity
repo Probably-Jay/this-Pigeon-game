@@ -281,21 +281,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clipArray:
   - {fileID: 8300000, guid: ecd5a231e6ed1284da332c09e3a775cf, type: 3}
-  - {fileID: 8300000, guid: 48ab0aaa54271774c9d35762a64bf2d4, type: 3}
-  - {fileID: 8300000, guid: 4d602d7a57cfcfd479f5616c3d5e479e, type: 3}
-  - {fileID: 8300000, guid: 246441144bc14a74f89a79a10699a2bb, type: 3}
+  - {fileID: 8300000, guid: 81266c00715f15047b07f857a5281400, type: 3}
+  - {fileID: 8300000, guid: da535c5be919bdf42a3839f15f98aeff, type: 3}
+  - {fileID: 8300000, guid: 17ca81d42749b8847886812f3e1ab2a6, type: 3}
+  - {fileID: 8300000, guid: 981567109245ec94c98508648a2bf208, type: 3}
+  - {fileID: 8300000, guid: 4ef11cddd0ad54d42801102539571795, type: 3}
+  - {fileID: 8300000, guid: 9f45d5b305c95fe4aa633450f9842cc4, type: 3}
+  - {fileID: 8300000, guid: ad0aa058fcda3994687e3b20d68d69ed, type: 3}
+  - {fileID: 8300000, guid: d9d859968d72e8a42b8b08d726aeb6d8, type: 3}
+  - {fileID: 8300000, guid: 142b76abd30313d4d822cc2579a190f8, type: 3}
+  - {fileID: 8300000, guid: 94bc97001ce540045b76d5acd50e5e15, type: 3}
   - {fileID: 8300000, guid: e2ad814618e34554c87f3f51b1fb96e8, type: 3}
   - {fileID: 8300000, guid: dc6d64df95056204084b51b853ec5328, type: 3}
+  - {fileID: 8300000, guid: a13a9018f2ccd8b45a12c31bb39406da, type: 3}
   - {fileID: 8300000, guid: 795b7ca6a303afb48a0a61b8efb121f5, type: 3}
   - {fileID: 8300000, guid: 39961f86c299e264b96dcd39062c7cd3, type: 3}
   - {fileID: 8300000, guid: ecb2813731c900542a9edd5dc04906fd, type: 3}
-  - {fileID: 8300000, guid: a13a9018f2ccd8b45a12c31bb39406da, type: 3}
-  - {fileID: 8300000, guid: f6cf226b6d532ac41b1623a1525245bf, type: 3}
+  - {fileID: 8300000, guid: 59acce546e833cd4bba09e78139c8e7f, type: 3}
+  - {fileID: 8300000, guid: 0c0f09b1ce719164fa1846c0239ab8fe, type: 3}
+  - {fileID: 8300000, guid: f7f9142417e2c534fa30a2f4b01a77bf, type: 3}
+  - {fileID: 8300000, guid: f9ea945ec9f03504c8e43651b364b4ea, type: 3}
+  - {fileID: 8300000, guid: 8cd0fc5155df3084699bfbfd37a27546, type: 3}
+  - {fileID: 8300000, guid: 32fce516c15724b46a40411b049a22cf, type: 3}
+  - {fileID: 8300000, guid: f8235ab900065f54ea9ad023135594fa, type: 3}
+  - {fileID: 8300000, guid: 9f9e17a59c4ff044d834f9700a11095e, type: 3}
   - {fileID: 8300000, guid: 71be27c5e54d4ab40a719c5e0d8d6356, type: 3}
-  - {fileID: 8300000, guid: f3f3d5d183ac32948962bab465443cb7, type: 3}
-  - {fileID: 8300000, guid: e0781144e1fc8fa46a287f295738a6a0, type: 3}
-  - {fileID: 8300000, guid: 08c7012b74d130c4fa089c5768498293, type: 3}
-  - {fileID: 8300000, guid: f6b74569bd30e7749bb19a5a94eec2fa, type: 3}
   clipSource: {fileID: 1066630576}
 --- !u!1 &54466992
 GameObject:
@@ -2017,7 +2027,7 @@ PrefabInstance:
     - target: {fileID: 6506405853530714115, guid: 7026684e43a883445907799bae15ad36,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6506405853530714117, guid: 7026684e43a883445907799bae15ad36,
         type: 3}

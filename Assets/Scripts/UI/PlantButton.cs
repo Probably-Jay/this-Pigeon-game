@@ -26,6 +26,7 @@ public class PlantButton : MonoBehaviour
 
     public void GoToPlanting()
     {
+        EventsManager.InvokeEvent(EventsManager.EventType.SeedbagShuffle);
         seedStorage.SetCurrentPlant(myPlant);
         seedStorage.isStoringSeed = true;
         EventsManager.InvokeEvent(EventsManager.EventType.PlantingBegin);
