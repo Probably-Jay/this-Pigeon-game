@@ -135,13 +135,43 @@ namespace GameCore
             //if()
 
             var game = NetworkHandler.Instance.NetGame.CurrentNetworkGame;
-            
-            string netPlayerGameBelongsTo = game.usableData.gameStartedBy;
-            string player1ID = netPlayerGameBelongsTo;
-            string player2ID = game.usableData.playerData.player2ID;
+
+            bool gameBegan = game.usableData.gameBegun;
 
             Player.PlayerEnum playerWeAre = GetPlayerWeAre();
-            Player.PlayerEnum playerWhoOwnsTurn = game.usableData.playerData.turnOwner == NetSystem.NetworkHandler.Instance.ClientEntity.Id ? playerWeAre : Player.OtherPlayer(playerWeAre);
+
+
+
+
+            if (gameBegan)
+            {
+                ResumGameThatHasBegun(game, playerWeAre);
+            }
+            else
+            {
+                switch (playerWeAre)
+                {
+                    case Player.PlayerEnum.Player1:
+                        BeginNewGame();
+                        break;
+                    case Player.PlayerEnum.Player2:
+                        break;
+                }
+            }
+
+
+        }
+
+        private void ResumGameThatHasBegun(NetworkGame game, Player.PlayerEnum playerWeAre)
+        {
+            PlayerDataPacket playerData = game.usableData.playerData;
+
+
+            string netPlayerGameBelongsTo = game.usableData.gameStartedBy;
+            string player1ID = netPlayerGameBelongsTo;
+            string player2ID = playerData.player2ID;
+
+            Player.PlayerEnum playerWhoOwnsTurn = playerData.turnOwner == NetSystem.NetworkHandler.Instance.ClientEntity.Id ? playerWeAre : Player.OtherPlayer(playerWeAre);
 
             bool turnComplete = game.usableData.turnComplete;
             bool ourTurn = (playerWhoOwnsTurn == playerWeAre);
@@ -152,7 +182,7 @@ namespace GameCore
                 QuickClaimTurn(game);
                 turnComplete = false;
                 ourTurn = true;
-                playerWhoOwnsTurn =  playerWeAre ;
+                playerWhoOwnsTurn = playerWeAre;
 
             }
 
@@ -170,7 +200,6 @@ namespace GameCore
             // load the garden
 
             EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
-
         }
 
         private static void QuickClaimTurn(NetworkGame game)

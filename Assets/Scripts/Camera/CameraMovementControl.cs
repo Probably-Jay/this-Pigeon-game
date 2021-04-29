@@ -32,7 +32,17 @@ public class CameraMovementControl : MonoBehaviour
 
     private void Start()
     {
-        CurrentGardenView = GameCore.GameManager.Instance.LocalPlayerID;
+        switch (GameCore.GameManager.Instance.LocalPlayerID)
+        {
+            case Player.PlayerEnum.Player1:
+                CurrentGardenView = Player.PlayerEnum.Player1;
+                SwapVeiwTo(CurrentGardenView);
+                break;
+            case Player.PlayerEnum.Player2:
+                CurrentGardenView = Player.PlayerEnum.Player2;
+                SwapVeiwTo(CurrentGardenView);
+                break;;
+        }
     }
 
     //void DoNotingFirstTime()
