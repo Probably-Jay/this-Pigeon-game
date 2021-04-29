@@ -16,6 +16,7 @@ namespace Tutorial
             arrowDex.Add(ArrowScript.ArrowPurpose.WateringCan, arrows[1]);
             arrowDex.Add(ArrowScript.ArrowPurpose.MoodIndicator, arrows[2]);
             arrowDex.Add(ArrowScript.ArrowPurpose.SwapGarden, arrows[3]);
+            arrowDex.Add(ArrowScript.ArrowPurpose.ToolBox, arrows[4]);
             Debug.Log(arrows[1]);
             //EnableArrow(ArrowScript.ArrowPurpose.WateringCan);
         }
@@ -35,6 +36,10 @@ namespace Tutorial
         public void DisableArrow(ArrowScript.ArrowPurpose key)
         {
             arrowDex[key].gameObject.SetActive(false);
+        }
+        public void BindArrowEnabling(ArrowScript.ArrowPurpose purpose, EventsManager.EventType eventType)
+        {
+            EventsManager.BindEvent(eventType, () => EnableArrow(purpose));
         }
     }
 }
