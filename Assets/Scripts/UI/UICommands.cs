@@ -23,6 +23,7 @@ public class UICommands : MonoBehaviour
 
     public void OpenToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxOpen);
     public void CloseToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
+    public GameObject myBox;
 
     
 
@@ -83,4 +84,6 @@ public class UICommands : MonoBehaviour
     public void Skip() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueSkip);
     public void OkayNext() => EventsManager.InvokeEvent(EventsManager.EventType.DialogueNext);
     public void DialogueBack() => EventsManager.InvokeEvent(EventsManager.EventType.DialoguePrevious);
+    public void ConfirmTrowel() => EventsManager.InvokeEvent(EventsManager.EventType.RemovedOwnObject);
+    public void CloseBox() => myBox.SetActive(false);
 }
