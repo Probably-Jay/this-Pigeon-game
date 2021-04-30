@@ -52,7 +52,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (Input.GetMouseButtonDown(0) && isMouseOver)
         {
             pickedUp = true;
-            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta ,new Vector2(2f, 2f));
+            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta ,new Vector2(1.25f, 1.25f));
         }
 
 
@@ -64,7 +64,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             if (!Input.GetMouseButton(0))
             {
                 pickedUp = false;
-                Vector3.Scale(this.transform.localScale, new Vector3(0.5f, 0.5f));
+                image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta, new Vector2(0.8f, 0.8f));
                 AttemptToTendPlant(); 
             }
         }

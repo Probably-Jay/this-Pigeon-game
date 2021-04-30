@@ -88,17 +88,29 @@ public class SlotControls : MonoBehaviour
     }
 
 
+    public void SpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber)
     public GameObject SpawnPlantInSlot(GameObject PlantToSpawn)
     {
         GameObject newPlant = Instantiate(PlantToSpawn, transform);
         newPlant.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z -1);
-
+        newPlant.GetComponent<Plant>().currentSlotPlantedIn = slotNumber;
         plantsInThisSlot.Add(newPlant);
 
      
         SlotOccupied();
         return newPlant;
     }
+
+    public void RemovePlantFromSlot()
+    {
+        for (int i = 0; i < plantsInThisSlot.Count; i++)
+        {
+            Destroy(plantsInThisSlot[i]);
+        }
+
+        FreeSlot();
+    }
+
 
     public List<Plant> GetAllPlants()
     {

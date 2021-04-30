@@ -12,6 +12,7 @@ using System;
 // Edited Alexander Purvis 04/03
 // Added plant enum Jay 13/03
 // Added stages of growth Scott 24/03
+// Edited Alexander Purvis 30/04/2021
 
 namespace Plants {
     /// <summary>
@@ -74,6 +75,7 @@ namespace Plants {
         [SerializeField] PlantSize thisPlantsSize;
 
         [SerializeField] public int requiredSlot = 1;
+        [SerializeField] public int currentSlotPlantedIn;
 
         [Header("Plant Stats")]
         [SerializeField, Range(0, 1)] private int social = 0;
