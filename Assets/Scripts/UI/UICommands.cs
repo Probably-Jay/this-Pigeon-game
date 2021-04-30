@@ -26,32 +26,26 @@ public class UICommands : MonoBehaviour
     public void CloseToolBox() => EventsManager.InvokeEvent(EventsManager.EventType.ToolBoxClose);
     public GameObject myBox;
 
-    
 
-   
 
-        // for planting in active players own garden 
 
-        if (GameManager.Instance.InOwnGarden && GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace))
-        {
-            EventsManager.InvokeEvent(EventsManager.EventType.SeedBagOpen);
-        }
-        else if (GameManager.Instance.InOwnGarden)
-        {
-            EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
-        }
 
+    // for planting in active players own garden 
+    public void OpenSeedBag()
+    {
 
         // for tha active player planting in the non-active players garden 
-        if (!GameManager.Instance.InOwnGarden && GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace))
+        if (!GameManager.Instance.InOwnGarden && GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace))
         {
             EventsManager.InvokeEvent(EventsManager.EventType.SeedBagOpen);
-        }else if(!GameManager.Instance.InOwnGarden)
+        }
+        else if (!GameManager.Instance.InOwnGarden)
         {
-            EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.OtherObjectPlace });
+            EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData1 = TurnPoints.PointType.OtherObjectPlace });
         }
         // end of Xanders edit
 
+    }
 
 
         //bool canPlaceInOwnGarden = (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.SelfObjectPlace) && GameManager.Instance.InOwnGarden);
@@ -72,7 +66,6 @@ public class UICommands : MonoBehaviour
         //}
 
 
-    }
     public void CloseSeedBag() { 
         
         EventsManager.InvokeEvent(EventsManager.EventType.SeedBagClose); 

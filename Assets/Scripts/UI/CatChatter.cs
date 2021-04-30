@@ -41,8 +41,11 @@ namespace Tutorial
 
         private PlayerAction nextAction;
 
+        float secondsSinceAction = 0f;
+
         private void Update()
         {
+            
             if (secondsSinceAction > nudgeTime)
             {
                 secondsSinceAction = 0f;
@@ -54,6 +57,11 @@ namespace Tutorial
             }
         }
 
+        private void Awake()
+        {
+            myArrows = GetComponent<ArrowEnabler>(); 
+        }
+
         private void OnEnable()
         {
             BindEvent(EventsManager.EventType.FirstTimeEnteringGame, StartTurnOne);
@@ -61,9 +69,13 @@ namespace Tutorial
             EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
-            myArrows = GetComponent<ArrowEnabler>();
-            BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartedThirdTurn ,condition:()=> { return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4; });
+
+           
+
+            BindEvent(EventsManager.EventType.StartNewGame, StartTurnOne);
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, StartedThirdTurn ,condition:()=> { return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4; });
+
+
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
@@ -119,7 +131,7 @@ namespace Tutorial
         bool PlayerNeedsToTend(Player.PlayerEnum player)
         {
             bool tendingRequired = false;
-            foreach (Plant plant in GameManager.Instance.SlotManagers[player].GetAllPlants())
+            foreach (Plant plant in GameManager.Instance.LocalPlayerSlotManager.GetAllPlants())
             {
                 if (plant.PlantGrowth.TendingState.ReadyToProgressStage == false)
                 {
@@ -140,7 +152,7 @@ namespace Tutorial
         void CheckAndNudgePlayer()
         {
             bool tendingRequired = PlayerNeedsToTend(Player.PlayerEnum.Player1);
-            if (GameManager.Instance.ActivePlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
+            if (GameManager.Instance.LocalPlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
             {
                 nextAction = PlayerAction.PlacePlant;
             }
@@ -148,7 +160,7 @@ namespace Tutorial
             {
                 nextAction = PlayerAction.TendPlant;
             }
-            else if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4))
+            else if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4))
             {
                 nextAction = PlayerAction.GiftPlant;
             }

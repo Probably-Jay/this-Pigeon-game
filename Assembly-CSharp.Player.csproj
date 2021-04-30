@@ -623,7 +623,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GameDataSaver.cs" />
-    <Compile Include="Assets\GoalScripttAnimationController.cs" />
+    <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Audio\SFXHandler.cs" />
@@ -709,7 +709,10 @@
     <Compile Include="Assets\Scripts\Save_System\Serialisation\SaveDataSerialiser.cs" />
     <Compile Include="Assets\Scripts\Save_System\Serialisation\SaveGameRegistrySerialiser.cs" />
     <Compile Include="Assets\Scripts\Save_System\_SaveDemonstration.cs" />
+    <Compile Include="Assets\Scripts\UI\ArrowEnabler.cs" />
+    <Compile Include="Assets\Scripts\UI\ArrowScript.cs" />
     <Compile Include="Assets\Scripts\UI\CatChatter.cs" />
+    <Compile Include="Assets\Scripts\UI\CreditsButton.cs" />
     <Compile Include="Assets\Scripts\UI\EmotionTracker.cs" />
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />

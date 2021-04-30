@@ -54,16 +54,12 @@ public class SlotManager : MonoBehaviour
     private void PlantPlant(SlotControls slotControls, int slotNumber)
     {
         newPlant = seedStorage.GetCurrentPlant();
-        slotControls.SpawnPlantInSlot(newPlant, slotNumber);
-        var plantedPlant = slotControls.SpawnPlantInSlot(newPlant);
-
-        plantedPlant.GetComponent<Plant>().Init(
-            garden: (int)GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
-            slot: gardenSlots.IndexOf(slotControls)
-        );
+     
+        var plantedPlant = slotControls.SpawnPlantInSlot(newPlant, slotNumber);
 
         seedStorage.isStoringSeed = false;
-        InvokePlantedEvent(plantedPlant.GetComponent<Plants.Plant>(), slotControls);
+
+        InvokePlantedEvent(plantedPlant, slotControls);
 
         HideSlots();
     }
@@ -238,7 +234,7 @@ public class SlotManager : MonoBehaviour
     {
         for(int i =0; i< gardenSlots.Count; i++)
         {
-            var slotControls = gardenSlots[i].GetComponent<SlotControls>();
+            var slotControls = gardenSlots[i];
             slotControls.RemovePlantFromSlot();
         }    
     }

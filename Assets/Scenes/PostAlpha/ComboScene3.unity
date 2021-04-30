@@ -1098,22 +1098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe73ba6d3dad6ea4ca37828681974984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &407893722
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 886193663}
-  m_Layer: 0
-  m_Name: Recovery GameObject (886193663)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &422832765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 96d3d084c10f90149a67918743b3706e,
@@ -1902,7 +1886,7 @@ PrefabInstance:
     - target: {fileID: 6506405853530714114, guid: 7026684e43a883445907799bae15ad36,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6506405853530714114, guid: 7026684e43a883445907799bae15ad36,
         type: 3}
@@ -2579,18 +2563,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2060501110}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &775784677 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -7850585042387449321, guid: 1dcac2403b4511d4eacc7e0f5572effd,
-    type: 3}
-  m_PrefabInstance: {fileID: 2060501110}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 461705aef71754d4bb17747b99acefc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &792208209
 GameObject:
   m_ObjectHideFlags: 0
@@ -4972,13 +4944,7 @@ MonoBehaviour:
   - {fileID: 644590926}
   seedStorage: {fileID: 1978450609}
   gardenSeedIndicator: {fileID: 1045226491}
-  plantList:
-  - {fileID: 7482797900834251163, guid: 8147ae79c89f075478b595b6c64aec8d, type: 3}
-  - {fileID: 7482797900834251163, guid: 5b9579312a0e7954a870505a4dcde6ec, type: 3}
-  - {fileID: 7482797900834251163, guid: 19cfaef8119cac041a316501623c3ec9, type: 3}
-  - {fileID: 7482797900834251163, guid: cf8945210246af74bada16fd82af17a3, type: 3}
-  - {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed, type: 3}
-  - {fileID: 7482797900834251163, guid: 62ab624a9538e2c478aab8cc811a8ace, type: 3}
+  plantList: []
 --- !u!1001 &1376126936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5104,6 +5070,7 @@ Transform:
   - {fileID: 1223295888}
   - {fileID: 1768258415}
   - {fileID: 944259618}
+  - {fileID: 775784675}
   m_Father: {fileID: 1016579415}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5133,13 +5100,7 @@ MonoBehaviour:
   - {fileID: 944259620}
   seedStorage: {fileID: 1978450609}
   gardenSeedIndicator: {fileID: 297034759}
-  plantList:
-  - {fileID: 7482797900834251163, guid: 8147ae79c89f075478b595b6c64aec8d, type: 3}
-  - {fileID: 7482797900834251163, guid: 5b9579312a0e7954a870505a4dcde6ec, type: 3}
-  - {fileID: 7482797900834251163, guid: 19cfaef8119cac041a316501623c3ec9, type: 3}
-  - {fileID: 7482797900834251163, guid: cf8945210246af74bada16fd82af17a3, type: 3}
-  - {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed, type: 3}
-  - {fileID: 7482797900834251163, guid: 62ab624a9538e2c478aab8cc811a8ace, type: 3}
+  plantList: []
 --- !u!4 &1452677166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1dcac2403b4511d4eacc7e0f5572effd,
@@ -5230,7 +5191,7 @@ PrefabInstance:
     - target: {fileID: 1735234947022124735, guid: 1ab814a6a6a12e64bb177de9476f4d87,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1735234947022124735, guid: 1ab814a6a6a12e64bb177de9476f4d87,
         type: 3}
@@ -5785,7 +5746,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1281643520}
-  m_RootOrder: 13
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30.570002}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7038,7 +6999,7 @@ PrefabInstance:
     - target: {fileID: 1735234947022124735, guid: 1ab814a6a6a12e64bb177de9476f4d87,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1735234947022124735, guid: 1ab814a6a6a12e64bb177de9476f4d87,
         type: 3}
@@ -7298,7 +7259,7 @@ PrefabInstance:
     - target: {fileID: 1735234947022124735, guid: 1ab814a6a6a12e64bb177de9476f4d87,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1735234947022124735, guid: 1ab814a6a6a12e64bb177de9476f4d87,
         type: 3}
@@ -7419,6 +7380,11 @@ PrefabInstance:
       propertyPath: myBox
       value: 
       objectReference: {fileID: 1773010946}
+    - target: {fileID: 3921996451684354255, guid: ffd4bd3b9a4359a49988e886b79d9c95,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4301242925489746532, guid: ffd4bd3b9a4359a49988e886b79d9c95,
         type: 3}
       propertyPath: HomeMenu
@@ -7918,6 +7884,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1112286557, guid: c68a0b42de7450e40ac62e538ddce4ac, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1737191616, guid: c68a0b42de7450e40ac62e538ddce4ac, type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
@@ -9040,7 +9010,7 @@ PrefabInstance:
     - target: {fileID: 3015782806030301762, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3158014293137813087, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
