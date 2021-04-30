@@ -17,19 +17,19 @@ PrefabInstance:
         type: 3}
       propertyPath: growthSprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: e1144f37dff199b429d18f9fbea30d56,
+      objectReference: {fileID: 21300000, guid: 996750231cca53b45b682c01be67a401,
         type: 3}
     - target: {fileID: 451112960160041649, guid: 8a9bd93cd02f20545a37515dbc25dedd,
         type: 3}
       propertyPath: growthSprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: 2f3e8e7c5a5200945b022156ac4986c8,
+      objectReference: {fileID: 21300000, guid: 347ddb24752b2f94ebfc1c8d7fff2d9a,
         type: 3}
     - target: {fileID: 451112960160041649, guid: 8a9bd93cd02f20545a37515dbc25dedd,
         type: 3}
       propertyPath: growthSprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: a81c419a5f8e5dc47805b37cbce94c94,
+      objectReference: {fileID: 21300000, guid: b82195171dab3a742a593f0d6141faef,
         type: 3}
     - target: {fileID: 451112960160041649, guid: 8a9bd93cd02f20545a37515dbc25dedd,
         type: 3}
