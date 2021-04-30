@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameCore;
 
 // Scott Jarvis, 21/04/21
 
@@ -17,7 +18,7 @@ public class SFXHandler : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, Bag);
         EventsManager.BindEvent(EventsManager.EventType.SeedBagClose, Bag);
                       
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, Sparkle); // Still not got a specific use for Sparkle, using this as temp
+        EventsManager.BindEvent(EventsManager.EventType.CompleteTurn, Sparkle); // Still not got a specific use for Sparkle, using this as temp
                       
         EventsManager.BindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
                       
