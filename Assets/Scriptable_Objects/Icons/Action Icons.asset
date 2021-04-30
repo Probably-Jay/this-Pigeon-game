@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   watering: {fileID: 6775157301378754927, guid: 4f0ca371a2ecb2e46950bd161c5d5e36,
     type: 3}
-  staking: {fileID: 0}
   spraying: {fileID: 1988498626639981948, guid: f0cf53660dc29bf42ba8b33740d0d6cb,
     type: 3}
   trimming: {fileID: 1034001620139498926, guid: e1359e06e09d47246b5b31587332945e,
     type: 3}
-  removing: {fileID: 729067635130574417, guid: 72424f35099e94c48a8fbda961ae6db1, type: 3}
+  removing: {fileID: 1988498626639981948, guid: f0cf53660dc29bf42ba8b33740d0d6cb,
+    type: 3}

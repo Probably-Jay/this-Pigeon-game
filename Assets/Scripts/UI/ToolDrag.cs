@@ -57,7 +57,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (Input.GetMouseButtonDown(0) && isMouseOver)
         {
             pickedUp = true;
-            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta ,new Vector2(1.25f, 1.25f));
+            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta, new Vector2(1.25f, 1.25f));
         }
 
 
@@ -70,7 +70,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             {
                 pickedUp = false;
                 image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta, new Vector2(0.8f, 0.8f));
-                AttemptToTendPlant(); 
+                AttemptToTendPlant();
             }
         }
         else
@@ -89,17 +89,22 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         return false;
     }
 
-    void TryTrowel() {
+    void TryTrowel()
+    {
         bool menuAnswer = true;
         // Zap, menu goes here
-        if (menuAnswer) {
+        if (menuAnswer)
+        {
             RemovePlant();
-        } else { 
+        }
+        else
+        {
             // Whatever the alternative is
         }
     }
 
-    void RemovePlant() {
+    void RemovePlant()
+    {
         // Change Score
         // Set location to available
         // Delete gameobject
@@ -118,9 +123,15 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         {
             plant.Tend(ToolType);
         }
-        else {
+        else
+        {
             // Are You Sure?
-            EventsManager.InvokeEvent(EventsManager.EventType.TryRemovePlant);          
+            //EventsManager.InvokeEvent(EventsManager.EventType.TryRemovePlant);
+
+            currentGardenSlotManager.RemovePlantWithTrowel(plant.currentSlotPlantedIn);
+            GameManager.Instance.EmotionTracker.UpdateGardenStats();
+
+
         }
 
 
@@ -135,7 +146,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         for (int i = 0; i < corners.Length; i++)
         {
             worldCorners[i] = Camera.main.ScreenToWorldPoint(corners[i]);
-           // worldCorners[i].z = ZPos;
+            // worldCorners[i].z = ZPos;
         }
 
         var size = worldCorners[2] - worldCorners[0];

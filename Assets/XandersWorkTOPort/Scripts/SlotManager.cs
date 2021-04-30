@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
 
-// please sign script creation
+// Created by Alexander purvis 
 
-// all-plants-getter added - Jay 
+// Plant-getters added - Jay 
 
-
+// eddited by Alexander purvis 29/04/2021
 
 public class SlotManager : MonoBehaviour
 {
@@ -16,16 +16,16 @@ public class SlotManager : MonoBehaviour
     [SerializeField] List<SlotControls> gardenSlots;
 
    // SlotControls slotControls;
-
     public CurrentSeedStorage seedStorage;
     GameObject newPlant;
 
    // SeedIndicator seedIndicator;
-
     public SeedIndicator gardenSeedIndicator;
 
+    // for network to add plants
+    [SerializeField] List<GameObject> plantList;
 
-  
+
     private void Update()
     {          
        if (seedStorage.isStoringSeed)
@@ -42,7 +42,7 @@ public class SlotManager : MonoBehaviour
 
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
-                        PlantPlant(slotControls);
+                        PlantPlant(slotControls,slotNumber);
                         gardenSeedIndicator.HideIndicator();
                     }
                 }
@@ -50,10 +50,10 @@ public class SlotManager : MonoBehaviour
        }
     }
 
-    private void PlantPlant(SlotControls slotControls)
+    private void PlantPlant(SlotControls slotControls, int slotNumber)
     {
         newPlant = seedStorage.GetCurrentPlant();
-        slotControls.SpawnPlantInSlot(newPlant);
+        slotControls.SpawnPlantInSlot(newPlant, slotNumber);
         seedStorage.isStoringSeed = false;
         InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
 
@@ -64,10 +64,9 @@ public class SlotManager : MonoBehaviour
     {
         switch (plant.ThisPlantsSize)
         {
-            case Plant.PlantSize.Wide:
-                EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
-                // Is wide even a thing anymore?
-                break;
+           // case Plant.PlantSize.Wide:
+            //    EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+              //  break;
             case Plant.PlantSize.Tall:
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
                 break;
@@ -75,9 +74,9 @@ public class SlotManager : MonoBehaviour
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
                 break;
             default:
-                EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
                 break;
         }
+
 
         if (GameManager.Instance.InOwnGarden)
         {
@@ -100,12 +99,12 @@ public class SlotManager : MonoBehaviour
     {
         foreach (var slot in gardenSlots)
         {
-            var collider = slot.gameObject.GetComponent<BoxCollider2D>();
+            var colider = slot.gameObject.GetComponent<BoxCollider2D>();
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = collider.transform.position.z;
+            mousePos.z = colider.transform.position.z;
 
-            if (collider.OverlapPoint(mousePos))
+            if (colider.OverlapPoint(mousePos))
             {
                 return slot;
             }
@@ -117,23 +116,17 @@ public class SlotManager : MonoBehaviour
     /// Returns the plant of the slot the mouse is in, else returns null
     /// </summary>
     public Plant PlantOfSlotMouseIsIn(ToolDrag tool)
-    {
-       
+    {     
         foreach (var slot in gardenSlots)
         {
-       
             if (slot.plantsInThisSlot.Count!=0)
             {
                 var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
-
-            
+                
                 Rect plantRect = GetPlantRect(plant);
 
                /// plantZPos = plantRect.z
-
                 Rect toolRect = tool.GetWorldRect();
-
-
                 if (plantRect.Overlaps(toolRect))
                 {  
                     return plant;
@@ -167,7 +160,6 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-
     public void HideSlots()
     {
         for (int gridNumber = 0; gridNumber < gardenSlots.Count; gridNumber++)
@@ -185,7 +177,30 @@ public class SlotManager : MonoBehaviour
         }
 
         return new ReadOnlyCollection<Plant>(plants);
-
     }
 
+    public void RemovePlantWithTrowel(int slotNumber)
+    {
+        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+        slotControls.RemovePlantFromSlot();
+    }
+
+    // NetworkFunctions 
+    public void AddPlantFromServer(int slotNumber, int plantNumber)
+    {
+        newPlant = plantList[plantNumber];
+
+        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+
+        slotControls.SpawnPlantInSlot(newPlant, slotNumber);  
+    }
+
+    public void ClearGarden()
+    {
+        for(int i =0; i< gardenSlots.Count; i++)
+        {
+            var slotControls = gardenSlots[i].GetComponent<SlotControls>();
+            slotControls.RemovePlantFromSlot();
+        }    
+    }
 }
