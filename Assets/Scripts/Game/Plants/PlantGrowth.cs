@@ -17,11 +17,11 @@ namespace Plants
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.EndTurn, GrowIfShould);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, GrowIfShould);
         }
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, GrowIfShould);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, GrowIfShould);
         }
 
 
@@ -157,17 +157,18 @@ namespace Plants
         /// <summary>
         /// Tend the plant. No effect if this plant does not need this action taken
         /// </summary>
-        public void Tend(TendingActions action)
+        public bool Tend(TendingActions action)
         {
             if (!TendingState.CanTend(action))
             {
                 Debug.Log($"This plant does not need the {action} action performed");
-                return;
+                return false;
             }
 
             TendingState.Tend(action);
+            EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, new EventsManager.EventParams() { EnumData1 = action });
 
-           
+            return true;
 
         }
         public Collider2D GetActiveCollider()

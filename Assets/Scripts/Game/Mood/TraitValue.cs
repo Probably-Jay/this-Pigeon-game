@@ -61,11 +61,19 @@ namespace Mood
             this.painful    = painful;
         }
 
+        ///// <summary>
+        ///// Returns a new zeroed <see cref="TraitValue"/>
+        ///// </summary>
+        //public static TraitValue nZero => new TraitValue(0,0,0,0);
+
         /// <summary>
-        /// Returns a new zeroed <see cref="TraitValue"/>
+        /// A trait value representing all zeroes
         /// </summary>
-        public static TraitValue nZero => new TraitValue(0,0,0,0);
         public readonly static TraitValue Zero = new TraitValue(0,0,0,0);
+
+        /// <summary>
+        /// A trait value representing an uninitialised state
+        /// </summary>
         public readonly static TraitValue Uninitialised = new TraitValue(-1,-1,-1,-1);
 
         // private int[] values;

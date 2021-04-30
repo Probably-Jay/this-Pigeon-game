@@ -11,7 +11,7 @@ namespace NetSystem
     {
 
         [SerializeField]
-        private PlayFab.CloudScriptModels.EntityKey entityKey = new PlayFab.CloudScriptModels.EntityKey();
+        private PlayFab.CloudScriptModels.EntityKey entityKey = new PlayFab.CloudScriptModels.EntityKey(); // value behind property
 
         /// <summary>
         /// Read-only copy of <see cref="PlayFab.CloudScriptModels.EntityKey"/>. May need to be cast to other modules <see cref="EntityKey"/> type
@@ -33,13 +33,9 @@ namespace NetSystem
         /// </summary>
         public bool IsLoggedIn { get; private set; } = false;
 
-        void Start()
-        {
-            //AnonymousLogin();
-        }
+        public Player.PlayerEnum PlayerGameEnumValue { get; set; }
 
-
-
+        
 
         /// <summary>
         /// Log in using <see cref="SystemInfo.deviceUniqueIdentifier"/> and no password

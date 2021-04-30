@@ -6,6 +6,7 @@ using UnityEngine.Animations;
 
 // created jay 12/02
 
+[System.Obsolete("This class is no longer in use", true)]
 public class TurnPointsUI : MonoBehaviour
 {
 
@@ -71,9 +72,9 @@ public class TurnPointsUI : MonoBehaviour
 
     private void UpdateText()
     {
-        var activePlayerPoints = GameManager.Instance.HotSeatManager.ActivePlayer.TurnPoints;
-        textPlaceOwnPlantPoints.text = $"Place objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace)}";
-        textPlaceCompanionPlantPoints.text = $"Place companion's objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.OtherObjectPlace)}";
+     //   var activePlayerPoints = GameManager.Instance.HotSeatManager.ActivePlayer.TurnPoints;
+     //   textPlaceOwnPlantPoints.text = $"Place objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace)}";
+     //   textPlaceCompanionPlantPoints.text = $"Place companion's objects points: {activePlayerPoints.GetPoints(TurnPoints.PointType.OtherObjectPlace)}";
     //    textRemoveOwnPlantPoints.text = $"Remove objects points:{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfObjectRemove)}";
     //    textWaterOwnPoints.text = $"Water objects points:{activePlayerPoints.GetPoints(TurnPoints.PointType.SelfAddWater)}";
     }
@@ -98,7 +99,7 @@ public class TurnPointsUI : MonoBehaviour
 
     void FlashRed(EventsManager.EventParams param)
     {
-        switch ((TurnPoints.PointType)param.EnumData)
+        switch ((TurnPoints.PointType)param.EnumData1)
         {
             case TurnPoints.PointType.SelfObjectPlace:
                 animatorPlaceOwnPlantPoints.SetTrigger("FlashRed");

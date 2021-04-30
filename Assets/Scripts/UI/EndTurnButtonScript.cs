@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameCore;
 
 namespace SceneUI
 {
@@ -18,9 +19,13 @@ namespace SceneUI
 
         public void CallEndTurn() {
             gardenSlotDirectory.HideAllSlotsAndHideIndicators();
+
             GameManager.Instance.EndTurn();
+
+          //  throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
+
         }
-       
+
         Button button;
 
         private void Awake()
@@ -28,15 +33,39 @@ namespace SceneUI
             button = GetComponent<Button>();
         }
 
+        private void Start()
+        {
+            if (GameCore.GameManager.Instance.Spectating)
+            {
+                HideButton();
+            }
+        }
+
+
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.EndTurn, DisableButton);
-            EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, EnableButton);
+            EventsManager.BindEvent(EventsManager.EventType.CompleteTurn, HideButton);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideButton);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
         }
+
+      
+
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, DisableButton);
-            EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, EnableButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.CompleteTurn, HideButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideButton);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
+        }
+
+        private void HideButton()
+        {
+            button.gameObject.SetActive(false);
+        }        
+        
+        private void UnHideButton()
+        {
+            button.gameObject.SetActive(true);
         }
 
         private void EnableButton()

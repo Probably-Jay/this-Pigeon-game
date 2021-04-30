@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,6 +91,13 @@ namespace SaveSystemInternal
 
         }
 
+        public bool OverwriteSaveFile(NetworkGame.RawData data)
+        {
+            if (!GameOpen) return false;
+
+            return SaveDataSerialiser.SaveGame(OpenGameMetaData.gameID, data);
+        }
+
         /// <summary>
         /// Nullifies the referance to the open file ("open"/"close" does not imply a resources lock)
         /// </summary>
@@ -109,6 +117,8 @@ namespace SaveSystemInternal
 
             return SaveDataSerialiser.DeleteFile(game.gameID);
         }
+
+       
 
         /// <summary>
         /// Verify if a <see cref="GameMetaData"/> from the registry file corresponds to a game file that exists

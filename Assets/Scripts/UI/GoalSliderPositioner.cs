@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// obsoleted jay 26/04
+
+[System.Obsolete("This class is no longer used")]
 public class GoalSliderPositioner : MonoBehaviour
 {
     public Vector3[] gsPositions;
@@ -14,11 +17,11 @@ public class GoalSliderPositioner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(activePlayer!= (int)GameManager.Instance.ActivePlayerID)
-        {
-            activePlayer = (int)GameManager.Instance.ActivePlayerID;
-            UpdateSliderPosition(activePlayer);
-        }    
+        //if(activePlayer!= (int)GameManager.Instance.ActivePlayerID)
+        //{
+        //    activePlayer = (int)GameManager.Instance.ActivePlayerID;
+        //    UpdateSliderPosition(activePlayer);
+        //}    
     }
     void UpdateSliderPosition(int player)
     {

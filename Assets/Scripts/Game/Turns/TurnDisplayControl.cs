@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
+using GameCore;
 
 // created Jay 14/02
 
+[System.Obsolete("This class is no longer in use",true)]
 public class TurnDisplayControl : MonoBehaviour
 {
     Animator animator;
@@ -21,23 +23,23 @@ public class TurnDisplayControl : MonoBehaviour
       //  FadeInText();
     }
 
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, FadeInText);
-    }
+    //private void OnEnable()
+    //{
+    //    EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, FadeInText);
+    //}
 
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, FadeInText);
-    }
+    //private void OnDisable()
+    //{
+    //    EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, FadeInText);
+    //}
 
 
     void FadeInText()
     {
-        Player.PlayerEnum player = GameManager.Instance.ActivePlayerID;
-        int turnCount = GameManager.Instance.TurnCount;
+      //  Player.PlayerEnum player = GameManager.Instance.ActivePlayerID;
+      //  int turnCount = GameManager.Instance.TurnCount;
         animator.SetTrigger("FadeInOut");
-        StartCoroutine(UpdateTurnDisplay(player, turnCount));
+     //   StartCoroutine(UpdateTurnDisplay(player, turnCount));
     }
 
     private IEnumerator UpdateTurnDisplay(Player.PlayerEnum player, int turnCount)

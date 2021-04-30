@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using GameCore;
 
 public class MoodSelectController : MonoBehaviour
 {
 
-
-    [SerializeField] GoalStore goalStore;
+    [SerializeField] Dropdown dropdown;
 
 
     public void EnterGame()
@@ -16,5 +17,9 @@ public class MoodSelectController : MonoBehaviour
         SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
     }
 
-    private void SaveEmotion() => goalStore.StoreLocalGoal();
+    private void SaveEmotion()
+    {
+        var dropdownValue = dropdown.value;
+        NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.EnteredGameContext.SaveSelectedEmotion((Mood.Emotion.Emotions)dropdownValue);
+    }
 }
