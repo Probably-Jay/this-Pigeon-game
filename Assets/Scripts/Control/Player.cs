@@ -15,9 +15,13 @@ public class Player : MonoBehaviour
     public enum PlayerEnum { Player1 = 0, Player2 = 1 };
     public static readonly PlayerEnum[] PlayerEnumValueList = (PlayerEnum[])System.Enum.GetValues(typeof(PlayerEnum));
 
+    public NetSystem.PlayerClient PlayerClient { get; private set; }
+
     public TurnPoints TurnPoints { get; private set; }
     public PlayerEnum EnumID { get; set; }
     public bool HasAcheivedGoal { get; private set; } = false;
+
+    public static PlayerEnum OtherPlayer(PlayerEnum player) => player == PlayerEnum.Player1 ? PlayerEnum.Player2 : PlayerEnum.Player1;
 
 
     private void OnEnable()
@@ -32,21 +36,25 @@ public class Player : MonoBehaviour
 
     private void CheckWin(EventsManager.EventParams eventParams)
     {
-        if((PlayerEnum)eventParams.EnumData == EnumID)
+        if((PlayerEnum)eventParams.EnumData1 == EnumID)
         {
             HasAcheivedGoal = true;
         }
     }
 
+    [System.Obsolete("Depracated",true)]
     public void StartTurn()
     {
-        TurnPoints.StartTurn();
+       // TurnPoints.ResetPoints();
     }
 
-    public void Init(PlayerEnum player)
+    public void Init(NetSystem.PlayerClient netPlayer, Player.PlayerEnum playerWeAre)
     {
-        EnumID = player;
+        PlayerClient = netPlayer;
+        EnumID = playerWeAre;
+        PlayerClient.PlayerGameEnumValue = playerWeAre;
         TurnPoints = GetComponent<TurnPoints>();
+        
     }
 
 }

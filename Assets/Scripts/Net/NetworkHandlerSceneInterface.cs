@@ -107,11 +107,11 @@ namespace NetSystem
             }
 
             var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
-                onSucess: (data) => Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\""),
+                onSucess: (data) => Debug.Log($"Data received"),
                 onfailure: (e) => Debug.LogError(e)
                 );
 
-            NetworkHandler.Instance.ReceiveData(callbacks);
+           // NetworkHandler.Instance.ReceiveData(callbacks);
         }  
         
         public void UpdateGameData()
@@ -124,11 +124,11 @@ namespace NetSystem
 
             var data = new NetworkGame.RawData()
             {
-                gardenA = dataInputField.text,
-                gardenB = "Some other data"
+                //gardenA = dataInputField.text,
+                //gardenB = "Some other data"
             };
 
-            NetworkHandler.Instance.SendData(data);
+            NetworkHandler.Instance.SendData(APIOperationCallbacks.DoNothing, data);
         }
     }
 }

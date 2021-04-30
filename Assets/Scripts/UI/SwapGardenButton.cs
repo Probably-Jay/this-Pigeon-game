@@ -31,7 +31,7 @@ namespace SceneUI
 
         private void RotateButton(EventsManager.EventParams paramaters)
         {
-            switch ((Player.PlayerEnum)paramaters.EnumData)
+            switch ((Player.PlayerEnum)paramaters.EnumData1)
             {
                 case Player.PlayerEnum.Player1:
                     gardenSlotDirectory.HideAllSlotsAndHideIndicators();

@@ -61,6 +61,17 @@ namespace Plants {
         public PlantName plantname;
 
 
+        public int StoredInGarden { get; private set; }
+        public int StoredInSlot { get; private set; }
+
+        public void Init(int garden, int slot)
+        {
+            StoredInGarden = garden;
+            StoredInSlot = slot;
+        }
+
+        public bool RequiresAction(TendingActions tendingActions) => PlantGrowth.TendingState.GetRequiredActions().Contains(tendingActions);
+
         [SerializeField] PlantSize thisPlantsSize;
 
         [SerializeField] public int requiredSlot = 1;
@@ -81,7 +92,7 @@ namespace Plants {
         public TraitValue Traits => new TraitValue(Social, Joyful, Energetic, Painful);
         public TraitValue TraitsUnscaled => new TraitValue(social, joyful, energetic, painful);
 
-        public Player PlantOwner { get; set; }
+       // public Player PlantOwner { get; set; }
 
 
 
@@ -99,7 +110,9 @@ namespace Plants {
 
 
             // Get current player
-            PlantOwner = GameManager.Instance.GetPlayer(GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible); // Load system will break here
+
+            //PlantOwner = GameCore.GameManager.Instance.GetPlayer(GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible); // Load system will break here
+           // throw new NotImplementedException("Above line was removed in hotseat removal and has not been re-implimented");
 
             //// Set if in local or other garden
             //if (plantOwner.PlayerEnumValue == 0)
@@ -121,6 +134,7 @@ namespace Plants {
         public PlantSize ThisPlantsSize => thisPlantsSize;
 
 
+
         //public Player PlantOwner { get => PlantOwner1; set => PlantOwner1 = value; }
 
 
@@ -130,9 +144,17 @@ namespace Plants {
         /// <summary>
         /// Tend the plant. No effect if this plant does not need this action taken
         /// </summary>
-        public void Tend(TendingActions action) => PlantGrowth.Tend(action);
+        public void Tend(TendingActions action)
+        {
+            bool tended = PlantGrowth.Tend(action);
 
+            if (!tended)
+            {
+                return;
+            }
 
+            GameCore.GameManager.Instance.DataManager.UpdatePlantTendingActions(this);
+        }
     }
 
 }

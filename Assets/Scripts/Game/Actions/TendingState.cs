@@ -71,13 +71,12 @@ namespace Plants
 
             List<TendingActions>[] growthRequirements;
 
-            int currentGrowthStage = 0;
             int MaxGrowthStage => (ArtChagesAt[plantSize][ArtChagesAt[plantSize].Count - 1]);
-            bool AtFullStageOfGrowth => currentGrowthStage >= MaxGrowthStage;
+            bool AtFullStageOfGrowth => CurrentGrowthStage >= MaxGrowthStage;
 
 
 
-            List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[currentGrowthStage] : new List<TendingActions>(maxGrowthRequirements);
+            List<TendingActions> RequiredActions => !AtFullStageOfGrowth ? growthRequirements[CurrentGrowthStage] : new List<TendingActions>(maxGrowthRequirements);
             public ReadOnlyCollection<TendingActions> GetRequiredActions() => new ReadOnlyCollection<TendingActions>(RequiredActions);
 
             /// <summary>
@@ -89,7 +88,9 @@ namespace Plants
             /// If the plant is ready to change it's art at the end of this turn
             /// </summary>
             public bool ReadyToVisiblyGrow => ReadyToProgressStage && NextStageIsArtChange;
-            bool NextStageIsArtChange => ArtChagesAt[plantSize].Contains(currentGrowthStage + 1);
+            bool NextStageIsArtChange => ArtChagesAt[plantSize].Contains(CurrentGrowthStage + 1);
+
+            public int CurrentGrowthStage { get; private set; } = 0;
 
             /// <summary>
             /// If this plant needs this action done to it
@@ -103,6 +104,8 @@ namespace Plants
             {
                 RequiredActions.Remove(action);
                 OnPlantTended?.Invoke();
+
+               // GameCore.GameManager.Instance.DataManager.RemoveTendingActionFromPlant()
 
                 if(RequiredActions.Count == 0) // for the tutorial
                 {
@@ -130,7 +133,7 @@ namespace Plants
                 if (ReadyToProgressStage)
                 {
                     Debug.Log("Growing!");
-                    currentGrowthStage++;
+                    CurrentGrowthStage++;
 
                     OnPlantGrowth?.Invoke();
                 }

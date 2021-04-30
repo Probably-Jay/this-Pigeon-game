@@ -70,8 +70,11 @@ namespace NetSystem
         {
             NetGame.ExitGame();
             PlayerClient.Logout();
-            
+            ClearMemberGamesCache();
+
         }
+
+        public void ClearMemberGamesCache() => RemoteMemberGamesList.ClearCache();
 
         private void UpdateActiveGame(NetworkGame obj)
         {
@@ -115,10 +118,10 @@ namespace NetSystem
         //    throw new NotImplementedException();
         //}
 
-        public void LoadActiveMemberGame(NetworkGame game)
-        {
-            throw new NotImplementedException();
-        }
+        //public void LoadActiveMemberGame(NetworkGame game)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void ResumeMemberGame(NetworkGame game, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
@@ -168,17 +171,40 @@ namespace NetSystem
         public void EnterNewGame(APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(
-                onSucess: (groups) => { OnGotOpenGameGroupsSucess(groups, parentCallbacks); },
-                onfailure: (reason) => { OnGetOpenGamefailure(reason, parentCallbacks); });
+                onSucess: (groups) => { OnNewGameGotOpenGameGroupsSucess(groups, parentCallbacks); },
+                onfailure: (reason) => { OnNewGameGetOpenGamefailure(reason, parentCallbacks); });
 
             StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks));
         }
+
+
+        //public void GetOpenGameGroups(APIOperationCallbacks<List<NetworkGame>> parentCallbacks)
+        //{
+        //    var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(
+        //       onSucess: (groups) => { OnGotOpenGameGroupsSucess(groups, parentCallbacks); },
+        //       onfailure: (reason) => { OnGetOpenGamefailure(reason, parentCallbacks); });
+
+        //    StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks));
+        //}
+
+        //private void OnGotOpenGameGroupsSucess(List<GroupWithRoles> groups, APIOperationCallbacks<List<NetworkGame>> parentCallbacks)
+        //{
+            
+        //}
+
+        //private void OnGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<List<NetworkGame>> parentCallbacks)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+
 
         /// <summary>
         /// Calls <see cref="ActiveGame.JoinOpenGameGroup"/>
         /// <para>Callbacks to: <see cref="OnJoinedGameSucess"/> or <see cref="OnJoinedGameFailure"/></para>
         /// </summary>
-        private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups, APIOperationCallbacks<NetworkGame> parentCallbacks )
+        private void OnNewGameGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups, APIOperationCallbacks<NetworkGame> parentCallbacks )
         {
 
             var groupToJoin = SelectGroupToJoin(groups); // select game from list at random, could change this to oldest game in list
@@ -203,7 +229,7 @@ namespace NetSystem
         /// <summary>
         /// Calls <see cref="StartNewGame"/> if there were no open games, else terminates terminates callback chain with <see cref="APIOperationCallbacks{NetworkGame}.OnFailure"/>
         /// </summary>
-        private void OnGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
+        private void OnNewGameGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             if (reason == FailureReason.NoOpenGamesAvailable) // this is not a problem, just start a new game
             { 
@@ -257,6 +283,7 @@ namespace NetSystem
             UpdateActiveGame(game);
             Debug.Log($"Created game {NetGame.CurrentNetworkGame.GroupName}");
             parentCallbacks.OnSucess(game);
+           
         }
 
         /// <summary>
@@ -270,41 +297,93 @@ namespace NetSystem
 
 
         /// <summary>
-        /// Gets the data of the provided game, of the current game if provided gameis null
+        /// Gets the data of the provided <paramref name="game"/>, or of the current game if provided <paramref name="game"/> is null
         /// <para/> Upon completion will invoke one of the following callbacks :
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
         /// </summary>
         /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
-        public void ReceiveData(APIOperationCallbacks<NetworkGame.RawData> callbacks, NetworkGame game = null)
+        public void ReceiveData(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, NetworkGame game = null)
         {
+            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+                onSucess: (rawData) => OnReceiveDataSucess(parentCallbacks, game, rawData),
+                onfailure: (e) => OnReceiveDataFailure(parentCallbacks, e)
+                );
+
             StartCoroutine(gameDataHandler.GetDataFromTheServer(callbacks, game));
         }
 
-        private void OnReceiveDataSucess(NetworkGame.RawData data)
+        private void OnReceiveDataSucess(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, NetworkGame game, NetworkGame.RawData data)
         {
-            Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\"");
+            if(game == null)
+            {
+                game = NetGame.CurrentNetworkGame;
+            }
+
+            game.rawData = data;
+
+            var sucess = game.DeserilaiseRawData(data);
+
+            if (!sucess)
+            {
+                OnReceiveDataFailure(parentCallbacks, FailureReason.InternalError);
+                return;
+            }
+
+            parentCallbacks.OnSucess(game.usableData);
         }
 
-        private void OnReceiveDataFailure(FailureReason obj)
+        private void OnReceiveDataFailure(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, FailureReason e)
         {
-            throw new NotImplementedException();
+            parentCallbacks.OnFailure(e);
         }
 
-        public void SendData(NetworkGame.RawData data)
+        //private void OnReceiveDataSucess(NetworkGame.RawData data)
+        //{
+        //    Debug.Log($"Data received: {nameof(data.gardenA)}: \"{data.gardenA}\", {nameof(data.gardenB)}: \"{data.gardenB}\"");
+        //}
+
+        //private void OnReceiveDataFailure(FailureReason obj)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        /// <summary>
+        /// Sends the data provided to the server, overwiting the current save data
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully sent</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
+        public void SendData(APIOperationCallbacks callbacks, NetworkGame.RawData data)
         {
-            var callbacks = new APIOperationCallbacks(onSucess: OnSendDataSucess, onfailure: OnSendDataFailure);
             StartCoroutine(gameDataHandler.SaveDataToServer(data, callbacks));
         }
 
-        private void OnSendDataSucess()
-        {
-            Debug.Log("Data sent");
-        }
+        //private void OnSendDataSucess()
+        //{
+        //    Debug.Log("Data sent");
+        //}
 
-        private void OnSendDataFailure(FailureReason obj)
+        //private void OnSendDataFailure(FailureReason obj)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public bool ContinueToGame(SceneChangeController.Scenes game)
         {
-            throw new NotImplementedException();
+            if(PlayerClient == null || !PlayerClient.IsLoggedIn)
+            {
+                return false;
+            }
+
+            if(NetGame == null || !NetGame.IsInGame)
+            {
+                return true;
+            }
+
+            SceneChangeController.Instance.ChangeScene(game);
+            return true;
         }
 
         //private void UnexpectedPlayfabError<T>(FailureReason reason, APIOperationCallbacks<T> parentCallbacks)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
+using GameCore;
 
 // Created by Alexander purvis 
 
@@ -53,14 +54,17 @@ public class SlotManager : MonoBehaviour
     private void PlantPlant(SlotControls slotControls, int slotNumber)
     {
         newPlant = seedStorage.GetCurrentPlant();
-        slotControls.SpawnPlantInSlot(newPlant, slotNumber);
+     
+        var plantedPlant = slotControls.SpawnPlantInSlot(newPlant, slotNumber);
+
         seedStorage.isStoringSeed = false;
-        InvokePlantedEvent(newPlant.GetComponent<Plants.Plant>());
+
+        InvokePlantedEvent(plantedPlant, slotControls);
 
         HideSlots();
     }
 
-    private static void InvokePlantedEvent(Plant plant)
+    private void InvokePlantedEvent(Plant plant, SlotControls slotControls)
     {
         switch (plant.ThisPlantsSize)
         {
@@ -82,8 +86,9 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
 
-            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
-            if (moodGoal.Overlaps(plant.TraitsUnscaled))
+            Mood.TraitValue moodGoal = GameManager.Instance.EmotionTracker.EmotionGoal.traits;
+
+            if (moodGoal.Overlaps(plant.TraitsUnscaled)) // for tutorial
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant);
             }
@@ -92,6 +97,52 @@ public class SlotManager : MonoBehaviour
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedCompanionObject);
         }
+
+
+        ReadOnlyCollection<Plants.PlantActions.TendingActions> requiredActions = plant.PlantGrowth.TendingState.GetRequiredActions();
+
+        Plant.PlantName plantname = plant.plantname;
+        int slotNumber = gardenSlots.IndexOf(slotControls);
+        bool watering = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering);
+        bool spraying = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying);
+        bool trimming = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming);
+
+        switch (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible)
+        {
+            case Player.PlayerEnum.Player1:
+                GameManager.Instance.DataManager.AddPlantToGarden1(
+                    plantType: (int)plantname,
+                    slotNumber: slotNumber,
+                    stage: 0,
+                    watering: watering,
+                    spraying: spraying,
+                    trimming: trimming
+                    ) ;
+                break;
+            case Player.PlayerEnum.Player2:
+                GameManager.Instance.DataManager.AddPlantToGarden2(
+                   plantType: (int)plantname,
+                   slotNumber: slotNumber,
+                   stage: 0,
+                   watering: watering,
+                   spraying: spraying,
+                   trimming: trimming
+                   );
+                break;
+        }
+
+
+
+        //EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPlantPlanted, new EventsManager.EventParams()
+        //{
+        //    EnumData1 = plant.plantname, // play type
+        //    EnumData2 = GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible, // gardenSlot
+        //    IntData1 = gardenSlots.IndexOf(slotControls),// slot number
+        //    IntData2 = plant.PlantGrowth.TendingState.CurrentGrowthStage, // stage
+        //    Bool1 = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering), // watering
+        //    Bool2 = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying), // spraying
+        //    Bool3 = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming), // trimming
+        //});
     }
 
 
@@ -122,11 +173,11 @@ public class SlotManager : MonoBehaviour
             if (slot.plantsInThisSlot.Count!=0)
             {
                 var plant = slot.plantsInThisSlot[0].GetComponent<Plants.Plant>();
-                
+
                 Rect plantRect = GetPlantRect(plant);
 
-               /// plantZPos = plantRect.z
                 Rect toolRect = tool.GetWorldRect();
+
                 if (plantRect.Overlaps(toolRect))
                 {  
                     return plant;
@@ -199,7 +250,7 @@ public class SlotManager : MonoBehaviour
     {
         for(int i =0; i< gardenSlots.Count; i++)
         {
-            var slotControls = gardenSlots[i].GetComponent<SlotControls>();
+            var slotControls = gardenSlots[i];
             slotControls.RemovePlantFromSlot();
         }    
     }

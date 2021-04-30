@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mood;
 using System;
+using GameCore;
 using Tutorial;
 using Plants;
 
@@ -20,9 +21,7 @@ namespace Tutorial
 
         public int nudgeTime = 20;
 
-        private float secondsSinceAction=0f;
-
-        private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
+        private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
 
 
 
@@ -42,8 +41,11 @@ namespace Tutorial
 
         private PlayerAction nextAction;
 
+        float secondsSinceAction = 0f;
+
         private void Update()
         {
+            
             if (secondsSinceAction > nudgeTime)
             {
                 secondsSinceAction = 0f;
@@ -55,14 +57,25 @@ namespace Tutorial
             }
         }
 
+        private void Awake()
+        {
+            myArrows = GetComponent<ArrowEnabler>(); 
+        }
+
         private void OnEnable()
         {
+            BindEvent(EventsManager.EventType.FirstTimeEnteringGame, StartTurnOne);
+
             EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
-            myArrows = GetComponent<ArrowEnabler>();
-            BindEvent(EventsManager.EventType.StartGame, StartTurnOne);
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartedThirdTurn ,condition:()=> { return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4; });
+
+           
+
+            BindEvent(EventsManager.EventType.StartNewGame, StartTurnOne);
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, StartedThirdTurn ,condition:()=> { return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4; });
+
+
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
 
             BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
@@ -70,24 +83,24 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, SayNothing,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
 
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithRelaventPlants,
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, StartTurnTwoWithRelaventPlants,
                       condition: () =>
                       {
-                          return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
+                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
                       }); 
             
-            BindEvent(EventsManager.EventType.NewTurnBegin, StartTurnTwoWithNoRelaventPlants,
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, StartTurnTwoWithNoRelaventPlants,
                       condition: () =>
                       {
-                          return GameManager.Instance.HotSeatManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
+                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
                       });
 
 
-            BindEvent(EventsManager.EventType.NewTurnBegin, MoodRelevantPlantReachesMaturity,
+            BindEvent(EventsManager.EventType.ResumeGameOwnTurn, MoodRelevantPlantReachesMaturity,
                 condition: () => 
                 {
-                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.GardenCurrentTraits[GameManager.Instance.ActivePlayerID];
-                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.GardenGoalTraits[GameManager.Instance.ActivePlayerID];
+                    TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
 
 
                     float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
@@ -118,7 +131,7 @@ namespace Tutorial
         bool PlayerNeedsToTend(Player.PlayerEnum player)
         {
             bool tendingRequired = false;
-            foreach (Plant plant in GameManager.Instance.SlotManagers[player].GetAllPlants())
+            foreach (Plant plant in GameManager.Instance.LocalPlayerSlotManager.GetAllPlants())
             {
                 if (plant.PlantGrowth.TendingState.ReadyToProgressStage == false)
                 {
@@ -139,7 +152,7 @@ namespace Tutorial
         void CheckAndNudgePlayer()
         {
             bool tendingRequired = PlayerNeedsToTend(Player.PlayerEnum.Player1);
-            if (GameManager.Instance.ActivePlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
+            if (GameManager.Instance.LocalPlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
             {
                 nextAction = PlayerAction.PlacePlant;
             }
@@ -147,7 +160,7 @@ namespace Tutorial
             {
                 nextAction = PlayerAction.TendPlant;
             }
-            else if (GameManager.Instance.ActivePlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.HotSeatManager.TurnTracker.Turn > 4))
+            else if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4))
             {
                 nextAction = PlayerAction.GiftPlant;
             }
@@ -214,10 +227,8 @@ namespace Tutorial
 
         void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
-
-            if (GameManager.Instance.ActivePlayerID != player1)
+            if (!GameManager.Instance.Playing)
                 return;
-           
 
 
             if (condition == null || condition())
@@ -238,7 +249,7 @@ namespace Tutorial
         
         void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
-            if (GameManager.Instance.ActivePlayerID != player1)
+            if (!GameManager.Instance.Playing)
                 return;
 
 
@@ -347,7 +358,7 @@ namespace Tutorial
 
         void ExplainTraits()
         {
-            EventsManager.InvokeEvent(EventsManager.EventType.moodSlidersExplanation);
+            EventsManager.InvokeEvent(EventsManager.EventType.MoodSlidersExplination);
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
  //           myBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
@@ -376,7 +387,7 @@ namespace Tutorial
 
         void NoMorePoints(EventsManager.EventParams eventParams)
         {
-            switch ((TurnPoints.PointType)eventParams.EnumData)
+            switch ((TurnPoints.PointType)eventParams.EnumData1)
             {
                 case TurnPoints.PointType.SelfObjectPlace:
                     myBox.Say("Whoa there! You can only plant one plant in your garden each turn!");  
@@ -390,13 +401,13 @@ namespace Tutorial
 
         private void AcheivedGoal(EventsManager.EventParams eventParams)
         {
-            if ((Player.PlayerEnum)eventParams.EnumData != player1)
+            if ((Player.PlayerEnum)eventParams.EnumData1 != player1)
                 return;
 
             myBox.Say("You did it! Your garden now reflects your mood as well as you communicated it.");
 
 
-            var goal = GameManager.Instance.EmotionTracker.GardenGoalEmotions[player1];
+            var goal = GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
 
             switch (goal)
             {

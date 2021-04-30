@@ -12,17 +12,19 @@ using UnityEngine.Events;
 /// </summary>
 public class EventsManager : Singleton<EventsManager>
 {
+
     // Update these enum with new events to expand this class' functionality
 
     // events with no parameters
     public enum EventType
     {
-        EndTurn
-        , NewTurnBegin
+       // EndTurn
+       // , NewTurnBegin
 
-        , BeginSceneLoad
+         BeginSceneLoad
         , SceneLoadComplete
         , EnterNewScene
+        , EnterGameScene
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
 
@@ -31,7 +33,7 @@ public class EventsManager : Singleton<EventsManager>
         , PlacedOwnObjectMoodRelevant
         , PlacedCompanionObject
         , RemovedOwnObject
-        , WateredOwnPlant // perhaps rename to "maintained own object"
+      //  , WateredOwnPlant // perhaps rename to "maintained own object"
 
         , triedToPlaceOwnObject
         , triedToPlaceCompanionObject
@@ -44,7 +46,13 @@ public class EventsManager : Singleton<EventsManager>
         , PlantChangedStats
         , GardenStatsUpdated
 
-        , StartGame
+       // , StartGame
+        , StartNewGame
+        , GameLoaded
+        , FirstTimeEnteringGame
+        , ResumeGameOwnTurn
+        , ResumeGameSpectating
+        , CompleteTurn
         , GameOver
 
         , ToolBoxOpen
@@ -65,14 +73,15 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
-        , moodSlidersExplanation
+        , MoodSlidersExplination
 
         // , AddedToEmotionGoal
         , ToolDropped
 
         , PlantReadyToGrow
 
-        , SaveGatheredData
+        ,SaveGatheredData
+    
 
         , TryRemovePlant    // For triggering "are you sure" menu
         , RemovedPlant      // For triggering sfx
@@ -92,13 +101,24 @@ public class EventsManager : Singleton<EventsManager>
         , SwappedGardenView // enum variable
         , AcheivedGoal // enum variable
         , OnPerformedTendingAction // enum varailble
+
+        , OnPlantPlanted
     }
 
     // update thsese with more data as needed
     public struct EventParams
     {
-        public int IntData;
-        public Enum EnumData;
+        public int IntData1;
+        public int IntData2;
+        public int IntData3;
+        public Enum EnumData1;
+        public Enum EnumData2;
+
+        public bool Bool1;
+        public bool Bool2;
+        public bool Bool3;
+
+
     }
 
     protected static new EventsManager Instance { get => Singleton<EventsManager>.Instance; } // hide property

@@ -27,7 +27,7 @@ namespace NetSystem
             }
         }
 
-        public object ClientEntity => NetworkHandler.Instance.ClientEntity;
+    
 
         private List<NetworkGame> memberGames = null;
 
@@ -46,7 +46,7 @@ namespace NetSystem
 
         }
 
-        public void MarkListAsDirty() => memberGames = null;
+        public void ClearCache() => memberGames = null;
 
         //private void RefreshList()
         //{

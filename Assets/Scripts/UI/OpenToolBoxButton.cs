@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 //Created Zap 27/03, adapted from EndTurnButtonScript.cs
 public class OpenToolBoxButton : MonoBehaviour
@@ -20,8 +22,9 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
        // EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate());
-        EventsManager.BindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
-        EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
+        EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, InitiateUpdate);
+        EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
+     //   EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }
 
     private void InitiateUpdateAction(EventsManager.EventParams _) => InitiateUpdate();
@@ -33,8 +36,9 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
        // EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate()); ;
-        EventsManager.UnbindEvent(EventsManager.EventType.StartGame, InitiateUpdate);
-        EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
+        EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, InitiateUpdate);
+        EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
+       // EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
     }
 
     // Update is called once per frame
@@ -54,7 +58,17 @@ public class OpenToolBoxButton : MonoBehaviour
     }
     void EnableButton()
     {
-        if (GameManager.Instance.InOwnGarden)
+        if (GameCore.GameManager.Instance.Spectating)
+        {
+            HideButton();
+            return;
+        }
+        else
+        {
+            UnHideButton();
+        }
+
+        if (GameCore.GameManager.Instance.InOwnGarden)
         {
             button.interactable = true;
         }
@@ -74,14 +88,33 @@ public class OpenToolBoxButton : MonoBehaviour
     }
     void UpdateButton()
     {
-        
-        if (GameManager.Instance.InOwnGarden)
+        if (GameCore.GameManager.Instance.Spectating)
         {
-            EnableButton();
+            HideButton();
+            return;
         }
         else
         {
+            UnHideButton();
+        }
+
+        if (!GameCore.GameManager.Instance.InOwnGarden)
+        {
             DisableButton();
         }
+        else
+        {
+            EnableButton();
+        }
+    }
+
+    private void HideButton()
+    {
+        button.gameObject.SetActive(false);
+    }
+    
+    private void UnHideButton()
+    {
+        button.gameObject.SetActive(true);
     }
 }

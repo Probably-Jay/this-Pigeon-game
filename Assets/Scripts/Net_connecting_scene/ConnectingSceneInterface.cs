@@ -30,9 +30,17 @@ namespace SceneInterface
 
         const float rotationSpeed = 50;
 
+        Coroutine refreshCoroutine;
+
         private void Start()
         {
             StartCoroutine(ServerOperations());
+        }
+
+
+        void OnDestroy()
+        {
+            StopAllCoroutines();
         }
 
         IEnumerator ServerOperations()
@@ -52,6 +60,30 @@ namespace SceneInterface
                 }
             }
 
+            yield return StartCoroutine(RefreshMemberGamesList());
+
+
+            EnableBackButton();
+
+            EnableNewGameButton();
+
+            refreshCoroutine = StartCoroutine(PeriodicRefresh());
+
+        }
+
+        private IEnumerator PeriodicRefresh()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(15);
+                yield return StartCoroutine(RefreshMemberGamesList());
+            }
+        }
+
+        private IEnumerator RefreshMemberGamesList()
+        {
+            NetworkHandler.Instance.ClearMemberGamesCache();
+
             // get all member games
             ReadOnlyCollection<NetworkGame> memberGames = null;
             {
@@ -65,18 +97,18 @@ namespace SceneInterface
                 memberGames = getGamesResponse.returnData;
             }
 
-            if(memberGames == null)
+            if (memberGames == null)
             {
                 GamesGatheredFailure(FailureReason.InternalError);
                 yield break;
             }
 
-            // get the games metadatas 
+            // get the games data
             {
-                var rawDataResponses = new List<CallResponse<NetworkGame.RawData>>();
-                foreach (var game in  memberGames)
+                var rawDataResponses = new List<CallResponse<NetworkGame.UsableData>>();
+                foreach (var game in memberGames)
                 {
-                    CallResponse<NetworkGame.RawData> getGameDataResponse = GetGameDataCall(game); // this call is async, we can bunch a load of them up
+                    CallResponse<NetworkGame.UsableData> getGameDataResponse = GetGameDataCall(game); // this call is async, we can bunch a load of them up
                     rawDataResponses.Add(getGameDataResponse);
                 }
 
@@ -93,10 +125,7 @@ namespace SceneInterface
                         yield break;
                     }
 
-                    NetworkGame.RawData data = call.returnData;
-
-                    game.rawData = data; // set each game's raw data
-
+                    NetworkGame.UsableData data = call.returnData;
                 }
             }
 
@@ -106,14 +135,7 @@ namespace SceneInterface
             }
 
             gamesList.Populate(memberGames);
-
-            EnableBackButton();
-
-            EnableNewGameButton();
-
         }
-
-      
 
         private CallResponse Login()
         {
@@ -267,7 +289,7 @@ namespace SceneInterface
             }
 
 
-            if(game == null )
+            if (game == null)
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 yield break;
@@ -277,7 +299,7 @@ namespace SceneInterface
             {
                 if (!game.NewGameJustCreated || true) // -- get the data from a brand new game
                 {
-                    CallResponse<NetworkGame.RawData> getGameDataResponse = GetGameDataCall(game);
+                    CallResponse<NetworkGame.UsableData> getGameDataResponse = GetGameDataCall(game);
 
                     yield return new WaitUntil(() => getGameDataResponse.status.Complete);
 
@@ -286,31 +308,9 @@ namespace SceneInterface
                         yield break;
                     }
 
-                    game.rawData = getGameDataResponse.returnData;
                 }
             }
 
-            // validate game can be joined (to change)
-            {
-                if (game.rawData == null)
-                {
-                    NewGameJoinedFailure(FailureReason.UnknownError);
-                    yield break;
-                }
-
-                bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);
-
-                if (allowedToTakeTurn == null)
-                {
-                    NewGameJoinedFailure(FailureReason.InternalError);
-                    yield break;
-                }
-
-                if (allowedToTakeTurn == false)
-                {
-                    NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
-                }
-            }
 
             // create a local save of the game
             {
@@ -331,11 +331,45 @@ namespace SceneInterface
                 }
             }
 
-            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen);
+            EnterGame(game);
 
         }
 
-      
+        private void EnterGame(NetworkGame game)
+        {
+
+            if (NetworkHandler.Instance.PlayerClient == null || !NetworkHandler.Instance.PlayerClient.IsLoggedIn)
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+                return;
+            }
+
+            if (NetworkHandler.Instance.NetGame == null || !NetworkHandler.Instance.NetGame.IsInGame)
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+                return;
+            }
+
+            game.DetermineGameContext();
+
+            if(game.EnteredGameContext == null)
+            {
+                NewGameJoinedFailure(FailureReason.UnknownError);
+                return;
+            }
+
+            if (!game.EnteredGameContext.AllowedIntoGame)
+            {
+                NewGameJoinedFailure(FailureReason.GameNotBegun);
+                return;
+            }
+
+            var nextScene = game.EnteredGameContext.SceneEntering;
+
+            
+            SceneChangeController.Instance.ChangeScene(nextScene);
+        }
+
 
         private CallResponse<NetworkGame> JoinNewGameCall()
         {
@@ -408,6 +442,9 @@ namespace SceneInterface
                     message = $"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
                         $"Why not come back in a bit?";
                     break;
+                case FailureReason.GameNotBegun:
+                    message = $"Joined a game!\nThe game is still being set up by the other player, please check back in a moment";
+                    break;
                 default:
                     message = $"Unable find new game: {errorReason}";
                     break;
@@ -420,13 +457,13 @@ namespace SceneInterface
 
 
     
-        private CallResponse<NetworkGame.RawData> GetGameDataCall(NetworkGame game)
+        private CallResponse<NetworkGame.UsableData> GetGameDataCall(NetworkGame game)
         {
-            var response = new CallResponse<NetworkGame.RawData>();
+            var response = new CallResponse<NetworkGame.UsableData>();
 
-            StartCoroutine(ShowEnterGameDisplay("Entering game...", response)); // display
+            StartCoroutine(ShowEnterGameDisplay("Getting Games...", response)); // display
 
-            var callbacks = new APIOperationCallbacks<NetworkGame.RawData>(
+            var callbacks = new APIOperationCallbacks<NetworkGame.UsableData>(
                 onSucess: (result) => { 
                     GetGameDataSucess(result, game);
                     response.returnData = result;
@@ -454,9 +491,9 @@ namespace SceneInterface
             enterGameLoadingImage.enabled = false;
         }
 
-        private void GetGameDataSucess(NetworkGame.RawData result, NetworkGame game)
+        private void GetGameDataSucess(NetworkGame.UsableData result, NetworkGame game)
         {
-            game.rawData = result;
+           
         }
 
         public void ResumeGame(NetworkGame game)
@@ -467,7 +504,7 @@ namespace SceneInterface
 
         private void ResumedGameSucess(NetworkGame game)
         {
-            if (game.rawData == null)
+            if (game.usableData == null)
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 return;
@@ -496,20 +533,9 @@ namespace SceneInterface
                 }
             }
 
-            bool? allowedToTakeTurn = NetUtility.AllowedToTakeTurn(game.rawData);
+            EnterGame(game);
 
-            if (allowedToTakeTurn == null)
-            {
-                NewGameJoinedFailure(FailureReason.InternalError);
-                return;
-            }
 
-            if (allowedToTakeTurn == false)
-            {
-                NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
-            }
-
-            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
         }
 
         private void ResumedGameFailure(FailureReason e)

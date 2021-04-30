@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // SJ, 4/3/21
+// obsoleted jay 26/04
+
+[System.Obsolete("Should be replaced with new system")]
 public class EndGameScript : MonoBehaviour
 {
     public GameObject hideBuffer;
@@ -41,9 +44,9 @@ public class EndGameScript : MonoBehaviour
             StartCoroutine(RotateIn());
         }
 
-        squadGoals.text =
-         $"Garden 1 Goal: {GameManager.Instance.Player1Goal.ToString()},\n" +
-         $"Garden 2 Goal: {GameManager.Instance.Player2Goal.ToString()}";
+        //squadGoals.text =
+        // $"Garden 1 Goal: {GameManager.Instance.Player1Goal.ToString()},\n" +
+        // $"Garden 2 Goal: {GameManager.Instance.Player2Goal.ToString()}";
     }
 
     private IEnumerator RotateIn()

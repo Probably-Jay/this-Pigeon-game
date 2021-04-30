@@ -14,19 +14,19 @@ public class PlantFinder : MonoBehaviour
 
     public List<Plant> gardenPlants = new List<Plant>(); // Holds both gardens in same var
 
-    private void OnEnable()
-    {
-        EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, FindPlants);
-        EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, FindPlants);
-        EventsManager.BindEvent(EventsManager.EventType.EndTurn, GrowPlants);
-    }
+    //private void OnEnable()
+    //{
+    //    EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, FindPlants);
+    //    EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, FindPlants);
+    //    EventsManager.BindEvent(EventsManager.EventType.EndTurn, GrowPlants);
+    //}
 
-    private void OnDisable()
-    {
-        EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, FindPlants);
-        EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, FindPlants);
-        EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, GrowPlants);
-    }
+    //private void OnDisable()
+    //{
+    //    EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, FindPlants);
+    //    EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, FindPlants);
+    //    EventsManager.UnbindEvent(EventsManager.EventType.EndTurn, GrowPlants);
+    //}
 
     /// <summary>
     /// Search through all plants, adding them to an internal array

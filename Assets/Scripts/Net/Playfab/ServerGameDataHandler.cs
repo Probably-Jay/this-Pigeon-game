@@ -79,8 +79,14 @@ namespace NetSystem
 
         }
 
-   
 
+        /// <summary>
+        /// Sends the data provided to the server, overwiting the current save data
+        /// <para/> Upon completion will invoke one of the following callbacks :
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully sent</para>
+        /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
+        /// </summary>
+        /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
         public IEnumerator SaveDataToServer(NetworkGame.RawData data, APIOperationCallbacks resultsCallback)
         {
             {
@@ -109,18 +115,21 @@ namespace NetSystem
                 {
                     Group = groupEntityKey,
                     Data = new {
-                        gardenA = data.gardenA,
-                        gardenB = data.gardenB
+                        // game begun set on server automatically
+                        turnBelongsTo = data.turnBelongsTo,
+                        turnComplete = data.turnComplete,
+                        gardenData = data.gardenData,
+                        playerData = data.playerData
                     }
             }
 
             };
 
             PlayFabCloudScriptAPI.ExecuteEntityCloudScript(
-            request: request,
-            resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { SendDataSucess(obj); },
-            errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, sendDataResponse)
-            );
+                request: request,
+                resultCallback: (PlayFab.CloudScriptModels.ExecuteCloudScriptResult obj) => { SendDataSucess(obj); },
+                errorCallback: (PlayFabError obj) => ScriptExecutedfailure(obj, sendDataResponse)
+                );
 
 
             // local function

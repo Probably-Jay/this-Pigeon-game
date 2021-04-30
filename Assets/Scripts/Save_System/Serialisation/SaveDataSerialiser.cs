@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using NetSystem;
 
 
 
-    // Jay 11/03
+// Jay 11/03
 namespace SaveSystemInternal
 {
     /// <summary>
@@ -83,6 +84,15 @@ namespace SaveSystemInternal
             return Savedata(path, data);
         }
 
+        public static bool SaveGame(string gameID, NetworkGame.RawData data)
+        {
+            string path = GetFilePath(gameID);
+
+            return Savedata(path, data);
+        }
+
+       
+
         /// <summary>
         /// Load game data from game file by the provided <paramref name="localGameID"/>
         /// </summary>
@@ -110,6 +120,17 @@ namespace SaveSystemInternal
             return true;
         }
 
+
+        private static bool Savedata(string path, NetworkGame.RawData data)
+        {
+            if (!FileExists(path)) return false;
+
+            string jsonData = JsonUtility.ToJson(data);
+
+            File.WriteAllText(path, jsonData); // will overwrite file there and then closes it
+
+            return true;
+        }
 
 
         private static SaveGameData LoadData(string path)
