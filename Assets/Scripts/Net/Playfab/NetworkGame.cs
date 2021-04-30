@@ -23,6 +23,8 @@ namespace NetSystem
         public RawData rawData;
         public UsableData usableData;
 
+        public EnterGameContext EnteredGameContext { get; private set; }
+
         public NetworkGame(PlayFab.GroupsModels.GroupWithRoles group, NetworkGame.NetworkGameMetadata gameMetaData, bool newGame = false)
         {
             this.group = group;
@@ -157,5 +159,130 @@ namespace NetSystem
             }
         }
 
+        public void DetermineGameContext()
+        {
+            var playerClient = NetworkHandler.Instance.PlayerClient;
+
+            NetUtility.EnterGameContext context = NetUtility.DetermineEnterGameContext(usableData, playerClient);
+
+            bool createNewGame = false;
+            bool initialisePlayer = false;
+            bool claimingTurn = false;
+            EnterGameContext.InteractionState interactionState;
+            Player.PlayerEnum playerWeAre;
+            switch (context)
+            {
+                case NetUtility.EnterGameContext.CreateNewGamePlayer1:
+                    playerWeAre = Player.PlayerEnum.Player1;
+                    createNewGame = true;
+                    initialisePlayer = true;
+                    interactionState = EnterGameContext.InteractionState.Playing;
+                    break;
+
+                case NetUtility.EnterGameContext.JoinGamePlayer2:
+                    playerWeAre = Player.PlayerEnum.Player2;
+                    initialisePlayer = true;
+                    interactionState = EnterGameContext.InteractionState.Playing;
+                    break;
+
+                case NetUtility.EnterGameContext.ResumePlayingPlayer1:
+                    playerWeAre = Player.PlayerEnum.Player1;
+                    interactionState = EnterGameContext.InteractionState.Playing;
+                    break;
+
+                case NetUtility.EnterGameContext.ResumePlayingPlayer2:
+                    playerWeAre = Player.PlayerEnum.Player2;
+                    interactionState = EnterGameContext.InteractionState.Playing;
+                    break;
+
+                case NetUtility.EnterGameContext.ResumeClaimTurnPlayer1:
+                    playerWeAre = Player.PlayerEnum.Player1;
+                    claimingTurn = true;
+                    interactionState = EnterGameContext.InteractionState.Spectating;
+                    break;
+
+                case NetUtility.EnterGameContext.ResumeClaimTurnPlayer2:
+                    playerWeAre = Player.PlayerEnum.Player2;
+                    claimingTurn = true;
+                    interactionState = EnterGameContext.InteractionState.Spectating;
+                    break;
+
+                case NetUtility.EnterGameContext.ResumeSpectatingPlayer1:
+                    playerWeAre = Player.PlayerEnum.Player1;
+                    interactionState = EnterGameContext.InteractionState.Spectating;
+                    break;
+
+                case NetUtility.EnterGameContext.ResumeSpectatingPlayer2:
+                    playerWeAre = Player.PlayerEnum.Player2;
+                    interactionState = EnterGameContext.InteractionState.Spectating;
+                    break;
+
+                case NetUtility.EnterGameContext.CannotEnterUnilitilasedGamePlayer2:
+                    playerWeAre = Player.PlayerEnum.Player2;
+                    interactionState = EnterGameContext.InteractionState.NotEntering;
+                    break;
+
+                case NetUtility.EnterGameContext.Error:
+                    return;
+                default:
+                    return;
+            }
+
+           EnteredGameContext = new EnterGameContext(
+                createNewGame: createNewGame,
+                initialisePlayer: initialisePlayer,
+                interactionState: interactionState,
+                claimingTurn: claimingTurn,
+                playerWeAre: playerWeAre,
+                enumValue: context
+                );
+        }
+
+        public class EnterGameContext
+        {
+            public bool createNewGame;
+            public bool initialisePlayer;
+            public InteractionState interactionState;
+            public Player.PlayerEnum playerWeAre;
+            public bool claimingTurn;
+            public Mood.Emotion.Emotions emotion;
+            public NetUtility.EnterGameContext enumValue;
+
+            public bool AllowedIntoGame => interactionState!= InteractionState.NotEntering;
+            public SceneChangeController.Scenes SceneEntering => initialisePlayer ? SceneChangeController.Scenes.MoodSelectScreen : SceneChangeController.Scenes.Game;
+
+
+            public EnterGameContext(
+                bool createNewGame
+                ,bool initialisePlayer
+                ,bool claimingTurn
+                , InteractionState interactionState
+                ,Player.PlayerEnum playerWeAre
+                , NetUtility.EnterGameContext enumValue
+                )
+            {
+                this.createNewGame      = createNewGame;
+                this.initialisePlayer   = initialisePlayer;
+                this.interactionState   = interactionState;
+                this.claimingTurn       = claimingTurn;
+                this.playerWeAre        = playerWeAre;
+                this.enumValue          = enumValue;
+            }
+            public enum InteractionState { 
+                NotEntering,
+                Playing,
+                Spectating
+            }
+
+            public void SaveSelectedEmotion(Mood.Emotion.Emotions emotion)
+            {
+                this.emotion = emotion;
+            }
+
+        }
+
+
+
+        
     }
 }

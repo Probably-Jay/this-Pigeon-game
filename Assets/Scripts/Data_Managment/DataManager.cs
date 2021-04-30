@@ -68,7 +68,7 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void InitialiseTurnCounter()
     {
-        PlayerData.turnCounter =0;
+        PlayerData.turnCounter = -1;
     }    
     
     public void SetTurnCounter(int value)

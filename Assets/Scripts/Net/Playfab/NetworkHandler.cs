@@ -70,8 +70,11 @@ namespace NetSystem
         {
             NetGame.ExitGame();
             PlayerClient.Logout();
-            
+            ClearMemberGamesCache();
+
         }
+
+        public void ClearMemberGamesCache() => RemoteMemberGamesList.ClearCache();
 
         private void UpdateActiveGame(NetworkGame obj)
         {
@@ -115,10 +118,10 @@ namespace NetSystem
         //    throw new NotImplementedException();
         //}
 
-        public void LoadActiveMemberGame(NetworkGame game)
-        {
-            throw new NotImplementedException();
-        }
+        //public void LoadActiveMemberGame(NetworkGame game)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void ResumeMemberGame(NetworkGame game, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
@@ -168,17 +171,40 @@ namespace NetSystem
         public void EnterNewGame(APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(
-                onSucess: (groups) => { OnGotOpenGameGroupsSucess(groups, parentCallbacks); },
-                onfailure: (reason) => { OnGetOpenGamefailure(reason, parentCallbacks); });
+                onSucess: (groups) => { OnNewGameGotOpenGameGroupsSucess(groups, parentCallbacks); },
+                onfailure: (reason) => { OnNewGameGetOpenGamefailure(reason, parentCallbacks); });
 
             StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks));
         }
+
+
+        //public void GetOpenGameGroups(APIOperationCallbacks<List<NetworkGame>> parentCallbacks)
+        //{
+        //    var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(
+        //       onSucess: (groups) => { OnGotOpenGameGroupsSucess(groups, parentCallbacks); },
+        //       onfailure: (reason) => { OnGetOpenGamefailure(reason, parentCallbacks); });
+
+        //    StartCoroutine(RemoteOpenGamesList.GetOpenGameGroups(callbacks));
+        //}
+
+        //private void OnGotOpenGameGroupsSucess(List<GroupWithRoles> groups, APIOperationCallbacks<List<NetworkGame>> parentCallbacks)
+        //{
+            
+        //}
+
+        //private void OnGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<List<NetworkGame>> parentCallbacks)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+
 
         /// <summary>
         /// Calls <see cref="ActiveGame.JoinOpenGameGroup"/>
         /// <para>Callbacks to: <see cref="OnJoinedGameSucess"/> or <see cref="OnJoinedGameFailure"/></para>
         /// </summary>
-        private void OnGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups, APIOperationCallbacks<NetworkGame> parentCallbacks )
+        private void OnNewGameGotOpenGameGroupsSucess(List<PlayFab.GroupsModels.GroupWithRoles> groups, APIOperationCallbacks<NetworkGame> parentCallbacks )
         {
 
             var groupToJoin = SelectGroupToJoin(groups); // select game from list at random, could change this to oldest game in list
@@ -203,7 +229,7 @@ namespace NetSystem
         /// <summary>
         /// Calls <see cref="StartNewGame"/> if there were no open games, else terminates terminates callback chain with <see cref="APIOperationCallbacks{NetworkGame}.OnFailure"/>
         /// </summary>
-        private void OnGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
+        private void OnNewGameGetOpenGamefailure(FailureReason reason, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             if (reason == FailureReason.NoOpenGamesAvailable) // this is not a problem, just start a new game
             { 

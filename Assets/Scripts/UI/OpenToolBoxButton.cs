@@ -22,7 +22,6 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
        // EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate());
-        EventsManager.BindEvent(EventsManager.EventType.StartNewGame, InitiateUpdate);
         EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, InitiateUpdate);
         EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
      //   EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
@@ -37,7 +36,6 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
        // EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate()); ;
-        EventsManager.UnbindEvent(EventsManager.EventType.StartNewGame, InitiateUpdate);
         EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, InitiateUpdate);
         EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
        // EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);

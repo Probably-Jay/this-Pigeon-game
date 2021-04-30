@@ -45,7 +45,6 @@ namespace SceneUI
         private void OnEnable()
         {
             EventsManager.BindEvent(EventsManager.EventType.CompleteTurn, HideButton);
-            EventsManager.BindEvent(EventsManager.EventType.StartNewGame, UnHideButton);
             EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideButton);
             EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
         }
@@ -55,7 +54,6 @@ namespace SceneUI
         private void OnDisable()
         {
             EventsManager.UnbindEvent(EventsManager.EventType.CompleteTurn, HideButton);
-            EventsManager.UnbindEvent(EventsManager.EventType.StartNewGame, UnHideButton);
             EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideButton);
             EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
         }

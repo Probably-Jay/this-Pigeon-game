@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Mood;
+using NetSystem;
 
 // created by Alexander Purvis 04/03
 // Edited SJ 10/03
@@ -75,7 +76,7 @@ namespace GameCore
         {
             if (PlayerHasAcheivedGoal())
             {
-                EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData1 = GameManager.Instance.LocalPlayerID });
+                EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData1 = GameManager.Instance.LocalPlayerEnumID });
             }
             //if (HasAcheivedGoal(Player.PlayerEnum.Player1))
             //{
@@ -88,38 +89,56 @@ namespace GameCore
             //}
         }
 
-        public void InitialiseNewGame(int newGameMoodGoalTemp)
-        {
-            EmotionGoal = new Emotion((Mood.Emotion.Emotions)newGameMoodGoalTemp);
+        //public void InitialiseNewGame(int newGameMoodGoalTemp)
+        //{
+        //    EmotionGoal = new Emotion((Mood.Emotion.Emotions)newGameMoodGoalTemp);
 
-            switch (GameCore.GameManager.Instance.LocalPlayerID)
+        //    switch (GameCore.GameManager.Instance.LocalPlayerID)
+        //    {
+        //        case Player.PlayerEnum.Player1:
+        //            GameCore.GameManager.Instance.DataManager.SetPlayer1GoalMood(newGameMoodGoalTemp);
+        //            break;
+        //        case Player.PlayerEnum.Player2:
+        //            GameCore.GameManager.Instance.DataManager.SetPlayer2GoalMood(newGameMoodGoalTemp);
+        //            break;
+        //    }
+        //}
+
+        public void InitialisePlayer(NetworkGame.EnterGameContext context)
+        {
+            EmotionGoal = new Emotion(context.emotion);
+            switch (GameCore.GameManager.Instance.LocalPlayerEnumID)
             {
                 case Player.PlayerEnum.Player1:
-                    GameCore.GameManager.Instance.DataManager.SetPlayer1GoalMood(newGameMoodGoalTemp);
+                    GameCore.GameManager.Instance.DataManager.SetPlayer1GoalMood((int)EmotionGoal.enumValue);
                     break;
                 case Player.PlayerEnum.Player2:
-                    GameCore.GameManager.Instance.DataManager.SetPlayer2GoalMood(newGameMoodGoalTemp);
+                    GameCore.GameManager.Instance.DataManager.SetPlayer2GoalMood((int)EmotionGoal.enumValue);
+                    // set play 1s
+                    var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+                    GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
                     break;
             }
+    
         }
 
-        public void ResumeGame(Player.PlayerEnum playerWeAre)
+        public void ReLoadPlayer(NetworkGame.EnterGameContext context)
         {
             var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
-            switch (playerWeAre)
+            switch (context.playerWeAre)
             {
                 case Player.PlayerEnum.Player1:
                     EmotionGoal = new Emotion((Mood.Emotion.Emotions)data.player1ChosenMood);
-                    GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
                     break;
                 case Player.PlayerEnum.Player2:
                     EmotionGoal = new Emotion((Mood.Emotion.Emotions)data.player2ChosenMood);
-                    GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player2ChosenMood);
                     break;
             }
-
+            GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
+            GameManager.Instance.DataManager.SetPlayer2GoalMood(data.player2ChosenMood);
         }
 
+     
        
 
         public void UpdateGardenStats()
@@ -145,6 +164,8 @@ namespace GameCore
             //    EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
             //}
         }
+
+       
 
         private TraitValue GetLocalGardenStats()
         {

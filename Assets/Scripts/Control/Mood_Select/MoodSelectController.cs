@@ -19,6 +19,7 @@ public class MoodSelectController : MonoBehaviour
 
     private void SaveEmotion()
     {
-        GameCore.GameManager.Instance.NewGameMoodGoalTemp = dropdown.value;
+        var dropdownValue = dropdown.value;
+        NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.EnteredGameContext.SaveSelectedEmotion((Mood.Emotion.Emotions)dropdownValue);
     }
 }

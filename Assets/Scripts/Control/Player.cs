@@ -42,9 +42,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    [System.Obsolete("Depracated",true)]
     public void StartTurn()
     {
-        TurnPoints.Initialise();
+       // TurnPoints.ResetPoints();
     }
 
     public void Init(NetSystem.PlayerClient netPlayer, Player.PlayerEnum playerWeAre)

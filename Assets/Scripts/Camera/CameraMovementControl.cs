@@ -32,7 +32,7 @@ public class CameraMovementControl : MonoBehaviour
 
     private void Start()
     {
-        switch (GameCore.GameManager.Instance.LocalPlayerID)
+        switch (GameCore.GameManager.Instance.LocalPlayerEnumID)
         {
             case Player.PlayerEnum.Player1:
                 CurrentGardenView = Player.PlayerEnum.Player1;

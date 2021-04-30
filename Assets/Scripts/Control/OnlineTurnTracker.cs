@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,24 +42,26 @@ namespace GameCore
         /// Set the local player as owning the turn and mark the turn as not complete
         /// </summary>
         /// <returns>If the action was legal</returns>
-        public bool ClaimTurn()
-        {
-            if (OurTurn)
-            {
-                return true;
-            }
+        //public bool ClaimTurn()
+        //{
+        //    if (OurTurn)
+        //    {
+        //        return true;
+        //    }
 
-            if (!CanClaimTurn)
-            {
-                return false;
-            }
+        //    if (!CanClaimTurn)
+        //    {
+        //        return false;
+        //    }
 
-            TurnComplete = false;
-            TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
-            return true;
-        }
+        //    TurnComplete = false;
+        //    TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
+        //    return true;
+        //}
 
-        
+       
+
+
 
         /// <summary>
         /// Mark the turn as complete and ready to be claimed by the remote player
@@ -79,43 +82,84 @@ namespace GameCore
             return true;
         }
 
+       
+
         private static void SetEndTurnInData()
         {
             GameManager.Instance.DataManager.SetStateOfTurnComplete(true);
         }
 
-        /// <summary>
-        /// Initialise a brand new game
-        /// </summary>
-        public void InitialiseNewGame()
+        public void CreateGame(NetworkGame.EnterGameContext context)
         {
-            Turn = 0;
-            TurnComplete = false;
-            TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
-
+            Turn = -1;
             GameManager.Instance.DataManager.InitialiseTurnCounter();
-             
+           
         }
 
-
-        public void ResumedGame(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
+        public void ReLoad(NetworkGame.EnterGameContext context)
         {
-            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+            //if (context.claimingTurn) // already done
+            //{
+            //    return;
+            //}
 
-            if (data.NewTurn)
-            {
-                data.playerData.turnCounter++;
-                data.playerData.turnComplete = false;
-                data.playerData.turnOwner = NetSystem.NetworkHandler.Instance.ClientEntity.Id;
-            }
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
 
             Turn = data.playerData.turnCounter;
             TurnComplete = data.playerData.turnComplete;
-            TurnOwner = playerWhoOwnsTurn;
+            string turnBelongsToID = data.turnBelongsTo;
+            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(turnBelongsToID, NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData);
 
             GameManager.Instance.DataManager.SetTurnCounter(Turn);
+            GameManager.Instance.DataManager.SetStateOfTurnComplete(TurnComplete);
+            GameManager.Instance.DataManager.SetTheTurnsOwner(turnBelongsToID);
 
         }
+
+        public void ClaimTurn()
+        {
+            Turn++;
+            TurnComplete = false;
+            TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
+
+            GameManager.Instance.DataManager.SetTurnCounter(Turn);
+            GameManager.Instance.DataManager.SetStateOfTurnComplete(false);
+            GameManager.Instance.DataManager.SetTheTurnsOwner(GameManager.Instance.OnlineTurnManager.LocalPlayer.PlayerClient.ClientEntityKey.Id);
+
+        }
+
+        /// <summary>
+        /// Initialise a brand new game
+        /// </summary>
+        //public void InitialiseNewGame()
+        //{
+        //    Turn = 0;
+        //    TurnComplete = false;
+        //    TurnOwner = GameManager.Instance.OnlineTurnManager.LocalPlayer.EnumID;
+
+        //    GameManager.Instance.DataManager.InitialiseTurnCounter();
+
+        //}
+
+
+        //public void ResumedGame(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
+        //{
+        //    var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+
+        //    if (data.NewTurn)
+        //    {
+        //        data.playerData.turnCounter++;
+        //        data.playerData.turnComplete = false;
+        //        data.playerData.turnOwner = NetSystem.NetworkHandler.Instance.ClientEntity.Id;
+        //    }
+
+        //    Turn = data.playerData.turnCounter;
+        //    TurnComplete = data.playerData.turnComplete;
+        //    TurnOwner = playerWhoOwnsTurn;
+
+        //    GameManager.Instance.DataManager.SetTurnCounter(Turn);
+
+        //}
        
 
 

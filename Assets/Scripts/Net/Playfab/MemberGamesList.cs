@@ -46,7 +46,7 @@ namespace NetSystem
 
         }
 
-        public void MarkListAsDirty() => memberGames = null;
+        public void ClearCache() => memberGames = null;
 
         //private void RefreshList()
         //{
