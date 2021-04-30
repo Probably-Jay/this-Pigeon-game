@@ -65,17 +65,17 @@ public class CameraMovementControl : MonoBehaviour
 
     private void SwapVeiwTo(Player.PlayerEnum player)
     {
-        if (player == CurrentGardenView) return;
+        //if (player == CurrentGardenView) return;
 
         switch (player)
         {
             case Player.PlayerEnum.Player1:
-                animator.SetTrigger("SwapToPlayerOne");
+                animator.SetBool("VeiwPlayerOne",true);
                 CurrentGardenView = Player.PlayerEnum.Player1;
                 EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData1 = CurrentGardenView });
                 break;
             case Player.PlayerEnum.Player2:
-                animator.SetTrigger("SwapToPlayerTwo");
+                animator.SetBool("VeiwPlayerOne",false);
                 CurrentGardenView = Player.PlayerEnum.Player2;
                 EventsManager.InvokeEvent(EventsManager.ParameterEventType.SwappedGardenView, new EventsManager.EventParams() { EnumData1 = CurrentGardenView });
                 break;
