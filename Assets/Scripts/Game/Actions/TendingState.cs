@@ -56,6 +56,27 @@ namespace Plants
             //        ,growthRequiremetsStage10
                 };
             }
+
+            public void SetState(GardenDataPacket.Plant plantData)
+            {
+                CurrentGrowthStage = plantData.stage;
+
+                if (!plantData.watering && RequiredActions.Contains(TendingActions.Watering))
+                {
+                    RequiredActions.Remove(TendingActions.Watering);
+                }                
+                
+                if (!plantData.spraying && RequiredActions.Contains(TendingActions.Spraying))
+                {
+                    RequiredActions.Remove(TendingActions.Spraying);
+                }                
+                
+                if (!plantData.trimming && RequiredActions.Contains(TendingActions.Trimming))
+                {
+                    RequiredActions.Remove(TendingActions.Trimming);
+                }
+
+            }
             #endregion
 
             static readonly ReadOnlyDictionary<Plant.PlantSize, List<int>> ArtChagesAt = new ReadOnlyDictionary<Plant.PlantSize, List<int>>

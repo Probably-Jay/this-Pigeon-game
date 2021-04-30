@@ -60,6 +60,14 @@ namespace Plants {
         // public string objectName;
         public PlantName plantname;
 
+        public int InternalGrowthStage => PlantGrowth.TendingState.CurrentGrowthStage;
+
+
+        public void SetState(GardenDataPacket.Plant plantData)
+        {
+            PlantGrowth.SetState(plantData);
+        }
+
 
         public int StoredInGarden { get; private set; }
         public int StoredInSlot { get; private set; }

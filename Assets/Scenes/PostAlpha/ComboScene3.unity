@@ -4954,7 +4954,7 @@ MonoBehaviour:
   - {fileID: 644590926}
   seedStorage: {fileID: 1978450609}
   gardenSeedIndicator: {fileID: 1045226491}
-  plantList: []
+  plantList: {fileID: 11400000, guid: 1a3e7df2bdee36e42b3336b77bf5db24, type: 2}
 --- !u!1001 &1376126936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5110,7 +5110,7 @@ MonoBehaviour:
   - {fileID: 944259620}
   seedStorage: {fileID: 1978450609}
   gardenSeedIndicator: {fileID: 297034759}
-  plantList: []
+  plantList: {fileID: 11400000, guid: 1a3e7df2bdee36e42b3336b77bf5db24, type: 2}
 --- !u!4 &1452677166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2965380425453920536, guid: 1dcac2403b4511d4eacc7e0f5572effd,
@@ -8890,7 +8890,7 @@ PrefabInstance:
     - target: {fileID: 1589107901405955545, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1589107901405955545, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
@@ -9066,6 +9066,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ToolSpray
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015782806030301762, guid: c68a0b42de7450e40ac62e538ddce4ac,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3158014293137813087, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}

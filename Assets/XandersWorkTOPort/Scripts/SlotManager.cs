@@ -23,8 +23,11 @@ public class SlotManager : MonoBehaviour
    // SeedIndicator seedIndicator;
     public SeedIndicator gardenSeedIndicator;
 
+    //// for network to add plants
+    //[SerializeField] List<GameObject> plantList;
+    
     // for network to add plants
-    [SerializeField] List<GameObject> plantList;
+    [SerializeField] InventoryList plantList;
 
 
     private void Update()
@@ -103,6 +106,7 @@ public class SlotManager : MonoBehaviour
 
         Plant.PlantName plantname = plant.plantname;
         int slotNumber = gardenSlots.IndexOf(slotControls);
+        int stage = plant.InternalGrowthStage;
         bool watering = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering);
         bool spraying = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying);
         bool trimming = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming);
@@ -113,7 +117,7 @@ public class SlotManager : MonoBehaviour
                 GameManager.Instance.DataManager.AddPlantToGarden1(
                     plantType: (int)plantname,
                     slotNumber: slotNumber,
-                    stage: 0,
+                    stage: stage,
                     watering: watering,
                     spraying: spraying,
                     trimming: trimming
@@ -123,7 +127,7 @@ public class SlotManager : MonoBehaviour
                 GameManager.Instance.DataManager.AddPlantToGarden2(
                    plantType: (int)plantname,
                    slotNumber: slotNumber,
-                   stage: 0,
+                   stage: stage,
                    watering: watering,
                    spraying: spraying,
                    trimming: trimming
@@ -232,18 +236,25 @@ public class SlotManager : MonoBehaviour
 
     public void RemovePlantWithTrowel(int slotNumber)
     {
-        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+        var slotControls = gardenSlots[slotNumber];
         slotControls.RemovePlantFromSlot();
     }
 
     // NetworkFunctions 
-    public void AddPlantFromServer(int slotNumber, int plantNumber)
+    public void AddPlantFromServer(int slotNumber, GardenDataPacket.Plant plantData)
     {
-        newPlant = plantList[plantNumber];
+        if (!plantData.Initilised)
+        {
+            return;
+        }
 
-        var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
+        newPlant = plantList.list[plantData.plantType].itemGameObject;
 
-        slotControls.SpawnPlantInSlot(newPlant, slotNumber);  
+        var slotControls = gardenSlots[slotNumber];
+
+        var plant = slotControls.SpawnPlantInSlot(newPlant, slotNumber, plantData);
+
+        InvokePlantedEvent(plant, slotControls);
     }
 
     public void ClearGarden()

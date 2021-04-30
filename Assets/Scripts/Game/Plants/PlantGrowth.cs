@@ -65,7 +65,11 @@ namespace Plants
             tendingState.Init();
         }
 
-     
+        public void SetState(GardenDataPacket.Plant plantData)
+        {
+            tendingState.SetState(plantData);
+            GrowIfShould();
+        }
 
         //private void Update()
         //{

@@ -107,6 +107,13 @@ public class SlotControls : MonoBehaviour
 
         SlotOccupied();
         return plant;
+    }  
+    
+    public Plant SpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber, GardenDataPacket.Plant plantData)
+    {
+        Plant plant = SpawnPlantInSlot(PlantToSpawn, slotNumber);
+        plant.SetState(plantData);
+        return plant;
     }
 
     public void RemovePlantFromSlot()
