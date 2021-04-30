@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class GoalScripttAnimationController : MonoBehaviour
+public class GoalScriptAnimationController : MonoBehaviour
 {
     Animator animator;
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class GoalScripttAnimationController : MonoBehaviour
     private void OnEnable()
     {
 
-        EventsManager.BindEvent(EventsManager.EventType.moodSlidersExplination, SlightlyBigger);
+        EventsManager.BindEvent(EventsManager.EventType.moodSlidersExplanation, SlightlyBigger);
         EventsManager.BindEvent(EventsManager.EventType.OnDialogueClose, SlightlySmaller);
 
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, SlightlyBigger);
