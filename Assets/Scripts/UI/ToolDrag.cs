@@ -35,8 +35,20 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         startingPostition = this.transform.localPosition;
         image = this.GetComponent<Image>();
         RectTransform = GetComponent<RectTransform>();
-
     }
+
+    private void OnEnable()
+    {
+        EventsManager.BindEvent(EventsManager.EventType.TryRemovePlant, TryTrowel);
+        EventsManager.BindEvent(EventsManager.EventType.RemovedPlant, RemovePlant);
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.UnbindEvent(EventsManager.EventType.TryRemovePlant, TryTrowel);
+        EventsManager.UnbindEvent(EventsManager.EventType.RemovedPlant, RemovePlant);
+    }
+
 
 
     void Update()
@@ -48,11 +60,10 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
         bool isMouseOver = ContainsMouse(Rect);
 
-
         if (Input.GetMouseButtonDown(0) && isMouseOver)
         {
             pickedUp = true;
-            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta ,new Vector2(1.25f, 1.25f));
+            image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta, new Vector2(1.25f, 1.25f));
         }
 
 
@@ -65,7 +76,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             {
                 pickedUp = false;
                 image.rectTransform.sizeDelta = Vector2.Scale(image.rectTransform.sizeDelta, new Vector2(0.8f, 0.8f));
-                AttemptToTendPlant(); 
+                AttemptToTendPlant();
             }
         }
         else
@@ -84,6 +95,27 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         return false;
     }
 
+    void TryTrowel()
+    {
+        bool menuAnswer = true;
+        // Zap, menu goes here
+        if (menuAnswer)
+        {
+            RemovePlant();
+        }
+        else
+        {
+            // Whatever the alternative is
+        }
+    }
+
+    void RemovePlant()
+    {
+        // Change Score
+        // Set location to available
+        // Delete gameobject
+    }
+
 
     void AttemptToTendPlant()
     {
@@ -95,8 +127,21 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             return;
         }
 
-   
-        plant.Tend(ToolType);
+        if (ToolType != TendingActions.Removing)
+        {
+            plant.Tend(ToolType);
+        }
+        else
+        {
+            // Are You Sure?
+            //EventsManager.InvokeEvent(EventsManager.EventType.TryRemovePlant);
+
+            currentGardenSlotManager.RemovePlantWithTrowel(plant.currentSlotPlantedIn);
+            GameManager.Instance.EmotionTracker.UpdateGardenStats();
+
+
+        }
+
 
     }
 
@@ -109,7 +154,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         for (int i = 0; i < corners.Length; i++)
         {
             worldCorners[i] = Camera.main.ScreenToWorldPoint(corners[i]);
-           // worldCorners[i].z = ZPos;
+            // worldCorners[i].z = ZPos;
         }
 
         var size = worldCorners[2] - worldCorners[0];

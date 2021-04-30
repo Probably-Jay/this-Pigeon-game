@@ -28,7 +28,7 @@ public class EventsManager : Singleton<EventsManager>
         //, CrossfadeAnimationBegin
         , CrossfadeAnimationEnd
 
-     
+
         , PlacedOwnObject
         , PlacedOwnObjectMoodRelevant
         , PlacedCompanionObject
@@ -38,10 +38,10 @@ public class EventsManager : Singleton<EventsManager>
         , triedToPlaceOwnObject
         , triedToPlaceCompanionObject
         , triedToRemoveOwnObject
-        , triedToWaterOwnPlant 
+        , triedToWaterOwnPlant
 
         , UpdateScore
-       // , UpdatePlants
+        // , UpdatePlants
 
         , PlantChangedStats
         , GardenStatsUpdated
@@ -59,7 +59,12 @@ public class EventsManager : Singleton<EventsManager>
         , ToolBoxClose
         , SeedBagOpen
         , SeedBagClose
-        ,OnSeedBagClose
+        , OnSeedBagClose
+
+        , SeedbagShuffle
+        , PlacedTallPlant
+        , PlacedSmallPlant
+        , PokePet
 
         , OnDialogueOpen
         , OnDialogueClose
@@ -70,24 +75,27 @@ public class EventsManager : Singleton<EventsManager>
 
         , MoodSlidersExplination
 
-       // , AddedToEmotionGoal
-        ,ToolDropped
+        // , AddedToEmotionGoal
+        , ToolDropped
 
-        ,PlantReadyToGrow
+        , PlantReadyToGrow
 
         ,SaveGatheredData
     
 
+        , TryRemovePlant    // For triggering "are you sure" menu
+        , RemovedPlant      // For triggering sfx
+
         #region NetCodeEvents
 
-        ,PostLogout
+        , PostLogout
         #endregion
 
         , QuitGame
     }
 
     // events with parameters
-    public enum ParameterEventType 
+    public enum ParameterEventType
     {
         NotEnoughPointsForAction // enum variable
         , SwappedGardenView // enum variable
@@ -113,7 +121,7 @@ public class EventsManager : Singleton<EventsManager>
 
     }
 
-    protected static new EventsManager Instance { get=> Singleton<EventsManager>.Instance; } // hide property
+    protected static new EventsManager Instance { get => Singleton<EventsManager>.Instance; } // hide property
 
 
 
@@ -176,7 +184,7 @@ public class EventsManager : Singleton<EventsManager>
         {
             thisEvent -= action;
 
-            if(thisEvent == null)
+            if (thisEvent == null)
             {
                 instanceEvents.Remove(eventType);
             }
@@ -185,7 +193,7 @@ public class EventsManager : Singleton<EventsManager>
                 instanceEvents[eventType] = thisEvent;
             }
 
-            
+
         }
         else Debug.LogWarning($"Unsubscribe failed. Event {eventType.ToString()} is not a member of the events list");
     }
@@ -357,5 +365,5 @@ public class EventsManager : Singleton<EventsManager>
         ClearEvents();
     }
 
-  
+
 }

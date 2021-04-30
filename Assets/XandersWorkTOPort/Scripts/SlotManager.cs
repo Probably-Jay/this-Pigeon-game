@@ -66,6 +66,22 @@ public class SlotManager : MonoBehaviour
 
     private void InvokePlantedEvent(Plant plant, SlotControls slotControls)
     {
+        switch (plant.ThisPlantsSize)
+        {
+           // case Plant.PlantSize.Wide:
+            //    EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
+              //  break;
+            case Plant.PlantSize.Tall:
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
+                break;
+            case Plant.PlantSize.Single:
+                EventsManager.InvokeEvent(EventsManager.EventType.PlacedSmallPlant);
+                break;
+            default:
+                break;
+        }
+
+
         if (GameManager.Instance.InOwnGarden)
         {
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);

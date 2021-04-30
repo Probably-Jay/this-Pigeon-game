@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class GoalScripttAnimationController : MonoBehaviour
+public class GoalScriptAnimationController : MonoBehaviour
 {
     Animator animator;
     // Start is called before the first frame update
