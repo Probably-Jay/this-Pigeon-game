@@ -77,7 +77,7 @@ public class SlotManager : MonoBehaviour
     }
 
       // NetworkFunctions 
-    public void AddPlantFromServer(int slotNumber, GardenDataPacket.Plant plantData)
+    public void AddPlantFromServer(int slotNumber, NetSystem.GardenDataPacket.Plant plantData)
     {
         if (!plantData.Initilised)
         {

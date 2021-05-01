@@ -24,6 +24,7 @@ namespace Plants
         {
             [SerializeField] Plant.PlantSize plantSize;
 
+        
             #region UI Lists
             // Some plants take multiple days of passing thier growth requiremetns before they grow
             [Header("Growth Stages")]
@@ -57,27 +58,41 @@ namespace Plants
                 };
             }
 
-            public void SetState(GardenDataPacket.Plant plantData)
+            #endregion
+          
+
+            public void SetState(NetSystem.GardenDataPacket.Plant plantData)
             {
                 CurrentGrowthStage = plantData.stage;
 
-                if (!plantData.watering && RequiredActions.Contains(TendingActions.Watering))
+                if (!plantData.watering && RequiresAction(TendingActions.Watering))
                 {
                     RequiredActions.Remove(TendingActions.Watering);
                 }                
                 
-                if (!plantData.spraying && RequiredActions.Contains(TendingActions.Spraying))
+                if (!plantData.spraying && RequiresAction(TendingActions.Spraying))
                 {
                     RequiredActions.Remove(TendingActions.Spraying);
                 }                
                 
-                if (!plantData.trimming && RequiredActions.Contains(TendingActions.Trimming))
+                if (!plantData.trimming && RequiresAction(TendingActions.Trimming))
                 {
                     RequiredActions.Remove(TendingActions.Trimming);
                 }
 
             }
-            #endregion
+
+            public void SaveState(Player.PlayerEnum storedInGarden, int storedInSlot)
+            {
+                GameCore.GameManager.Instance.DataManager.UpdatePlantState(
+                    gardenNumber: storedInGarden,
+                    slotNumber: storedInSlot,
+                    stage: CurrentGrowthStage,
+                    watering: RequiresAction(TendingActions.Watering),
+                    spraying: RequiresAction(TendingActions.Spraying),
+                    trimming: RequiresAction(TendingActions.Trimming)
+                    );
+            }
 
             static readonly ReadOnlyDictionary<Plant.PlantSize, List<int>> ArtChagesAt = new ReadOnlyDictionary<Plant.PlantSize, List<int>>
             (
@@ -89,11 +104,35 @@ namespace Plants
                 }
             );
 
+            public Plants.PlantGrowth.VisibleGrowthStage VisibleGrowthStage
+            {
+                get
+                {
+                    List<int> artChangesStates = ArtChagesAt[plantSize];
+                    int prevVal = artChangesStates[0];
+                    PlantGrowth.VisibleGrowthStage stage;
+                    for (int i = 0; i < artChangesStates.Count; i++)
+                    {
+                        int val = artChangesStates[i];
+                        if (CurrentGrowthStage == val)
+                        {
+                            return (PlantGrowth.VisibleGrowthStage)i;
+                        }
+                        if (CurrentGrowthStage > val)
+                        {
+                            stage = (PlantGrowth.VisibleGrowthStage)prevVal;
+                        }
+                        prevVal = val;
+                    }
+                    return (PlantGrowth.VisibleGrowthStage)(artChangesStates.Count - 1);
+                }
+            }
 
             List<TendingActions>[] growthRequirements;
 
             int MaxGrowthStage => (ArtChagesAt[plantSize][ArtChagesAt[plantSize].Count - 1]);
             bool AtFullStageOfGrowth => CurrentGrowthStage >= MaxGrowthStage;
+
 
 
 
@@ -108,15 +147,15 @@ namespace Plants
             /// <summary>
             /// If the plant is ready to change it's art at the end of this turn
             /// </summary>
-            public bool ReadyToVisiblyGrow => ReadyToProgressStage && NextStageIsArtChange;
-            bool NextStageIsArtChange => ArtChagesAt[plantSize].Contains(CurrentGrowthStage + 1);
+          //  public bool ReadyToVisiblyGrow => ReadyToProgressStage && NextStageIsArtChange;
+         //   bool NextStageIsArtChange => ArtChagesAt[plantSize].Contains(CurrentGrowthStage + 1);
 
             public int CurrentGrowthStage { get; private set; } = 0;
 
             /// <summary>
             /// If this plant needs this action done to it
             /// </summary>
-            public bool CanTend(TendingActions action) => RequiredActions.Contains(action);
+            public bool RequiresAction(TendingActions action) => RequiredActions.Contains(action);
 
             /// <summary>
             /// Removes the tending action from the <see cref="RequiredActions"/>
@@ -155,7 +194,7 @@ namespace Plants
                 {
                     Debug.Log("Growing!");
                     CurrentGrowthStage++;
-
+                   
                     OnPlantGrowth?.Invoke();
                 }
                 
