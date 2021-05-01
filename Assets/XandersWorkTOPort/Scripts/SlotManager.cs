@@ -178,7 +178,7 @@ public class SlotManager : MonoBehaviour
 
         return new ReadOnlyCollection<Plant>(plants);
     }
-
+     
     public void RemovePlantWithTrowel(int slotNumber)
     {
         var slotControls = gardenSlots[slotNumber].GetComponent<SlotControls>();
