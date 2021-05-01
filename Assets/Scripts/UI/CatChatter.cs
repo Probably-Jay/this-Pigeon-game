@@ -139,7 +139,7 @@ namespace Tutorial
                     //foreach (var action in (Plants.PlantActions.TendingActions)System.Enum.GetValues(typeof(Plants.PlantActions.TendingActions)))
                     foreach (var action in Helper.Utility.GetEnumValues<Plants.PlantActions.TendingActions>())
                     {
-                        if (plant.PlantGrowth.TendingState.CanTend(action) == true)
+                        if (plant.PlantGrowth.TendingState.RequiresAction(action) == true)
                         {
                             tendingRequired = true;
                         }

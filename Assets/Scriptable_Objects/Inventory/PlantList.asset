@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 440a0e7d325ac7b4098152a67679e362, type: 3}
-  m_Name: Inventory
+  m_Name: PlantList
   m_EditorClassIdentifier: 
   list:
   - {fileID: 11400000, guid: 7dd54656d46aadb4b8bc17773d3294b6, type: 2}
@@ -18,3 +18,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c9e358a20057d84b900e44cbf0d3b60, type: 2}
   - {fileID: 11400000, guid: 51d81f5af81a8a54f8e49959fc0371db, type: 2}
   - {fileID: 11400000, guid: 28283a0bea135c44ab2c46ac5422422a, type: 2}
+  - {fileID: 11400000, guid: 04f80b603f19b6149afef24cbb204a5c, type: 2}

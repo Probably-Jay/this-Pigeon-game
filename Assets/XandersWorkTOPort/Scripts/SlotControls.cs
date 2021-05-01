@@ -109,7 +109,7 @@ public class SlotControls : MonoBehaviour
         return plant;
     }  
     
-    public Plant ReSpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber, GardenDataPacket.Plant plantData)
+    public Plant ReSpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber, NetSystem.GardenDataPacket.Plant plantData)
     {
         Plant plant = SpawnPlantInSlot(PlantToSpawn, slotNumber);
         plant.SetState(plantData);

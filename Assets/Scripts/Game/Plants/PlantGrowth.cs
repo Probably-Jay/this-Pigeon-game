@@ -25,7 +25,7 @@ namespace Plants
 
         }
 
-        VisibleGrowthStage visibleGrowthState;
+        VisibleGrowthStage VisibleGrowthState => TendingState.VisibleGrowthStage;
 
 
         [SerializeField] Sprite[] growthSprites;
@@ -51,15 +51,19 @@ namespace Plants
 
         private void Start()
         {
-            visibleGrowthState = VisibleGrowthStage.Seed;
-            UpdateGrowthImage();
-            UpdateGrowthCollider();
+            //  visibleGrowthState = VisibleGrowthStage.Seed;
+            UpdateVisibleGrowthStage();
             tendingState.Init();
         }
 
-        public void SetState(GardenDataPacket.Plant plantData)
+        public void SetState(NetSystem.GardenDataPacket.Plant plantData)
         {
             tendingState.SetState(plantData);
+            UpdateVisibleGrowthStage();
+        }
+        public void SaveState(Player.PlayerEnum storedInGarden, int storedInSlot)
+        {
+            tendingState.SaveState(storedInGarden, storedInSlot);
         }
 
         //private void Update()
@@ -78,23 +82,18 @@ namespace Plants
         /// </summary>
         public void GrowIfShould()
         {
-            if (TendingState.ReadyToVisiblyGrow)
-            {
-                ProgressGrowthStage();
-                VisiblyGrow();
-            }
-            else if (TendingState.ReadyToProgressStage)
+            if (TendingState.ReadyToProgressStage)
             {
                 ProgressGrowthStage();
             }
+            UpdateVisibleGrowthStage();
         }
 
         public event Action ReachedMaturity;
 
-        void VisiblyGrow()
+        private void UpdateVisibleGrowthStage()
         {
-            visibleGrowthState++;
-            if(visibleGrowthState == VisibleGrowthStage.Bloom)
+            if (VisibleGrowthState == VisibleGrowthStage.Bloom)
             {
                 GrowthLevelMoodMultiplier = 1;
                 ReachedMaturity?.Invoke();
@@ -104,16 +103,30 @@ namespace Plants
             UpdateGrowthCollider();
         }
 
+
+        //void VisiblyGrow()
+        //{
+        //    visibleGrowthState++;
+        //    if(VisibleGrowthState == VisibleGrowthStage.Bloom)
+        //    {
+        //        GrowthLevelMoodMultiplier = 1;
+        //        ReachedMaturity?.Invoke();
+
+        //    }
+        //    UpdateGrowthImage();
+        //    UpdateGrowthCollider();
+        //}
+
         void UpdateGrowthImage()
         {
-            spriteRenderer.sprite = growthSprites[(int)visibleGrowthState];
+            spriteRenderer.sprite = growthSprites[(int)VisibleGrowthState];
         }
 
         void UpdateGrowthCollider()
         {
             foreach (Collider2D col in growthColliders)
             {
-                if (col == growthColliders[(int)visibleGrowthState])
+                if (col == growthColliders[(int)VisibleGrowthState])
                 {
                     col.enabled = true;
                 }
@@ -153,7 +166,7 @@ namespace Plants
         /// </summary>
         public bool Tend(TendingActions action)
         {
-            if (!TendingState.CanTend(action))
+            if (!TendingState.RequiresAction(action))
             {
                 Debug.Log($"This plant does not need the {action} action performed");
                 return false;
@@ -167,7 +180,7 @@ namespace Plants
         }
         public Collider2D GetActiveCollider()
         {
-            return growthColliders[(int)visibleGrowthState];
+            return growthColliders[(int)VisibleGrowthState];
         }
 
  

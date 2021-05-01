@@ -49,11 +49,16 @@ namespace Plants {
         private void OnEnable()
         {
             PlantGrowth.ReachedMaturity += UpdateStats;
+            PlantGrowth.TendingState.OnPlantGrowth += SavePlantState;
             EventsManager.BindEvent(EventsManager.EventType.TurnClaimed, GrowIfShould);
         }
+
+
         private void OnDisable()
         {
             PlantGrowth.ReachedMaturity -= UpdateStats;
+            PlantGrowth.TendingState.OnPlantGrowth -= SavePlantState;
+
             EventsManager.UnbindEvent(EventsManager.EventType.TurnClaimed, GrowIfShould);
         }
 
@@ -63,6 +68,7 @@ namespace Plants {
             {
                 return; // only grow on your turn
             }
+
             PlantGrowth.GrowIfShould();
         }
 
@@ -76,9 +82,13 @@ namespace Plants {
         public int InternalGrowthStage => PlantGrowth.TendingState.CurrentGrowthStage;
 
 
-        public void SetState(GardenDataPacket.Plant plantData)
+        public void SetState(NetSystem.GardenDataPacket.Plant plantData)
         {
             PlantGrowth.SetState(plantData);
+        }
+        private void SavePlantState()
+        {
+            PlantGrowth.SaveState(StoredInGarden, StoredInSlot);
         }
 
 
