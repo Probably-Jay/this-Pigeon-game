@@ -144,10 +144,6 @@ namespace GameCore
                 ReloadPlayerOnly(context);
             }
 
-            if (context.claimingTurn)
-            {
-                ClaimTurn(context);
-            }
 
             SetLocalSlotManager();
 
@@ -156,6 +152,10 @@ namespace GameCore
                 LoadGarden(context);
             }
 
+            if (context.claimingTurn)
+            {
+                ClaimTurn(context);
+            }
 
     
 
@@ -230,16 +230,16 @@ namespace GameCore
         private void LoadGarden(NetworkGame.EnterGameContext context)
         {
             var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+            SlotManagers[(int)Player.PlayerEnum.Player1].ClearGarden();
+            SlotManagers[(int)Player.PlayerEnum.Player2].ClearGarden();
             foreach (GardenDataPacket.Plant plant in data.gardenData.newestGarden1)
             {
                 int slot = (int)Player.PlayerEnum.Player1;
-                SlotManagers[slot].ClearGarden();
                 SlotManagers[slot].AddPlantFromServer(slot, plant);
             }  
             foreach (var plant in data.gardenData.newestGarden2)
             {
                 int slot = (int)Player.PlayerEnum.Player2;
-                SlotManagers[slot].ClearGarden();
                 SlotManagers[slot].AddPlantFromServer(slot, plant);
             }
         }

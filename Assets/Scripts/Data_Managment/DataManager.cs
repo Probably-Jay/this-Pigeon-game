@@ -311,51 +311,54 @@ public class DataManager : MonoBehaviour
     /// <summary>
     ///  Searches the appropriate garden for the appropriate Plant then copies that plants data 
     /// </summary>
-    bool FindPlantInList(int gardenNumber, int slotNumber)
+    bool FindPlantInList(Player.PlayerEnum gardenNumber, int slotNumber)
     {
-        if (gardenNumber == 0)
+
+        switch (gardenNumber)
         {
-            // cycle through garden1s list of plants till the plant with the correct slot number
-            for (int i = 0; i < GardenData.newestGarden1.Length; i++)
-            {
-                if (!GardenData.newestGarden1[i].Initilised)
+            case Player.PlayerEnum.Player1:
+                // cycle through garden1s list of plants till the plant with the correct slot number
+                for (int i = 0; i < GardenData.newestGarden1.Length; i++)
                 {
-                    continue;
-                }
+                    if (!GardenData.newestGarden1[i].Initilised)
+                    {
+                        continue;
+                    }
 
-                if (GardenData.newestGarden1[i].slotNumber == slotNumber)
+                    if (GardenData.newestGarden1[i].slotNumber == slotNumber)
+                    {
+                        // when the plant is found store the position in the list and all the data in that plant
+                        plantPositionInList = i;
+
+                        return true;
+
+                    }
+                }
+                break;
+            case Player.PlayerEnum.Player2:
+                // cycle through garden2s list of plants till the plant with the correct slot number is found 
+                for (int i = 0; i < GardenData.newestGarden2.Length; i++)
                 {
-                    // when the plant is found store the position in the list and all the data in that plant
-                    plantPositionInList = i;
+                    if (!GardenData.newestGarden2[i].Initilised)
+                    {
+                        continue;
+                    }
 
-                    return true;
+                    if (GardenData.newestGarden2[i].slotNumber == slotNumber)
+                    {
 
+
+                        // when the plant is found store the position in the list and all the data in that plant
+                        plantPositionInList = i;
+
+                        return true;
+
+                    }
                 }
-            }
+                break;
         }
-        else
-        {
-            // cycle through garden2s list of plants till the plant with the correct slot number is found 
-            for (int i = 0; i < GardenData.newestGarden2.Length; i++)
-            {
-                if (!GardenData.newestGarden2[i].Initilised)
-                {
-                    continue;
-                }
 
-                if (GardenData.newestGarden2[i].slotNumber == slotNumber)
-                {
-
-
-                    // when the plant is found store the position in the list and all the data in that plant
-                    plantPositionInList = i;
-
-                    return true;
-
-;
-                }
-            }
-        }
+       
         return false;
     }
 
@@ -473,7 +476,7 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-        switch ((Player.PlayerEnum)plant.StoredInGarden)
+        switch (plant.StoredInGarden)
         {
             case Player.PlayerEnum.Player1:
                 GardenData.newestGarden1[plantPositionInList].watering = plant.RequiresAction(Plants.PlantActions.TendingActions.Watering);
@@ -489,7 +492,7 @@ public class DataManager : MonoBehaviour
 
     }
 
-    public void GrowPlant(int gardenNumber, int slotNumber)
+    public void GrowPlant(Player.PlayerEnum gardenNumber, int slotNumber)
     {
         if(!FindPlantInList(gardenNumber, slotNumber))
         {
@@ -497,7 +500,7 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-        if (gardenNumber == 1)
+        if (gardenNumber == Player.PlayerEnum.Player1)
         {
             GardenData.newestGarden1[plantPositionInList].stage++;  
         }

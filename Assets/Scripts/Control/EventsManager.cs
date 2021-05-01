@@ -21,7 +21,9 @@ public class EventsManager : Singleton<EventsManager>
        // EndTurn
        // , NewTurnBegin
 
-         BeginSceneLoad
+        TurnClaimed
+
+        , BeginSceneLoad
         , SceneLoadComplete
         , EnterNewScene
         , EnterGameScene

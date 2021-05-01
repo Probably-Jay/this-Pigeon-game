@@ -92,24 +92,23 @@ public class SlotControls : MonoBehaviour
     {
         GameObject newPlant = Instantiate(PlantToSpawn, transform);
         newPlant.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z -1);
-        newPlant.GetComponent<Plant>().currentSlotPlantedIn = slotNumber;
-
-        plantsInThisSlot.Clear();
-        plantsInThisSlot.Add(newPlant);
 
 
         Plant plant = newPlant.GetComponent<Plant>();
         plant.Init(
-            garden: (int)GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
+            garden: GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
             slot: slotNumber
         );
 
 
+        plantsInThisSlot.Clear();
+        plantsInThisSlot.Add(newPlant);
         SlotOccupied();
+
         return plant;
     }  
     
-    public Plant SpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber, GardenDataPacket.Plant plantData)
+    public Plant ReSpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber, GardenDataPacket.Plant plantData)
     {
         Plant plant = SpawnPlantInSlot(PlantToSpawn, slotNumber);
         plant.SetState(plantData);

@@ -252,7 +252,7 @@ public class SlotManager : MonoBehaviour
 
         var slotControls = gardenSlots[slotNumber];
 
-        var plant = slotControls.SpawnPlantInSlot(newPlant, slotNumber, plantData);
+        var plant = slotControls.ReSpawnPlantInSlot(newPlant, slotNumber, plantData);
 
         InvokePlantedEvent(plant, slotControls);
     }
