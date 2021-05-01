@@ -21,7 +21,9 @@ public class EventsManager : Singleton<EventsManager>
        // EndTurn
        // , NewTurnBegin
 
-         BeginSceneLoad
+        TurnClaimed
+
+        , BeginSceneLoad
         , SceneLoadComplete
         , EnterNewScene
         , EnterGameScene
@@ -80,7 +82,8 @@ public class EventsManager : Singleton<EventsManager>
 
         , PlantReadyToGrow
 
-        ,SaveGatheredData
+        //,GatherSaveData
+        ,OnSaveDataGathered
     
 
         , TryRemovePlant    // For triggering "are you sure" menu

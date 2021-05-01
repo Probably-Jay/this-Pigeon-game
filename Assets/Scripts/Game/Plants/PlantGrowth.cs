@@ -15,15 +15,7 @@ namespace Plants
     public class PlantGrowth : MonoBehaviour
     {
 
-        private void OnEnable()
-        {
-            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, GrowIfShould);
-        }
-        private void OnDisable()
-        {
-            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, GrowIfShould);
-        }
-
+    
 
         public enum VisibleGrowthStage
         {
@@ -65,7 +57,10 @@ namespace Plants
             tendingState.Init();
         }
 
-     
+        public void SetState(GardenDataPacket.Plant plantData)
+        {
+            tendingState.SetState(plantData);
+        }
 
         //private void Update()
         //{
@@ -81,9 +76,8 @@ namespace Plants
         /// <summary>
         /// Grow the plant or progress to the next growth stage
         /// </summary>
-        private void GrowIfShould()
+        public void GrowIfShould()
         {
-            Debug.Log("Enter try to grow");
             if (TendingState.ReadyToVisiblyGrow)
             {
                 ProgressGrowthStage();

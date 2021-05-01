@@ -126,6 +126,7 @@ namespace GameCore
             GameManager.Instance.DataManager.SetStateOfTurnComplete(false);
             GameManager.Instance.DataManager.SetTheTurnsOwner(GameManager.Instance.OnlineTurnManager.LocalPlayer.PlayerClient.ClientEntityKey.Id);
 
+            EventsManager.InvokeEvent(EventsManager.EventType.TurnClaimed);
         }
 
         /// <summary>

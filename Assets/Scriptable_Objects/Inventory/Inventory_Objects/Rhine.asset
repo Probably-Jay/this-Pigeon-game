@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1d3c98b1d98b5e439e5f19a64e0d976, type: 3}
-  m_Name: 
+  m_Name: Rhine
   m_EditorClassIdentifier: 
   itemName: 
-  inventoryImage: {fileID: 21300000, guid: 2f9aebd04d16d0844b3fcbfe6f74432f, type: 3}
-  itemGameObject: {fileID: 0}
+  inventoryImage: {fileID: 21300000, guid: a81c419a5f8e5dc47805b37cbce94c94, type: 3}
+  itemGameObject: {fileID: 7482797900834251163, guid: 19cfaef8119cac041a316501623c3ec9,
+    type: 3}

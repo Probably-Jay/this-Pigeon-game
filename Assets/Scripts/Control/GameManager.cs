@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Mood;
 using System;
 using NetSystem;
+using System.Collections.ObjectModel;
 
 // created jay 12/02
 // converted to non-hotseat jay 26/04
@@ -101,7 +102,7 @@ namespace GameCore
             if (!Spectating)
             {
                 OnlineTurnManager.EndTurn();
-                EventsManager.InvokeEvent(EventsManager.EventType.SaveGatheredData);
+                Save();
             }
         }
 
@@ -143,39 +144,41 @@ namespace GameCore
                 ReloadPlayerOnly(context);
             }
 
+
+            SetLocalSlotManager();
+
+            if (!context.createNewGame)
+            {
+                LoadGarden(context);
+            }
+
             if (context.claimingTurn)
             {
                 ClaimTurn(context);
             }
 
-
-            switch (context.interactionState)
-            {
-                case NetworkGame.EnterGameContext.InteractionState.Playing:
-                    EnterGamePlaying(context);
-                    break;
-                case NetworkGame.EnterGameContext.InteractionState.Spectating:
-                    EnterGameSpecting(context);
-                    break;
-                default: throw new Exception();
-            }
+    
 
             SaveGame();
 
             StartCoroutine(InvokeGameStartEventNextFrame(context));
         }
 
+      
+
         private IEnumerator InvokeGameStartEventNextFrame(NetworkGame.EnterGameContext context)
         {
-            yield return null;
+            yield return null;  // wait a frame
 
             switch (context.interactionState)
             {
                 case NetworkGame.EnterGameContext.InteractionState.Playing:
+                    Debug.Log("Playing");
                     EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
 
                     break;
                 case NetworkGame.EnterGameContext.InteractionState.Spectating:
+                    Debug.Log("Spectating");
                     EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
                     break;
             }
@@ -224,46 +227,61 @@ namespace GameCore
             context.interactionState = NetworkGame.EnterGameContext.InteractionState.Playing;
         }
 
-        private void EnterGamePlaying(NetworkGame.EnterGameContext context)
+        private void LoadGarden(NetworkGame.EnterGameContext context)
         {
-            Debug.Log("Playing");
-
-           // OnlineTurnManager.ResumeGame(context);
-
-            if (!context.createNewGame)
+            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+            SlotManagers[(int)Player.PlayerEnum.Player1].ClearGarden();
+            SlotManagers[(int)Player.PlayerEnum.Player2].ClearGarden();
+            foreach (var plant in data.gardenData.newestGarden1)
             {
-               // LoadGameIntoScene(context);
+                int garden = (int)Player.PlayerEnum.Player1;
+                SlotManagers[garden].AddPlantFromServer(plant.slotNumber, plant);
+            }  
+            foreach (var plant in data.gardenData.newestGarden2)
+            {
+                int garden = (int)Player.PlayerEnum.Player2;
+                SlotManagers[garden].AddPlantFromServer(plant.slotNumber, plant);
             }
-
-            // plants and stuff
-
-            SetLocalSlotManager();
-
-           // EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
-
-         //   throw new NotImplementedException();
         }
 
+        //private void EnterGamePlaying(NetworkGame.EnterGameContext context)
+        //{
+        //    Debug.Log("Playing");
 
-        private void EnterGameSpecting(NetworkGame.EnterGameContext context)
-        {
-            Debug.Log("Spectating");
+        //   // OnlineTurnManager.ResumeGame(context);
 
-           // OnlineTurnManager.ResumeGame(context);
+        //    if (!context.createNewGame)
+        //    {
+        //       // LoadGameIntoScene(context);
+        //    }
 
-            if (!context.createNewGame)
-            {
-             //   LoadGameIntoScene(context);
-            }
+        //    // plants and stuff
 
-            // plants and stuff
 
-            SetLocalSlotManager();
+        //   // EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
 
-            //EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
+        // //   throw new NotImplementedException();
+        //}
 
-         //   throw new NotImplementedException();
-        }
+
+        //private void EnterGameSpecting(NetworkGame.EnterGameContext context)
+        //{
+        //    Debug.Log("Spectating");
+
+        //   // OnlineTurnManager.ResumeGame(context);
+
+        //    if (!context.createNewGame)
+        //    {
+        //     //   LoadGameIntoScene(context);
+        //    }
+
+        //    // plants and stuff
+
+
+        //    //EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameSpectating);
+
+        // //   throw new NotImplementedException();
+        //}
 
         //private void LoadGameIntoScene(NetworkGame.EnterGameContext context)
         //{
@@ -470,8 +488,53 @@ namespace GameCore
         {
             if (!Spectating)
             {
-                EventsManager.InvokeEvent(EventsManager.EventType.SaveGatheredData);
+                Save();
             }
         }
+
+        private void Save()
+        {
+            //EventsManager.InvokeEvent(EventsManager.EventType.GatherSaveData);
+            //GatherSaveData();
+            EventsManager.InvokeEvent(EventsManager.EventType.OnSaveDataGathered);
+        }
+
+        //private void GatherSaveData()
+        //{
+        //    foreach(var player in Helper.Utility.GetEnumValues<Player.PlayerEnum>())
+        //    {
+        //        var plants = SlotManagers[(int)player].GetAllPlants();
+        //        SavePlants(plants, player);
+        //    }
+        //}
+
+        //private void SavePlants(ReadOnlyCollection<Plants.Plant> plants, Player.PlayerEnum player)
+        //{
+        //    foreach (var plant in plants)
+        //    {
+        //        switch (player)
+        //        {
+        //            case Player.PlayerEnum.Player1:
+        //                DataManager.AddPlantToGarden1(
+        //                    plantType: plant.name,
+        //                    slotNumber: plant.StoredInSlot,
+        //                    stage: plant.InternalGrowthStage,
+        //                    watering: plant.RequiresAction(Plants.PlantActions.TendingActions.Watering),
+        //                    spraying: plant.RequiresAction(Plants.PlantActions.TendingActions.Spraying),
+        //                    trimming: plant.RequiresAction(Plants.PlantActions.TendingActions.Trimming)
+
+        //                    ) ;
+        //                break;
+        //            case Player.PlayerEnum.Player2:
+        //                break;
+
+                
+        //        }
+        //    }
+        //}
+
+
     }
+
+
 }

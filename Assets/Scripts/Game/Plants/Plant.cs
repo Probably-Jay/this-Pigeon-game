@@ -45,14 +45,27 @@ namespace Plants {
         }
 
 
+
         private void OnEnable()
         {
             PlantGrowth.ReachedMaturity += UpdateStats;
+            EventsManager.BindEvent(EventsManager.EventType.TurnClaimed, GrowIfShould);
         }
         private void OnDisable()
         {
             PlantGrowth.ReachedMaturity -= UpdateStats;
+            EventsManager.UnbindEvent(EventsManager.EventType.TurnClaimed, GrowIfShould);
         }
+
+        private void GrowIfShould()
+        {
+            if(StoredInGarden != GameCore.GameManager.Instance.LocalPlayerEnumID)
+            {
+                return; // only grow on your turn
+            }
+            PlantGrowth.GrowIfShould();
+        }
+
         private void UpdateStats() => EventsManager.InvokeEvent(EventsManager.EventType.PlantChangedStats);
 
         // private PlantSize plantSize1;
@@ -60,11 +73,19 @@ namespace Plants {
         // public string objectName;
         public PlantName plantname;
 
+        public int InternalGrowthStage => PlantGrowth.TendingState.CurrentGrowthStage;
 
-        public int StoredInGarden { get; private set; }
+
+        public void SetState(GardenDataPacket.Plant plantData)
+        {
+            PlantGrowth.SetState(plantData);
+        }
+
+
+        public Player.PlayerEnum StoredInGarden { get; private set; }
         public int StoredInSlot { get; private set; }
 
-        public void Init(int garden, int slot)
+        public void Init(Player.PlayerEnum garden, int slot)
         {
             StoredInGarden = garden;
             StoredInSlot = slot;
