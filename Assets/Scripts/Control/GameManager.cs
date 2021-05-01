@@ -232,15 +232,15 @@ namespace GameCore
             var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
             SlotManagers[(int)Player.PlayerEnum.Player1].ClearGarden();
             SlotManagers[(int)Player.PlayerEnum.Player2].ClearGarden();
-            foreach (GardenDataPacket.Plant plant in data.gardenData.newestGarden1)
+            foreach (var plant in data.gardenData.newestGarden1)
             {
-                int slot = (int)Player.PlayerEnum.Player1;
-                SlotManagers[slot].AddPlantFromServer(slot, plant);
+                int garden = (int)Player.PlayerEnum.Player1;
+                SlotManagers[garden].AddPlantFromServer(plant.slotNumber, plant);
             }  
             foreach (var plant in data.gardenData.newestGarden2)
             {
-                int slot = (int)Player.PlayerEnum.Player2;
-                SlotManagers[slot].AddPlantFromServer(slot, plant);
+                int garden = (int)Player.PlayerEnum.Player2;
+                SlotManagers[garden].AddPlantFromServer(plant.slotNumber, plant);
             }
         }
 

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1d3c98b1d98b5e439e5f19a64e0d976, type: 3}
-  m_Name: 
+  m_Name: Vlum
   m_EditorClassIdentifier: 
   itemName: 
-  inventoryImage: {fileID: 21300000, guid: bf353549c1e00624c8e674ac5e3d065e, type: 3}
-  itemGameObject: {fileID: 7482797900834251163, guid: cf8945210246af74bada16fd82af17a3,
+  inventoryImage: {fileID: 21300000, guid: aede26a43f2de5f4e961860fd1b32e11, type: 3}
+  itemGameObject: {fileID: 7482797900834251163, guid: 82e888ae4f34af443848c51be99842ed,
     type: 3}

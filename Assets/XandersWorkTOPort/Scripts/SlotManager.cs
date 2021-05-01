@@ -29,6 +29,13 @@ public class SlotManager : MonoBehaviour
     // for network to add plants
     [SerializeField] InventoryList plantList;
 
+    private void Awake()
+    {
+        foreach (var slot in gardenSlots)
+        {
+            slot.playersGarden = gardenplayerID;
+        }
+    }
 
     private void Update()
     {          
@@ -56,24 +63,45 @@ public class SlotManager : MonoBehaviour
 
     private void PlantPlant(SlotControls slotControls, int slotNumber)
     {
-        newPlant = seedStorage.GetCurrentPlant();
+        var newPlant = seedStorage.GetCurrentPlant();
      
         var plantedPlant = slotControls.SpawnPlantInSlot(newPlant, slotNumber);
 
-        seedStorage.isStoringSeed = false;
+        seedStorage.ClearCurrentPlant();
 
         InvokePlantedEvent(plantedPlant, slotControls);
 
+        SavePlant(plantedPlant, slotControls);
+
         HideSlots();
+    }
+
+      // NetworkFunctions 
+    public void AddPlantFromServer(int slotNumber, GardenDataPacket.Plant plantData)
+    {
+        if (!plantData.Initilised)
+        {
+            return;
+        }
+
+        var slotControls = gardenSlots[slotNumber];
+
+        var newPlant = plantList.list[plantData.plantType].itemGameObject;
+
+        var plantedPlant = slotControls.ReSpawnPlantInSlot(newPlant, slotNumber, plantData);
+
+        InvokePlantedEvent(plantedPlant, slotControls);
+
+        SavePlant(plantedPlant, slotControls);
     }
 
     private void InvokePlantedEvent(Plant plant, SlotControls slotControls)
     {
         switch (plant.ThisPlantsSize)
         {
-           // case Plant.PlantSize.Wide:
+            // case Plant.PlantSize.Wide:
             //    EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
-              //  break;
+            //  break;
             case Plant.PlantSize.Tall:
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
                 break;
@@ -83,7 +111,6 @@ public class SlotManager : MonoBehaviour
             default:
                 break;
         }
-
 
         if (GameManager.Instance.InOwnGarden)
         {
@@ -101,7 +128,11 @@ public class SlotManager : MonoBehaviour
             EventsManager.InvokeEvent(EventsManager.EventType.PlacedCompanionObject);
         }
 
+    }
 
+    private void SavePlant(Plant plant, SlotControls slotControls)
+    {
+       
         ReadOnlyCollection<Plants.PlantActions.TendingActions> requiredActions = plant.PlantGrowth.TendingState.GetRequiredActions();
 
         Plant.PlantName plantname = plant.plantname;
@@ -111,7 +142,7 @@ public class SlotManager : MonoBehaviour
         bool spraying = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying);
         bool trimming = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming);
 
-        switch (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible)
+        switch (slotControls.playersGarden)
         {
             case Player.PlayerEnum.Player1:
                 GameManager.Instance.DataManager.AddPlantToGarden1(
@@ -121,7 +152,7 @@ public class SlotManager : MonoBehaviour
                     watering: watering,
                     spraying: spraying,
                     trimming: trimming
-                    ) ;
+                    );
                 break;
             case Player.PlayerEnum.Player2:
                 GameManager.Instance.DataManager.AddPlantToGarden2(
@@ -134,21 +165,7 @@ public class SlotManager : MonoBehaviour
                    );
                 break;
         }
-
-
-
-        //EventsManager.InvokeEvent(EventsManager.ParameterEventType.OnPlantPlanted, new EventsManager.EventParams()
-        //{
-        //    EnumData1 = plant.plantname, // play type
-        //    EnumData2 = GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible, // gardenSlot
-        //    IntData1 = gardenSlots.IndexOf(slotControls),// slot number
-        //    IntData2 = plant.PlantGrowth.TendingState.CurrentGrowthStage, // stage
-        //    Bool1 = requiredActions.Contains(Plants.PlantActions.TendingActions.Watering), // watering
-        //    Bool2 = requiredActions.Contains(Plants.PlantActions.TendingActions.Spraying), // spraying
-        //    Bool3 = requiredActions.Contains(Plants.PlantActions.TendingActions.Trimming), // trimming
-        //});
     }
-
 
     public SlotControls SlotMouseIsIn()
     {
@@ -240,22 +257,7 @@ public class SlotManager : MonoBehaviour
         slotControls.RemovePlantFromSlot();
     }
 
-    // NetworkFunctions 
-    public void AddPlantFromServer(int slotNumber, GardenDataPacket.Plant plantData)
-    {
-        if (!plantData.Initilised)
-        {
-            return;
-        }
-
-        newPlant = plantList.list[plantData.plantType].itemGameObject;
-
-        var slotControls = gardenSlots[slotNumber];
-
-        var plant = slotControls.ReSpawnPlantInSlot(newPlant, slotNumber, plantData);
-
-        InvokePlantedEvent(plant, slotControls);
-    }
+  
 
     public void ClearGarden()
     {

@@ -24,6 +24,7 @@ public class SlotControls : MonoBehaviour
 
     public int slotType = 1;
 
+    public Player.PlayerEnum playersGarden;
    
     private void Awake()
     {
@@ -96,7 +97,7 @@ public class SlotControls : MonoBehaviour
 
         Plant plant = newPlant.GetComponent<Plant>();
         plant.Init(
-            garden: GameCore.GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible,
+            garden: playersGarden,
             slot: slotNumber
         );
 
