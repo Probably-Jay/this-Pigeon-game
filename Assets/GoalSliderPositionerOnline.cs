@@ -16,14 +16,14 @@ namespace SceneUI
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.ResumeGamePlaying, PositionSliderAboveMe);
-            EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, DisableSlider);
+            EventsManager.BindEvent(EventsManager.EventType.EnterPlayingState, PositionSliderAboveMe);
+            EventsManager.BindEvent(EventsManager.EventType.EnterSpectatingState, DisableSlider);
         }
 
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGamePlaying, PositionSliderAboveMe);
-            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, DisableSlider);
+            EventsManager.UnbindEvent(EventsManager.EventType.EnterPlayingState, PositionSliderAboveMe);
+            EventsManager.UnbindEvent(EventsManager.EventType.EnterSpectatingState, DisableSlider);
         }
 
 

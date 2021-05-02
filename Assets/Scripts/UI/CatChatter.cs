@@ -73,7 +73,7 @@ namespace Tutorial
            
 
             BindEvent(EventsManager.EventType.StartNewGame, StartTurnOne);
-            BindEvent(EventsManager.EventType.ResumeGamePlaying, StartedThirdTurn ,condition:()=> { return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4; });
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartedThirdTurn ,condition:()=> { return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4; });
 
 
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
@@ -83,20 +83,20 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, SayNothing,
                       sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
 
-            BindEvent(EventsManager.EventType.ResumeGamePlaying, StartTurnTwoWithRelaventPlants,
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithRelaventPlants,
                       condition: () =>
                       {
                           return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
                       }); 
             
-            BindEvent(EventsManager.EventType.ResumeGamePlaying, StartTurnTwoWithNoRelaventPlants,
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithNoRelaventPlants,
                       condition: () =>
                       {
                           return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
                       });
 
 
-            BindEvent(EventsManager.EventType.ResumeGamePlaying, MoodRelevantPlantReachesMaturity,
+            BindEvent(EventsManager.EventType.EnterPlayingState, MoodRelevantPlantReachesMaturity,
                 condition: () => 
                 {
                     TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;

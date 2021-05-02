@@ -21,10 +21,8 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
-       // EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate());
-        EventsManager.BindEvent(EventsManager.EventType.ResumeGamePlaying, InitiateUpdate);
-        EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
-     //   EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
+        EventsManager.BindEvent(EventsManager.EventType.EnterPlayingState, EnableButton);
+        EventsManager.BindEvent(EventsManager.EventType.EnterSpectatingState, HideButton);
     }
 
     private void InitiateUpdateAction(EventsManager.EventParams _) => InitiateUpdate();
@@ -35,10 +33,8 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
-       // EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, (_) => InitiateUpdate()); ;
-        EventsManager.UnbindEvent(EventsManager.EventType.ResumeGamePlaying, InitiateUpdate);
-        EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideButton);
-       // EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, InitiateUpdate);
+        EventsManager.UnbindEvent(EventsManager.EventType.EnterPlayingState, EnableButton);
+        EventsManager.UnbindEvent(EventsManager.EventType.EnterSpectatingState, HideButton);
     }
 
     // Update is called once per frame

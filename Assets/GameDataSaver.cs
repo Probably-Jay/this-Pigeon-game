@@ -17,13 +17,13 @@ namespace NetSystem
 
         private void OnEnable()
         {
-            EventsManager.BindEvent(EventsManager.EventType.OnSaveDataGathered, SaveGame);
+            EventsManager.BindEvent(EventsManager.EventType.SaveGame, SaveGame);
         }
 
 
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.OnSaveDataGathered, SaveGame);
+            EventsManager.UnbindEvent(EventsManager.EventType.SaveGame, SaveGame);
         }
 
 

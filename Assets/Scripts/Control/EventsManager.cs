@@ -52,8 +52,10 @@ public class EventsManager : Singleton<EventsManager>
         , StartNewGame
         , GameLoaded
         , FirstTimeEnteringGame
-        , ResumeGamePlaying
-        , ResumeGameSpectating
+     //   , ResumeGamePlaying
+     //   , ResumeGameSpectating
+        , EnterPlayingState
+        , EnterSpectatingState
         , CompleteTurn
         , GameOver
 
@@ -83,7 +85,7 @@ public class EventsManager : Singleton<EventsManager>
         , PlantReadyToGrow
 
         //,GatherSaveData
-        ,OnSaveDataGathered
+        ,SaveGame
     
 
         , TryRemovePlant    // For triggering "are you sure" menu
