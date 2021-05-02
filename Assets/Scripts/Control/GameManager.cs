@@ -174,7 +174,7 @@ namespace GameCore
             {
                 case NetworkGame.EnterGameContext.InteractionState.Playing:
                     Debug.Log("Playing");
-                    EventsManager.InvokeEvent(EventsManager.EventType.ResumeGameOwnTurn);
+                    EventsManager.InvokeEvent(EventsManager.EventType.ResumeGamePlaying);
 
                     break;
                 case NetworkGame.EnterGameContext.InteractionState.Spectating:

@@ -52,7 +52,7 @@ public class EventsManager : Singleton<EventsManager>
         , StartNewGame
         , GameLoaded
         , FirstTimeEnteringGame
-        , ResumeGameOwnTurn
+        , ResumeGamePlaying
         , ResumeGameSpectating
         , CompleteTurn
         , GameOver

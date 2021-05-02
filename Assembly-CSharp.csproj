@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\GameDataSaver.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
+    <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Audio\SFXHandler.cs" />
