@@ -12,14 +12,14 @@ namespace SceneUI
         private void OnEnable()
         {
             EventsManager.BindEvent(EventsManager.EventType.StartNewGame, UnHideBag);
-            EventsManager.BindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideBag);
+            EventsManager.BindEvent(EventsManager.EventType.ResumeGamePlaying, UnHideBag);
             EventsManager.BindEvent(EventsManager.EventType.ResumeGameSpectating, HideBag);
         }
 
         private void OnDisable()
         {
             EventsManager.UnbindEvent(EventsManager.EventType.StartNewGame, UnHideBag);
-            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameOwnTurn, UnHideBag);
+            EventsManager.UnbindEvent(EventsManager.EventType.ResumeGamePlaying, UnHideBag);
             EventsManager.UnbindEvent(EventsManager.EventType.ResumeGameSpectating, HideBag);
         }
 
