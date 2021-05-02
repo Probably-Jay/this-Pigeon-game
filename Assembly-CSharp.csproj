@@ -66,6 +66,8 @@
   <ItemGroup>
     <Compile Include="Assets\GameDataSaver.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\ToolAnimationController.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Audio\SFXHandler.cs" />
@@ -767,6 +769,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Animation.Runtime">
+      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -779,23 +784,14 @@
     <Reference Include="Unity.Timeline">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Animation.Triangle.Runtime">
+      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Runtime">
-      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Triangle.Runtime">
-      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
@@ -815,11 +811,17 @@
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Common.Editor">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Users/Xander/Desktop/Budding Up git/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -827,9 +829,17 @@
       <Project>{B307CCA4-F366-0CDF-EF21-A135AED825D8}</Project>
       <Name>PlayFab</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.2D.Animation.Samples.Dependency.csproj">
+      <Project>{BBC9BE09-952D-3D64-04DA-9F38B615ECBD}</Project>
+      <Name>Unity.2D.Animation.Samples.Dependency</Name>
+    </ProjectReference>
     <ProjectReference Include="PlayFabEditorExtensions.csproj">
       <Project>{90B93E1E-87CF-37B5-79EF-7F057D1C96C6}</Project>
       <Name>PlayFabEditorExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Animation.Samples.Runtime.csproj">
+      <Project>{216E2D59-8059-7926-550C-FC736A31DFE9}</Project>
+      <Name>Unity.2D.Animation.Samples.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="TestFolderAssembly.csproj">
       <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
@@ -839,21 +849,13 @@
       <Project>{EC17CE76-C0F1-DF09-A477-4F38A095F787}</Project>
       <Name>PlayFabSDKEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="Helper.csproj">
-      <Project>{8EC6C8C5-D3BB-D64F-8C83-460E93FFB41D}</Project>
-      <Name>Helper</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Animation.Samples.Dependency.csproj">
-      <Project>{BBC9BE09-952D-3D64-04DA-9F38B615ECBD}</Project>
-      <Name>Unity.2D.Animation.Samples.Dependency</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Animation.Samples.Runtime.csproj">
-      <Project>{216E2D59-8059-7926-550C-FC736A31DFE9}</Project>
-      <Name>Unity.2D.Animation.Samples.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.2D.Animation.Samples.Editor.csproj">
       <Project>{AAC9B759-3242-AC44-2D0B-99A20D9BF3AC}</Project>
       <Name>Unity.2D.Animation.Samples.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Helper.csproj">
+      <Project>{8EC6C8C5-D3BB-D64F-8C83-460E93FFB41D}</Project>
+      <Name>Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -43,8 +43,6 @@ namespace Plants
         public TendingState TendingState { get => tendingState; private set => tendingState = value; }
         public int GrowthLevelMoodMultiplier { get; private set; } = 0;
 
-
-
         //Get the Renderer component for changing colours (temp, replace with actual different sprites later)
         //  Renderer matRenderer;
 

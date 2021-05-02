@@ -87,9 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myImage: {fileID: 0}
-  myCanvasScaler: {fileID: 0}
   toolType: 0
+  image: {fileID: 0}
+  originalScale: {x: 0, y: 0, z: 0}
 --- !u!1 &8157127244248885227
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,9 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myImage: {fileID: 0}
-  myCanvasScaler: {fileID: 0}
   toolType: 1
+  image: {fileID: 0}
+  originalScale: {x: 0, y: 0, z: 0}
 --- !u!1 &8157127244835181953
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +208,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8157127245728077999}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -302,9 +302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myImage: {fileID: 0}
-  myCanvasScaler: {fileID: 0}
   toolType: 0
+  image: {fileID: 0}
+  originalScale: {x: 0, y: 0, z: 0}
 --- !u!1 &8157127245184897773
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,11 +336,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8157127245728077999}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -160.2, y: 0.00000047684}
+  m_AnchoredPosition: {x: -160.2, y: 0}
   m_SizeDelta: {x: 59.812737, y: 60.70575}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8157127245184897769
@@ -392,9 +392,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myImage: {fileID: 0}
-  myCanvasScaler: {fileID: 0}
   toolType: 0
+  image: {fileID: 0}
+  originalScale: {x: 0, y: 0, z: 0}
 --- !u!1 &8157127245239312482
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,9 +482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e0688072f6ce40af397db7b45ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myImage: {fileID: 0}
-  myCanvasScaler: {fileID: 0}
   toolType: 2
+  image: {fileID: 0}
+  originalScale: {x: 0, y: 0, z: 0}
 --- !u!1 &8157127245728077996
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,8 +516,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8157127245184897772}
   - {fileID: 8157127244835181952}
+  - {fileID: 8157127245184897772}
   - {fileID: 8157127245239312493}
   - {fileID: 8157127244965761489}
   - {fileID: 8157127244248885226}

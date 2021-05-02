@@ -54,7 +54,6 @@ public class SlotControls : MonoBehaviour
 
         slotActive = false;
     }
- 
 
     public void FreeSlot()
     {
@@ -66,9 +65,7 @@ public class SlotControls : MonoBehaviour
         slotColourValues.b = 1.0f;
 
         slotSprite.material.color = slotColourValues;
-
         plantsInThisSlot.Clear();
-
         slotFull = false;
     }
 

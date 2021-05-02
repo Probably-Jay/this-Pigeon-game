@@ -8,7 +8,6 @@ namespace Plants
 {
     namespace PlantActions
     {
-
         public enum TendingActions
         {
             Watering
