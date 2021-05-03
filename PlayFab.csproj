@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{3197AAF8-ECC7-37A7-A0A6-0CC92247797A}</ProjectGuid>
+    <ProjectGuid>{B307CCA4-F366-0CDF-EF21-A135AED825D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>PlayFab</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -63,39 +63,105 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ActionPoints\TurnPoints.cs" />
-    <Compile Include="Assets\Scripts\ActionPoints\TurnPointsUI.cs" />
-    <Compile Include="Assets\Scripts\ActionPoints\_InputFaker.cs" />
-    <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
-    <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
-    <Compile Include="Assets\Scripts\Control\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
-    <Compile Include="Assets\Scripts\Control\Player.cs" />
-    <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
-    <Compile Include="Assets\Scripts\Control\TurnTracker.cs" />
-    <Compile Include="Assets\Scripts\Grid\GridControls.cs" />
-    <Compile Include="Assets\Scripts\Grid\InputControls.cs" />
-    <Compile Include="Assets\Scripts\Grid\ObjectMovment.cs" />
-    <Compile Include="Assets\Scripts\Grid\Spawner.cs" />
-    <Compile Include="Assets\Scripts\Grid\TheGrid.cs" />
-    <Compile Include="Assets\Scripts\Grid\TileControls.cs" />
-    <Compile Include="Assets\Scripts\Helper\Maths\VectorN.cs" />
-    <Compile Include="Assets\Scripts\Helper\Utility\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventoryItem.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventoryList.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventoryUIControl.cs" />
-    <Compile Include="Assets\Scripts\Inventory\InventoryUISlot.cs" />
-    <Compile Include="Assets\Scripts\Items\Item.cs" />
-    <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
-    <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
-    <Compile Include="Assets\Scripts\Items\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
-    <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
-    <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
-    <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
-    <Compile Include="Assets\Scripts\Rooms\RoomData.cs" />
-    <Compile Include="Assets\Scripts\Turn_Points\TurnDisplayControl.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
+    <Compile Include="Assets\PlayFabSDK\Admin\PlayFabAdminAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Admin\PlayFabAdminInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Admin\PlayFabAdminModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Admin\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Authentication\PlayFabAuthenticationAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Authentication\PlayFabAuthenticationInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Authentication\PlayFabAuthenticationModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Authentication\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Client\PlayFabClientAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Client\PlayFabClientInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Client\PlayFabClientModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Client\PlayFabDeviceUtil.cs" />
+    <Compile Include="Assets\PlayFabSDK\Client\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\CloudScript\PlayFabCloudScriptAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\CloudScript\PlayFabCloudScriptInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\CloudScript\PlayFabCloudScriptModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\CloudScript\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Data\PlayFabDataAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Data\PlayFabDataInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Data\PlayFabDataModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Data\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Entity\ScreenTimeTracker.cs" />
+    <Compile Include="Assets\PlayFabSDK\Events\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Events\PlayFabEventsAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Events\PlayFabEventsInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Events\PlayFabEventsModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Experimentation\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Experimentation\PlayFabExperimentationAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Experimentation\PlayFabExperimentationInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Experimentation\PlayFabExperimentationModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Groups\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Groups\PlayFabGroupsAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Groups\PlayFabGroupsInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Groups\PlayFabGroupsModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Insights\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Insights\PlayFabInsightsAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Insights\PlayFabInsightsInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Insights\PlayFabInsightsModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Localization\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Localization\PlayFabLocalizationAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Localization\PlayFabLocalizationInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Localization\PlayFabLocalizationModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Matchmaker\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Matchmaker\PlayFabMatchmakerAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Matchmaker\PlayFabMatchmakerInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Matchmaker\PlayFabMatchmakerModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Multiplayer\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Multiplayer\PlayFabMultiplayerAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Multiplayer\PlayFabMultiplayerInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Multiplayer\PlayFabMultiplayerModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Profiles\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Profiles\PlayFabProfilesAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Profiles\PlayFabProfilesInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Profiles\PlayFabProfilesModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Server\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Server\PlayFabServerAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Server\PlayFabServerInstanceAPI.cs" />
+    <Compile Include="Assets\PlayFabSDK\Server\PlayFabServerModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\ISerializer.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\Log.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\PlayFabErrors.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\PlayFabHttp\IPlayFabHttp.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\PlayFabHttp\PlayFabHTTP.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\PlayFabHttp\PlayFabUnityHttp.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\PlayFabHttp\PlayFabWWW.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\PlayFabHttp\PlayFabWebRequest.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\SimpleJson.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\SingletonMonoBehaviour.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\Util.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Internal\wsaReflectionExtensions.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\CRC32.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\Deflate.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\DeflateStream.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\GZipStream.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\InfTree.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\Inflate.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\ParallelDeflateOutputStream.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\ZTree.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\Zlib.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\ZlibBaseStream.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\ZlibCodec.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\ZlibConstants.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Ionic.Zlib\ZlibStream.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Models\PlayFabSharedSettings.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Models\SharedModels.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\IPlayFabPlugin.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\ISerializerPlugin.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\ITransportPlugin.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PlayFabApiSettings.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PlayFabAuthenticationContext.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PlayFabDataGatherer.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PlayFabEvents.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PlayFabLogger.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PlayFabSettings.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PluginContract.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PluginContractKey.cs" />
+    <Compile Include="Assets\PlayFabSDK\Shared\Public\PluginManager.cs" />
+    <None Include="Assets\PlayFabSDK\link.xml" />
+    <None Include="Assets\PlayFabSDK\PlayFab.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -278,6 +344,21 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -624,74 +705,11 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Runtime">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.IK.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.IK.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.IK.Runtime">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.IK.Runtime.dll</HintPath>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Triangle.Runtime">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="PsdPlugin">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Psdimporter.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEngineBridge.001">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Common.Runtime">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Common.Editor">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEditorBridge.001">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/finnm/OneDrive/Desktop/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
