@@ -39,7 +39,7 @@ namespace GameCore
                     GameManager.Instance.DataManager.PlayerData.player1ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
                     break;
                 case Player.PlayerEnum.Player2:
-                    GameManager.Instance.DataManager.PlayerData.player1ID = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.player1ID;
+                    GameManager.Instance.DataManager.PlayerData.player1ID = NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData.playerData.player1ID;
                     GameManager.Instance.DataManager.PlayerData.player2ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
                     break;
             }
@@ -49,7 +49,7 @@ namespace GameCore
 
         private void ReLoadPlayerData(Player.PlayerEnum playerWeAre)
         {
-            PlayerDataPacket data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+            PlayerDataPacket data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData.playerData;
             GameManager.Instance.DataManager.PlayerData.player1ID = data.player1ID;
             GameManager.Instance.DataManager.PlayerData.player2ID = data.player2ID;
         }

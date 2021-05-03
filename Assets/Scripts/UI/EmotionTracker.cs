@@ -115,7 +115,7 @@ namespace GameCore
                 case Player.PlayerEnum.Player2:
                     GameCore.GameManager.Instance.DataManager.SetPlayer2GoalMood((int)EmotionGoal.enumValue);
                     // set play 1s
-                    var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+                    var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData.playerData;
                     GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
                     break;
             }
@@ -124,7 +124,7 @@ namespace GameCore
 
         public void ReLoadPlayer(NetworkGame.EnterGameContext context)
         {
-            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData.playerData;
             switch (context.playerWeAre)
             {
                 case Player.PlayerEnum.Player1:

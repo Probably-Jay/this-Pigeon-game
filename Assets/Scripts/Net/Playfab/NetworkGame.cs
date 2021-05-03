@@ -21,7 +21,9 @@ namespace NetSystem
         readonly NetworkGameMetadata metaData;
 
         public RawData rawData;
-        public UsableData usableData;
+
+        public UsableData UsableGameData { get; private set; }
+        public UsableData GameDataDifferences { get; private set; }
 
         public EnterGameContext EnteredGameContext { get; private set; }
 
@@ -80,9 +82,11 @@ namespace NetSystem
         }
 
 
+
+
         public bool DeserilaiseRawData(RawData rawData)
         {
-            usableData = new UsableData();
+            UsableGameData = new UsableData();
 
             {
                 bool? begun = ParseBool(rawData.gameBegun);
@@ -90,7 +94,7 @@ namespace NetSystem
                 {
                     return false;
                 }
-                usableData.gameBegun = begun.Value;
+                UsableGameData.gameBegun = begun.Value;
             }
 
             {
@@ -99,19 +103,16 @@ namespace NetSystem
                 {
                     return false;
                 }
-                usableData.turnComplete = turnComplete.Value;
+                UsableGameData.turnComplete = turnComplete.Value;
             }
 
-            usableData.gameStartedBy = rawData.gameStartedBy;
-            usableData.turnBelongsTo = rawData.turnBelongsTo;
-
-         
-            
+            UsableGameData.gameStartedBy = rawData.gameStartedBy;
+            UsableGameData.turnBelongsTo = rawData.turnBelongsTo;        
             
             try
             {
-                usableData.playerData = JsonUtility.FromJson<PlayerDataPacket>(rawData.playerData);
-                usableData.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
+                UsableGameData.playerData = JsonUtility.FromJson<PlayerDataPacket>(rawData.playerData);
+                UsableGameData.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
             }
             catch (Exception e)
             {
@@ -163,7 +164,7 @@ namespace NetSystem
         {
             var playerClient = NetworkHandler.Instance.PlayerClient;
 
-            NetUtility.EnterGameContext context = NetUtility.DetermineEnterGameContext(usableData, playerClient);
+            NetUtility.EnterGameContext context = NetUtility.DetermineEnterGameContext(UsableGameData, playerClient);
 
             bool createNewGame = false;
             bool initialisePlayer = false;

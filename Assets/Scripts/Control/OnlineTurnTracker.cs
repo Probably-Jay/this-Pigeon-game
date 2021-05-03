@@ -103,12 +103,12 @@ namespace GameCore
             //    return;
             //}
 
-            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData;
 
             Turn = data.playerData.turnCounter;
             TurnComplete = data.playerData.turnComplete;
             string turnBelongsToID = data.turnBelongsTo;
-            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(turnBelongsToID, NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData);
+            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(turnBelongsToID, NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData);
 
             GameManager.Instance.DataManager.SetTurnCounter(Turn);
             GameManager.Instance.DataManager.SetStateOfTurnComplete(TurnComplete);

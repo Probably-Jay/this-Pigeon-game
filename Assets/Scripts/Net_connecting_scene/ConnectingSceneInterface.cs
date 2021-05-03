@@ -504,7 +504,7 @@ namespace SceneInterface
 
         private void ResumedGameSucess(NetworkGame game)
         {
-            if (game.usableData == null)
+            if (game.UsableGameData == null)
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 return;

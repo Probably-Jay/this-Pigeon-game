@@ -330,7 +330,7 @@ namespace NetSystem
                 return;
             }
 
-            parentCallbacks.OnSucess(game.usableData);
+            parentCallbacks.OnSucess(game.UsableGameData);
         }
 
         private void OnReceiveDataFailure(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, FailureReason e)

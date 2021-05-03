@@ -34,7 +34,7 @@ public class MemberGameSlot : MonoBehaviour
 
         // todo fill emotion image
 
-        bool? ourTurn = NetUtility.AllowedToTakeTurn(game.usableData);
+        bool? ourTurn = NetUtility.AllowedToTakeTurn(game.UsableGameData);
 
         switch (ourTurn)
         {

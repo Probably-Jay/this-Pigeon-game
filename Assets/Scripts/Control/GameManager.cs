@@ -63,6 +63,7 @@ namespace GameCore
         public bool InOwnGarden => PlayerWhosGardenIsCurrentlyVisible == LocalPlayerEnumID;
 
         public SlotManager LocalPlayerSlotManager { get; private set; }
+        public Coroutine updateFromServerCoroutuine;
 
         SlotManager[] SlotManagers = new SlotManager[2];
 
@@ -146,9 +147,11 @@ namespace GameCore
             SaveGame();
 
             StartCoroutine(InvokeGameStartEventNextFrame(context));
+
+            updateFromServerCoroutuine = StartCoroutine(UpdateFromServerCoroutine(context));
         }
 
-      
+   
 
         private IEnumerator InvokeGameStartEventNextFrame(NetworkGame.EnterGameContext context)
         {
@@ -174,6 +177,40 @@ namespace GameCore
 
             EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
         }
+
+        private IEnumerator UpdateFromServerCoroutine(NetworkGame.EnterGameContext context)
+        {
+            while (true)
+            {
+                if (!Spectating)
+                {
+                    yield return new WaitUntil(()=>Spectating);
+                }
+
+
+                APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
+                    (
+                        onSucess: (data) => {
+                            if (NetworkHandler.Instance.NetGame.CurrentNetworkGame. (data))
+                            {
+                                ApplyData(data);
+                                AttemptToClaimTurn();
+                            }
+                        }
+                        ,onfailure: (e) =>
+                        {
+
+                        }
+                    );
+
+                NetworkHandler.Instance.ReceiveData(callbacks);
+
+            }
+
+          
+
+        }
+
 
         private void CreateNewGame(NetworkGame.EnterGameContext context)
         {
@@ -213,7 +250,7 @@ namespace GameCore
 
         private void LoadGarden(NetworkGame.EnterGameContext context)
         {
-            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData;
             SlotManagers[(int)Player.PlayerEnum.Player1].ClearGarden();
             SlotManagers[(int)Player.PlayerEnum.Player2].ClearGarden();
             foreach (var plant in data.gardenData.newestGarden1)
@@ -262,6 +299,7 @@ namespace GameCore
         public void QuitToMenu()
         {
             SaveGame();
+            StopAllCoroutines();
             NetSystem.NetworkHandler.Instance.LogoutPlayer();
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
         }

@@ -61,7 +61,7 @@ public class TurnPoints : MonoBehaviour
         //    return;
         //}
 
-        var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+        var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData;
 
         int ownPlacePoints;
         int companionPlacePoints;
