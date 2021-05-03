@@ -190,10 +190,11 @@ namespace GameCore
 
                 APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
                     (
-                        onSucess: (data) => {
-                            if (NetworkHandler.Instance.NetGame.CurrentNetworkGame. (data))
+                        onSucess: (newData) => {
+                            var differences = NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.CompareNewGameData(newData);
+                            if (differences.AnyDifferences)
                             {
-                                ApplyData(data);
+                                ApplyNewData(newData, differences);
                                 AttemptToClaimTurn();
                             }
                         }
@@ -211,6 +212,23 @@ namespace GameCore
 
         }
 
+
+
+        private void ApplyNewData(NetworkGame.UsableData newData, NetGameDataDifferencesTracker.DataDifferences differences)
+        {
+            NetworkHandler.Instance.NetGame.CurrentNetworkGame.SetGameData(newData);
+            
+            
+            
+            
+            
+            NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.ResetGameDataDifferences();
+        }
+
+        private void AttemptToClaimTurn()
+        {
+            throw new NotImplementedException();
+        }
 
         private void CreateNewGame(NetworkGame.EnterGameContext context)
         {
@@ -250,7 +268,7 @@ namespace GameCore
 
         private void LoadGarden(NetworkGame.EnterGameContext context)
         {
-            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.UsableGameData;
+            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData;
             SlotManagers[(int)Player.PlayerEnum.Player1].ClearGarden();
             SlotManagers[(int)Player.PlayerEnum.Player2].ClearGarden();
             foreach (var plant in data.gardenData.newestGarden1)

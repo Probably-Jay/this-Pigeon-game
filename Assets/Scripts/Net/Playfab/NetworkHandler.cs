@@ -297,7 +297,7 @@ namespace NetSystem
 
 
         /// <summary>
-        /// Gets the data of the provided <paramref name="game"/>, or of the current game if provided <paramref name="game"/> is null
+        /// Gets the data of the provided <paramref name="game"/>, or of the current game if provided <paramref name="game"/> is null. Will not set <see cref="NetworkGame.CurrentGameData"/>
         /// <para/> Upon completion will invoke one of the following callbacks :
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>
@@ -322,15 +322,15 @@ namespace NetSystem
 
             game.rawData = data;
 
-            var sucess = game.DeserilaiseRawData(data);
+            var usableData = game.DeserilaiseRawData(data);
 
-            if (!sucess)
+            if (usableData == null)
             {
                 OnReceiveDataFailure(parentCallbacks, FailureReason.InternalError);
                 return;
             }
 
-            parentCallbacks.OnSucess(game.UsableGameData);
+            parentCallbacks.OnSucess(usableData);
         }
 
         private void OnReceiveDataFailure(APIOperationCallbacks<NetworkGame.UsableData> parentCallbacks, FailureReason e)
