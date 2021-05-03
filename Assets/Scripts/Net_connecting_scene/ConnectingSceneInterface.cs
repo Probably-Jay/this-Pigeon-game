@@ -464,9 +464,9 @@ namespace SceneInterface
             StartCoroutine(ShowEnterGameDisplay("Getting Games...", response)); // display
 
             var callbacks = new APIOperationCallbacks<NetworkGame.UsableData>(
-                onSucess: (result) => { 
-                    GetGameDataSucess(result, game);
-                    response.returnData = result;
+                onSucess: (data) => { 
+                    GetGameDataSucess(data, game);
+                    response.returnData = data;
                     response.status.SetSucess();
                 },
 
@@ -477,6 +477,7 @@ namespace SceneInterface
                 });
 
             NetworkHandler.Instance.ReceiveData(callbacks, game);
+
 
             return response;
 
@@ -491,9 +492,9 @@ namespace SceneInterface
             enterGameLoadingImage.enabled = false;
         }
 
-        private void GetGameDataSucess(NetworkGame.UsableData result, NetworkGame game)
+        private void GetGameDataSucess(NetworkGame.UsableData data, NetworkGame game)
         {
-           
+            game.SetGameData(data);
         }
 
         public void ResumeGame(NetworkGame game)
@@ -504,7 +505,7 @@ namespace SceneInterface
 
         private void ResumedGameSucess(NetworkGame game)
         {
-            if (game.usableData == null)
+            if (game.CurrentGameData == null)
             {
                 NewGameJoinedFailure(FailureReason.UnknownError);
                 return;

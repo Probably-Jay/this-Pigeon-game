@@ -15,7 +15,7 @@ namespace NetSystem
         public NetworkGame NetworkGame => NetworkHandler.Instance.NetGame.CurrentNetworkGame;
 
         /// <summary>
-        /// Gets the data of the provided game (current game by default
+        /// Gets the data of the provided game (current game by default)
         /// <para/> Upon completion will invoke one of the following callbacks :
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnSucess"/>: The game data was sucessfully obtained</para>
         /// <para><see cref="APIOperationCallbacks{List{PlayFab.GroupsModels.GroupWithRoles}}.OnFailure"/>: The call failed due to a networking error (returned in callback)</para>

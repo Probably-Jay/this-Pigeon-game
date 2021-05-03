@@ -10,7 +10,9 @@ namespace NetSystem
     using PlayFab;
     using PlayFab.GroupsModels;
 
-
+    /// <summary>
+    /// Class for handling the active online game
+    /// </summary>
     public class ActiveGame : NetComponent
     {
         private NetworkGame currentNetworkGame = null;

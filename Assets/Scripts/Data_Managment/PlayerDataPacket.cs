@@ -6,6 +6,33 @@ using UnityEngine;
 public class PlayerDataPacket
 {
  
+    public PlayerDataPacket()
+    {
+
+    }
+
+    public PlayerDataPacket(PlayerDataPacket other)
+    {
+        this.turnCounter = other.turnCounter;
+        this.turnOwner = other.turnOwner;
+        this.turnComplete = other.turnComplete;
+        
+        this.player1ID = other.player1ID;
+        this.player1ChosenMood = other.player1ChosenMood;
+        this.player1MoodAchieved = other.player1MoodAchieved;
+        this.player1SelfActions = other.player1SelfActions;
+        this.player1OtherActions = other.player1OtherActions;
+         
+        this.player2ID = other.player2ID;
+        this.player2ChosenMood = other.player2ChosenMood;
+        this.player2MoodAchieved = other.player2MoodAchieved;
+        this.player2SelfActions = other.player2SelfActions;
+        this.player2OtherActions = other.player2OtherActions;
+
+
+
+    }
+
 
     // game data
     public int turnCounter = 0;

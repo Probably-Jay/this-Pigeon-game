@@ -39,7 +39,7 @@ namespace GameCore
                     GameManager.Instance.DataManager.PlayerData.player1ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
                     break;
                 case Player.PlayerEnum.Player2:
-                    GameManager.Instance.DataManager.PlayerData.player1ID = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.player1ID;
+                    GameManager.Instance.DataManager.PlayerData.player1ID = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player1ID;
                     GameManager.Instance.DataManager.PlayerData.player2ID = LocalPlayer.PlayerClient.ClientEntityKey.Id;
                     break;
             }
@@ -49,7 +49,7 @@ namespace GameCore
 
         private void ReLoadPlayerData(Player.PlayerEnum playerWeAre)
         {
-            PlayerDataPacket data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+            PlayerDataPacket data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData;
             GameManager.Instance.DataManager.PlayerData.player1ID = data.player1ID;
             GameManager.Instance.DataManager.PlayerData.player2ID = data.player2ID;
         }
@@ -101,78 +101,6 @@ namespace GameCore
 
 
 
-        //public void ReloadGame(NetworkGame.EnterGameContext context)
-        //{
-        //    TurnTracker.ReLoad(context);
-        //    LocalPlayer.TurnPoints.Reload(context);
-        //}
-
-        //private void Resume(Player.PlayerEnum playerID)
-        //{
-        //    LocalPlayer = InstantiatePlayer(playerID);
-        //}
-
-        //public void ResumeGame(NetworkGame.EnterGameContext context)
-        //{
-        //    Resume(context.playerWeAre);
-
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-        ////public void ResumedGamePlaying(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTurn)
-        ////{
-        ////    Debug.Log("Resumed game playing");
-
-
-        ////    ReLoad(playerWeAre);
-        ////    TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTurn);
-        ////    LocalPlayer.TurnPoints.Resume(playerWeAre);
-
-        ////    GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
-
-        ////}
-
-        ////public void JoinedGameNewPlaying(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTheTurn)
-        ////{
-        ////    Debug.Log("Joined game playing");
-
-        ////    Initialise(playerWeAre);
-        ////    TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTheTurn);
-        ////    LocalPlayer.TurnPoints.Resume(playerWeAre);
-
-        ////    GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
-        ////} 
-
-        ////public void JoinedGameNewSpectator(Player.PlayerEnum playerWeAre, Player.PlayerEnum playerWhoOwnsTheTurn)
-        ////{
-        ////    Debug.Log("Joined game spectating");
-
-        ////    Initialise(playerWeAre);
-        ////    TurnTracker.ResumedGame(playerWeAre, playerWhoOwnsTheTurn);
-        ////    LocalPlayer.TurnPoints.ResumeSpectator(playerWeAre);
-
-        ////    GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
-        ////}
-
-
-        ////public void ResumedGameSpectating(Player.PlayerEnum playerWeAre, Player.PlayerEnum PlayerWhosTurnItIs)
-        ////{
-        ////    ReLoad(playerWeAre);
-        ////    TurnTracker.ResumedGame(playerWeAre, PlayerWhosTurnItIs);
-        ////    LocalPlayer.TurnPoints.ResumeSpectator(playerWeAre);
-
-        ////    GameManager.Instance.DataManager.PlayerData.turnOwner = NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData.turnOwner;
-        ////}
 
         public void EndTurn()
         {
@@ -195,6 +123,21 @@ namespace GameCore
 
         }
 
-       
+        internal void HotRealoadPlayerData()
+        {
+            GameManager.Instance.DataManager.PlayerData.player1ID = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player1ID;
+            GameManager.Instance.DataManager.PlayerData.player2ID = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player2ID;
+
+
+            GameManager.Instance.DataManager.PlayerData.player1SelfActions = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player1SelfActions;
+            GameManager.Instance.DataManager.PlayerData.player1OtherActions = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player2OtherActions;
+
+            GameManager.Instance.DataManager.PlayerData.player2SelfActions = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player2SelfActions;    
+            GameManager.Instance.DataManager.PlayerData.player2OtherActions = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData.player2OtherActions;
+
+
+            TurnTracker.HotReaload();
+
+        }
     }
 }

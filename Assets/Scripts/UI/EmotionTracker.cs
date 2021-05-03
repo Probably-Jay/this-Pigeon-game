@@ -115,7 +115,7 @@ namespace GameCore
                 case Player.PlayerEnum.Player2:
                     GameCore.GameManager.Instance.DataManager.SetPlayer2GoalMood((int)EmotionGoal.enumValue);
                     // set play 1s
-                    var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+                    var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData;
                     GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
                     break;
             }
@@ -124,7 +124,7 @@ namespace GameCore
 
         public void ReLoadPlayer(NetworkGame.EnterGameContext context)
         {
-            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData.playerData;
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData;
             switch (context.playerWeAre)
             {
                 case Player.PlayerEnum.Player1:
@@ -136,10 +136,25 @@ namespace GameCore
             }
             GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
             GameManager.Instance.DataManager.SetPlayer2GoalMood(data.player2ChosenMood);
+
+            GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
+            GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
+
+            
         }
 
-     
-       
+
+
+        internal void HotRealoadPlayerData()
+        {
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData;
+
+            GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
+            GameManager.Instance.DataManager.SetPlayer2GoalMood(data.player2ChosenMood);
+
+            GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
+            GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
+        }
 
         public void UpdateGardenStats()
         {

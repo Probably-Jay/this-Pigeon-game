@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NetSystem
 {
 
-    public class DataManager : MonoBehaviour
+    public class DataManager 
     {
         int plantPositionInList = 0;
 
@@ -21,21 +21,13 @@ namespace NetSystem
         //bool action4 = false;
 
 
-        void Awake()
+        public DataManager()
         {
             PlayerData = new PlayerDataPacket();
             GardenData = new GardenDataPacket();
         }
 
-        private void OnEnable()
-        {
-           // EventsManager.BindEvent(EventsManager.ParameterEventType.OnPlantPlanted, AddNewPlant);
-        }
-        private void OnDisable()
-        {
-            //EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPlantPlanted, AddNewPlant);
 
-        }
 
         private void AddNewPlant(EventsManager.EventParams eventParams)
         {

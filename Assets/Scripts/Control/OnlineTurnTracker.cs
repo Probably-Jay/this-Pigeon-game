@@ -103,12 +103,12 @@ namespace GameCore
             //    return;
             //}
 
-            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData;
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData;
 
             Turn = data.playerData.turnCounter;
             TurnComplete = data.playerData.turnComplete;
             string turnBelongsToID = data.turnBelongsTo;
-            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(turnBelongsToID, NetworkHandler.Instance.NetGame.CurrentNetworkGame.usableData);
+            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(turnBelongsToID, NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData);
 
             GameManager.Instance.DataManager.SetTurnCounter(Turn);
             GameManager.Instance.DataManager.SetStateOfTurnComplete(TurnComplete);
@@ -127,6 +127,22 @@ namespace GameCore
             GameManager.Instance.DataManager.SetTheTurnsOwner(GameManager.Instance.OnlineTurnManager.LocalPlayer.PlayerClient.ClientEntityKey.Id);
 
             EventsManager.InvokeEvent(EventsManager.EventType.TurnClaimed);
+        }
+
+        internal void HotReaload()
+        {
+
+            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData;
+
+            Turn = data.playerData.turnCounter;
+            TurnComplete = data.playerData.turnComplete;
+            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(data.turnBelongsTo, NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData);
+
+            GameManager.Instance.DataManager.SetTurnCounter(data.playerData.turnCounter);
+            GameManager.Instance.DataManager.SetStateOfTurnComplete(data.playerData.turnComplete);
+            GameManager.Instance.DataManager.SetTheTurnsOwner(data.playerData.turnOwner);
+
+
         }
 
         /// <summary>
@@ -161,7 +177,7 @@ namespace GameCore
         //    GameManager.Instance.DataManager.SetTurnCounter(Turn);
 
         //}
-       
+
 
 
     }

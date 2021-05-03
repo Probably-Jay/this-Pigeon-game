@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
+// Jay
+
 namespace NetSystem
 {
     public class NetworkGame
@@ -14,14 +16,17 @@ namespace NetSystem
 
         public bool NewGameJustCreated { get; private set; }
 
-        public List<PlayFab.CloudScriptModels.EntityKey> playerEntities => new List<PlayFab.CloudScriptModels.EntityKey>() { metaData.Player1, metaData.Player2 };
+        public List<PlayFab.CloudScriptModels.EntityKey> PlayerEntities => new List<PlayFab.CloudScriptModels.EntityKey>() { metaData.Player1, metaData.Player2 };
 
 
         readonly PlayFab.GroupsModels.GroupWithRoles group;
         readonly NetworkGameMetadata metaData;
 
         public RawData rawData;
-        public UsableData usableData;
+
+        public UsableData CurrentGameData { get; private set; }
+
+        public NetGameDataDifferencesTracker DataDifferences { get; private set; }
 
         public EnterGameContext EnteredGameContext { get; private set; }
 
@@ -30,6 +35,7 @@ namespace NetSystem
             this.group = group;
             this.metaData = gameMetaData;
             NewGameJustCreated = newGame;
+            DataDifferences =  new NetGameDataDifferencesTracker(this);
         }
 
 
@@ -41,12 +47,12 @@ namespace NetSystem
           //  public string SharedDataID;
         }
 
-        public class GameSharedData 
-        {
-            public string Value;
-            public string LastUpdated;
+        //public class GameSharedData 
+        //{
+        //    public string Value;
+        //    public string LastUpdated;
 
-        }
+        //}
 
         public class RawData
         {
@@ -74,65 +80,98 @@ namespace NetSystem
             public GardenDataPacket gardenData;
             public PlayerDataPacket playerData;
 
-            public bool NewTurn = false;
+          //  public bool NewTurn = false;
 
          
         }
 
-
-        public bool DeserilaiseRawData(RawData rawData)
+        /// <summary>
+        /// Must be called after <see cref="NetSystem.NetworkHandler.ReceiveData(APIOperationCallbacks{UsableData}, NetworkGame)"/> before the data is attempted to be applied
+        /// </summary>
+        /// <param name="data">The data just received</param>
+        public void SetGameData(NetworkGame.UsableData data)
         {
-            usableData = new UsableData();
+            CurrentGameData = data;
+        }
+
+        public NetworkGame.UsableData DeserilaiseRawData(NetworkGame.RawData rawData)
+        {
+            var data = new NetworkGame.UsableData();
 
             {
                 bool? begun = ParseBool(rawData.gameBegun);
                 if (!begun.HasValue)
                 {
-                    return false;
+                    return null;
                 }
-                usableData.gameBegun = begun.Value;
+                data.gameBegun = begun.Value;
             }
 
             {
                 var turnComplete = ParseBool(rawData.turnComplete);
                 if (!turnComplete.HasValue)
                 {
-                    return false;
+                    return null;
                 }
-                usableData.turnComplete = turnComplete.Value;
+                data.turnComplete = turnComplete.Value;
             }
 
-            usableData.gameStartedBy = rawData.gameStartedBy;
-            usableData.turnBelongsTo = rawData.turnBelongsTo;
+            data.gameStartedBy = rawData.gameStartedBy;
+            data.turnBelongsTo = rawData.turnBelongsTo;
 
-         
-            
-            
             try
             {
-                usableData.playerData = JsonUtility.FromJson<PlayerDataPacket>(rawData.playerData);
-                usableData.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
+                data.playerData = JsonUtility.FromJson<PlayerDataPacket>(rawData.playerData);
+                data.gardenData = JsonUtility.FromJson<GardenDataPacket>(rawData.gardenData);
             }
             catch (Exception e)
             {
                 Debug.LogError($"Deserilisation error: {e}");
-                return false;
+                return null;
             }
 
-            return true;
+            return data;
         }
+
 
         private static bool? ParseBool(string data)
         {
-            if(data == "true")
+            if (data == "true")
             {
                 return true;
             }
-            if(data == "false")
+            if (data == "false")
             {
                 return false;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Update <see cref="CurrentGameData"/> so the differences will be properly detected by <see cref="DataDifferences"/>
+        /// </summary>
+        /// <param name="dataManager"></param>
+        public void UpdateCurrentData(DataManager dataManager)
+        {
+            var updatedData = new UsableData()
+            {
+                gameBegun = true,
+                gameStartedBy = dataManager.PlayerData.player1ID,
+                turnBelongsTo = dataManager.PlayerData.turnOwner,
+                turnComplete = dataManager.PlayerData.turnComplete,
+                gardenData = new GardenDataPacket()
+                {
+                    newestGarden1 = (GardenDataPacket.Plant[])dataManager.GardenData.newestGarden1.Clone(),
+                    newestGarden2 = (GardenDataPacket.Plant[])dataManager.GardenData.newestGarden2.Clone()
+                },
+                playerData = new PlayerDataPacket(dataManager.PlayerData)
+
+
+            };
+
+            CurrentGameData = updatedData;
+
+
         }
 
 
@@ -163,7 +202,7 @@ namespace NetSystem
         {
             var playerClient = NetworkHandler.Instance.PlayerClient;
 
-            NetUtility.EnterGameContext context = NetUtility.DetermineEnterGameContext(usableData, playerClient);
+            NetUtility.EnterGameContext context = NetUtility.DetermineEnterGameContext(CurrentGameData, playerClient);
 
             bool createNewGame = false;
             bool initialisePlayer = false;
