@@ -18,7 +18,7 @@ namespace NetSystem
     public class NetworkHandlerSceneInterface : MonoBehaviour
     {
         [SerializeField] InputField gameInputField;
-        [SerializeField] InputField dataInputField;
+    //    [SerializeField] InputField dataInputField;
 
         public void LoginPlayer() => NetworkHandler.Instance.AnonymousLoginPlayer(APIOperationCallbacks.DoNothing);
         public void DebugLoginPlayer() => NetworkHandler.Instance.AnonymousLoginDebugPlayer(APIOperationCallbacks.DoNothing);

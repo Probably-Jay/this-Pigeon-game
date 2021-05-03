@@ -17,7 +17,7 @@ namespace NetSystem
 
         NetworkGame.UsableData CurrentGameData => owningGame.CurrentGameData;
 
-        DataDifferences DifferencesInGameData { get; private set; }
+        DataDifferences DifferencesInGameData { get; set; } = new DataDifferences();
 
         /// <summary>
         /// Non-comprehensive class for the differences between the last times the game data was gathered
@@ -54,6 +54,9 @@ namespace NetSystem
 
                 public bool planted;
                 public bool removed;
+                /// <summary>
+                /// If the plants tendind stat is *at all* different than it was. Does not take into account if the plant has grown
+                /// </summary>
                 public bool tended;
                 public bool grown;
 

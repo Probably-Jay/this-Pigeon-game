@@ -10,7 +10,7 @@ public class ArrowScript : MonoBehaviour
     public bool startDrag;
     float pulseTimer;
     Image myImage;
-    bool pulseTimerForward =true;
+ //   bool pulseTimerForward =true;
     public float pulseSpeed = 0.01f;
     public Animator myAnimator;
     public ArrowPurpose myPurpose;

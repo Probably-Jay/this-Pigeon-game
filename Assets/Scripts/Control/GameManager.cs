@@ -190,21 +190,20 @@ namespace GameCore
 
                 APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
                     (
-                        onSucess: (newData) => {
-                            var differences = NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.CompareNewGameData(newData);
-                            if (differences.AnyDifferences)
-                            {
-                                ApplyNewData(newData, differences);
-                                AttemptToClaimTurn();
-                            }
-                        }
-                        ,onfailure: (e) =>
+                        onSucess: (newData) =>
                         {
-
+                            OnReceiveUpdateFromServerSucess(newData);
+                        }
+                        , onfailure: (e) =>
+                        {
+                            OnReceiveUpdateFromServerFailure(e);
                         }
                     );
 
+                Debug.Log("Attempting update");
                 NetworkHandler.Instance.ReceiveData(callbacks);
+
+                yield return new WaitForSeconds(5);
 
             }
 
@@ -212,13 +211,29 @@ namespace GameCore
 
         }
 
+        private void OnReceiveUpdateFromServerSucess(NetworkGame.UsableData newData)
+        {
+            var differences = NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.CompareNewGameData(newData);
+            if (!differences.AnyDifferences)
+            {
+                Debug.Log("No differences");
+                return;
+            }
 
+            ApplyNewData(newData, differences);
+            AttemptToClaimTurn();
+        }
+
+        private static void OnReceiveUpdateFromServerFailure(FailureReason e)
+        {
+            Debug.LogError($"Receive Data failure {e}");
+        }
 
         private void ApplyNewData(NetworkGame.UsableData newData, NetGameDataDifferencesTracker.DataDifferences differences)
         {
             NetworkHandler.Instance.NetGame.CurrentNetworkGame.SetGameData(newData);
-            
-            
+
+            Debug.Log("Applying new data");
             
             
             
@@ -333,6 +348,7 @@ namespace GameCore
         private void Save()
         {
             EventsManager.InvokeEvent(EventsManager.EventType.SaveGame);
+            NetworkHandler.Instance.NetGame.CurrentNetworkGame.UpdateCurrentData(DataManager);
         }
 
      

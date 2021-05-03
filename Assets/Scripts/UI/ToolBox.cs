@@ -8,11 +8,11 @@ public class ToolBox : MonoBehaviour
     Vector3 startPos;
     public Transform destinationPos;
     Vector3 endPos;
-    bool isOpening =false;
-    bool isOpen = false;
+   // bool isOpening =false;
+  //  bool isOpen = false;
     public float timeToOpen;
-    float startTime;
-    bool isClosing;
+   // float startTime;
+   // bool isClosing;
     Animator myAnimator;
     Image myImage;
     

@@ -11,52 +11,52 @@ using GameCore;
 public class PlayerGardenSignControl : MonoBehaviour
 {
 
-    [SerializeField] TMP_Text player1GardenText;
-    [SerializeField] TMP_Text player2GardenText;
+    //[SerializeField] TMP_Text player1GardenText;
+    //[SerializeField] TMP_Text player2GardenText;
 
-    [SerializeField] string yourGarden = "Your Garden";
-    [SerializeField] string yourCompanionsGarden = "Companion's Garden";
+    //[SerializeField] string yourGarden = "Your Garden";
+    //[SerializeField] string yourCompanionsGarden = "Companion's Garden";
 
-    [SerializeField, Range(0, 1)] float turnUpdateDelay;
+    //[SerializeField, Range(0, 1)] float turnUpdateDelay;
 
 
-    private void Start()
-    {
-        UpdateSigns();
-    }
-
-    //private void OnEnable()
+    //private void Start()
     //{
-    //    EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
+    //    UpdateSigns();
     //}
 
-    //private void OnDisable()
+    ////private void OnEnable()
+    ////{
+    ////    EventsManager.BindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
+    ////}
+
+    ////private void OnDisable()
+    ////{
+    ////    EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
+    ////}
+
+    //private void UpdateSigns() => StartCoroutine(UpdateSignsDelayed());
+
+
+
+    //private IEnumerator UpdateSignsDelayed()
     //{
-    //    EventsManager.UnbindEvent(EventsManager.EventType.NewTurnBegin, UpdateSigns);
+    //    if(turnUpdateDelay>0) yield return new WaitForSeconds(turnUpdateDelay);
+
+    //    //switch (GameManager.Instance.ActivePlayerID)
+    //    //{
+    //    //    case Player.PlayerEnum.Player1:
+    //    //        player1GardenText.text = yourGarden;
+    //    //        player2GardenText.text = yourCompanionsGarden;
+    //    //        break;
+    //    //    case Player.PlayerEnum.Player2:
+    //    //        player1GardenText.text = yourCompanionsGarden;
+    //    //        player2GardenText.text = yourGarden;
+    //    //        break;
+    //    //    default:
+    //    //        player1GardenText.text = "-";
+    //    //        player2GardenText.text = "-";
+    //    //        break;
+    //    //}
     //}
-
-    private void UpdateSigns() => StartCoroutine(UpdateSignsDelayed());
-
-
-
-    private IEnumerator UpdateSignsDelayed()
-    {
-        if(turnUpdateDelay>0) yield return new WaitForSeconds(turnUpdateDelay);
-
-        //switch (GameManager.Instance.ActivePlayerID)
-        //{
-        //    case Player.PlayerEnum.Player1:
-        //        player1GardenText.text = yourGarden;
-        //        player2GardenText.text = yourCompanionsGarden;
-        //        break;
-        //    case Player.PlayerEnum.Player2:
-        //        player1GardenText.text = yourCompanionsGarden;
-        //        player2GardenText.text = yourGarden;
-        //        break;
-        //    default:
-        //        player1GardenText.text = "-";
-        //        player2GardenText.text = "-";
-        //        break;
-        //}
-    }
 }

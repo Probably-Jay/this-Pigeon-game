@@ -147,8 +147,11 @@ namespace NetSystem
             return null;
         }
 
-
-        public void UpdataUsableData(DataManager dataManager)
+        /// <summary>
+        /// Update <see cref="CurrentGameData"/> so the differences will be properly detected by <see cref="DataDifferences"/>
+        /// </summary>
+        /// <param name="dataManager"></param>
+        public void UpdateCurrentData(DataManager dataManager)
         {
             var updatedData = new UsableData()
             {

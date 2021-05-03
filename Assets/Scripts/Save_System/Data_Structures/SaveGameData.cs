@@ -19,15 +19,15 @@ namespace SaveSystemInternal
         /// <param name="localID">The ID of the game this data describes</param>
         public SaveGameData(string localID)
         {
-            initialised = true;
-            localGameID = localID;
+            //initialised = true;
+            //localGameID = localID;
 
-            // these need to be initialised as they are a constant size
-            p1gardenGoals   = new int[Player.NumberOfPlayers * MoodAttributes.NumberOfAtributeScales];
-            p2gardenGoals   = new int[Player.NumberOfPlayers * MoodAttributes.NumberOfAtributeScales];
+            //// these need to be initialised as they are a constant size
+            //p1gardenGoals   = new int[Player.NumberOfPlayers * MoodAttributes.NumberOfAtributeScales];
+            //p2gardenGoals   = new int[Player.NumberOfPlayers * MoodAttributes.NumberOfAtributeScales];
 
-            p1actionPoints  = new int[Player.NumberOfPlayers * TurnPoints.NumberOfPointTypes];
-            p2actionPoints  = new int[Player.NumberOfPlayers * TurnPoints.NumberOfPointTypes];
+            //p1actionPoints  = new int[Player.NumberOfPlayers * TurnPoints.NumberOfPointTypes];
+            //p2actionPoints  = new int[Player.NumberOfPlayers * TurnPoints.NumberOfPointTypes];
 
             // hash gurenteed to be initialised before serialisation
 
