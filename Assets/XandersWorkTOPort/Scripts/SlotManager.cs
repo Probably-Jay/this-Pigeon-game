@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using Plants;
 using GameCore;
+using NetSystem;
+using System;
 
 // Created by Alexander purvis 
 
@@ -99,9 +101,6 @@ public class SlotManager : MonoBehaviour
     {
         switch (plant.ThisPlantsSize)
         {
-            // case Plant.PlantSize.Wide:
-            //    EventsManager.InvokeEvent(EventsManager.EventType.PlacedOwnObject);
-            //  break;
             case Plant.PlantSize.Tall:
                 EventsManager.InvokeEvent(EventsManager.EventType.PlacedTallPlant);
                 break;
@@ -249,6 +248,11 @@ public class SlotManager : MonoBehaviour
         }
 
         return new ReadOnlyCollection<Plant>(plants);
+    }
+
+    internal void SignalDifferenceToSlot(NetGameDataDifferencesTracker.DataDifferences.PlantDifferences palntDifferences)
+    {
+        throw new NotImplementedException();
     }
 
     public void RemovePlantWithTrowel(int slotNumber)

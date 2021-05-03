@@ -169,6 +169,8 @@ namespace NetSystem
 
             };
 
+            CurrentGameData = updatedData;
+
 
         }
 

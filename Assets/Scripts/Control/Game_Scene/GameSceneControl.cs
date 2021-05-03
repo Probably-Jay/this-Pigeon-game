@@ -17,6 +17,11 @@ public class GameSceneControl : MonoBehaviour
         EventsManager.InvokeEvent(EventsManager.EventType.EnterGameScene);
     }
 
+    private void OnDestroy()
+    {
+        Debug.Log($"{nameof(GameSceneControl)} destroyed");
+    }
+
     private void OnApplicationQuit()
     {
         //   GameCore.GameManager.Instance.SaveGame();

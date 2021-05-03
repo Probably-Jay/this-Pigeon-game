@@ -129,6 +129,22 @@ namespace GameCore
             EventsManager.InvokeEvent(EventsManager.EventType.TurnClaimed);
         }
 
+        internal void HotReaload()
+        {
+
+            var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData;
+
+            Turn = data.playerData.turnCounter;
+            TurnComplete = data.playerData.turnComplete;
+            TurnOwner = NetUtility.PlayfabIDToPlayerEnum(data.turnBelongsTo, NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData);
+
+            GameManager.Instance.DataManager.SetTurnCounter(data.playerData.turnCounter);
+            GameManager.Instance.DataManager.SetStateOfTurnComplete(data.playerData.turnComplete);
+            GameManager.Instance.DataManager.SetTheTurnsOwner(data.playerData.turnOwner);
+
+
+        }
+
         /// <summary>
         /// Initialise a brand new game
         /// </summary>
@@ -161,7 +177,7 @@ namespace GameCore
         //    GameManager.Instance.DataManager.SetTurnCounter(Turn);
 
         //}
-       
+
 
 
     }

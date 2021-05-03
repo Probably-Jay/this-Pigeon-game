@@ -96,7 +96,7 @@ namespace GameCore
         // player just entererd into the game
         void EnterGame()
         {
-            DataManager = FindObjectOfType<DataManager>();
+            DataManager = new DataManager();
 
 
             ActiveGame netGame = NetworkHandler.Instance.NetGame;
@@ -111,30 +111,48 @@ namespace GameCore
                 return;
             }
 
+            Debug.LogWarning("a");
             if (context.createNewGame)
             {
+                Debug.LogWarning("c");
                 CreateNewGame(context);
+                Debug.LogWarning("b");
             }
             else
             {
                 ReloadGameOnly(context);
             }
+            Debug.LogWarning("d");
 
             if (context.initialisePlayer)
             {
+                Debug.LogWarning("e");
+
                 InitialisePlayer(context);
+
+                Debug.LogWarning("f");
+
             }
             else
             {
+                Debug.LogWarning("g");
+
                 ReloadPlayerOnly(context);
+
+                Debug.LogWarning("h");
+
             }
+
+            Debug.LogWarning("i");
 
 
             SetLocalSlotManager();
 
+            Debug.LogWarning("j");
+
             if (!context.createNewGame)
             {
-                LoadGarden(context);
+                LoadGarden();
             }
 
             if (context.claimingTurn)
@@ -148,7 +166,7 @@ namespace GameCore
 
             StartCoroutine(InvokeGameStartEventNextFrame(context));
 
-            updateFromServerCoroutuine = StartCoroutine(UpdateFromServerCoroutine(context));
+            updateFromServerCoroutuine = StartCoroutine(UpdateFromServerCoroutine());
         }
 
    
@@ -178,7 +196,7 @@ namespace GameCore
             EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
         }
 
-        private IEnumerator UpdateFromServerCoroutine(NetworkGame.EnterGameContext context)
+        private IEnumerator UpdateFromServerCoroutine()
         {
             while (true)
             {
@@ -213,7 +231,8 @@ namespace GameCore
 
         private void OnReceiveUpdateFromServerSucess(NetworkGame.UsableData newData)
         {
-            var differences = NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.CompareNewGameData(newData);
+            NetGameDataDifferencesTracker.DataDifferences differences = NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.CompareNewGameData(newData);
+
             if (!differences.AnyDifferences)
             {
                 Debug.Log("No differences");
@@ -221,7 +240,15 @@ namespace GameCore
             }
 
             ApplyNewData(newData, differences);
-            AttemptToClaimTurn();
+
+            bool claimedTurn = AttemptToClaimTurn();
+
+            if (!claimedTurn)
+            {
+                return;
+            }
+
+            EventsManager.InvokeEvent(EventsManager.EventType.EnterPlayingState);
         }
 
         private static void OnReceiveUpdateFromServerFailure(FailureReason e)
@@ -234,15 +261,58 @@ namespace GameCore
             NetworkHandler.Instance.NetGame.CurrentNetworkGame.SetGameData(newData);
 
             Debug.Log("Applying new data");
-            
-            
-            
+
+            ClearLocalDataManager();
+
+            HotRealoadPlayeData();
+            LoadGarden();
+
+            PlayChangesGardenEffects(differences);
+
             NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.ResetGameDataDifferences();
         }
 
-        private void AttemptToClaimTurn()
+        private void ClearLocalDataManager()
         {
-            throw new NotImplementedException();
+            DataManager = new DataManager();
+        }
+
+        //private void HotReloadGarden()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        private void HotRealoadPlayeData()
+        {
+            OnlineTurnManager.HotRealoadPlayerData();
+            EmotionTracker.HotRealoadPlayerData();
+        }
+
+        private void PlayChangesGardenEffects(NetGameDataDifferencesTracker.DataDifferences differences)
+        {
+            foreach (var palntDifferences in differences.plantDifferences)
+            {
+                switch (palntDifferences.garden)
+                {
+                    case Player.PlayerEnum.Player1:
+                       // SlotManagers[0].SignalDifferenceToSlot(palntDifferences);
+                        break;
+                    case Player.PlayerEnum.Player2:
+                       // SlotManagers[1].SignalDifferenceToSlot(palntDifferences);
+                        break;
+
+                }
+            }
+        }
+
+        private bool AttemptToClaimTurn()
+        {
+            if (OnlineTurnManager.TurnTracker.CanClaimTurn)
+            {
+                OnlineTurnManager.ClaimTurn();
+                return true;
+            }
+            return false;
         }
 
         private void CreateNewGame(NetworkGame.EnterGameContext context)
@@ -281,7 +351,7 @@ namespace GameCore
             context.interactionState = NetworkGame.EnterGameContext.InteractionState.Playing;
         }
 
-        private void LoadGarden(NetworkGame.EnterGameContext context)
+        private void LoadGarden()
         {
             var data = NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData;
             SlotManagers[(int)Player.PlayerEnum.Player1].ClearGarden();
@@ -332,7 +402,7 @@ namespace GameCore
         public void QuitToMenu()
         {
             SaveGame();
-            StopAllCoroutines();
+           // StopAllCoroutines();
             NetSystem.NetworkHandler.Instance.LogoutPlayer();
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
         }

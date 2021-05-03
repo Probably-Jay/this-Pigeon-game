@@ -136,10 +136,25 @@ namespace GameCore
             }
             GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
             GameManager.Instance.DataManager.SetPlayer2GoalMood(data.player2ChosenMood);
+
+            GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
+            GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
+
+            
         }
 
-     
-       
+
+
+        internal void HotRealoadPlayerData()
+        {
+            var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData;
+
+            GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
+            GameManager.Instance.DataManager.SetPlayer2GoalMood(data.player2ChosenMood);
+
+            GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
+            GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
+        }
 
         public void UpdateGardenStats()
         {
