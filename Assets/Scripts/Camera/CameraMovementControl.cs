@@ -66,6 +66,7 @@ public class CameraMovementControl : MonoBehaviour
     private void SwapVeiwTo(Player.PlayerEnum player)
     {
         //if (player == CurrentGardenView) return;
+        EventsManager.InvokeEvent(EventsManager.EventType.GardenSwapped);
 
         switch (player)
         {
