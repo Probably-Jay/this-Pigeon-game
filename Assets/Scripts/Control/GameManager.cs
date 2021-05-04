@@ -188,6 +188,7 @@ namespace GameCore
                     yield return new WaitUntil(()=>Spectating);
                 }
 
+                yield return new WaitForSeconds(5);
 
                 APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
                     (
@@ -204,7 +205,6 @@ namespace GameCore
                 Debug.Log("Attempting update");
                 NetworkHandler.Instance.ReceiveData(callbacks);
 
-                yield return new WaitForSeconds(5);
 
             }
 
