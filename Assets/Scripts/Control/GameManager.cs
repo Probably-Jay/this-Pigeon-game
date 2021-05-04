@@ -159,6 +159,8 @@ namespace GameCore
         {
             yield return null;  // wait a frame
 
+            EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
+
             switch (context.interactionState)
             {
                 case NetworkGame.EnterGameContext.InteractionState.Playing:
@@ -177,7 +179,6 @@ namespace GameCore
                 EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
             }
 
-            EventsManager.InvokeEvent(EventsManager.EventType.GameLoaded);
         }
 
         private IEnumerator UpdateFromServerCoroutine()
@@ -412,6 +413,8 @@ namespace GameCore
             NetworkHandler.Instance.NetGame.CurrentNetworkGame.UpdateCurrentData(DataManager);
         }
 
+
+        
      
 
     }

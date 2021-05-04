@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\Control\GoalManagerScript.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
     <Compile Include="Assets\Scripts\Control\MenuController.cs" />
+    <Compile Include="Assets\Scripts\Control\Mood_Select\DataManager.cs" />
     <Compile Include="Assets\Scripts\Control\Mood_Select\MoodSelectController.cs" />
     <Compile Include="Assets\Scripts\Control\OnlineTurnManager.cs" />
     <Compile Include="Assets\Scripts\Control\OnlineTurnTracker.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
-    <Compile Include="Assets\Scripts\Data_Managment\DataManager.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\GardenDataPacket.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\PlayerDataPacket.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\ActionIcons.cs" />

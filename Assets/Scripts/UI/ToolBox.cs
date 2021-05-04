@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class ToolBox : MonoBehaviour
 {
-    Vector3 startPos;
+
     public Transform destinationPos;
-    Vector3 endPos;
+
    // bool isOpening =false;
   //  bool isOpen = false;
     public float timeToOpen;
@@ -15,14 +15,17 @@ public class ToolBox : MonoBehaviour
    // bool isClosing;
     Animator myAnimator;
     Image myImage;
-    
+
+    public bool Open { get; private set; }
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         myImage = this.GetComponent<Image>();
         myAnimator = this.GetComponent<Animator>();
-        startPos = this.transform.position;
-        endPos = destinationPos.position;
+
     }
     private void OnEnable()
     {
@@ -74,6 +77,7 @@ public class ToolBox : MonoBehaviour
     private void OpenBox()
     {
         myAnimator.SetBool("Open",true);
+        Open = true;
         /*
         if (!isOpening&&!isOpen)
         {
@@ -85,6 +89,8 @@ public class ToolBox : MonoBehaviour
     private void CloseBox()
     {
         myAnimator.SetBool("Open", false);
+        Open = false;
+
         /*
         if (!isClosing && isOpen)
         {

@@ -33,6 +33,14 @@ namespace Tutorial
 
         ArrowEnabler myArrows;
 
+
+        [SerializeField] SeedBag seedBag;
+        [SerializeField] ToolBox toolBox;
+
+        bool SeedBagOpen => seedBag.gameObject.activeSelf;
+        bool ToolBoxOpen => toolBox.Open;
+
+
         enum PlayerAction
         {
                PlacePlant
@@ -61,7 +69,8 @@ namespace Tutorial
 
         private void Awake()
         {
-            myArrows = GetComponent<ArrowEnabler>(); 
+            myArrows = GetComponent<ArrowEnabler>();
+            myBox.gameObject.SetActive(false);
         }
 
 
@@ -97,33 +106,36 @@ namespace Tutorial
             BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithRelaventPlants, WhenToDisplay.YouArePlaying,
                       condition: () =>
                       {
-                          return localTurn == 2 && hasEverPlantedMoodRelaventPlant;
+                          return localTurn == 2 && PlayerPrefs.GetInt(HasEverPlantedMoodRelaventPlantKey) == 1;
                       }); 
             
-            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithNoRelaventPlants,
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithNoRelaventPlants, WhenToDisplay.YouArePlaying,
                       condition: () =>
                       {
-                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
+                          return localTurn == 2 && PlayerPrefs.GetInt(HasEverPlantedMoodRelaventPlantKey) == default;
                       });
 
 
-            BindEvent(EventsManager.EventType.EnterPlayingState, MoodRelevantPlantReachesMaturity,
+            BindEvent(EventsManager.EventType.EnterPlayingState, MoodRelevantPlantReachesMaturity, WhenToDisplay.YouArePlaying,
                 condition: () => 
                 {
                     TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
-                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.EmotionGoal.traits;
+
+                    return gardenCurrentTrait.Overlaps(gardenGoalTrait);
+
+                    //float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
+                    //float currentDistance = TraitValue.Distance(gardenCurrentTrait, gardenGoalTrait);
 
 
-                    float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
-                    float currentDistance = TraitValue.Distance(gardenCurrentTrait, gardenGoalTrait);
-
-                    return currentDistance < defaultDistance;
                 }); 
 
-            BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, NoMorePoints);
+            BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, NoMorePoints, WhenToDisplay.Always, dontUnbind: true);
 
 
-            BindEvent(EventsManager.ParameterEventType.AcheivedGoal, AcheivedGoal);
+            BindEvent(EventsManager.ParameterEventType.AcheivedGoal, AcheivedGoal, WhenToDisplay.Always);
+
+
    
 
             //EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
@@ -163,15 +175,16 @@ namespace Tutorial
         void CheckAndNudgePlayer()
         {
             bool tendingRequired = PlayerNeedsToTend(Player.PlayerEnum.Player1);
+
             if (GameManager.Instance.LocalPlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
             {
                 nextAction = PlayerAction.PlacePlant;
             }
-            else if(tendingRequired)
+            else if (tendingRequired)
             {
                 nextAction = PlayerAction.TendPlant;
             }
-            else if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4))
+            else if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace) && (GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4))
             {
                 nextAction = PlayerAction.GiftPlant;
             }
@@ -179,13 +192,26 @@ namespace Tutorial
             {
                 nextAction = PlayerAction.EndTurn;
             }
-            if (myBox.gameObject.activeSelf == false)
+
+
+            if (myBox.gameObject.activeSelf != false)
             {
-                NudgePlayer(nextAction);
+                return;
             }
+
+            if(ToolBoxOpen || SeedBagOpen)
+            {
+                return;
+            }
+
+            NudgePlayer(nextAction);
+
+
         }
         void NudgePlayer(PlayerAction action)
-        {
+        { 
+
+
             myBox.gameObject.SetActive(true);
             switch (action)
             {

@@ -7,6 +7,9 @@ public class SeedBag : MonoBehaviour
 {
     public Image myImage;
     // Start is called before the first frame update
+
+    //public bool Open => 
+
     void OnEnable()
     {
         myImage = this.GetComponent<Image>();

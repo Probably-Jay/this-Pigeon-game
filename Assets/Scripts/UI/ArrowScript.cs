@@ -158,6 +158,10 @@ public class ArrowScript : MonoBehaviour
         {
             Deactivate();
         }
+        else
+        {
+            Deactivate(); // todo make this re apear on swap back
+        }
     }
     void Deactivate()
     {
