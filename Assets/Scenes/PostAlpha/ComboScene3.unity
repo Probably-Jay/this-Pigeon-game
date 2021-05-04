@@ -4822,6 +4822,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1142703990, guid: c68a0b42de7450e40ac62e538ddce4ac, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1740899002, guid: c68a0b42de7450e40ac62e538ddce4ac, type: 3}
       propertyPath: myAnimator
       value: 
@@ -6394,7 +6398,7 @@ PrefabInstance:
     - target: {fileID: 6812699117249572928, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6812699117249572930, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
