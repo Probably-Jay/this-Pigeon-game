@@ -27,7 +27,7 @@ namespace Tutorial
         string HasEverPlantedMoodRelaventPlantKey => GameKey + "_variable_"+ "HasEverPlantedMoodRelaventPlantKey";
 
 
-        string GameKey => NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.GroupEntityKey.Id;
+        string GameKey => NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.GroupEntityKey.Id + NetSystem.NetworkHandler.Instance.ClientEntity.Id;
 
         delegate bool Condition();
 
