@@ -21,9 +21,9 @@ namespace Audio
             EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, Bag);
             EventsManager.BindEvent(EventsManager.EventType.SeedBagClose, Bag);
 
-            EventsManager.BindEvent(EventsManager.EventType.CompleteTurn, Sparkle); // Still not got a specific use for Sparkle, using this as temp
+            EventsManager.BindEvent(EventsManager.EventType.PlantSparkles, Sparkle); 
 
-            EventsManager.BindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
+            //EventsManager.BindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
 
             EventsManager.BindEvent(EventsManager.EventType.SeedbagShuffle, Seeds);
 
@@ -33,10 +33,9 @@ namespace Audio
             EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, Tools);
             EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, Tools);
 
-            EventsManager.BindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
+            //EventsManager.BindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
             EventsManager.BindEvent(EventsManager.EventType.DialogueNext, PetSounds);
             EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, PetSounds);
-            EventsManager.BindEvent(EventsManager.EventType.PokePet, PetSounds);
 
             EventsManager.BindEvent(EventsManager.EventType.PlacedSmallPlant, SmallPlant);
             EventsManager.BindEvent(EventsManager.EventType.PlacedTallPlant, TallPlant);
@@ -51,9 +50,9 @@ namespace Audio
             EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, Bag);
             EventsManager.UnbindEvent(EventsManager.EventType.SeedBagClose, Bag);
 
-            EventsManager.UnbindEvent(EventsManager.EventType.QuitGame, Sparkle); // Still not got a specific use for Sparkle, using this as temp
+            EventsManager.UnbindEvent(EventsManager.EventType.PlantSparkles, Sparkle);
 
-            EventsManager.UnbindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
+            //EventsManager.UnbindEvent(EventsManager.EventType.GameOver, Pop); // Still not got a specific use for Pop, using this as temp
 
             EventsManager.UnbindEvent(EventsManager.EventType.SeedbagShuffle, Seeds);
 
@@ -83,7 +82,7 @@ namespace Audio
             clipSource.PlayOneShot(clipArray[idx]);
         }
 
-        void PetSounds()
+        public void PetSounds()
         {
             // Swap if pets are not longer tied to p1 / p2
             if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player1)
@@ -95,7 +94,6 @@ namespace Audio
                 Bark();
             }
         }
-
 
         private void TendedPlant(EventsManager.EventParams eventParams)
         {
@@ -165,7 +163,7 @@ namespace Audio
             PlaySound(2 + type, true);
         }
 
-        void Sparkle()
+        public void Sparkle()
         {
             PlaySound(5, false);
         }
