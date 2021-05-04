@@ -114,6 +114,11 @@ namespace NetSystem
             PlayerData.player1ChosenMood = chosenMood;
         }
 
+        public int GetPlayer1GoalMood()
+        {
+            return PlayerData.player1ChosenMood;
+        }
+
         /// <summary>
         /// sets the mood achived bool for player 1 to the value of the bool passed in
         /// // Note if the player ends thier tun with the mood values of thier garden equal to their chosed mood this will be true. In not then false
@@ -173,6 +178,11 @@ namespace NetSystem
             PlayerData.player2ChosenMood = chosenMood;
         }
 
+        public int GetPlayer2GoalMood()
+        {
+            return PlayerData.player2ChosenMood;
+
+        }
         /// <summary>
         /// sets the mood achived bool for player 2 to the value of the bool passed in
         /// // Note if the player ends thier tun with the mood values of thier garden equal to their chosed mood this will be true. In not then false

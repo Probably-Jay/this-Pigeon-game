@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 // added Jay 26/03
 
 namespace Mood
@@ -44,7 +45,7 @@ namespace Mood
             }
         }
 
-       
+
 
         /// <summary>
         /// An unambiguous way to store the traits: <see cref="Scales.Social"/>, <see cref="Scales.Joyful"/>, <see cref="Scales.Energetic"/>, and <see cref="Scales.Painful"/>
@@ -55,11 +56,26 @@ namespace Mood
         /// <param name="painful">The value of <see cref="Scales.Painful"/></param>
         public TraitValue(int social, int joyful, int energetic, int painful)
         {
-            this.social     = social;
-            this.joyful     = joyful;
-            this.energetic  = energetic;
-            this.painful    = painful;
+            this.social = social;
+            this.joyful = joyful;
+            this.energetic = energetic;
+            this.painful = painful;
         }
+        public List<Scales> GetTraits()
+        {
+            List<Scales> result = new List<Scales> { };
+            foreach  (Scales scale in Helper.Utility.GetEnumValues<Scales>())
+            {
+                Debug.Log(this[scale]);
+                if (this[scale] > 0)
+                {
+                    result.Add(scale);
+                }
+            }
+            return result;
+        }
+
+
 
         ///// <summary>
         ///// Returns a new zeroed <see cref="TraitValue"/>
