@@ -45,6 +45,7 @@ namespace GameCore
         /// </summary>
         public bool Spectating => !Playing;
 
+        private const float SecondsBetweenUpdates = 2.5f;
         public int NewGameMoodGoalTemp;
 
 
@@ -181,11 +182,12 @@ namespace GameCore
 
         private IEnumerator UpdateFromServerCoroutine()
         {
+            
             while (true)
             {
                 if (!Spectating)
                 {
-                    yield return new WaitForSeconds(5);
+                    yield return new WaitForSeconds(SecondsBetweenUpdates);
 
                     SaveGame();
                 }
@@ -193,7 +195,7 @@ namespace GameCore
                 {
 
 
-                    yield return new WaitForSeconds(5);
+                    yield return new WaitForSeconds(SecondsBetweenUpdates);
 
                     APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
                         (
@@ -391,7 +393,7 @@ namespace GameCore
         public void QuitToMenu()
         {
             SaveGame();
-           // StopAllCoroutines();
+            StopCoroutine(updateFromServerCoroutuine);
             NetSystem.NetworkHandler.Instance.LogoutPlayer();
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
         }

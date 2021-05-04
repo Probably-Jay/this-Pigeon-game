@@ -52,6 +52,8 @@ namespace NetSystem
                 public Player.PlayerEnum garden;
                 public int slot;
 
+                public bool HasDifferences => planted || removed || tended || grown;
+
                 public bool planted;
                 public bool removed;
                 /// <summary>
@@ -82,6 +84,8 @@ namespace NetSystem
                     tended = false;
                     grown = false;
                 }
+
+
 
                 internal void SetDifferencesComparison((GardenDataPacket.Plant plant, Player.PlayerEnum garden) oldPlant, (GardenDataPacket.Plant plant, Player.PlayerEnum garden) newPlant)
                 {
@@ -171,16 +175,23 @@ namespace NetSystem
                 if (item.oldPlant.plant == null)
                 {
                     plantDifferences.SetDifferencesAddedPlant(item.newPlant);
+                    differences.Add(plantDifferences);
                     continue;
                 }
 
                 if (item.newPlant.plant == null)
                 {
                     plantDifferences.SetDifferencesRemovedPlant(item.oldPlant);
+                    differences.Add(plantDifferences);
+
                     continue;
                 }
 
                 plantDifferences.SetDifferencesComparison(item.oldPlant, item.newPlant);
+                if (plantDifferences.HasDifferences)
+                {
+                    differences.Add(plantDifferences);
+                }
             }
         }
 
