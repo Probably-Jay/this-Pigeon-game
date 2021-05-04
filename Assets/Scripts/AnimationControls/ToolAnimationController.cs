@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ToolAnimationController : MonoBehaviour
-{   
+{
     public Animator animator;
     public string animationName;
-    int animationLoops = 0;
-    bool playingAnimation = false;
+    public bool playingAnimation = false;
 
     public GameObject linkedTool;
-
     Image uiImage;
 
     private void Start()
     {
-        uiImage = linkedTool.GetComponent<Image>();     
+        uiImage = linkedTool.GetComponent<Image>();
     }
 
 
@@ -24,30 +23,29 @@ public class ToolAnimationController : MonoBehaviour
     void Update()
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
-        {          
-            playingAnimation = true;
+        {         
             var tempColor = uiImage.color;
             tempColor.a = 0f;
             uiImage.color = tempColor;
+            playingAnimation = true;
         }
-        else if(playingAnimation == true)
-        {          
+        else if (playingAnimation == true)
+        {
             var tempColor = uiImage.color;
             tempColor.a = 1f;
             uiImage.color = tempColor;
             playingAnimation = false;
-        }   
+        }
     }
 
 
     public void PlayAnimation(Vector3 newPosition)
     {
-       transform.position = newPosition;
+        transform.position = newPosition;
 
         // Turn animation on
         playingAnimation = true;
         animator.SetTrigger("PlayAnimation");
-        animationLoops++;
         Debug.Log("Turn animation on");
     }
 }
