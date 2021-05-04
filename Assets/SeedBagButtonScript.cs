@@ -9,30 +9,6 @@ namespace SceneUI
     public class SeedBagButtonScript : MonoBehaviour
     {
 
-        private void OnEnable()
-        {
-            EventsManager.BindEvent(EventsManager.EventType.StartNewGame, UnHideBag);
-            EventsManager.BindEvent(EventsManager.EventType.EnterPlayingState, UnHideBag);
-            EventsManager.BindEvent(EventsManager.EventType.EnterSpectatingState, HideBag);
-        }
-
-        private void OnDisable()
-        {
-            EventsManager.UnbindEvent(EventsManager.EventType.StartNewGame, UnHideBag);
-            EventsManager.UnbindEvent(EventsManager.EventType.EnterPlayingState, UnHideBag);
-            EventsManager.UnbindEvent(EventsManager.EventType.EnterSpectatingState, HideBag);
-        }
-
-        private void UnHideBag()
-        {
-            gameObject.SetActive(true);
-        }
-
-        private void HideBag()
-        {
-            gameObject.SetActive(false);
-        }
-
         public void OpenSeedBag()
         {
             // Xanders edit ~ fixes bug that allows you to plant unlimited plants in the other players garden if

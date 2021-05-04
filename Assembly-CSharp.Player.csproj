@@ -616,6 +616,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EndTurnButtonParent.cs" />
     <Compile Include="Assets\GameDataSaver.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
@@ -717,6 +718,7 @@
     <Compile Include="Assets\Scripts\UI\OpenToolBoxButton.cs" />
     <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBag.cs" />
+    <Compile Include="Assets\Scripts\UI\SeedBagButton.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\UI\TextBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolBox.cs" />
@@ -732,6 +734,7 @@
     <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\~Deprecated\~Rooms\RoomData.cs" />
+    <Compile Include="Assets\SeedBagButtonParentScript.cs" />
     <Compile Include="Assets\SeedBagButtonScript.cs" />
     <Compile Include="Assets\StateTextController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
@@ -768,6 +771,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\ToolboxButtonParent.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\GardenSlotDirectory.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\SeedIndicator.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotControls.cs" />
