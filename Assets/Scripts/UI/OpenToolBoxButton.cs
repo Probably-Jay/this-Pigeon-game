@@ -14,6 +14,12 @@ public class OpenToolBoxButton : MonoBehaviour
     private void Awake()
     {
         button = this.GetComponent<Button>();
+       
+    }
+
+    private void Start()
+    {
+        UpdateButton();
     }
 
     private void OnEnable()
@@ -21,8 +27,7 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
-        EventsManager.BindEvent(EventsManager.EventType.EnterPlayingState, EnableButton);
-        EventsManager.BindEvent(EventsManager.EventType.EnterSpectatingState, HideButton);
+  
     }
 
     private void InitiateUpdateAction(EventsManager.EventParams _) => InitiateUpdate();
@@ -33,15 +38,14 @@ public class OpenToolBoxButton : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, DisableButton);
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, InitiateEnable);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, InitiateUpdateAction);
-        EventsManager.UnbindEvent(EventsManager.EventType.EnterPlayingState, EnableButton);
-        EventsManager.UnbindEvent(EventsManager.EventType.EnterSpectatingState, HideButton);
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         enableDelay--;
-        if (enableDelay == 1)
+        if (enableDelay <= 1)
         {
             EnableButton();
         }
@@ -54,16 +58,6 @@ public class OpenToolBoxButton : MonoBehaviour
     }
     void EnableButton()
     {
-        if (GameCore.GameManager.Instance.Spectating)
-        {
-            HideButton();
-            return;
-        }
-        else
-        {
-            UnHideButton();
-        }
-
         if (GameCore.GameManager.Instance.InOwnGarden)
         {
             button.interactable = true;
@@ -84,16 +78,7 @@ public class OpenToolBoxButton : MonoBehaviour
     }
     void UpdateButton()
     {
-        if (GameCore.GameManager.Instance.Spectating)
-        {
-            HideButton();
-            return;
-        }
-        else
-        {
-            UnHideButton();
-        }
-
+    
         if (!GameCore.GameManager.Instance.InOwnGarden)
         {
             DisableButton();
@@ -104,13 +89,5 @@ public class OpenToolBoxButton : MonoBehaviour
         }
     }
 
-    private void HideButton()
-    {
-        button.gameObject.SetActive(false);
-    }
-    
-    private void UnHideButton()
-    {
-        button.gameObject.SetActive(true);
-    }
+  
 }
