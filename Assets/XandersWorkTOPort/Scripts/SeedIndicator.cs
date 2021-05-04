@@ -19,6 +19,7 @@ public class SeedIndicator : MonoBehaviour
 
     private void Awake()
     {
+
         // establish variables for indicator 
         IndicatorSprite = this.GetComponent<SpriteRenderer>();
         slotColourValues = IndicatorSprite.material.color;
@@ -37,7 +38,6 @@ public class SeedIndicator : MonoBehaviour
     public void ShowIndicator(GameObject selectedPlant)
     {
         // Adrinque = 0, Rhine = 1, Eisower = 2, Vlufraisy = 3, Zove = 4, Vlum =5
-
         plantSelected = selectedPlant.GetComponent<Plant>();
 
         switch (plantSelected.plantname)
