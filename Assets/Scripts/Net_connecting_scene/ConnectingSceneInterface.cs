@@ -442,6 +442,8 @@ namespace SceneInterface
                     break;
                 case FailureReason.GameNotBegun:
                     message = $"Joined a game!\nThe game is still being set up by the other player, please check back in a moment";
+                    messagText.enabled = true;
+                    messagText.text = "The game is still being set up by the other player, please check back in a moment";;
                     break;
                 default:
                     message = $"Unable find new game: {errorReason}";
