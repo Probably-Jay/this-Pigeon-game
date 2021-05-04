@@ -9,15 +9,16 @@ namespace SceneUI
     public class SwapGardenButton : MonoBehaviour
     {
 
-        GardenSlotDirectory gardenSlotDirectory;
+        [SerializeField]GardenSlotDirectory gardenSlotDirectory;
 
         Animator animator;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            gardenSlotDirectory = GameObject.FindObjectOfType<GardenSlotDirectory>();
+
         }
+
 
         private void OnEnable()
         {
