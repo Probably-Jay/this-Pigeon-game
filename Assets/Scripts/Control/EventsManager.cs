@@ -68,7 +68,9 @@ public class EventsManager : Singleton<EventsManager>
         , SeedbagShuffle
         , PlacedTallPlant
         , PlacedSmallPlant
-        , PokePet
+
+        , PlantSparkles
+        , GardenSwapped
 
         , OnDialogueOpen
         , OnDialogueClose
@@ -293,12 +295,12 @@ public class EventsManager : Singleton<EventsManager>
     private void CleanEvents()
     {
 
-        //paramaterless
+        //parameterless
         List<(EventType, Action)> toUnbind = new List<(EventType, Action)>();
 
         GatherDanglingEvets(toUnbind);
         UnbindDanglingEvents(toUnbind);
-
+        
 
         //paramatised
         List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized = new List<(ParameterEventType, Action<EventParams>)>();

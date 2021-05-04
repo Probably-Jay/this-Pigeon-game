@@ -229,8 +229,6 @@ namespace SceneInterface
             return response;
         }
 
-       
-
         private void GamesGatheredSucess(ReadOnlyCollection<NetworkGame> games)
         {
             messagText.enabled = true;

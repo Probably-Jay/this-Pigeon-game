@@ -618,8 +618,12 @@
   <ItemGroup>
     <Compile Include="Assets\EndTurnButtonParent.cs" />
     <Compile Include="Assets\GameDataSaver.cs" />
+    <Compile Include="Assets\GiftBasketSwap.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\EffectAnimationController.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\ToolAnimationController.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Audio\SFXHandler.cs" />

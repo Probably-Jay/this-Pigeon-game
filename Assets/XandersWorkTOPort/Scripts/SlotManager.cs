@@ -257,8 +257,8 @@ public class SlotManager : MonoBehaviour
 
     public void RemovePlantWithTrowel(int slotNumber)
     {
-        var slotControls = gardenSlots[slotNumber];
-        slotControls.RemovePlantFromSlot();
+        SlotControls slotControls = gardenSlots[slotNumber];
+        slotControls.RemovePlantFromSlot();      
     }
 
   

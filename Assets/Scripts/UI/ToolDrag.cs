@@ -9,6 +9,8 @@ using GameCore;
 
 //Created Zap 26/03
 // refactored jay 22/04
+// eddited by Xander 02/05/2021
+
 public class ToolDrag : MonoBehaviour //IPointerDownHandler
 {
     [SerializeField] TendingActions toolType;
@@ -28,6 +30,10 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
 
     public Vector3 originalScale;
 
+    // for tool animations
+    GameObject animationController;
+    AnimationManager animationManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +41,10 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         startingPostition = this.transform.localPosition;
         image = this.GetComponent<Image>();
         RectTransform = GetComponent<RectTransform>();
+
+        // tool animations
+        animationController = GameObject.FindGameObjectsWithTag("AnimationController")[0];
+        animationManager = animationController.GetComponent<AnimationManager>();
     }
 
     private void OnEnable()
@@ -102,6 +112,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (menuAnswer)
         {
             RemovePlant();
+ 
         }
         else
         {
@@ -114,6 +125,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         // Change Score
         // Set location to available
         // Delete gameobject
+  
+      
     }
 
 
@@ -130,16 +143,38 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (ToolType != TendingActions.Removing)
         {
             plant.Tend(ToolType);
+
+
+            // trigger tool animations
+            switch (ToolType)
+            {
+                case TendingActions.Watering:
+
+                    animationManager.PlayToolAnimation(plant.transform.position, 1);
+                    break;
+                case TendingActions.Trimming:
+
+                    animationManager.PlayToolAnimation(plant.transform.position, 2);
+                    break;
+                case TendingActions.Spraying:
+
+                    animationManager.PlayToolAnimation(plant.transform.position, 3);
+                    break;            
+                default:
+                    break;
+            }
         }
         else
         {
             // Are You Sure?
             //EventsManager.InvokeEvent(EventsManager.EventType.TryRemovePlant);
 
-            currentGardenSlotManager.RemovePlantWithTrowel(plant.currentSlotPlantedIn);
+            // remove plant
+            currentGardenSlotManager.RemovePlantWithTrowel(plant.StoredInSlot);
             GameManager.Instance.EmotionTracker.UpdateGardenStats();
-
-
+            animationManager.PlayToolAnimation(plant.transform.position, 4);
+           
+            plant.RemoveSelfFromSever();
         }
 
 

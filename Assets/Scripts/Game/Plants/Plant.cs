@@ -106,7 +106,7 @@ namespace Plants {
         [SerializeField] PlantSize thisPlantsSize;
 
         [SerializeField] public int requiredSlot = 1;
-        [SerializeField] public int currentSlotPlantedIn;
+  
 
         [Header("Plant Stats")]
         [SerializeField, Range(0, 1)] private int social = 0;
@@ -184,7 +184,21 @@ namespace Plants {
                 return;
             }
 
-            GameCore.GameManager.Instance.DataManager.UpdatePlantTendingActions(this);
+            GameCore.GameManager.Instance.DataManager.UpdatePlantTendingActions(this);         
+        }
+
+
+        public void RemoveSelfFromSever()
+        {
+            switch (StoredInGarden)
+            {
+                case Player.PlayerEnum.Player1:
+                    GameCore.GameManager.Instance.DataManager.RemovePlantFromGarden1(StoredInSlot);
+                    break;
+                case Player.PlayerEnum.Player2:
+                    GameCore.GameManager.Instance.DataManager.RemovePlantFromGarden2(StoredInSlot);
+                    break;
+            }
         }
     }
 

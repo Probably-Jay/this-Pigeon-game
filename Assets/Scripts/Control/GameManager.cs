@@ -45,6 +45,7 @@ namespace GameCore
         /// </summary>
         public bool Spectating => !Playing;
 
+        private const float SecondsBetweenUpdates = 2.5f;
         public int NewGameMoodGoalTemp;
 
 
@@ -111,44 +112,27 @@ namespace GameCore
                 return;
             }
 
-            Debug.LogWarning("a");
             if (context.createNewGame)
             {
-                Debug.LogWarning("c");
                 CreateNewGame(context);
-                Debug.LogWarning("b");
             }
             else
             {
                 ReloadGameOnly(context);
             }
-            Debug.LogWarning("d");
 
             if (context.initialisePlayer)
             {
-                Debug.LogWarning("e");
-
                 InitialisePlayer(context);
-
-                Debug.LogWarning("f");
-
             }
             else
             {
-                Debug.LogWarning("g");
-
                 ReloadPlayerOnly(context);
-
-                Debug.LogWarning("h");
-
             }
-
-            Debug.LogWarning("i");
 
 
             SetLocalSlotManager();
 
-            Debug.LogWarning("j");
 
             if (!context.createNewGame)
             {
@@ -198,33 +182,40 @@ namespace GameCore
 
         private IEnumerator UpdateFromServerCoroutine()
         {
+            
             while (true)
             {
                 if (!Spectating)
                 {
-                    yield return new WaitUntil(()=>Spectating);
+                    yield return new WaitForSeconds(SecondsBetweenUpdates);
+
+                    SaveGame();
+                }
+                else
+                {
+
+
+                    yield return new WaitForSeconds(SecondsBetweenUpdates);
+
+                    APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
+                        (
+                            onSucess: (newData) =>
+                            {
+                                OnReceiveUpdateFromServerSucess(newData);
+                            }
+                            , onfailure: (e) =>
+                            {
+                                OnReceiveUpdateFromServerFailure(e);
+                            }
+                        );
+
+                    Debug.Log("Attempting update");
+                    NetworkHandler.Instance.ReceiveData(callbacks);
+
+
                 }
 
-
-                APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
-                    (
-                        onSucess: (newData) =>
-                        {
-                            OnReceiveUpdateFromServerSucess(newData);
-                        }
-                        , onfailure: (e) =>
-                        {
-                            OnReceiveUpdateFromServerFailure(e);
-                        }
-                    );
-
-                Debug.Log("Attempting update");
-                NetworkHandler.Instance.ReceiveData(callbacks);
-
-                yield return new WaitForSeconds(5);
-
             }
-
           
 
         }
@@ -402,7 +393,7 @@ namespace GameCore
         public void QuitToMenu()
         {
             SaveGame();
-           // StopAllCoroutines();
+            StopCoroutine(updateFromServerCoroutuine);
             NetSystem.NetworkHandler.Instance.LogoutPlayer();
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
         }
