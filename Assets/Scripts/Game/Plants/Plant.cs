@@ -190,7 +190,15 @@ namespace Plants {
 
         public void RemoveSelfFromSever()
         {
-            // Jay to add remove code
+            switch (StoredInGarden)
+            {
+                case Player.PlayerEnum.Player1:
+                    GameCore.GameManager.Instance.DataManager.RemovePlantFromGarden1(StoredInSlot);
+                    break;
+                case Player.PlayerEnum.Player2:
+                    GameCore.GameManager.Instance.DataManager.RemovePlantFromGarden2(StoredInSlot);
+                    break;
+            }
         }
     }
 

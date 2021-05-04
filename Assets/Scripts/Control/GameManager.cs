@@ -185,29 +185,35 @@ namespace GameCore
             {
                 if (!Spectating)
                 {
-                    yield return new WaitUntil(()=>Spectating);
+                    yield return new WaitForSeconds(5);
+
+                    SaveGame();
+                }
+                else
+                {
+
+
+                    yield return new WaitForSeconds(5);
+
+                    APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
+                        (
+                            onSucess: (newData) =>
+                            {
+                                OnReceiveUpdateFromServerSucess(newData);
+                            }
+                            , onfailure: (e) =>
+                            {
+                                OnReceiveUpdateFromServerFailure(e);
+                            }
+                        );
+
+                    Debug.Log("Attempting update");
+                    NetworkHandler.Instance.ReceiveData(callbacks);
+
+
                 }
 
-                yield return new WaitForSeconds(5);
-
-                APIOperationCallbacks<NetworkGame.UsableData> callbacks = new APIOperationCallbacks<NetworkGame.UsableData>
-                    (
-                        onSucess: (newData) =>
-                        {
-                            OnReceiveUpdateFromServerSucess(newData);
-                        }
-                        , onfailure: (e) =>
-                        {
-                            OnReceiveUpdateFromServerFailure(e);
-                        }
-                    );
-
-                Debug.Log("Attempting update");
-                NetworkHandler.Instance.ReceiveData(callbacks);
-
-
             }
-
           
 
         }
