@@ -407,6 +407,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &150590988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 150590990}
+  - component: {fileID: 150590989}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: AnimationController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &150590989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150590988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdab160b3bb081a4980422a9121db95e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationObjects:
+  - {fileID: 1760593060}
+  - {fileID: 1873392957}
+  - {fileID: 566535573}
+  - {fileID: 1391887604}
+--- !u!4 &150590990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150590988}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.107284, y: -2.8795521, z: -22.460938}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &162056550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,6 +3647,12 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1760593057}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1760593060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1785681860095823429, guid: cabdb54f09db56d488aab7da4e900d1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1760593057}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1768258414
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3923,6 +3977,12 @@ PrefabInstance:
 --- !u!4 &1873392956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5152072373898884314, guid: 7f22164790841ad48829ea6bd580d296,
+    type: 3}
+  m_PrefabInstance: {fileID: 1873392955}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1873392957 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2452948431798769878, guid: 7f22164790841ad48829ea6bd580d296,
     type: 3}
   m_PrefabInstance: {fileID: 1873392955}
   m_PrefabAsset: {fileID: 0}
@@ -5853,7 +5913,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gardenSlotDirectory
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1612375562}
     - target: {fileID: 6232321299332034222, guid: c68a0b42de7450e40ac62e538ddce4ac,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
