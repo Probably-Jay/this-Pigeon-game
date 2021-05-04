@@ -111,44 +111,27 @@ namespace GameCore
                 return;
             }
 
-            Debug.LogWarning("a");
             if (context.createNewGame)
             {
-                Debug.LogWarning("c");
                 CreateNewGame(context);
-                Debug.LogWarning("b");
             }
             else
             {
                 ReloadGameOnly(context);
             }
-            Debug.LogWarning("d");
 
             if (context.initialisePlayer)
             {
-                Debug.LogWarning("e");
-
                 InitialisePlayer(context);
-
-                Debug.LogWarning("f");
-
             }
             else
             {
-                Debug.LogWarning("g");
-
                 ReloadPlayerOnly(context);
-
-                Debug.LogWarning("h");
-
             }
-
-            Debug.LogWarning("i");
 
 
             SetLocalSlotManager();
 
-            Debug.LogWarning("j");
 
             if (!context.createNewGame)
             {
