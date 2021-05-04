@@ -21,8 +21,10 @@ public class GiftBasketSwap : MonoBehaviour
 
     private void OnDisable()
     {
-        EventsManager.BindEvent(EventsManager.EventType.GardenSwapped, SwapText);
-    }
+        EventsManager.UnbindEvent(EventsManager.EventType.GardenSwapped, SwapText);
+    }    
+    
+
 
     void SwapText() {
         if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player2)

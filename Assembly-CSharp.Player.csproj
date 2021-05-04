@@ -622,7 +622,8 @@
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
-    <Compile Include="Assets\Scripts\AnimationControls\EffectAnimationController.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\BugAnimationController.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\SparkleAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\ToolAnimationController.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
@@ -635,6 +636,7 @@
     <Compile Include="Assets\Scripts\Control\GoalManagerScript.cs" />
     <Compile Include="Assets\Scripts\Control\HotSeatManager.cs" />
     <Compile Include="Assets\Scripts\Control\MenuController.cs" />
+    <Compile Include="Assets\Scripts\Control\Mood_Select\DataManager.cs" />
     <Compile Include="Assets\Scripts\Control\Mood_Select\MoodSelectController.cs" />
     <Compile Include="Assets\Scripts\Control\OnlineTurnManager.cs" />
     <Compile Include="Assets\Scripts\Control\OnlineTurnTracker.cs" />
@@ -643,7 +645,6 @@
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
-    <Compile Include="Assets\Scripts\Data_Managment\DataManager.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\GardenDataPacket.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\PlayerDataPacket.cs" />
     <Compile Include="Assets\Scripts\Game\Actions\ActionIcons.cs" />
@@ -721,6 +722,7 @@
     <Compile Include="Assets\Scripts\UI\GoalSliderScript.cs" />
     <Compile Include="Assets\Scripts\UI\OpenToolBoxButton.cs" />
     <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
+    <Compile Include="Assets\Scripts\UI\PlantIcon.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBag.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBagButton.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />

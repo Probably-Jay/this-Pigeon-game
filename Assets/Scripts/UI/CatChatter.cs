@@ -24,12 +24,22 @@ namespace Tutorial
         private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
 
 
+        string HasEverPlantedMoodRelaventPlantKey => GameKey + "_variable_"+ "HasEverPlantedMoodRelaventPlantKey";
 
-        bool hasEverPlantedMoodRelaventPlant = false;
+
+        string GameKey => NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.GroupEntityKey.Id + NetSystem.NetworkHandler.Instance.ClientEntity.Id;
 
         delegate bool Condition();
 
         ArrowEnabler myArrows;
+
+
+        [SerializeField] SeedBag seedBag;
+        [SerializeField] ToolBox toolBox;
+
+        bool SeedBagOpen => seedBag.gameObject.activeSelf;
+        bool ToolBoxOpen => toolBox.Open;
+
 
         enum PlayerAction
         {
@@ -59,60 +69,73 @@ namespace Tutorial
 
         private void Awake()
         {
-            myArrows = GetComponent<ArrowEnabler>(); 
+            myArrows = GetComponent<ArrowEnabler>();
+            myBox.gameObject.SetActive(false);
         }
+
+
+
 
         private void OnEnable()
         {
-            BindEvent(EventsManager.EventType.FirstTimeEnteringGame, StartTurnOne);
+            int turn = GameManager.Instance.OnlineTurnManager.TurnTracker.Turn;
+            int localTurn = (int)Math.Floor(turn / 2f) + 1;
 
             EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
+            EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, ResetActionTimer);
 
            
 
-            BindEvent(EventsManager.EventType.StartNewGame, StartTurnOne);
-            BindEvent(EventsManager.EventType.EnterPlayingState, StartedThirdTurn ,condition:()=> { return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4; });
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnOne, WhenToDisplay.YouArePlaying,
+                condition: ()=> { return localTurn == 1; });
 
 
-            BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartedThirdTurn, WhenToDisplay.YouArePlaying,
+                condition:()=> { return localTurn == 3; });
 
-            BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantGrows);
 
-            BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, SayNothing,
-                      sideEffects: () => hasEverPlantedMoodRelaventPlant = true);
+            BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant, WhenToDisplay.YouArePlayingAndLookingAtOwnGarden);
 
-            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithRelaventPlants,
+            BindEvent(EventsManager.EventType.PlantReadyToGrow, PlantFullyTended, WhenToDisplay.YouArePlayingAndLookingAtOwnGarden);
+
+            BindEvent(EventsManager.EventType.PlacedOwnObjectMoodRelevant, SayNothing, WhenToDisplay.YouArePlayingAndLookingAtOwnGarden,
+                      sideEffects: () => PlayerPrefs.SetInt(HasEverPlantedMoodRelaventPlantKey, 1)) ;
+
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithRelaventPlants, WhenToDisplay.YouArePlaying,
                       condition: () =>
                       {
-                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && hasEverPlantedMoodRelaventPlant;
+                          return localTurn == 2 && PlayerPrefs.GetInt(HasEverPlantedMoodRelaventPlantKey) == 1;
                       }); 
             
-            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithNoRelaventPlants,
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnTwoWithNoRelaventPlants, WhenToDisplay.YouArePlaying,
                       condition: () =>
                       {
-                          return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 1 && !hasEverPlantedMoodRelaventPlant;
+                          return localTurn == 2 && PlayerPrefs.GetInt(HasEverPlantedMoodRelaventPlantKey) == default;
                       });
 
 
-            BindEvent(EventsManager.EventType.EnterPlayingState, MoodRelevantPlantReachesMaturity,
+            BindEvent(EventsManager.EventType.EnterPlayingState, MoodRelevantPlantReachesMaturity, WhenToDisplay.YouArePlaying,
                 condition: () => 
                 {
                     TraitValue gardenCurrentTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
-                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.CurrentGardenTraits;
+                    TraitValue gardenGoalTrait = GameManager.Instance.EmotionTracker.EmotionGoal.traits;
+
+                    return gardenCurrentTrait.Overlaps(gardenGoalTrait);
+
+                    //float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
+                    //float currentDistance = TraitValue.Distance(gardenCurrentTrait, gardenGoalTrait);
 
 
-                    float defaultDistance = TraitValue.Distance(TraitValue.Zero, gardenGoalTrait);
-                    float currentDistance = TraitValue.Distance(gardenCurrentTrait, gardenGoalTrait);
-
-                    return currentDistance < defaultDistance;
                 }); 
 
-            BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, NoMorePoints);
+            BindEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, NoMorePoints, WhenToDisplay.Always, dontUnbind: true);
 
 
-            BindEvent(EventsManager.ParameterEventType.AcheivedGoal, AcheivedGoal);
+            BindEvent(EventsManager.ParameterEventType.AcheivedGoal, AcheivedGoal, WhenToDisplay.Always);
+
+
    
 
             //EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
@@ -152,15 +175,16 @@ namespace Tutorial
         void CheckAndNudgePlayer()
         {
             bool tendingRequired = PlayerNeedsToTend(Player.PlayerEnum.Player1);
+
             if (GameManager.Instance.LocalPlayer.TurnPoints.GetPoints(TurnPoints.PointType.SelfObjectPlace) > 0)
             {
                 nextAction = PlayerAction.PlacePlant;
             }
-            else if(tendingRequired)
+            else if (tendingRequired)
             {
                 nextAction = PlayerAction.TendPlant;
             }
-            else if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace)&&(GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4))
+            else if (GameManager.Instance.LocalPlayer.TurnPoints.HasPointsLeft(TurnPoints.PointType.OtherObjectPlace) && (GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4))
             {
                 nextAction = PlayerAction.GiftPlant;
             }
@@ -168,13 +192,26 @@ namespace Tutorial
             {
                 nextAction = PlayerAction.EndTurn;
             }
-            if (myBox.gameObject.activeSelf == false)
+
+
+            if (myBox.gameObject.activeSelf != false)
             {
-                NudgePlayer(nextAction);
+                return;
             }
+
+            if(ToolBoxOpen || SeedBagOpen)
+            {
+                return;
+            }
+
+            NudgePlayer(nextAction);
+
+
         }
         void NudgePlayer(PlayerAction action)
-        {
+        { 
+
+
             myBox.gameObject.SetActive(true);
             switch (action)
             {
@@ -202,6 +239,16 @@ namespace Tutorial
 
         #region BindingAndUnbinding
 
+        enum WhenToDisplay
+        {
+            Always,
+            YouArePlaying,
+            YouArePlayingAndLookingAtOwnGarden,
+            YouArePlayingAndLookingAtCompanionsGarden,
+            YouAreSpectating,
+            
+
+        }
 
         /// <summary>
         /// Binds a function event to then be unbound after it is invoked
@@ -211,24 +258,31 @@ namespace Tutorial
         /// <param name="sideEffects">Any side effects</param>
         /// <param name="condition">Any other conditions to the funciton being called</param>
         /// <param name="unbindIfFailCondition">If the function should be unbound if the condition fails</param>
-        void BindEvent(EventsManager.EventType eventType, System.Action tutorialToCall, System.Action sideEffects = null, System.Func<bool> condition = null, bool unbindIfFailCondition = false, bool waitForYourTurn = false)
+        void BindEvent(EventsManager.EventType eventType, System.Action tutorialToCall, WhenToDisplay whenToDisplay, System.Action sideEffects = null, System.Func<bool> condition = null, bool dontUnbind = false, bool unbindIfFailCondition = false)
         {
-            void func() => LaunchTutorial(func, eventType, tutorialToCall, sideEffects, condition, unbindIfFailCondition, waitForYourTurn);
+            void func() => LaunchTutorial(func, eventType, tutorialToCall, whenToDisplay, sideEffects, condition, dontUnbind, unbindIfFailCondition);
             EventsManager.BindEvent(eventType, func);
         }   
         /// <summary>
         /// Overload for paramatised function
         /// </summary>
-        void BindEvent(EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorialToCall, System.Action sideEffects = null, System.Func<bool> condition = null, bool unbindIfFailCondition = false, bool waitForYourTurn = false)
+        void BindEvent(EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorialToCall, WhenToDisplay whenToDisplay, System.Action sideEffects = null, System.Func<bool> condition = null, bool dontUnbind = false, bool unbindIfFailCondition = false)
         {
-            void paramFunc(EventsManager.EventParams eventParams) => LaunchTutorialParamatised(paramFunc, eventType, tutorialToCall, eventParams, sideEffects, condition, unbindIfFailCondition, waitForYourTurn);
+            void paramFunc(EventsManager.EventParams eventParams) => LaunchTutorialParamatised(paramFunc, eventType, tutorialToCall, eventParams, whenToDisplay, sideEffects, condition, dontUnbind, unbindIfFailCondition);
             EventsManager.BindEvent(eventType, paramFunc);
         }
 
-        void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
+        void LaunchTutorial(System.Action func, EventsManager.EventType eventType, System.Action tutorial, WhenToDisplay whenToDisplay, System.Action sideEffects, System.Func<bool> condition, bool dontUnbind, bool unbindIfFailCondition)
         {
-            if (!GameManager.Instance.Playing)
+            if(PlayerPrefs.GetInt(GetKey(tutorial)) == 1)
+            {
                 return;
+            }
+
+            if (!ValidateShouldDisplay(whenToDisplay))
+            {
+                return;
+            }
 
 
             if (condition == null || condition())
@@ -238,19 +292,51 @@ namespace Tutorial
                 tutorial();
 
                 sideEffects?.Invoke();
+                if(!dontUnbind)
+                    ExhastTutorial(func, eventType, tutorial);
 
-                EventsManager.UnbindEvent(eventType, func);
             }
-            else if (condition != null && unbindIfFailCondition)
+            else if (!dontUnbind &&(condition != null && unbindIfFailCondition))
             {
-                EventsManager.UnbindEvent(eventType, func);
+                ExhastTutorial(func, eventType, tutorial);
             }
-        } 
-        
-        void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
+        }
+
+        private void ExhastTutorial(Action func, EventsManager.EventType eventType, Action tutorial)
         {
-            if (!GameManager.Instance.Playing)
+            EventsManager.UnbindEvent(eventType, func);
+            string key = GetKey(tutorial);
+
+            PlayerPrefs.SetInt(key, 1);
+        }
+        private void ExhastTutorial(Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, Action<EventsManager.EventParams> tutorial)
+        {
+            EventsManager.UnbindEvent(eventType, func);
+            string key = GetKey(tutorial);
+
+            PlayerPrefs.SetInt(key, 1);
+        }
+
+        private string GetKey(Action<EventsManager.EventParams> tutorial)
+        {
+            return GameKey + tutorial.Method.Name;
+        }        
+        private string GetKey(Action tutorial)
+        {
+            return GameKey + tutorial.Method.Name;
+        }
+
+        void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, WhenToDisplay whenToDisplay, System.Action sideEffects, System.Func<bool> condition, bool dontUnbind, bool unbindIfFailCondition)
+        {
+            if (PlayerPrefs.GetInt(GetKey(tutorial)) == 1)
+            {
                 return;
+            }
+
+            if (!ValidateShouldDisplay(whenToDisplay))
+            {
+                return;
+            }
 
 
             if (condition == null || condition())
@@ -261,13 +347,35 @@ namespace Tutorial
 
                 sideEffects?.Invoke();
 
-                EventsManager.UnbindEvent(eventType, func);
+                ExhastTutorial(func, eventType, tutorial);
+
             }
             else if (condition != null && unbindIfFailCondition)
             {
-                EventsManager.UnbindEvent(eventType, func);
+                ExhastTutorial(func, eventType, tutorial);
+
             }
         }
+
+        private bool ValidateShouldDisplay(WhenToDisplay whenToDisplay)
+        {
+            switch (whenToDisplay)
+            {
+                case WhenToDisplay.Always:
+                    return true;
+                case WhenToDisplay.YouArePlaying:
+                    return GameManager.Instance.Playing;
+                case WhenToDisplay.YouArePlayingAndLookingAtOwnGarden:
+                    return GameManager.Instance.Playing && (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == GameManager.Instance.LocalPlayerEnumID);
+                case WhenToDisplay.YouArePlayingAndLookingAtCompanionsGarden:
+                    return GameManager.Instance.Playing && (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible != GameManager.Instance.LocalPlayerEnumID);
+                case WhenToDisplay.YouAreSpectating:
+                    return GameManager.Instance.Spectating;
+                default: throw new Exception();
+            }
+        }
+
+
         #endregion
 
 
@@ -371,7 +479,7 @@ namespace Tutorial
         }
 
 
-        void PlantGrows()
+        void PlantFullyTended()
         {
             myBox.Say("Looks like that plant really needed that!");
             myBox.Say("By the start of your next turn it will probably have grown!");

@@ -30,6 +30,7 @@ public class TextBox : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.DialogueNext, NextWords);
         EventsManager.UnbindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
     }
+ 
 
     // Update is called once per frame
     void Update()
