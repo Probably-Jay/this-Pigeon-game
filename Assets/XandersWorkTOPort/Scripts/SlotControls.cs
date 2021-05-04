@@ -93,8 +93,7 @@ public class SlotControls : MonoBehaviour
     {
         GameObject newPlant = Instantiate(PlantToSpawn, transform);
         newPlant.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z -1);
-
-
+     
         Plant plant = newPlant.GetComponent<Plant>();
         plant.Init(
             garden: playersGarden,
