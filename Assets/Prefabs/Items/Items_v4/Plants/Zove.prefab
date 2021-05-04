@@ -242,6 +242,11 @@ PrefabInstance:
       propertyPath: requiredSlot
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6259067321722130676, guid: 8a9bd93cd02f20545a37515dbc25dedd,
+        type: 3}
+      propertyPath: thisPlantsSize
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8208442081896556622, guid: 8a9bd93cd02f20545a37515dbc25dedd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8a9bd93cd02f20545a37515dbc25dedd, type: 3}

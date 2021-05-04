@@ -721,6 +721,7 @@
     <Compile Include="Assets\Scripts\UI\GoalSliderScript.cs" />
     <Compile Include="Assets\Scripts\UI\OpenToolBoxButton.cs" />
     <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
+    <Compile Include="Assets\Scripts\UI\PlantIcon.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBag.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBagButton.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />

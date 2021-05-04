@@ -24,8 +24,10 @@ namespace Tutorial
         private static Emotion.Emotions GoalEmotion() => GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
 
 
+        bool hasEverPlantedMoodRelaventPlant;
 
-        bool hasEverPlantedMoodRelaventPlant = false;
+
+        string GameKey => NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.GroupEntityKey.Id;
 
         delegate bool Condition();
 
@@ -64,16 +66,22 @@ namespace Tutorial
 
         private void OnEnable()
         {
-            BindEvent(EventsManager.EventType.FirstTimeEnteringGame, StartTurnOne);
+            int turn = GameManager.Instance.OnlineTurnManager.TurnTracker.Turn;
+            int localTurn = (int)Math.Floor(turn / 2f) + 1;
 
             EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, ParamaterResetActionTimer);
             EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
+            EventsManager.BindEvent(EventsManager.EventType.PlacedCompanionObject, ResetActionTimer);
 
            
 
-            BindEvent(EventsManager.EventType.StartNewGame, StartTurnOne);
-            BindEvent(EventsManager.EventType.EnterPlayingState, StartedThirdTurn ,condition:()=> { return GameManager.Instance.OnlineTurnManager.TurnTracker.Turn > 4; });
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartTurnOne,
+                condition: ()=> { return localTurn == 1; });
+
+
+            BindEvent(EventsManager.EventType.EnterPlayingState, StartedThirdTurn,
+                condition:()=> { return localTurn == 2; });
 
 
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant);
@@ -238,15 +246,30 @@ namespace Tutorial
                 tutorial();
 
                 sideEffects?.Invoke();
+                ExhastTutorial(func, eventType);
 
-                EventsManager.UnbindEvent(eventType, func);
             }
             else if (condition != null && unbindIfFailCondition)
             {
-                EventsManager.UnbindEvent(eventType, func);
+                ExhastTutorial(func, eventType);
             }
-        } 
-        
+        }
+
+        private void ExhastTutorial(Action func, EventsManager.EventType eventType)
+        {
+            EventsManager.UnbindEvent(eventType, func);
+            string key = GameKey + func.Method.Name;
+            Debug.LogWarning(key);
+
+        }
+        private void ExhastTutorial(Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType)
+        {
+            EventsManager.UnbindEvent(eventType, func);
+            string key = GameKey + func.Method.Name;
+            Debug.LogWarning(key);
+
+        }
+
         void LaunchTutorialParamatised(System.Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorial, EventsManager.EventParams eventParams, System.Action sideEffects, System.Func<bool> condition, bool unbindIfFailCondition, bool waitForYourTurn)
         {
             if (!GameManager.Instance.Playing)
@@ -261,13 +284,17 @@ namespace Tutorial
 
                 sideEffects?.Invoke();
 
-                EventsManager.UnbindEvent(eventType, func);
+                ExhastTutorial(func, eventType);
+
             }
             else if (condition != null && unbindIfFailCondition)
             {
-                EventsManager.UnbindEvent(eventType, func);
+                ExhastTutorial(func, eventType);
+
             }
         }
+
+    
         #endregion
 
 
