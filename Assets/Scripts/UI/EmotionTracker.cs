@@ -19,7 +19,8 @@ namespace GameCore
     /// </summary>
     public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
     {
-
+        private bool p1won;
+        private bool p2won;
 
         private void OnEnable()
         {
@@ -140,7 +141,8 @@ namespace GameCore
             GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
             GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
 
-            
+            p1won = data.player1MoodAchieved;
+            p2won = data.player2MoodAchieved;
         }
 
 
@@ -154,6 +156,9 @@ namespace GameCore
 
             GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
             GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
+
+            p1won = data.player1MoodAchieved;
+            p2won = data.player2MoodAchieved;
         }
 
         public void UpdateGardenStats()
@@ -167,6 +172,14 @@ namespace GameCore
             CurrentGardenTraits = newGardenState;
             EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
 
+            if (GameManager.Instance.LocalPlayer.HasAcheivedGoal) {
+                p1won = true;
+            }
+
+            if ((p1won && p2won))
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
+            }
             //foreach (var player in Player.PlayerEnumValueList)
             //{
             //    var currentState = GetCurrentGardenStats(player);
@@ -180,7 +193,12 @@ namespace GameCore
             //}
         }
 
-       
+        private void Update() {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
+            }
+        }
 
         private TraitValue GetLocalGardenStats()
         {
