@@ -112,6 +112,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         if (menuAnswer)
         {
             RemovePlant();
+ 
         }
         else
         {
@@ -124,6 +125,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         // Change Score
         // Set location to available
         // Delete gameobject
+  
+      
     }
 
 
@@ -141,6 +144,7 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
         {
             plant.Tend(ToolType);
 
+
             // trigger tool animations
             switch (ToolType)
             {
@@ -155,10 +159,8 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
                 case TendingActions.Spraying:
 
                     animationManager.PlayToolAnimation(plant.transform.position, 3);
-                    break;
-
+                    break;            
                 default:
-
                     break;
             }
         }
@@ -167,10 +169,12 @@ public class ToolDrag : MonoBehaviour //IPointerDownHandler
             // Are You Sure?
             //EventsManager.InvokeEvent(EventsManager.EventType.TryRemovePlant);
 
-            currentGardenSlotManager.RemovePlantWithTrowel(plant.currentSlotPlantedIn);
+            // remove plant
+            currentGardenSlotManager.RemovePlantWithTrowel(plant.StoredInSlot);
             GameManager.Instance.EmotionTracker.UpdateGardenStats();
-
-
+            animationManager.PlayToolAnimation(plant.transform.position, 4);
+           
+            plant.RemoveSelfFromSever();
         }
 
 

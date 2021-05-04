@@ -66,7 +66,7 @@ public class AnimationManager : MonoBehaviour
 
     void PlayDigging(Vector3 AnimationStartPos)
     {
-
+        animationObjects[3].GetComponent<ToolAnimationController>().PlayAnimation(AnimationStartPos);
     }
 
    void PlayAngryBug(Vector3 AnimationStartPos)

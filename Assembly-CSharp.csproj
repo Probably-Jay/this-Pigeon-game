@@ -68,6 +68,7 @@
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\EffectAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\ToolAnimationController.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
