@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EffectAnimationController : MonoBehaviour
+public class SparkleAnimationController : MonoBehaviour
 {   
     public Animator animator;
     public string animationName;
-    int animationLoops = 0;
     bool playingAnimation = false;
 
-   
-  
+    private void Update()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) && playingAnimation == true)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void PlayAnimation(Vector3 newPosition)
     {
-       transform.position = newPosition;
-
-        // Turn animation on
         playingAnimation = true;
+
+       transform.position = newPosition;
+        // Turn animation on
         animator.SetTrigger("PlayAnimation");
-        animationLoops++;
-        Debug.Log("Turn animation on");
     }
 }
