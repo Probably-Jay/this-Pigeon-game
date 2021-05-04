@@ -8,8 +8,9 @@ using GameCore;
 public class MoodSelectController : MonoBehaviour
 {
 
-    [SerializeField] Dropdown dropdown;
+    public int playersMoodChoice = 0;
 
+    // drop down is 0 to 3
 
     public void EnterGame()
     {
@@ -18,8 +19,7 @@ public class MoodSelectController : MonoBehaviour
     }
 
     private void SaveEmotion()
-    {
-        var dropdownValue = dropdown.value;
-        NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.EnteredGameContext.SaveSelectedEmotion((Mood.Emotion.Emotions)dropdownValue);
+    {    
+        NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.EnteredGameContext.SaveSelectedEmotion((Mood.Emotion.Emotions)playersMoodChoice);
     }
 }
