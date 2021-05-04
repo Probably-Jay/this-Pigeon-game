@@ -70,6 +70,8 @@ namespace GameCore
 
         //public Dictionary<Player.PlayerEnum, SlotManager> SlotManagers { get; private set; } = new Dictionary<Player.PlayerEnum, SlotManager>();
 
+        AnimationManager animationManager;
+
         public override void Initialise()
         {
             base.InitSingleton();
@@ -97,6 +99,8 @@ namespace GameCore
         // player just entererd into the game
         void EnterGame()
         {
+            animationManager = FindObjectOfType<AnimationManager>();
+
             DataManager = new DataManager();
 
 
@@ -282,19 +286,19 @@ namespace GameCore
 
         private void PlayChangesGardenEffects(NetGameDataDifferencesTracker.DataDifferences differences)
         {
-            foreach (var palntDifferences in differences.plantDifferences)
+            List<Vector3> positions = new List<Vector3>();
+            foreach (var plantDifferences in differences.plantDifferences)
             {
-                switch (palntDifferences.garden)
-                {
-                    case Player.PlayerEnum.Player1:
-                       // SlotManagers[0].SignalDifferenceToSlot(palntDifferences);
-                        break;
-                    case Player.PlayerEnum.Player2:
-                       // SlotManagers[1].SignalDifferenceToSlot(palntDifferences);
-                        break;
-
-                }
+                var pos = SlotManagers[(int)plantDifferences.garden].gardenSlots[plantDifferences.slot].transform.position;
+                positions.Add(pos);
             }
+
+            if(animationManager == null)
+            {
+                Debug.LogError("Could not find animationManager");
+                return;
+            }
+            animationManager.PlaySparkles(positions);
         }
 
         private bool AttemptToClaimTurn()

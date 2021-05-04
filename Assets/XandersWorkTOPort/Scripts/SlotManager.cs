@@ -16,7 +16,7 @@ using System;
 public class SlotManager : MonoBehaviour
 {
     public Player.PlayerEnum gardenplayerID ;
-    [SerializeField] List<SlotControls> gardenSlots;
+    [SerializeField]public  List<SlotControls> gardenSlots;
 
    // SlotControls slotControls;
     public CurrentSeedStorage seedStorage;
