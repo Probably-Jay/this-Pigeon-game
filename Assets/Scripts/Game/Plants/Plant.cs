@@ -13,6 +13,7 @@ using System;
 // Added plant enum Jay 13/03
 // Added stages of growth Scott 24/03
 // Edited Alexander Purvis 30/04/2021
+// Added plantIcon related things, Zap, 04/05/2021
 
 namespace Plants {
     /// <summary>
@@ -43,6 +44,8 @@ namespace Plants {
             Tall,
             Single
         }
+
+        public PlantIcon[] icons = new PlantIcon[2];
 
 
 
@@ -123,22 +126,45 @@ namespace Plants {
         public TraitValue Traits => new TraitValue(Social, Joyful, Energetic, Painful);
         public TraitValue TraitsUnscaled => new TraitValue(social, joyful, energetic, painful);
 
-       // public Player PlantOwner { get; set; }
+        // public Player PlantOwner { get; set; }
 
 
 
 
         // public bool isPlanted = false;
-       /// private Player.PlayerEnum? gardenID = null;
+        /// private Player.PlayerEnum? gardenID = null;
 
-      //  public Player.PlayerEnum? GardenPlayerID { get => gardenID; set => gardenID = value; }
+        //  public Player.PlayerEnum? GardenPlayerID { get => gardenID; set => gardenID = value; }
 
-
+        private void Start()
+        {
+            Debug.Log(thisPlantsSize);
+            switch (thisPlantsSize)
+            {
+                case PlantSize.Single:
+                    icons[0].Promote();
+                    icons[1].gameObject.SetActive(false);
+                    icons[0].SetTrait(TraitsUnscaled.GetTraits()[0]);
+                    break;
+                case PlantSize.Tall:
+                    icons[0].SetTrait(TraitsUnscaled.GetTraits()[0]);
+                    icons[1].SetTrait(TraitsUnscaled.GetTraits()[1]);
+                    break;
+            }
+        }
         private void Awake() // hack, todo fix this
         {
 
             PlantGrowth = GetComponent<PlantGrowth>();
-
+            
+            /*
+            if (thisPlantsSize == PlantSize.Single)
+            {
+                icons[0].Promote();
+                icons[1].gameObject.SetActive(false);
+                icons[0].SetTrait(Traits.GetTraits()[0]);
+            }
+            */
 
             // Get current player
 
@@ -157,7 +183,20 @@ namespace Plants {
         }
 
 
-
+        private void OnMouseDown()
+        {
+            switch (thisPlantsSize)
+            {
+                case PlantSize.Single:
+                    icons[0].PopUp();
+                    
+                    break;
+                case PlantSize.Tall:
+                    icons[0].PopUp();
+                    icons[1].PopUp();
+                    break;
+            }
+        }
 
 
 
@@ -200,6 +239,11 @@ namespace Plants {
                     break;
             }
         }
+        /*private void OnMouseDown()
+        {
+            
+        }
+        */
     }
 
 }
