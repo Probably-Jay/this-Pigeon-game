@@ -804,14 +804,14 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>C:/Users/Saf007/Documents/University/Second Semester/DES 310/GITHUB/this-Pigeon-game/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
