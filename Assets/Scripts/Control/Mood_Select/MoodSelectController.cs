@@ -7,15 +7,25 @@ using GameCore;
 
 public class MoodSelectController : MonoBehaviour
 {
-
-    public int playersMoodChoice = 0;
-
-    // drop down is 0 to 3
+    public int playersMoodChoice = -1;
 
     public void EnterGame()
     {
-        SaveEmotion();
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
+
+        if (playersMoodChoice == -1)
+        {
+            return;
+        }
+        else
+        {
+            SaveEmotion();
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
+        }    
+    }
+
+    public void BackToMain()
+    {
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
     }
 
     private void SaveEmotion()
