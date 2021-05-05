@@ -100,7 +100,8 @@ public class EventsManager : Singleton<EventsManager>
         , PostLogout
         #endregion
 
-        , QuitGame
+        , QuitGame,
+        JustResumedGame
     }
 
     // events with parameters

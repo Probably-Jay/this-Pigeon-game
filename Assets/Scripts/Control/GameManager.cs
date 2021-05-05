@@ -182,6 +182,14 @@ namespace GameCore
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.FirstTimeEnteringGame);
             }
+            else
+            {
+
+                EventsManager.InvokeEvent(EventsManager.EventType.JustResumedGame);
+            }
+
+            
+
 
         }
 

@@ -33,6 +33,8 @@ namespace Tutorial
 
         ArrowEnabler myArrows;
 
+        TextAsset asset;
+
 
         [SerializeField] SeedBag seedBag;
         [SerializeField] ToolBox toolBox;
@@ -47,6 +49,7 @@ namespace Tutorial
             ,  TendPlant
             ,  GiftPlant
             ,  EndTurn
+            ,  WaitForYourTurn
         }
 
         private PlayerAction nextAction;
@@ -63,7 +66,16 @@ namespace Tutorial
             }
             else
             {
-                secondsSinceAction += Time.deltaTime;
+                if (GameManager.Instance.Playing)
+                {
+                    secondsSinceAction += Time.deltaTime;
+
+                }
+                else
+                {
+                    secondsSinceAction += Time.deltaTime*0.3f;
+
+                }
             }
         }
 
@@ -93,7 +105,10 @@ namespace Tutorial
 
 
             BindEvent(EventsManager.EventType.EnterPlayingState, StartedThirdTurn, WhenToDisplay.YouArePlaying,
-                condition:()=> { return localTurn == 3; });
+                condition:()=> { return localTurn == 3; });        
+            
+
+            BindEvent(EventsManager.EventType.JustResumedGame, EnterGameSpectating, WhenToDisplay.YouAreSpectating);
 
 
             BindEvent(EventsManager.EventType.PlacedOwnObject, PlantedFirstPlant, WhenToDisplay.YouArePlayingAndLookingAtOwnGarden);
@@ -141,6 +156,12 @@ namespace Tutorial
             //EventsManager.InvokeEvent(EventsManager.ParameterEventType.NotEnoughPointsForAction, new EventsManager.EventParams() { EnumData = TurnPoints.PointType.SelfObjectPlace });
 
            // BindEvent(EventsManager.EventType.PlantReadyToGrow,)
+        }
+
+        private void EnterGameSpectating()
+        {
+            myBox.Say("Your partner is taking thier turn, I'm sure they'll be done soon.");
+            myBox.Say("Stick around if you like, or go check another garden and come back later!");
         }
 
         void ResetActionTimer()
@@ -193,6 +214,10 @@ namespace Tutorial
                 nextAction = PlayerAction.EndTurn;
             }
 
+            if (GameManager.Instance.Spectating)
+            {
+                nextAction = PlayerAction.EndTurn;
+            }
 
             if (myBox.gameObject.activeSelf != false)
             {
@@ -229,8 +254,12 @@ namespace Tutorial
                     myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
                     break;
                 case PlayerAction.EndTurn:
-                    myBox.Say("That's all we can do right now until your partner gets back!");
-                    myBox.Say("Feel free to hang around though!");
+                    myBox.Say("That's all we can do right now until your partner gets back...");
+                    myBox.Say("Be sure to hit that end turn button so they can play!");
+                    break;
+                case PlayerAction.WaitForYourTurn:
+                    myBox.Say("Your partner is taking thier turn, I'm sure they'll be done soon.");
+                    myBox.Say("Stick around if you like, or go check another garden and come back later!");
                     break;
                 default:
                     break;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 //created Zap 28/03
 public class TextBox : MonoBehaviour
@@ -21,14 +22,20 @@ public class TextBox : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.DialogueSkip, SkipToEnd);
         EventsManager.BindEvent(EventsManager.EventType.DialogueNext, NextWords);
         EventsManager.BindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
+        EventsManager.BindEvent(EventsManager.EventType.EnterPlayingState, Close);
+        EventsManager.BindEvent(EventsManager.EventType.EnterSpectatingState, Close);
         UpdateButtons();
     }
+
+
 
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.DialogueSkip, SkipToEnd);
         EventsManager.UnbindEvent(EventsManager.EventType.DialogueNext, NextWords);
         EventsManager.UnbindEvent(EventsManager.EventType.DialoguePrevious, PreviousWords);
+        EventsManager.UnbindEvent(EventsManager.EventType.EnterPlayingState, Close);
+        EventsManager.UnbindEvent(EventsManager.EventType.EnterSpectatingState, Close);
     }
  
 
@@ -98,5 +105,9 @@ public class TextBox : MonoBehaviour
         {
             forwardButtonText.text = ("Okay");
         }
+    }
+    private void Close()
+    {
+        SkipToEnd();
     }
 }
