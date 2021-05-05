@@ -407,7 +407,7 @@ namespace Tutorial
                     myBox.Say($"Let's unwind by planting growing some plants that express that feeling!");
                     break;
                 case "Excited":
-                    myBox.Say($"I'm {GetEmotionOutput(emotion)} too! Let's get going then!");
+                    myBox.Say($"I'm {GetEmotionOutput(emotion.ToString())} too! Let's get going then!");
                     myBox.Say($"The goal of this garden is to communicate that feeling to your partner!");
                     myBox.Say($"Hopefully they're as jazzed as us!");
                     break;

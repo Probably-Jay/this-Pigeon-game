@@ -20,6 +20,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
     public enum Scenes 
     {
         MainMenu
+        ,Settings
 
         , ConnectingScene
                 
@@ -32,8 +33,10 @@ public class SceneChangeController : Singleton<SceneChangeController>
     }
 
     [SerializeField] int MainMenuIndex;
+    [SerializeField] int SettingsBuildIndex;
     [SerializeField] int ConectingSceneIndex;
     [SerializeField] int MoodSelectBuildIndex;
+
     //[SerializeField] int MoodSelect2BuildIndex;
    // [SerializeField] int PersonalGardenBuildIndex;  
     //[SerializeField] int TutorialBuildIndex;
@@ -68,6 +71,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
     private void CreateBuildIndexDictionary()
     {
         sceneBuildIndexesDictionary.Add(Scenes.MainMenu, MainMenuIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.Settings, SettingsBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.ConnectingScene, ConectingSceneIndex);
         sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen, MoodSelectBuildIndex);
        // sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen1, MoodSelectBuildIndex);

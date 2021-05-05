@@ -9,7 +9,11 @@ namespace SceneUI
         [SerializeField] GameObject HomeMenu;
         public void Cancel() => HomeMenu.SetActive(false);
 
-        public void OpenQuitMenuButton() => HomeMenu.SetActive(true);
+        public void OpenQuitMenuButton()
+        {
+            HomeMenu.SetActive(true);
+            EventsManager.InvokeEvent(EventsManager.EventType.OnMenuOpened);
+        }
 
         public void QuitToMenu()
         {

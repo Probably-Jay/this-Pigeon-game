@@ -742,6 +742,7 @@
     <Compile Include="Assets\Scripts\~Deprecated\~Rooms\RoomData.cs" />
     <Compile Include="Assets\SeedBagButtonParentScript.cs" />
     <Compile Include="Assets\SeedBagButtonScript.cs" />
+    <Compile Include="Assets\SettingsController.cs" />
     <Compile Include="Assets\StateTextController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
