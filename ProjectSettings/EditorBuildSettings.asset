@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PostAlpha/MainMenu.unity
     guid: b99939b5dae4bc346814b279df0c4309
   - enabled: 1
+    path: Assets/Scenes/PostAlpha/Settings.unity
+    guid: 81ce760fd9f421b489a654013c9a3cdf
+  - enabled: 1
     path: Assets/Scenes/PostAlpha/Connecting-Scene.unity
     guid: 602e89817eeb12f4eb2057214cbd4533
   - enabled: 1

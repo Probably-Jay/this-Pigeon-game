@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Tutorial;
+using System;
 
 public class ArrowScript : MonoBehaviour
 {
@@ -35,8 +36,12 @@ public class ArrowScript : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.ToolBoxClose, HideWateringCanArrow);
         EventsManager.BindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
         EventsManager.BindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
+        EventsManager.BindEvent(EventsManager.EventType.OnMenuOpened, AllEnd);
         timer = 0f;
     }
+
+   
+
     private void OnDisable()
     {
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, ToolBoxEnd);
@@ -44,6 +49,8 @@ public class ArrowScript : MonoBehaviour
         EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, HideWateringCanArrow);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, WateringCanEnd);
         EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, SwapGardensEnd);
+        EventsManager.UnbindEvent(EventsManager.EventType.OnMenuOpened, AllEnd);
+
     }
     // Start is called before the first frame update
     void Start()
@@ -162,6 +169,10 @@ public class ArrowScript : MonoBehaviour
         {
             Deactivate(); // todo make this re apear on swap back
         }
+    }
+    private void AllEnd()
+    {
+        Deactivate();
     }
     void Deactivate()
     {

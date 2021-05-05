@@ -79,6 +79,8 @@ public class EventsManager : Singleton<EventsManager>
         , DialoguePrevious
         , PlantingBegin
 
+        ,OnMenuOpened
+
         , MoodSlidersExplination
 
         // , AddedToEmotionGoal
