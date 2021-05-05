@@ -258,10 +258,22 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1274316802367603017}
+    - target: {fileID: 462705927, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 466966943, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 1274316802367603017}
+    - target: {fileID: 760863359, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 945034381, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1746921378, guid: 1e7c520e9faf1d746a9f9704eff56a36, type: 3}
       propertyPath: controller
       value: 
