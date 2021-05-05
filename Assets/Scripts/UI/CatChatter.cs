@@ -33,7 +33,7 @@ namespace Tutorial
 
         ArrowEnabler myArrows;
 
-        TextAsset asset;
+       // TextAsset asset;
 
 
         [SerializeField] SeedBag seedBag;
