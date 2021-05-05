@@ -7,19 +7,29 @@ using GameCore;
 
 public class MoodSelectController : MonoBehaviour
 {
-
-    [SerializeField] Dropdown dropdown;
-
+    public int playersMoodChoice = -1;
 
     public void EnterGame()
     {
-        SaveEmotion();
-        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
+
+        if (playersMoodChoice == -1)
+        {
+            return;
+        }
+        else
+        {
+            SaveEmotion();
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Game);
+        }    
+    }
+
+    public void BackToMain()
+    {
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
     }
 
     private void SaveEmotion()
-    {
-        var dropdownValue = dropdown.value;
-        NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.EnteredGameContext.SaveSelectedEmotion((Mood.Emotion.Emotions)dropdownValue);
+    {    
+        NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.EnteredGameContext.SaveSelectedEmotion((Mood.Emotion.Emotions)playersMoodChoice);
     }
 }
