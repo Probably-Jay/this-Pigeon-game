@@ -48,9 +48,25 @@ namespace Localisation
         GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit,
         GameSelect_Interface_NewGameJoinedFailure_ItIsTheOtherPlayersTurn,
         GameSelect_Interface_NewGameJoinedFailure_GameNotBegun,
-
         GameSelect_Interface_UnknownError,
 
+        //
+
+        MoodSelect_Welcome,
+        MoodSelect_Info_0,
+        MoodSelect_Info_1,
+        MoodSelect_ContinueButton,
+        MoodSelect_BackButton,
+
+        MoodSelect_Petal_Lonley,
+        MoodSelect_Petal_Stressed,
+        MoodSelect_Petal_Excited,
+        MoodSelect_Petal_Loving,
+
+        //
+
+        GameScene_GardenNamePannel_MyGarden,
+        GameScene_GardenNamePannel_CompanionsGarden,
     }
 
 

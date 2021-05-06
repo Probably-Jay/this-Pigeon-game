@@ -34,3 +34,13 @@ GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit#There are no new o
 GameSelect_Interface_NewGameJoinedFailure_ItIsTheOtherPlayersTurn#Game joined sucessfully, but the other player has not taken their turn yet. Why not come back in a bit?#Your crewmates are still setting up the rigging, check back later
 GameSelect_Interface_NewGameJoinedFailure_GameNotBegun#The game is still being set up by the other player, please check back in a moment#Your crewmates are still setting up the rigging, check back later
 GameSelect_Interface_UnknownError#An error occured: {0}#Poor wind today: {0}
+##
+MoodSelect_Welcome#Welcome#Ahoy!
+MoodSelect_Info_0#The theme of your garden is a representation of your mood.#Yer ship will be a reflection of yer feelings 
+MoodSelect_Info_1#How are you feeling right now? #What's yer mood right now?
+MoodSelect_ContinueButton#Continue#Set sail
+MoodSelect_BackButton#Back#Back to shore
+MoodSelect_Petal_Lonley#Lonley#Lonesome
+MoodSelect_Petal_Stressed#Stressed#Stress-filled
+MoodSelect_Petal_Excited#Excited#Giddy
+MoodSelect_Petal_Loving#Loving#Loveful
