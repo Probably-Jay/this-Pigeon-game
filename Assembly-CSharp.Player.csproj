@@ -275,6 +275,9 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2019.4.18f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
     </Reference>
@@ -622,11 +625,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CSVLoader.cs" />
     <Compile Include="Assets\EndTurnButtonParent.cs" />
     <Compile Include="Assets\GameDataSaver.cs" />
+    <Compile Include="Assets\GardenNameSignController.cs" />
     <Compile Include="Assets\GiftBasketSwap.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
+    <Compile Include="Assets\LocaliseStaticTMPText.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\BugAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\SparkleAnimationController.cs" />
@@ -688,6 +694,9 @@
     <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\Level_Change\MenuSwap.cs" />
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
+    <Compile Include="Assets\Scripts\Localisation\LocaliseStaticText.cs" />
+    <Compile Include="Assets\Scripts\Localisation\Localiser.cs" />
+    <Compile Include="Assets\Scripts\Localisation\LocaliserSettingsApplier.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\MoodSelectionButtons.cs" />
     <Compile Include="Assets\Scripts\Net\NetworkHandlerSceneInterface.cs" />

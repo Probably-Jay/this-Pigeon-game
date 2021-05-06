@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GameCore;
+using Localisation;
 
 public class GiftBasketSwap : MonoBehaviour
 {
 
     public Text giftText;
 
-    void Start() { 
-        giftText.text = "Get A Seed";
+    void Start() {
+        giftText.text = Localiser.GetText(TextID.GameScene_SeedBag_GetASeed);//"Get A Seed";
     }
 
     private void OnEnable()
     {
         EventsManager.BindEvent(EventsManager.EventType.GardenSwapped, SwapText);
-        giftText.text = "Get A Seed";
+        giftText.text = Localiser.GetText(TextID.GameScene_SeedBag_GetASeed);
     }
 
     private void OnDisable()
@@ -29,10 +30,10 @@ public class GiftBasketSwap : MonoBehaviour
     void SwapText() {
         if (GameManager.Instance.PlayerWhosGardenIsCurrentlyVisible == Player.PlayerEnum.Player2)
         {
-            giftText.text = "Get Seed";
+            giftText.text = Localiser.GetText(TextID.GameScene_SeedBag_GetASeed);
         }
         else {
-            giftText.text = "Gift Seed";
+            giftText.text = Localiser.GetText(TextID.GameScene_SeedBag_GiftASeed);
         }
     
     }

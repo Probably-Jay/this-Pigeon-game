@@ -64,11 +64,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CSVLoader.cs" />
     <Compile Include="Assets\EndTurnButtonParent.cs" />
     <Compile Include="Assets\GameDataSaver.cs" />
+    <Compile Include="Assets\GardenNameSignController.cs" />
     <Compile Include="Assets\GiftBasketSwap.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
+    <Compile Include="Assets\LocaliseStaticTMPText.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\BugAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\SparkleAnimationController.cs" />
@@ -130,6 +133,9 @@
     <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\Level_Change\MenuSwap.cs" />
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
+    <Compile Include="Assets\Scripts\Localisation\LocaliseStaticText.cs" />
+    <Compile Include="Assets\Scripts\Localisation\Localiser.cs" />
+    <Compile Include="Assets\Scripts\Localisation\LocaliserSettingsApplier.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
     <Compile Include="Assets\Scripts\MoodSelectionButtons.cs" />
     <Compile Include="Assets\Scripts\Net\NetworkHandlerSceneInterface.cs" />
@@ -843,6 +849,10 @@
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
       <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
+      <Project>{972DCFB3-F154-435C-213F-FC03CA5A89A4}</Project>
+      <Name>Unity.2D.Sprite.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
