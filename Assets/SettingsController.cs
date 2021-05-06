@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Localisation;
 
 namespace SceneInterface
 {
@@ -9,10 +10,16 @@ namespace SceneInterface
     public class SettingsController : MonoBehaviour
     {
         [SerializeField] Text text;
+
+        private void Start()
+        {
+            text.text = Localiser.GetText(Localisation.TextID.Settings_ResetTutorials);
+        }
+
         public void ResetTutorials()
         {
             PlayerPrefs.DeleteAll();
-            text.text = "Done";
+            text.text = Localiser.GetText(Localisation.TextID.Settings_Done);
         }
 
         public void ToMainMenu()

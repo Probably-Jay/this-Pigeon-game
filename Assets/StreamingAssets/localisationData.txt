@@ -1,0 +1,8 @@
+#English#Pirate_Speak#
+MainMenu_Play#Play#Play (arrrg)#
+MainMenu_PlayAlt#Play (Alternate Login)#Play (land-lubber)#
+MainMenu_Settings#Settings#Rigging#
+MainMenu_Quit#Quit Game#Disembark#
+
+Settings_ResetTutorials#Reset Tutorials#Reset 'Learnin#
+Settings_Done#Done#Consider it Done#

@@ -8,17 +8,32 @@ namespace Localisation
 
     public enum Language 
     { 
-        English
+        English,
+        Pirate_Speak
     }
 
     public enum TextID 
     { 
-        
+        MainMenu_Play,
+        MainMenu_PlayAlt,
+        MainMenu_Settings,
+        MainMenu_Quit,
+
+        Settings_ResetTutorials,
+        Settings_Done,
+
+
     }
 
 
     public class Localiser : MonoBehaviour
     {
+
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
         static Dictionary<Language, Dictionary<TextID, string>> text = null;
 
         static bool Inited => text != null;
@@ -60,14 +75,15 @@ namespace Localisation
             text.Add(language, dictionary);
         }
 
-        public static string GetString(TextID id)
+        public static string GetText(TextID id)
         {
             if (!Inited)
             {
                 Init(); // lazy intitialiseations
             }
 
-            var value = text[currentLanguage][id];
+            Dictionary<TextID, string> languageDict = text[currentLanguage];
+            string value = languageDict[id];
 
             return value;
         }

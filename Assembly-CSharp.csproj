@@ -70,7 +70,9 @@
     <Compile Include="Assets\GiftBasketSwap.cs" />
     <Compile Include="Assets\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
+    <Compile Include="Assets\LocaliseStaticText.cs" />
     <Compile Include="Assets\Localiser.cs" />
+    <Compile Include="Assets\LocaliserSettingsApplier.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\BugAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\SparkleAnimationController.cs" />
@@ -254,6 +256,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\StreamingAssets\localisationData.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />

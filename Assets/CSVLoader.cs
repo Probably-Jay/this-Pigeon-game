@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace Localisation
 {
     internal class CSVLoader
     {
         
-        public CSVLoader()
-        {
-            Load(); 
-        }
+    
 
         const string fileName = "localisationData.csv";
         char lineSeperator = '\n';
@@ -18,19 +16,16 @@ namespace Localisation
 
 
         FileStream file;
-        public void Load()
-        {
-            var path = Path.Combine(Application.streamingAssetsPath, fileName);
-            file = File.OpenRead(path);
-        }
+  
 
         public Dictionary<string, string> GetDictionary(string atributeId)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
-            Load();
+            //Load();
+            var path = Path.Combine(Application.streamingAssetsPath, fileName);
 
-            var data = file.ToString();
+            string data = File.ReadAllText(path, System.Text.Encoding.UTF8);
 
             string[] lines = data.Split(lineSeperator);
 
@@ -55,8 +50,17 @@ namespace Localisation
             for (int i = 1; i < lines.Length; i++)
             {
                 string line = lines[i];
+                if(line == "")
+                {
+                    continue;
+                }
+
+                //Regex CSVParser = new Regex("/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/"); // look idk
+
 
                 string[] feilds = line.Split(delimiter, System.StringSplitOptions.None);
+                // string[] feilds = line.Split("/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/");
+                //[] feilds = CSVParser.Split(line);
 
 
 
@@ -73,6 +77,11 @@ namespace Localisation
                 }
 
                 var value = feilds[attributeIndex];
+
+                if(value == "" || value == "\r")
+                {
+                    continue;
+                }
 
                 dict.Add(key, value);
             }
