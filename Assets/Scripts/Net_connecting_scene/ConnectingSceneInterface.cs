@@ -436,7 +436,7 @@ namespace SceneInterface
                     //$"Consider finishing up an existing game before starting a new one.";
                     break;
                 case FailureReason.AboveOpenGamesLimit:
-                    message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit), NetComponent.maximumActiveGames);
+                    message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit), NetComponent.maximumOpenGames);
 
                     //$"There are no new open games available.\nYou currenlty are hosting {NetComponent.maximumOpenGames} open game{(NetComponent.maximumOpenGames != 1 ? "s" : "")}, which is the current limit.\n" +
                     //$"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game")}!";

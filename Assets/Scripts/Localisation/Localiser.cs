@@ -14,6 +14,7 @@ namespace Localisation
 
     public enum TextID 
     { 
+
         MainMenu_Play,
         MainMenu_PlayAlt,
         MainMenu_Settings,
@@ -67,6 +68,35 @@ namespace Localisation
 
         GameScene_GardenNamePannel_MyGarden,
         GameScene_GardenNamePannel_CompanionsGarden,
+        GameScene_ToolboxButton,
+        GameScene_SeedBag_GetASeed,
+        GameScene_SeedBag_GiftASeed,
+        GameScene_Toolbox_CloseToolbox,
+        GameScene_Menu_MusicVolume,
+        GameScene_Menu_AmbientVolume,
+        GameScene_Menu_SFXVolume,
+        GameScene_Menu_Quit,
+        GameScene_Menu_Credits,
+        GameScene_Menu_Back,
+        GameScene_SeedBag_Close,
+        GameScene_SeedBag_Plant,
+        GameScene_EndTurn,
+
+
+        Joyful,
+        Painful,
+        Energetic,
+        Social,
+
+        Settings_Language,
+        Settings_ApplyLanguage,
+
+        GameScene_PlayingText_1,
+        GameScene_PlayingText_2,
+        GameScene_SpectatingText_1,
+        GameScene_SpectatingText_2,
+
+
     }
 
 
@@ -115,6 +145,7 @@ namespace Localisation
         private static void LoadLanguage(CSVLoader loader, Language language)
         {
             Dictionary<string, string> rawDictionary = loader.GetDictionary(language.ToString());
+
             Dictionary<TextID, string> dictionary = new Dictionary<TextID, string>();
             foreach (var textID in Helper.Utility.GetEnumValues<TextID>())
             {

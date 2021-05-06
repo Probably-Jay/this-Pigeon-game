@@ -44,3 +44,32 @@ MoodSelect_Petal_Lonley#Lonley#Lonesome
 MoodSelect_Petal_Stressed#Stressed#Stress-filled
 MoodSelect_Petal_Excited#Excited#Giddy
 MoodSelect_Petal_Loving#Loving#Loveful
+##
+GameScene_GardenNamePannel_MyGarden#Your Garden#Our Ship
+GameScene_GardenNamePannel_CompanionsGarden#Partner's Garden#A friendly ship
+GameScene_ToolboxButton#Tool Box#Sailing Tools
+GameScene_SeedBag_GetASeed#Get a Seed#Get a Seedling
+GameScene_SeedBag_GiftASeed#Gift a Seed#Gift a Seedling
+GameScene_Toolbox_CloseToolbox#Close Toolbox#Close Pirate Tools
+GameScene_Menu_MusicVolume#MUSIC VOLUME#Shanty Loudness
+GameScene_Menu_AmbientVolume#AMBIENT VOLUME#Sea Loudness
+GameScene_Menu_SFXVolume#SOUND EFFECTS VOLUME#Rukus Loudness
+GameScene_Menu_Quit#Quit to main menu#Steer her to shore
+GameScene_Menu_Credits#Credits#Who built this ship
+GameScene_Menu_Back#Back#Back
+GameScene_SeedBag_Close#Close#Away
+GameScene_SeedBag_Plant#Plant#Pick
+GameScene_EndTurn#End Turn#Yield the wheel
+##
+Joyful#Joyful#Joyus
+Painful#Painful#Hurting
+Energetic#Energetic#Restless
+Social#Social#Talkative
+##
+Settings_Language#Language#Tounge
+Settings_ApplyLanguage#Apply#Make so
+##
+GameScene_PlayingText_1#Playing#Sailing
+GameScene_PlayingText_2#It is your turn#You're the captain
+GameScene_SpectatingText_1#Spectating#Becalmed
+GameScene_SpectatingText_2#It is your companion's turn#Your campanion is sailing now

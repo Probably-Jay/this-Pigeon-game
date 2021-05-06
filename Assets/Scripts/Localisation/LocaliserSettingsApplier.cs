@@ -9,8 +9,10 @@ namespace Localisation
         public Language language;
         private void Awake()
         {
-            if( Localiser.CurrentLanguage == (Language)(-1))
+            if( Localiser.CurrentLanguage == (Language)(-1)) // if unnasigned
+            {
                 Localiser.SetLanguage(language);
+            }
         }
     }
 }

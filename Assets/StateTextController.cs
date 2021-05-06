@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Localisation;
 
 namespace SceneUI
 {
@@ -15,10 +16,15 @@ namespace SceneUI
         [SerializeField] TMP_Text subText;
 
 
-        const string spectatingBig = "Spectating";
-        const string spectatingSmall = "It is your companion's turn";
-        const string playingBig = "Playing";
-        const string playingSmall = "It is your turn";
+        string spectatingBig = Localiser.GetText(TextID.GameScene_SpectatingText_1); //"Spectating";
+        string spectatingSmall = Localiser.GetText(TextID.GameScene_SpectatingText_2); // "It is your companion's turn";
+
+        string playingBig = Localiser.GetText(TextID.GameScene_PlayingText_1); //"Playing";
+        string playingSmall = Localiser.GetText(TextID.GameScene_PlayingText_2); // "It is your turn";
+
+       
+        
+        
 
         private void OnEnable()
         {

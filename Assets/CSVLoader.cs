@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace Localisation
 {
@@ -78,7 +79,16 @@ namespace Localisation
 
                 var value = feilds[attributeIndex];
 
-                if(value == "" || value == "\r")
+                //if (value.Contains("\\n"))
+                //{
+                  
+                //}
+
+               // value.Replace(@"\"+"\n", System.Environment.NewLine);
+
+                //Regex.Unescape(value);
+
+                if (value == "" || value == "\r")
                 {
                     continue;
                 }
