@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using NetSystem;
+using Localisation;
 
 public class MemberGameSlot : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class MemberGameSlot : MonoBehaviour
 
       //  title.text = (string)game.GroupName;
 
-        body.text = $"TODO: fill something here, maybe the turn number or time was created, etc";
+       // body.text = $"TODO: fill something here, maybe the turn number or time was created, etc";
 
         // todo fill emotion image
 
@@ -39,26 +40,26 @@ public class MemberGameSlot : MonoBehaviour
         switch (ourTurn)
         {
             case null:
-                turn.text = "Error!";
+                turn.text = Localiser.GetText(TextID.GameSelect_PlayerSlot_Fill_Error); //"Error!";
                 turn.color = red;
                 turn.fontSize = big;
                 EnterButton.interactable = false;
                 break;
 
             case false:
-                turn.text = "Companion's Turn";
+                turn.text = Localiser.GetText(TextID.GameSelect_PlayerSlot_Fill_CompanionTurn);// "Companion's Turn";
                 turn.color = blue;
                 turn.fontSize = small;
-                ButtonText.text = "Veiw";
+                ButtonText.text = Localiser.GetText(TextID.GameSelect_PlayerSlot_Fill_Veiw); //"Veiw";
                 EnterButton.interactable = true;
 
                 break; 
             
             case true:
-                turn.text = "Your Turn!";
+                turn.text = Localiser.GetText(TextID.GameSelect_PlayerSlot_Fill_YourTurn); //"Your Turn!";
                 turn.color = green;
                 turn.fontSize = big;
-                ButtonText.text = "Play";
+                ButtonText.text = Localiser.GetText(TextID.GameSelect_PlayerSlot_Fill_Play);//"Play";
                 EnterButton.interactable = true;
                 break;
         }

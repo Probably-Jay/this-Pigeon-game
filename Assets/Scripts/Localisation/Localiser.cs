@@ -1,0 +1,147 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.IO;
+
+namespace Localisation
+{
+
+    public enum Language 
+    { 
+        English,
+        Pirate_Speak
+    }
+
+    public enum TextID 
+    { 
+        MainMenu_Play,
+        MainMenu_PlayAlt,
+        MainMenu_Settings,
+        MainMenu_Quit,
+
+        //
+
+        Settings_ResetTutorials,
+        Settings_Done,
+
+        //
+
+        GameSelect_NewGameButton,
+        GameSelect_BackButton,
+
+        GameSelect_PlayerSlot_Fill_Error,
+        GameSelect_PlayerSlot_Fill_CompanionTurn,
+        GameSelect_PlayerSlot_Fill_Veiw,
+        GameSelect_PlayerSlot_Fill_YourTurn,
+        GameSelect_PlayerSlot_Fill_Play,
+
+        GameSelect_Interface_Login_LoggingIn,
+        GameSelect_Interface_LoginSucess,
+        GameSelect_Interface_LoginFailure,
+        GameSelect_Interface_GetGames_Gathering,
+        GameSelect_Interface_GamesGatheredSucess_MemberOf,
+        GameSelect_Interface_GamesGatheredButMemberOfNoGames,
+        GameSelect_Interface_GamesGatheredGamesGatheredFailure,
+        GameSelect_Interface_JoinNewGameCall_FindingGames,
+        GameSelect_Interface_NewGameJoinedSucess,
+        GameSelect_Interface_NewGameJoinedFailure_TooManyActiveGames,
+        GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit,
+        GameSelect_Interface_NewGameJoinedFailure_ItIsTheOtherPlayersTurn,
+        GameSelect_Interface_NewGameJoinedFailure_GameNotBegun,
+
+        GameSelect_Interface_UnknownError,
+
+    }
+
+
+    public class Localiser : MonoBehaviour
+    {
+
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
+        static Dictionary<Language, Dictionary<TextID, string>> text = null;
+
+        static bool? Inited = false;
+
+        public static Language CurrentLanguage { get; private set; } = (Language)(-1);
+
+        public static void SetLanguage(Language language)
+        {
+            CurrentLanguage = language;
+        }
+
+        public static void Init()
+        {
+            CSVLoader loader = new CSVLoader();
+           
+
+            text = new Dictionary<Language, Dictionary<TextID, string>>();
+            try
+            {
+                foreach (var language in Helper.Utility.GetEnumValues<Language>())
+                {
+                    LoadLanguage(loader, language);
+                }
+                Inited = true;
+            }
+            catch (System.Exception e)
+            {
+                text = null;
+                Inited = null;
+                throw e;
+            }
+
+        }
+
+        private static void LoadLanguage(CSVLoader loader, Language language)
+        {
+            Dictionary<string, string> rawDictionary = loader.GetDictionary(language.ToString());
+            Dictionary<TextID, string> dictionary = new Dictionary<TextID, string>();
+            foreach (var textID in Helper.Utility.GetEnumValues<TextID>())
+            {
+                if (!rawDictionary.ContainsKey(textID.ToString()))
+                {
+                    throw new System.Exception($"ID {textID} was not present in the data loaded for the language {language}");
+                }
+                dictionary.Add(textID, rawDictionary[textID.ToString()]);
+            }
+
+            text.Add(language, dictionary);
+        }
+
+        public static string GetText(TextID id)
+        {
+            if (!Inited.HasValue)
+            {
+                return $"Error({id})"; // already had error
+            }
+
+            if (!Inited.Value)
+            {                
+                Init(); // lazy intitialiseations
+            }
+
+            if (!Inited.HasValue || !Inited.Value)
+            {
+                return $"Error({id})";
+            }
+
+            Dictionary<TextID, string> languageDict = text[CurrentLanguage];
+            string value = languageDict[id];
+
+            return value;
+        }
+
+
+
+    }
+
+
+
+
+
+
+}

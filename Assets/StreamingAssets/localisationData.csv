@@ -1,8 +1,36 @@
 #English#Pirate_Speak
+##
 MainMenu_Play#Play#Play (arrrg)
 MainMenu_PlayAlt#Play (Alternate Login)#Play (land-lubber)
 MainMenu_Settings#Settings#Rigging
 MainMenu_Quit#Quit Game#Disembark
 ##
+##
+##
 Settings_ResetTutorials#Reset Tutorials#Reset 'Learnin
 Settings_Done#Done#Consider it Done
+##
+##
+##
+GameSelect_NewGameButton#New Game#New Ship
+GameSelect_BackButton#Back#Return to harbour
+GameSelect_PlayerSlot_Fill_Error#Error#Sinking
+GameSelect_PlayerSlot_Fill_CompanionTurn#Companion's Turn#Crewmate's go
+GameSelect_PlayerSlot_Fill_Veiw#Veiw#Look
+GameSelect_PlayerSlot_Fill_YourTurn#Your Turn#You're captain
+GameSelect_PlayerSlot_Fill_Play#Play#To sea!
+##
+GameSelect_Interface_Login_LoggingIn#Loggin in...#Stepping abouard…
+GameSelect_Interface_LoginSucess#Logged in#On board
+GameSelect_Interface_LoginFailure#Unable to log in... Please check your internet and try again later#Cant find the sea!
+GameSelect_Interface_GetGames_Gathering#Gathering games...#Couintin the ships
+GameSelect_Interface_GamesGatheredSucess_MemberOf#Member of {0} active games and {1} open games#Member of {0} sailing boats and {1} boat waiting in dock
+GameSelect_Interface_GamesGatheredButMemberOfNoGames#You are not in any games, why not start a new one by pressing 'New Game'#You're no captain yet, grab a new ship
+GameSelect_Interface_GamesGatheredGamesGatheredFailure#Unable to gather games... Please check your internet and try again later#The sea is rough today
+GameSelect_Interface_JoinNewGameCall_FindingGames#Finding new game...#Building your boat
+GameSelect_Interface_NewGameJoinedSucess#Game found#Got a good 'un
+GameSelect_Interface_NewGameJoinedFailure_TooManyActiveGames#You have too many ongoing games! For this prototype there is a {0} games limit. Consider finishing up an existing game before starting a new one.#To many boats, cant have more than {0}
+GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit#There are no new open games available. You currenlty are hosting {0} open game, which is the current limit. Check back later and somone might have joined your game!#No ships to join, and you’ve still got {0} unsailed ones in dock!
+GameSelect_Interface_NewGameJoinedFailure_ItIsTheOtherPlayersTurn#Game joined sucessfully, but the other player has not taken their turn yet. Why not come back in a bit?#Your crewmates are still setting up the rigging, check back later
+GameSelect_Interface_NewGameJoinedFailure_GameNotBegun#The game is still being set up by the other player, please check back in a moment#Your crewmates are still setting up the rigging, check back later
+GameSelect_Interface_UnknownError#An error occured: {0}#Poor wind today: {0}

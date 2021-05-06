@@ -8,6 +8,7 @@ using TMPro;
 using NetSystem;
 using SaveSystem;
 using System;
+using Localisation;
 
 // jay
 
@@ -141,7 +142,7 @@ namespace SceneInterface
         {
             var response = new CallResponse();
 
-            StartCoroutine(ShowWaitingDisplay("Logging in...", response)); // display
+            StartCoroutine(ShowWaitingDisplay(Localiser.GetText(TextID.GameSelect_Interface_Login_LoggingIn), response)); // display , text: "Logging in..."
 
             var loginCallbacks = new APIOperationCallbacks
                 (
@@ -185,14 +186,14 @@ namespace SceneInterface
         private void LoginSucess()
         {
             messagText.enabled = true;
-            messagText.text = "Logged in";
+            messagText.text = Localiser.GetText(TextID.GameSelect_Interface_LoginSucess);//"Logged in";
             loadingImage.enabled = false;
         }
 
         private void LoginFailure(FailureReason errorReason)
         {
             messagText.enabled = true;
-            messagText.text = "Unable to log in... Please check your internet and try again later";
+            messagText.text = Localiser.GetText(TextID.GameSelect_Interface_LoginFailure);//"Unable to log in... Please check your internet and try again later";
             loadingImage.enabled = false;
         }
 
@@ -200,7 +201,7 @@ namespace SceneInterface
         {
             var response = new CallResponse<ReadOnlyCollection<NetworkGame>>();
 
-            StartCoroutine(ShowWaitingDisplay("Gathering games...", response)); // display
+            StartCoroutine(ShowWaitingDisplay(Localiser.GetText(TextID.GameSelect_Interface_GetGames_Gathering), response)); // display // text: "Gathering games..."
 
             var getGamesCallback = new APIOperationCallbacks<ReadOnlyCollection<NetworkGame>>
                 (
@@ -237,7 +238,7 @@ namespace SceneInterface
             List<NetworkGame> openGames, activeGames;
             NetworkGame.SeperateOpenAndClosedGames(games, out openGames, out activeGames);
 
-            messagText.text = $"Member of {activeGames.Count} active games and {openGames.Count} open games";
+            messagText.text = string.Format(Localiser.GetText(TextID.GameSelect_Interface_GamesGatheredSucess_MemberOf), activeGames.Count, openGames.Count); // Member of {activeGames.Count} active games and {openGames.Count} open games
         }
 
         //private void PopulateListDisplay(List<NetworkGame> openGames, List<NetworkGame> activeGames)
@@ -251,14 +252,14 @@ namespace SceneInterface
         private void GamesGatheredButMemberOfNoGames()
         {
             messagText.enabled = true;
-            messagText.text = "You are not in any games, why not start a new one by pressing \"New Game\"";
+            messagText.text = Localiser.GetText(TextID.GameSelect_Interface_GamesGatheredButMemberOfNoGames);//"You are not in any games, why not start a new one by pressing \"New Game\"";
             loadingImage.enabled = false;
         }
 
         private void GamesGatheredFailure(FailureReason errorReason)
         {
             messagText.enabled = true;
-            messagText.text = "Unable to gather games... Please check your internet and try again later";
+            messagText.text = Localiser.GetText(TextID.GameSelect_Interface_GamesGatheredGamesGatheredFailure); //"Unable to gather games... Please check your internet and try again later";
             loadingImage.enabled = false;
         }
 
@@ -373,7 +374,7 @@ namespace SceneInterface
         {
             var response = new CallResponse<NetworkGame>();
 
-            StartCoroutine(ShowEnterGameDisplay("Finding new game...",response));
+            StartCoroutine(ShowEnterGameDisplay(Localiser.GetText(TextID.GameSelect_Interface_JoinNewGameCall_FindingGames), response)); // "Finding new game..."
 
             var enterGamesCallback = new APIOperationCallbacks<NetworkGame>
                (
@@ -417,7 +418,7 @@ namespace SceneInterface
             }
 
             enterGameText.enabled = true;
-            enterGameText.text = "Game found";
+            enterGameText.text = Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedSucess);//"Game found";
             enterGameLoadingImage.enabled = false;
 
         }
@@ -429,24 +430,29 @@ namespace SceneInterface
             switch (errorReason)
             {
                 case FailureReason.TooManyActiveGames:
-                    message = $"You have too many ongoing games!\nFor this prototype there is a {NetComponent.maximumActiveGames} games limit.\n" +
-                        $"Consider finishing up an existing game before starting a new one.";
+                    message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_TooManyActiveGames), NetComponent.maximumActiveGames);
+
+                    //$"You have too many ongoing games!\nFor this prototype there is a {NetComponent.maximumActiveGames} games limit.\n" +
+                    //$"Consider finishing up an existing game before starting a new one.";
                     break;
                 case FailureReason.AboveOpenGamesLimit:
-                    message = $"There are no new open games available.\nYou currenlty are hosting {NetComponent.maximumOpenGames} open game{(NetComponent.maximumOpenGames != 1 ? "s" : "")}, which is the current limit.\n" +
-                        $"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game")}!";
+                    message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_AboveOpenGamesLimit), NetComponent.maximumActiveGames);
+
+                    //$"There are no new open games available.\nYou currenlty are hosting {NetComponent.maximumOpenGames} open game{(NetComponent.maximumOpenGames != 1 ? "s" : "")}, which is the current limit.\n" +
+                    //$"Check back later and somone might have joined {(NetComponent.maximumOpenGames != 1 ? "one of your games" : "your game")}!";
                     break;
                 case FailureReason.ItIsTheOtherPlayersTurn:
-                    message = $"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
-                        $"Why not come back in a bit?";
+                    message = Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_ItIsTheOtherPlayersTurn);
+                        //$"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
+                        //$"Why not come back in a bit?";
                     break;
                 case FailureReason.GameNotBegun:
-                    message = $"Joined a game!\nThe game is still being set up by the other player, please check back in a moment";
+                    message = Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedSucess) + "\n" + Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_GameNotBegun);//The game is still being set up by the other player, please check back in a moment";
                     messagText.enabled = true;
-                    messagText.text = "The game is still being set up by the other player, please check back in a moment";;
+                    messagText.text = Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_GameNotBegun);
                     break;
                 default:
-                    message = $"Unable find new game: {errorReason}";
+                    message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_UnknownError), errorReason);//$"Unable find new game: {errorReason}";
                     break;
             }
 
@@ -461,7 +467,7 @@ namespace SceneInterface
         {
             var response = new CallResponse<NetworkGame.UsableData>();
 
-            StartCoroutine(ShowEnterGameDisplay("Getting Games...", response)); // display
+            StartCoroutine(ShowEnterGameDisplay(Localiser.GetText(TextID.GameSelect_Interface_GetGames_Gathering), response)); // display "Getting Games..."
 
             var callbacks = new APIOperationCallbacks<NetworkGame.UsableData>(
                 onSucess: (data) => { 
@@ -485,7 +491,7 @@ namespace SceneInterface
 
         private void GetGameDataFailure(FailureReason e)
         {
-            var message = $"The game data could not be accessed: {e}";
+            var message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_UnknownError), e);
 
             enterGameText.enabled = true;
             enterGameText.text = message;
@@ -518,7 +524,6 @@ namespace SceneInterface
                 // if this fails, try create a new game and join that
                 if (!sucess)
                 {
-                    Debug.LogError("Local save of member game does not exist, creating new");
                     var newLocalGame = SaveManager.Instance.CreateNewGame(localGameMetadata);
                     if(newLocalGame == null)
                     {
@@ -545,12 +550,11 @@ namespace SceneInterface
 
             if (e != FailureReason.ItIsTheOtherPlayersTurn)
             {
-                message = $"Something went wrong, the game could not be joined: {e}";
+                message = string.Format(Localiser.GetText(TextID.GameSelect_Interface_UnknownError), e);
             }
             else
             {
-                message = $"Game joined sucessfully, but the other player has not taken their turn yet.\n" +
-                         $"Why not come back in a bit?";
+                message = Localiser.GetText(TextID.GameSelect_Interface_NewGameJoinedFailure_ItIsTheOtherPlayersTurn);
 
             }
 

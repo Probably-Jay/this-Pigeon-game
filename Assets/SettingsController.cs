@@ -13,13 +13,13 @@ namespace SceneInterface
 
         private void Start()
         {
-            text.text = Localiser.GetText(Localisation.TextID.Settings_ResetTutorials);
+            text.text = Localiser.GetText(TextID.Settings_ResetTutorials);
         }
 
         public void ResetTutorials()
         {
             PlayerPrefs.DeleteAll();
-            text.text = Localiser.GetText(Localisation.TextID.Settings_Done);
+            text.text = Localiser.GetText(TextID.Settings_Done);
         }
 
         public void ToMainMenu()
