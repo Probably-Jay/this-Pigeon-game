@@ -838,6 +838,10 @@
       <Project>{E7FCA8B5-DA00-F141-4AA7-F6C1D2E4EADE}</Project>
       <Name>Unity.Rider.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
+      <Project>{972DCFB3-F154-435C-213F-FC03CA5A89A4}</Project>
+      <Name>Unity.2D.Sprite.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
       <Project>{A88DBC45-B8DF-3525-6A3F-3384EEF39049}</Project>
       <Name>Unity.TextMeshPro</Name>
@@ -849,10 +853,6 @@
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{670684F0-9F90-C582-0A16-9B2F0FF4C7D5}</Project>
       <Name>UnityEditor.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
-      <Project>{972DCFB3-F154-435C-213F-FC03CA5A89A4}</Project>
-      <Name>Unity.2D.Sprite.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
