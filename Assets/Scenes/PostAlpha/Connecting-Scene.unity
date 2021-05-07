@@ -500,12 +500,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1565149182}
-        m_MethodName: 
+      - m_Target: {fileID: 1565149184}
+        m_MethodName: ToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1722,7 +1722,7 @@ PrefabInstance:
     - target: {fileID: 2637870810408928741, guid: 07231e5f1c00ede479c70792aca6d6a7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000024262241
+      value: -0.000007936108
       objectReference: {fileID: 0}
     - target: {fileID: 2637870810777808530, guid: 07231e5f1c00ede479c70792aca6d6a7,
         type: 3}

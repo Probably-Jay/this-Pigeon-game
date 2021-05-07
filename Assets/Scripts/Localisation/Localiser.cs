@@ -108,6 +108,8 @@ namespace Localisation
             DontDestroyOnLoad(gameObject);
         }
 
+        public const string LangagePrefsKey = "Language";
+
         static Dictionary<Language, Dictionary<TextID, string>> text = null;
 
         static bool? Inited = false;
@@ -117,6 +119,7 @@ namespace Localisation
         public static void SetLanguage(Language language)
         {
             CurrentLanguage = language;
+            PlayerPrefs.SetInt(LangagePrefsKey, (int)language);
         }
 
         public static void Init()

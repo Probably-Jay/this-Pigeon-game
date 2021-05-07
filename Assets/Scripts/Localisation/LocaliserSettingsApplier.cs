@@ -6,13 +6,17 @@ namespace Localisation
 {
     public class LocaliserSettingsApplier : MonoBehaviour
     {
-        public Language language;
+        //public Language language;
         private void Awake()
         {
-            if( Localiser.CurrentLanguage == (Language)(-1)) // if unnasigned
+            if (!PlayerPrefs.HasKey(Localiser.LangagePrefsKey))
             {
-                Localiser.SetLanguage(language);
+                Localiser.SetLanguage(Language.English);
+                return;
             }
+
+            Localiser.SetLanguage((Language)PlayerPrefs.GetInt(Localiser.LangagePrefsKey));
+
         }
     }
 }
