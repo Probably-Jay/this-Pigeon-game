@@ -73,3 +73,7 @@ GameScene_PlayingText_1#Playing#Sailing
 GameScene_PlayingText_2#It is your turn#You're the captain
 GameScene_SpectatingText_1#Spectating#Becalmed
 GameScene_SpectatingText_2#It is your companion's turn#Your campanion is sailing now
+##
+Settings_LiveUpdateOff#Live update game: Off#Live update ship: Nay
+Settings_LiveUpdateOn#Live update game: On#Live update ship: Aye
+Settings_LiveUpdateWarning#(Warning: experimental)#(Beware: pirates)
