@@ -271,7 +271,7 @@ namespace GameCore
             HotRealoadPlayeData();
             LoadGarden();
 
-            PlayChangesGardenEffects(differences);
+            //PlayChangesGardenEffects(differences);
 
             NetworkHandler.Instance.NetGame.CurrentNetworkGame.DataDifferences.ResetGameDataDifferences();
         }
