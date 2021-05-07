@@ -53,6 +53,11 @@ public class MemberGameSlot : MonoBehaviour
                 ButtonText.text = Localiser.GetText(TextID.GameSelect_PlayerSlot_Fill_Veiw); //"Veiw";
                 EnterButton.interactable = true;
 
+                if (!GameCore.GameManager.DoLiveUpdate)
+                {
+                    EnterButton.gameObject.SetActive(false);
+                }
+
                 break; 
             
             case true:

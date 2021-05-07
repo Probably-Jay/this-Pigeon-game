@@ -46,6 +46,7 @@ namespace GameCore
         public bool Spectating => !Playing;
 
         private const float SecondsBetweenUpdates = 2.5f;
+        public const string LiveUpdatePrefsKey = "LiveUpdateFromServer";
         public int NewGameMoodGoalTemp;
 
 
@@ -71,6 +72,9 @@ namespace GameCore
         //public Dictionary<Player.PlayerEnum, SlotManager> SlotManagers { get; private set; } = new Dictionary<Player.PlayerEnum, SlotManager>();
 
         AnimationManager animationManager;
+
+        public static bool DoLiveUpdate => PlayerPrefs.HasKey(LiveUpdatePrefsKey) && PlayerPrefs.GetInt(LiveUpdatePrefsKey) != 0;
+
 
         public override void Initialise()
         {
@@ -148,16 +152,20 @@ namespace GameCore
                 ClaimTurn(context);
             }
 
-    
+
 
             SaveGame();
 
             StartCoroutine(InvokeGameStartEventNextFrame(context));
 
-            updateFromServerCoroutuine = StartCoroutine(UpdateFromServerCoroutine());
+
+            if (DoLiveUpdate)
+            {
+                updateFromServerCoroutuine = StartCoroutine(UpdateFromServerCoroutine());
+            }
         }
 
-   
+
 
         private IEnumerator InvokeGameStartEventNextFrame(NetworkGame.EnterGameContext context)
         {
@@ -396,9 +404,20 @@ namespace GameCore
 
             OnlineTurnManager.EndTurn();
 
+            
             EventsManager.InvokeEvent(EventsManager.EventType.EnterSpectatingState);
 
             Save();
+
+            if (!DoLiveUpdate)
+            {
+                QuitToMenu(); 
+                return;
+            }
+            
+            
+
+
 
 
         }
@@ -406,9 +425,10 @@ namespace GameCore
         public void QuitToMenu()
         {
             SaveGame();
-            StopCoroutine(updateFromServerCoroutuine);
+            if(updateFromServerCoroutuine != null)
+                StopCoroutine(updateFromServerCoroutuine);
             NetSystem.NetworkHandler.Instance.LogoutPlayer();
-            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.ConnectingScene);
         }
 
         public void SaveGame()

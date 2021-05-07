@@ -96,6 +96,9 @@ namespace Localisation
         GameScene_SpectatingText_1,
         GameScene_SpectatingText_2,
 
+        Settings_LiveUpdateOff,
+        Settings_LiveUpdateOn,
+        Settings_LiveUpdateWarning,
 
     }
 
@@ -103,8 +106,12 @@ namespace Localisation
     public class Localiser : MonoBehaviour
     {
 
-        private void Start()
+        private void Awake()
         {
+            if (PlayerPrefs.HasKey(LangagePrefsKey))
+            {
+                SetLanguage((Language)PlayerPrefs.GetInt(LangagePrefsKey));
+            }
             DontDestroyOnLoad(gameObject);
         }
 
@@ -112,7 +119,9 @@ namespace Localisation
 
         static Dictionary<Language, Dictionary<TextID, string>> text = null;
 
-        static bool? Inited = false;
+        static bool? InitedFlag = false;
+
+        static bool Inited = InitedFlag ?? false && (text != null);
 
         public static Language CurrentLanguage { get; private set; } = (Language)(-1);
 
@@ -139,7 +148,7 @@ namespace Localisation
             catch (System.Exception e)
             {
                 text = null;
-                Inited = null;
+                InitedFlag = null;
                 throw e;
             }
 
@@ -164,17 +173,22 @@ namespace Localisation
 
         public static string GetText(TextID id)
         {
-            if (!Inited.HasValue)
+            if (!Application.isPlaying)
+            {
+                return $"Enter play mode to see {id}";
+            }
+
+            if (!InitedFlag.HasValue)
             {
                 return $"Error({id})"; // already had error
             }
 
-            if (!Inited.Value)
+            if (!Inited)
             {                
                 Init(); // lazy intitialiseations
             }
 
-            if (!Inited.HasValue || !Inited.Value)
+            if (!InitedFlag.HasValue || !Inited)
             {
                 return $"Error({id})";
             }

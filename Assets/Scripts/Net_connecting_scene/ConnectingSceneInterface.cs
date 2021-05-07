@@ -363,6 +363,17 @@ namespace SceneInterface
                 return;
             }
 
+            if (!GameCore.GameManager.DoLiveUpdate) // this only applies if not doing live updates
+            {
+                // spectating mode requires live updates to make sense
+                if(game.EnteredGameContext.interactionState == NetworkGame.EnterGameContext.InteractionState.Spectating
+                    && !(game.EnteredGameContext.claimingTurn)) 
+                {
+                    NewGameJoinedFailure(FailureReason.ItIsTheOtherPlayersTurn);
+                    return;
+                }
+            }
+
             var nextScene = game.EnteredGameContext.SceneEntering;
 
             

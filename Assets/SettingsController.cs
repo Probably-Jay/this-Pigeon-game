@@ -16,6 +16,26 @@ namespace SceneInterface
         private void Start()
         {
             text.text = Localiser.GetText(TextID.Settings_ResetTutorials);
+            InitDropdown();
+
+        }
+
+        private void InitDropdown()
+        {
+            dropdown.options.Clear();
+            foreach (var language in Helper.Utility.GetEnumValues<Language>())
+            {
+                dropdown.options.Add(new TMP_Dropdown.OptionData(language.ToString()));
+            }
+
+            if (Localiser.CurrentLanguage == (Language)(-1))
+            {
+                dropdown.value = 0;
+            }
+            else
+            {
+                dropdown.value = (int)Localiser.CurrentLanguage;
+            }
         }
 
         public void ResetTutorials()
