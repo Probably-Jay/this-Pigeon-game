@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+
+
 namespace Localisation
 {
 
@@ -174,13 +176,7 @@ namespace Localisation
         public static string GetText(TextID id)
         {
 
-#if UNITY_EDITOR
-        if(EditorApplication.isPlaying) 
-        {
-            return $"Enter play mode to see {id}";
 
-        }
-#endif
 
             if (!InitedFlag.HasValue)
             {
@@ -192,7 +188,7 @@ namespace Localisation
                 Init(); // lazy intitialiseations
             }
 
-            if (!InitedFlag.HasValue || !Inited)
+            if (!InitedFlag.HasValue || !Inited || !text.ContainsKey(CurrentLanguage) )
             {
                 return $"Error({id})";
             }
