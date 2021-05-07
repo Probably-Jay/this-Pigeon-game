@@ -201,6 +201,7 @@ namespace GameCore
 
         }
 
+        [System.Obsolete("This function is possibly unsafe and has been marked Experimental")]
         private IEnumerator UpdateFromServerCoroutine()
         {
             

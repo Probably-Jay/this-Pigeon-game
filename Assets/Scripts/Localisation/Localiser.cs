@@ -173,10 +173,14 @@ namespace Localisation
 
         public static string GetText(TextID id)
         {
-            if (!Application.isPlaying)
-            {
-                return $"Enter play mode to see {id}";
-            }
+
+#if UNITY_EDITOR
+        if(EditorApplication.isPlaying) 
+        {
+            return $"Enter play mode to see {id}";
+
+        }
+#endif
 
             if (!InitedFlag.HasValue)
             {
