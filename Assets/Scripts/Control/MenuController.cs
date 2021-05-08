@@ -18,7 +18,7 @@ namespace SceneInterface
         public void ConnectToGameServersAsDebugAccount()
         {
             NetSystem.NetworkHandler.Instance._useDebugAcountLogin = true;
-            ConnectToGameServers();
+            SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.ConnectingScene);
         }
 
         //public void GoToMyGarden()
@@ -33,7 +33,7 @@ namespace SceneInterface
         //    SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MoodSelectScreen1);
         //}
 
-      
+
 
         public void GotToSettings()
         {
