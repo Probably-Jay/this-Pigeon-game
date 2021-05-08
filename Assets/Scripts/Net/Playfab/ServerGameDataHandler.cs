@@ -9,6 +9,9 @@ namespace NetSystem
     using PlayFab;
     using PlayFab.CloudScriptModels;
 
+    /// <summary>
+    /// Class responsible for getting data about games from the server
+    /// </summary>
     public class ServerGameDataHandler : NetComponent
     {
 

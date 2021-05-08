@@ -10,6 +10,9 @@ namespace NetSystem
     using PlayFab;
     using PlayFab.GroupsModels;
 
+    /// <summary>
+    /// Class responsible for managing and storing the games the player is a member of
+    /// </summary>
     public class MemberGamesList : NetComponent
     {
         private DateTime? LastCachedTime { get; set; } = null;

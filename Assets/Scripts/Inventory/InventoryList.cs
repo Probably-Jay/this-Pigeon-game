@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Created Jay 05/02
+// Created Jay 05/02
 
 
 // custom editor for the re-orderable list

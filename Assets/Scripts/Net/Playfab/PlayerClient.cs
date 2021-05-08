@@ -7,6 +7,9 @@ namespace NetSystem
     using System;
     using PlayFab;
 
+    /// <summary>
+    /// Class representing the networked player currently logged in 
+    /// </summary>
     public class PlayerClient : MonoBehaviour
     {
 

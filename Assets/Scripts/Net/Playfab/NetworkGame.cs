@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace NetSystem
 {
+    /// <summary>
+    /// Class representing a networked game
+    /// </summary>
     public class NetworkGame
     {
         public PlayFab.CloudScriptModels.EntityKey GroupEntityKey => new PlayFab.CloudScriptModels.EntityKey() { Id = group.Group.Id, Type = group.Group.Type };
@@ -26,7 +29,7 @@ namespace NetSystem
 
         public UsableData CurrentGameData { get; private set; }
 
-        public NetGameDataDifferencesTracker DataDifferences { get; private set; }
+        internal NetGameDataDifferencesTracker DataDifferences { get; private set; }
 
         public EnterGameContext EnteredGameContext { get; private set; }
 
@@ -38,7 +41,9 @@ namespace NetSystem
             DataDifferences =  new NetGameDataDifferencesTracker(this);
         }
 
-
+        /// <summary>
+        /// Data class on the game's metadata
+        /// </summary>
         public class NetworkGameMetadata
         {
             public bool Open;
@@ -54,6 +59,9 @@ namespace NetSystem
 
         //}
 
+        /// <summary>
+        /// Data class holding the data as read from the server
+        /// </summary>
         public class RawData
         {
             public string gameBegun;
@@ -67,6 +75,9 @@ namespace NetSystem
             public string playerData;            
         }
 
+        /// <summary>
+        /// Data class holding the processed usable data
+        /// </summary>
         public class UsableData
         {
             public bool gameBegun;
@@ -94,6 +105,9 @@ namespace NetSystem
             CurrentGameData = data;
         }
 
+        /// <summary>
+        /// Convert raw data from sever into usable <see cref="UsableData"/>
+        /// </summary>
         public NetworkGame.UsableData DeserilaiseRawData(NetworkGame.RawData rawData)
         {
             var data = new NetworkGame.UsableData();
@@ -277,6 +291,9 @@ namespace NetSystem
                 );
         }
 
+        /// <summary>
+        /// Data class storing the context a player in entering the game in
+        /// </summary>
         public class EnterGameContext
         {
             public bool createNewGame;

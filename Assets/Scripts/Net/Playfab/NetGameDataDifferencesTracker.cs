@@ -7,7 +7,7 @@ using UnityEngine;
 namespace NetSystem
 {
 
-    public class NetGameDataDifferencesTracker
+    internal class NetGameDataDifferencesTracker
     {
         NetworkGame owningGame;
         public NetGameDataDifferencesTracker(NetworkGame game)

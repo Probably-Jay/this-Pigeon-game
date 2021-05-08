@@ -10,6 +10,9 @@ namespace NetSystem
     using System;
     using PlayFab;
     using PlayFab.GroupsModels;
+    /// <summary>
+    /// Class managing games that a player has started but is alone in, referred to as "open" games
+    /// </summary>
     public class OpenGamesList : NetComponent
     {
 

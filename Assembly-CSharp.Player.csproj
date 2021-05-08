@@ -706,9 +706,9 @@
     <Compile Include="Assets\Scripts\Net\Playfab\OpenGamesList.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\PlayerClient.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\ServerGameDataHandler.cs" />
-    <Compile Include="Assets\Scripts\Net\Playfab\Test\LoginTest.cs" />
-    <Compile Include="Assets\Scripts\Net\Playfab\Test\NetPlayerTest.cs" />
-    <Compile Include="Assets\Scripts\Net\Playfab\Test\RoomTest.cs" />
+    <Compile Include="Assets\Scripts\Net\Test\LoginTest.cs" />
+    <Compile Include="Assets\Scripts\Net\Test\NetPlayerTest.cs" />
+    <Compile Include="Assets\Scripts\Net\Test\RoomTest.cs" />
     <Compile Include="Assets\Scripts\Net_connecting_scene\ActiveGamesListPopulator.cs" />
     <Compile Include="Assets\Scripts\Net_connecting_scene\ConnectingSceneInterface.cs" />
     <Compile Include="Assets\Scripts\Net_connecting_scene\MemberGameSlot.cs" />

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Created Jay 07/02
-/// 
+// Created Jay 07/02
+
 
 #if UNITY_EDITOR
 using UnityEditor;

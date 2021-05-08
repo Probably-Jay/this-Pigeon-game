@@ -4,22 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public static class NetUtility 
-//{
-//    public static Func<CallResponse,T> APISucess<T>(T obj, Func<T,CallResponse> sucessFunc, ref CallResponse response)
-//    {
-
-//        CallResponse Function<T1>(T1 obj, Func<T1, CallResponse> sucessFunc, CallResponse response)
-//        {
-//            var r = sucessFunc(obj);
-//            response.error = r.error;
-//            response.complete = true;
-//            return response;
-//        };
-
-//        return Function<T>;
-//    }
-//}
 
 namespace NetSystem
 {

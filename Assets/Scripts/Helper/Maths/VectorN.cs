@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// created Jay 07/02
+// created Jay 07/02
 
 [System.Serializable]
 public class VectorN : IEnumerable
@@ -108,9 +108,9 @@ public class VectorN : IEnumerable
 
 
 
-/// <summary>
-/// Taken from https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator?view=net-5.0, standard Ienumerator implimentation
-/// </summary>
+
+// Taken from https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator?view=net-5.0, standard Ienumerator implimentation
+
 public class VectorNEnumerator : IEnumerator
 {
     public  float[] values;

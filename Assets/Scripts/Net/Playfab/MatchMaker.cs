@@ -10,6 +10,9 @@ namespace NetSystem
     using PlayFab;
     using PlayFab.GroupsModels;
 
+    /// <summary>
+    /// Class for matching up players into games
+    /// </summary>
     public class MatchMaker : NetComponent
     {
 

@@ -9,7 +9,9 @@ using UnityEngine;
 namespace NetSystem
 {
 
-
+    /// <summary>
+    /// Main interface to the network system. <see cref="Singleton{T}"/> class
+    /// </summary>
     [RequireComponent(typeof(ActiveGame))]
     [RequireComponent(typeof(MatchMaker))]
     [RequireComponent(typeof(ServerGameDataHandler))]

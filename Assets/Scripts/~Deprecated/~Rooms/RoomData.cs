@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Created Jay 07/02
+// Created Jay 07/02
 
 [System.Obsolete("Obsolete",true)]
 public class RoomData : MonoBehaviour

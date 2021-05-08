@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-/// Created Jay 05/02
+// Created Jay 05/02
 
 
 
