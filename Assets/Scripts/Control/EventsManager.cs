@@ -320,7 +320,7 @@ public class EventsManager : Singleton<EventsManager>
         foreach (KeyValuePair<EventType, Action> ourEvent in Instance.events)
         {
             Action methods = ourEvent.Value;
-            foreach (Action method in methods?.GetInvocationList())
+            foreach (Action method in methods?.GetInvocationList() ?? new Delegate[0])
             {
                 if (method.Target?.Equals(null) ?? true)
                 {
@@ -336,7 +336,7 @@ public class EventsManager : Singleton<EventsManager>
         foreach (KeyValuePair<ParameterEventType, Action<EventParams>> ourEvent in Instance.parameterEvents)
         {
             Action<EventParams> methods = ourEvent.Value;
-            foreach (Action<EventParams> method in methods?.GetInvocationList())
+            foreach (Action<EventParams> method in methods?.GetInvocationList() ?? new Delegate[0])
             {
                 if (method.Target?.Equals(null)??true)
                 {
