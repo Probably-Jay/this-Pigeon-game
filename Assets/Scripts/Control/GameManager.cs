@@ -425,6 +425,7 @@ namespace GameCore
 
         public void QuitToMenu()
         {
+            EventsManager.ClearEvents();
             SaveGame();
             if(updateFromServerCoroutuine != null)
                 StopCoroutine(updateFromServerCoroutuine);

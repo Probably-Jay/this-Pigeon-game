@@ -289,10 +289,10 @@ public class EventsManager : Singleton<EventsManager>
     #endregion
 
 
-    private void ClearEvents()
+    public static void ClearEvents()
     {
-        events.Clear();
-        parameterEvents.Clear();
+        Instance.events.Clear();
+        Instance.parameterEvents.Clear();
     }
 
     private void CleanEvents()
