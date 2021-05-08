@@ -11,6 +11,7 @@ namespace SceneInterface
 
         public void ConnectToGameServers()
         {
+            NetSystem.NetworkHandler.Instance._useDebugAcountLogin = false;
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.ConnectingScene);
         }
 
