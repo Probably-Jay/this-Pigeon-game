@@ -425,12 +425,14 @@ namespace GameCore
 
         public void QuitToMenu()
         {
-            EventsManager.ClearEvents();
             SaveGame();
-            if(updateFromServerCoroutuine != null)
+            if (updateFromServerCoroutuine != null)
+            {
                 StopCoroutine(updateFromServerCoroutuine);
+            }
             NetSystem.NetworkHandler.Instance.LogoutPlayer();
             SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.ConnectingScene);
+          
         }
 
         public void SaveGame()
