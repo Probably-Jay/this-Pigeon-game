@@ -169,7 +169,7 @@ namespace NetSystem
         /// </para>
         /// </summary>
         /// <param name="resultsCallback">Callbakcs for the sucess or failure of this action</param>
-        /// <remarks><seealso cref="SelectGroupToJoin"/> for the method a open game is selected</remarks>
+        /// <remarks><seealso cref="SelectGroupToJoin"/> for the method an open game is selected</remarks>
         public void EnterNewGame(APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
             var callbacks = new APIOperationCallbacks<List<PlayFab.GroupsModels.GroupWithRoles>>(
