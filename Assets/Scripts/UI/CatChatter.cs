@@ -27,6 +27,8 @@ namespace Tutorial
 
         string HasEverPlantedMoodRelaventPlantKey => GameKey + "_variable_"+ "HasEverPlantedMoodRelaventPlantKey";
 
+        List<(EventsManager.EventType, Action)> functionBinds = new List<(EventsManager.EventType, Action)>();
+        List<(EventsManager.ParameterEventType, Action<EventsManager.EventParams>)> paramFunctionBinds = new List<(EventsManager.ParameterEventType, Action<EventsManager.EventParams>)>();
 
         string GameKey => NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.GroupEntityKey.Id + NetSystem.NetworkHandler.Instance.ClientEntity.Id;
 
@@ -171,11 +173,23 @@ namespace Tutorial
                 EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
                 EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, ResetActionTimer);
 
-
+                UnbindEvents();
 
                 EventsManager.CleanEvents(this);
             }
 
+        }
+
+        private void UnbindEvents()
+        {
+            foreach (var evnt in functionBinds)
+            {
+                EventsManager.UnbindEvent(evnt.Item1, evnt.Item2);
+            }
+            foreach (var evnt in paramFunctionBinds)
+            {
+                EventsManager.UnbindEvent(evnt.Item1, evnt.Item2);
+            } 
         }
 
         private void EnterGameSpectating()
@@ -310,6 +324,7 @@ namespace Tutorial
         void BindEvent(EventsManager.EventType eventType, System.Action tutorialToCall, WhenToDisplay whenToDisplay, System.Action sideEffects = null, System.Func<bool> condition = null, bool dontUnbind = false, bool unbindIfFailCondition = false)
         {
             void func() => LaunchTutorial(func, eventType, tutorialToCall, whenToDisplay, sideEffects, condition, dontUnbind, unbindIfFailCondition);
+            functionBinds.Add((eventType,func));
             EventsManager.BindEvent(eventType, func);
         }   
         /// <summary>
@@ -318,6 +333,7 @@ namespace Tutorial
         void BindEvent(EventsManager.ParameterEventType eventType, System.Action<EventsManager.EventParams> tutorialToCall, WhenToDisplay whenToDisplay, System.Action sideEffects = null, System.Func<bool> condition = null, bool dontUnbind = false, bool unbindIfFailCondition = false)
         {
             void paramFunc(EventsManager.EventParams eventParams) => LaunchTutorialParamatised(paramFunc, eventType, tutorialToCall, eventParams, whenToDisplay, sideEffects, condition, dontUnbind, unbindIfFailCondition);
+            paramFunctionBinds.Add((eventType, paramFunc));
             EventsManager.BindEvent(eventType, paramFunc);
         }
 
@@ -361,6 +377,7 @@ namespace Tutorial
         private void ExhastTutorial(Action func, EventsManager.EventType eventType, Action tutorial)
         {
             EventsManager.UnbindEvent(eventType, func);
+            functionBinds.Remove((eventType, func));
             string key = GetKey(tutorial);
 
             PlayerPrefs.SetInt(key, 1);
@@ -368,6 +385,8 @@ namespace Tutorial
         private void ExhastTutorial(Action<EventsManager.EventParams> func, EventsManager.ParameterEventType eventType, Action<EventsManager.EventParams> tutorial)
         {
             EventsManager.UnbindEvent(eventType, func);
+            paramFunctionBinds.Remove((eventType, func));
+
             string key = GetKey(tutorial);
 
             PlayerPrefs.SetInt(key, 1);
