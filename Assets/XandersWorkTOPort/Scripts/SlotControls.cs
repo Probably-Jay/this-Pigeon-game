@@ -6,8 +6,6 @@ using UnityEngine;
 
 // Script created by Alexander Purvis 05/02/2021
 
-// (please sign alteration to script -jay)
-
 public class SlotControls : MonoBehaviour
 {
     // enums that control the state of this tile
@@ -16,7 +14,6 @@ public class SlotControls : MonoBehaviour
     public bool slotFull = false;
 
     public List<GameObject> plantsInThisSlot;
-
  
     // to change the alpha of the object that is moving
     SpriteRenderer slotSprite;
@@ -88,7 +85,6 @@ public class SlotControls : MonoBehaviour
         slotFull = true;
     }
 
-
     public Plant SpawnPlantInSlot(GameObject PlantToSpawn, int slotNumber)
     {
         GameObject newPlant = Instantiate(PlantToSpawn, transform);
@@ -124,7 +120,6 @@ public class SlotControls : MonoBehaviour
 
         FreeSlot();
     }
-
 
     public List<Plant> GetAllPlants()
     {

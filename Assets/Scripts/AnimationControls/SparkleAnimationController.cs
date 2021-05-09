@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Script created by Alexander Purvis 04/05/2021
+
 public class SparkleAnimationController : MonoBehaviour
 {   
     public Animator animator;

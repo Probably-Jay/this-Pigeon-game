@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Script created by Alexander Purvis 04/05/2021
+
 public class AnimationManager : MonoBehaviour
 {
     public GameObject [] animationObjects;

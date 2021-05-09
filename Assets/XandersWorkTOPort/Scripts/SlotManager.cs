@@ -7,7 +7,7 @@ using GameCore;
 using NetSystem;
 using System;
 
-// Created by Alexander purvis 
+// Created by Alexander purvis 05/02/2021
 
 // Plant-getters added - Jay 
 
@@ -15,24 +15,25 @@ using System;
 
 public class SlotManager : MonoBehaviour
 {
+    // stores the Id Of the player that owns the slots stored in the list below
     public Player.PlayerEnum gardenplayerID ;
+    // stores a list of slots from a single garden
     [SerializeField]public  List<SlotControls> gardenSlots;
 
-   // SlotControls slotControls;
+    // reffrance   to the seedSorage 
     public CurrentSeedStorage seedStorage;
+    // stores the current plant the player may want to plant 
     GameObject newPlant;
 
-   // SeedIndicator seedIndicator;
+    // refrance to the seed indicater for the same garden that the slots belong too
     public SeedIndicator gardenSeedIndicator;
 
-    //// for network to add plants
-    //[SerializeField] List<GameObject> plantList;
-    
     // for network to add plants
     [SerializeField] InventoryList plantList;
 
     private void Awake()
     {
+        //// sets each of the garden slots player id to the player that owns the garden
         foreach (var slot in gardenSlots)
         {
             slot.playersGarden = gardenplayerID;
@@ -41,20 +42,26 @@ public class SlotManager : MonoBehaviour
 
     private void Update()
     {          
+        // checks if the player has a seed selected for planting 
        if (seedStorage.isStoringSeed)
        {
+            //cycle through all the slots in the list 
             for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
             {
+                // sets the controls reffrnece to the script on the slot we are currently looking at
                 var slotControls = gardenSlots[slotNumber];
-         
+                // checks to see if this slot is currently active and if it has a space for a plant
                 if (slotControls.slotActive == true && slotControls.slotFull == false)
                 {
+                    // asigned all the varables needed to check if the mouse is overlaping with the slot
                     var colider = gardenSlots[slotNumber].GetComponent<BoxCollider2D>();
                     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     mousePos.z = colider.transform.position.z;
 
+                    // check if the mouse is overlapping and if the player clicked on the slot 
                     if (colider.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
                     {
+                        // if so add the plant they have in storage to the slot using the PlantPlant function on that slot
                         PlantPlant(slotControls,slotNumber);
                         gardenSeedIndicator.HideIndicator();
                     }
@@ -78,7 +85,7 @@ public class SlotManager : MonoBehaviour
         HideSlots();
     }
 
-      // NetworkFunctions 
+     // adds Plants all plnats from the incoming NetworkFunctions packet
     public void AddPlantFromServer(int slotNumber, NetSystem.GardenDataPacket.Plant plantData)
     {
         if (!plantData.Initilised)
@@ -207,6 +214,7 @@ public class SlotManager : MonoBehaviour
         return null;
     }
 
+    // checks if the mouse is overlapping with the slot 
     private static Rect GetPlantRect(Plant plant)
     {
         Collider2D plantCollider = plant.PlantGrowth.GetActiveCollider();
@@ -219,6 +227,7 @@ public class SlotManager : MonoBehaviour
     }
 
 
+    // show all of the slots that can accommodate the type 
     public void ShowSlots(int requiredSlotType)
     {       
         for (int slotNumber = 0; slotNumber < gardenSlots.Count; slotNumber++)
@@ -231,6 +240,7 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+    // hide all the slots
     public void HideSlots()
     {
         for (int gridNumber = 0; gridNumber < gardenSlots.Count; gridNumber++)
@@ -239,6 +249,7 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+    // return all the plants in all slots in the list this plant manager manages
     public ReadOnlyCollection<Plant> GetAllPlants()
     {
         List<Plant> plants = new List<Plant>();
@@ -249,6 +260,7 @@ public class SlotManager : MonoBehaviour
 
         return new ReadOnlyCollection<Plant>(plants);
     }
+
 
     internal void SignalDifferenceToSlot(NetGameDataDifferencesTracker.DataDifferences.PlantDifferences palntDifferences)
     {
@@ -262,7 +274,6 @@ public class SlotManager : MonoBehaviour
     }
 
   
-
     public void ClearGarden()
     {
         for(int i =0; i< gardenSlots.Count; i++)

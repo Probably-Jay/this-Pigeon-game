@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Script created by Alexander Purvis 04/05/2021
+
 public class MoodSelectionButtons : MonoBehaviour
 {
     public GameObject controller;
@@ -31,13 +33,11 @@ public class MoodSelectionButtons : MonoBehaviour
         ChangeToSelectedColour();
     }
 
-
     void ChangeToSelectedColour()
     {
         GetComponent<Image>().color = new Color32((byte)selectedColourR, (byte)selectedColourG, (byte)selectedColourB, 255);
         buttonListControls.ChangeMoodSelection(buttonID_MoodValue);
     }
-
 
     public void resetColour()
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 using Plants;
 using GameCore;
 using System;
+
+// Script created by Alexander Purvis 01/05/2021
 public class GardenSlotDirectory : MonoBehaviour
 {
     [SerializeField] CurrentSeedStorage SeedSelected;
@@ -13,20 +15,19 @@ public class GardenSlotDirectory : MonoBehaviour
     [SerializeField] SlotManager garden1Slots;
     [SerializeField] SlotManager garden2Slots;
 
-   // SlotManager localPlayerSlotManager;
-
-   // SeedIndicator seedIndicator;
-
     public SeedIndicator garden1SeedIndicator;
     public SeedIndicator garden2SeedIndicator;
 
 
+    // asigns the gardens to the apropriete Player
     private void Awake()
     {
        // localPlayerSlotManager = GameManager.Instance.LocalPlayerID == Player.PlayerEnum.Player1 ? garden1Slots : garden2Slots;
         GameManager.Instance.RegisterLocalSlotManager(garden1Slots, garden1Slots.gardenplayerID);
         GameManager.Instance.RegisterLocalSlotManager(garden2Slots, garden2Slots.gardenplayerID);
     }
+
+
 
     //private void OnEnable()
     //{
@@ -78,7 +79,6 @@ public class GardenSlotDirectory : MonoBehaviour
         garden2SeedIndicator.HideIndicator();
        
     }
-
 
     void setGarden1IndicatorSeed()
     {
