@@ -218,7 +218,8 @@ public class EventsManager : Singleton<EventsManager>
         {
             Instance.events[eventType]?.Invoke();
         }
-        else Debug.LogWarning($"Event {eventType.ToString()} was invoked in scene {SceneManager.GetActiveScene().name} but is unused (no listeners have ever subscribed to it)");
+        else { }
+        //Debug.LogWarning($"Event {eventType.ToString()} was invoked in scene {SceneManager.GetActiveScene().name} but is unused (no listeners have ever subscribed to it)");
     }
     #endregion
 
@@ -284,7 +285,8 @@ public class EventsManager : Singleton<EventsManager>
         {
             Instance.parameterEvents[eventType]?.Invoke(parameters);
         }
-        else Debug.LogWarning($"Event {eventType.ToString()} was invoked in scene {SceneManager.GetActiveScene().name} but is unused (no listeners have ever subscribed to it)");
+        else { }
+            //Debug.LogWarning($"Event {eventType.ToString()} was invoked in scene {SceneManager.GetActiveScene().name} but is unused (no listeners have ever subscribed to it)");
     }
     #endregion
 
@@ -295,34 +297,34 @@ public class EventsManager : Singleton<EventsManager>
         Instance.parameterEvents.Clear();
     }
 
-    public static void CleanEvents()
+    public static void CleanEvents(object unbindFrom = null)
     {
 
         //parameterless
         List<(EventType, Action)> toUnbind = new List<(EventType, Action)>();
 
-        GatherDanglingEvets(toUnbind);
+        GatherDanglingEvets(toUnbind, unbindFrom);
         UnbindDanglingEvents(toUnbind);
         
 
         //paramatised
         List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized = new List<(ParameterEventType, Action<EventParams>)>();
 
-        GatherDanglingEvets(toUnbindParamatized);
+        GatherDanglingEvets(toUnbindParamatized, unbindFrom);
         UnbindDanglingEvents(toUnbindParamatized);
 
     }
 
 
 
-    private static void GatherDanglingEvets(List<(EventType, Action)> toUnbind)
+    private static void GatherDanglingEvets(List<(EventType, Action)> toUnbind, object unbindFrom)
     {
         foreach (KeyValuePair<EventType, Action> ourEvent in Instance.events)
         {
             Action methods = ourEvent.Value;
             foreach (Action method in methods?.GetInvocationList() ?? new Delegate[0])
             {
-                if (method.Target?.Equals(null) ?? true)
+                if (method.Target?.Equals(unbindFrom) ?? true)
                 {
                     toUnbind.Add((ourEvent.Key, method));
                     continue;
@@ -331,14 +333,14 @@ public class EventsManager : Singleton<EventsManager>
         }
     }
 
-    private static void GatherDanglingEvets(List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized)
+    private static void GatherDanglingEvets(List<(ParameterEventType, Action<EventParams>)> toUnbindParamatized, object unbindFrom)
     {
         foreach (KeyValuePair<ParameterEventType, Action<EventParams>> ourEvent in Instance.parameterEvents)
         {
             Action<EventParams> methods = ourEvent.Value;
             foreach (Action<EventParams> method in methods?.GetInvocationList() ?? new Delegate[0])
             {
-                if (method.Target?.Equals(null)??true)
+                if (method.Target?.Equals(unbindFrom)??true)
                 {
                     toUnbindParamatized.Add((ourEvent.Key, method));
                 }

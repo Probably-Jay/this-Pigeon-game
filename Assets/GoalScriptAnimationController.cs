@@ -23,6 +23,16 @@ public class GoalScriptAnimationController : MonoBehaviour
         EventsManager.BindEvent(EventsManager.EventType.SeedBagOpen, SlightlyBigger);
         EventsManager.BindEvent(EventsManager.EventType.OnSeedBagClose, SlightlySmaller);
     }
+        
+    private void OnDisable()
+    {
+
+        EventsManager.UnbindEvent(EventsManager.EventType.MoodSlidersExplination, SlightlyBigger);
+        EventsManager.UnbindEvent(EventsManager.EventType.OnDialogueClose, SlightlySmaller);
+
+        EventsManager.UnbindEvent(EventsManager.EventType.SeedBagOpen, SlightlyBigger);
+        EventsManager.UnbindEvent(EventsManager.EventType.OnSeedBagClose, SlightlySmaller);
+    }
 
     private void Bigger() => animator.SetBool("bigger", true);
     private void Smaller() => animator.SetBool("bigger", false);
