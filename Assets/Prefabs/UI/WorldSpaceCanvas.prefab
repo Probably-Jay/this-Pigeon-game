@@ -648,11 +648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3c9c22d3dc41a4d8123dee33f4898f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1GardenText: {fileID: 7328363959179619725}
-  player2GardenText: {fileID: 7880834826227768445}
-  yourGarden: Your Garden
-  yourCompanionsGarden: Companion's Garden
-  turnUpdateDelay: 0
 --- !u!1 &4339706829217323117
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,6 +875,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myBox: {fileID: 0}
   nudgeTime: 20
+  seedBag: {fileID: 0}
+  toolBox: {fileID: 0}
 --- !u!114 &1334321482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,7 +930,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 228.4, y: -7}
+  m_AnchoredPosition: {x: 253, y: -7}
   m_SizeDelta: {x: 214.06772, y: 110.47058}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6627078511768889570
