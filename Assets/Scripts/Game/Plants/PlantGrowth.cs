@@ -14,9 +14,6 @@ namespace Plants
     [RequireComponent(typeof(Plant))]
     public class PlantGrowth : MonoBehaviour
     {
-
-    
-
         public enum VisibleGrowthStage
         {
             Seed = 0,
@@ -26,7 +23,6 @@ namespace Plants
         }
 
         VisibleGrowthStage VisibleGrowthState => TendingState.VisibleGrowthStage;
-
 
         [SerializeField] Sprite[] growthSprites;
         [SerializeField] Collider2D[] growthColliders;
