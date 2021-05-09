@@ -27,11 +27,8 @@ public class MoodSelectionButtons : MonoBehaviour
 
     public void SetMoodChoice()
     {
-        moodControls.playersMoodChoice = buttonID_MoodValue;
-
-        Debug.Log(moodControls.playersMoodChoice);
+        moodControls.playersMoodChoice = buttonID_MoodValue;      
         ChangeToSelectedColour();
-
     }
 
 
