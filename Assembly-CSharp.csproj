@@ -64,24 +64,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CSVLoader.cs" />
-    <Compile Include="Assets\EndTurnButtonParent.cs" />
-    <Compile Include="Assets\GameDataSaver.cs" />
-    <Compile Include="Assets\GardenNameSignController.cs" />
-    <Compile Include="Assets\GiftBasketSwap.cs" />
-    <Compile Include="Assets\GoalScriptAnimationController.cs" />
-    <Compile Include="Assets\GoalSliderPositionerOnline.cs" />
-    <Compile Include="Assets\LiveUpdateGamesSettingsButton.cs" />
-    <Compile Include="Assets\LocaliseStaticTMPText.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\AnimationManager.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\BugAnimationController.cs" />
+    <Compile Include="Assets\Scripts\AnimationControls\GoalScriptAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\SparkleAnimationController.cs" />
     <Compile Include="Assets\Scripts\AnimationControls\ToolAnimationController.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManager.cs" />
     <Compile Include="Assets\Scripts\Application\ApplicationManagerOld.cs" />
     <Compile Include="Assets\Scripts\Audio\SFXHandler.cs" />
     <Compile Include="Assets\Scripts\Audio\VolumeHandler.cs" />
-    <Compile Include="Assets\Scripts\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraMovementControl.cs" />
     <Compile Include="Assets\Scripts\Control\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Control\GameManager.cs" />
@@ -96,6 +87,7 @@
     <Compile Include="Assets\Scripts\Control\Personal_Garden\PersonalGardenController.cs" />
     <Compile Include="Assets\Scripts\Control\Player.cs" />
     <Compile Include="Assets\Scripts\Control\SceneSwap.cs" />
+    <Compile Include="Assets\Scripts\Control\SettingsController.cs" />
     <Compile Include="Assets\Scripts\Control\SingletonInitialiser.cs" />
     <Compile Include="Assets\Scripts\Control\Tutorial_Scene\TutorialManager.cs" />
     <Compile Include="Assets\Scripts\Data_Managment\GardenDataPacket.cs" />
@@ -134,11 +126,13 @@
     <Compile Include="Assets\Scripts\Level_Change\CrossfadeController.cs" />
     <Compile Include="Assets\Scripts\Level_Change\MenuSwap.cs" />
     <Compile Include="Assets\Scripts\Level_Change\SceneChangeController.cs" />
+    <Compile Include="Assets\Scripts\Localisation\CSVLoader.cs" />
+    <Compile Include="Assets\Scripts\Localisation\LocaliseStaticTMPText.cs" />
     <Compile Include="Assets\Scripts\Localisation\LocaliseStaticText.cs" />
     <Compile Include="Assets\Scripts\Localisation\Localiser.cs" />
     <Compile Include="Assets\Scripts\Localisation\LocaliserSettingsApplier.cs" />
     <Compile Include="Assets\Scripts\Menu\GetDropdownValue.cs" />
-    <Compile Include="Assets\Scripts\MoodSelectionButtons.cs" />
+    <Compile Include="Assets\Scripts\Net\GameDataSaver.cs" />
     <Compile Include="Assets\Scripts\Net\NetworkHandlerSceneInterface.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\ActiveGame.cs" />
     <Compile Include="Assets\Scripts\Net\Playfab\MatchMaker.cs" />
@@ -170,72 +164,44 @@
     <Compile Include="Assets\Scripts\Save_System\_SaveDemonstration.cs" />
     <Compile Include="Assets\Scripts\UI\ArrowEnabler.cs" />
     <Compile Include="Assets\Scripts\UI\ArrowScript.cs" />
+    <Compile Include="Assets\Scripts\UI\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\UI\CatChatter.cs" />
     <Compile Include="Assets\Scripts\UI\CreditsButton.cs" />
     <Compile Include="Assets\Scripts\UI\EmotionTracker.cs" />
     <Compile Include="Assets\Scripts\UI\EndGameScript.cs" />
+    <Compile Include="Assets\Scripts\UI\EndTurnButtonParent.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnButtonScript.cs" />
+    <Compile Include="Assets\Scripts\UI\GardenNameSignController.cs" />
+    <Compile Include="Assets\Scripts\UI\GiftBasketSwap.cs" />
     <Compile Include="Assets\Scripts\UI\GoalSliderPositioner.cs" />
+    <Compile Include="Assets\Scripts\UI\GoalSliderPositionerOnline.cs" />
     <Compile Include="Assets\Scripts\UI\GoalSliderScript.cs" />
+    <Compile Include="Assets\Scripts\UI\LiveUpdateGamesSettingsButton.cs" />
+    <Compile Include="Assets\Scripts\UI\MoodSelectionButtons.cs" />
     <Compile Include="Assets\Scripts\UI\OpenToolBoxButton.cs" />
     <Compile Include="Assets\Scripts\UI\PlantButton.cs" />
     <Compile Include="Assets\Scripts\UI\PlantIcon.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBag.cs" />
     <Compile Include="Assets\Scripts\UI\SeedBagButton.cs" />
+    <Compile Include="Assets\Scripts\UI\SeedBagButtonParentScript.cs" />
+    <Compile Include="Assets\Scripts\UI\SeedBagButtonScript.cs" />
+    <Compile Include="Assets\Scripts\UI\StateTextController.cs" />
     <Compile Include="Assets\Scripts\UI\SwapGardenButton.cs" />
     <Compile Include="Assets\Scripts\UI\TextBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolBox.cs" />
     <Compile Include="Assets\Scripts\UI\ToolDrag.cs" />
+    <Compile Include="Assets\Scripts\UI\ToolboxButtonParent.cs" />
     <Compile Include="Assets\Scripts\UI\UICommands.cs" />
     <Compile Include="Assets\Scripts\UI\WindowOpener.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\CallChangeScene.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\PlantFinder.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\PlantManager.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\gitTestscript.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\~CrossfadeController.cs" />
-    <Compile Include="Assets\Scripts\~Deprecated\~Rooms\RoomData.cs" />
-    <Compile Include="Assets\SeedBagButtonParentScript.cs" />
-    <Compile Include="Assets\SeedBagButtonScript.cs" />
-    <Compile Include="Assets\SettingsController.cs" />
-    <Compile Include="Assets\StateTextController.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-    <Compile Include="Assets\ToolboxButtonParent.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\CallChangeScene.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\PlantFinder.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\PlantManager.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\RoomTypeIdentifiers\FuzzzyRoomType.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\RoomTypeIdentifiers\RoomTypeItemIdentifier1.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\gitTestscript.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\~CrossfadeController.cs" />
+    <Compile Include="Assets\Scripts\UI\~Deprecated\~Rooms\RoomData.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\GardenSlotDirectory.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\SeedIndicator.cs" />
     <Compile Include="Assets\XandersWorkTOPort\Scripts\SlotControls.cs" />
@@ -243,8 +209,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
@@ -264,7 +228,6 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
-    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.18f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -816,10 +779,6 @@
     <ProjectReference Include="Unity.Timeline.csproj">
       <Project>{EA8967D7-A135-C133-FF5D-26BF1681C414}</Project>
       <Name>Unity.Timeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="TestFolderAssembly.csproj">
-      <Project>{3C0F05AC-F620-4CA7-4145-0A0D6C459471}</Project>
-      <Name>TestFolderAssembly</Name>
     </ProjectReference>
     <ProjectReference Include="PlayFabSDKEditor.csproj">
       <Project>{EC17CE76-C0F1-DF09-A477-4F38A095F787}</Project>
