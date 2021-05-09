@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 using System.Text.RegularExpressions;
-using System.Text.RegularExpressions;
+using UnityEngine.Networking;
 
 namespace Localisation
 {
@@ -23,10 +23,7 @@ namespace Localisation
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
-            //Load();
-            var path = Path.Combine(Application.streamingAssetsPath, fileName);
-
-            string data = File.ReadAllText(path, System.Text.Encoding.UTF8);
+            string data = GetData();
 
             string[] lines = data.Split(lineSeperator);
 
@@ -51,17 +48,13 @@ namespace Localisation
             for (int i = 1; i < lines.Length; i++)
             {
                 string line = lines[i];
-                if(line == "")
+                if (line == "")
                 {
                     continue;
                 }
 
-                //Regex CSVParser = new Regex("/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/"); // look idk
-
 
                 string[] feilds = line.Split(delimiter, System.StringSplitOptions.None);
-                // string[] feilds = line.Split("/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/");
-                //[] feilds = CSVParser.Split(line);
 
 
 
@@ -79,14 +72,6 @@ namespace Localisation
 
                 var value = feilds[attributeIndex];
 
-                //if (value.Contains("\\n"))
-                //{
-                  
-                //}
-
-               // value.Replace(@"\"+"\n", System.Environment.NewLine);
-
-                //Regex.Unescape(value);
 
                 if (value == "" || value == "\r")
                 {
@@ -100,6 +85,44 @@ namespace Localisation
 
 
 
+        }
+
+        private string GetData()
+        {
+            var path = Path.Combine(Application.streamingAssetsPath, fileName);
+            string data;
+
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                UnityWebRequest request = UnityWebRequest.Get(path);
+                request.SendWebRequest();
+
+                while (!request.isDone)
+                {
+                    if (request.isNetworkError || request.isHttpError)
+                    {
+                        Debug.LogError("Can't get file");
+                        break;
+                    }
+                }
+
+                if (request.isNetworkError || request.isHttpError)
+                {
+                    return "Error";
+                }
+
+                string cachePath = Path.Combine(Application.temporaryCachePath, "localisationData.locDat");
+                File.WriteAllBytes(cachePath, request.downloadHandler.data);
+
+                data = File.ReadAllText(cachePath, System.Text.Encoding.UTF8);
+            }
+            else
+            {
+                data= File.ReadAllText(path, System.Text.Encoding.UTF8);
+
+            }
+
+            return data;
         }
     }
 }
