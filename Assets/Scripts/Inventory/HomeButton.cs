@@ -17,7 +17,6 @@ namespace SceneUI
 
         public void QuitToMenu()
         {
-           
             GameCore.GameManager.Instance.QuitToMenu();
         }
     }

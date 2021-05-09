@@ -18,6 +18,7 @@ namespace Tutorial
     {
         private const Player.PlayerEnum player1 = Player.PlayerEnum.Player1;
         public TextBox myBox;
+        private TextBox MyBox => myBox;
 
         public int nudgeTime = 20;
 
@@ -82,7 +83,7 @@ namespace Tutorial
         private void Awake()
         {
             myArrows = GetComponent<ArrowEnabler>();
-            myBox.gameObject.SetActive(false);
+            MyBox.gameObject.SetActive(false);
         }
 
 
@@ -90,6 +91,8 @@ namespace Tutorial
 
         private void OnEnable()
         {
+            EventsManager.CleanEvents(gameObject);
+
             int turn = GameManager.Instance.OnlineTurnManager.TurnTracker.Turn;
             int localTurn = (int)Math.Floor(turn / 2f) + 1;
 
@@ -158,10 +161,27 @@ namespace Tutorial
            // BindEvent(EventsManager.EventType.PlantReadyToGrow,)
         }
 
+        private void OnDisable()
+        {
+            if (EventsManager.InstanceExists)
+            {
+
+                EventsManager.UnbindEvent(EventsManager.ParameterEventType.SwappedGardenView, ParamaterResetActionTimer);
+                EventsManager.UnbindEvent(EventsManager.ParameterEventType.OnPerformedTendingAction, ParamaterResetActionTimer);
+                EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, ResetActionTimer);
+                EventsManager.UnbindEvent(EventsManager.EventType.PlacedCompanionObject, ResetActionTimer);
+
+
+
+                EventsManager.CleanEvents(this);
+            }
+
+        }
+
         private void EnterGameSpectating()
         {
-            myBox.Say("Your partner is taking thier turn, I'm sure they'll be done soon.");
-            myBox.Say("Stick around if you like, or go check another garden and come back later!");
+            MyBox.Say("Your partner is taking thier turn, I'm sure they'll be done soon.");
+            MyBox.Say("Stick around if you like, or go check another garden and come back later!");
         }
 
         void ResetActionTimer()
@@ -219,7 +239,7 @@ namespace Tutorial
                 nextAction = PlayerAction.EndTurn;
             }
 
-            if (myBox.gameObject.activeSelf != false)
+            if (MyBox.gameObject.activeSelf != false)
             {
                 return;
             }
@@ -234,32 +254,32 @@ namespace Tutorial
 
         }
         void NudgePlayer(PlayerAction action)
-        { 
+        {
 
 
-            myBox.gameObject.SetActive(true);
+            MyBox.gameObject.SetActive(true);
             switch (action)
             {
                 case PlayerAction.PlacePlant:
-                    myBox.Say("Remember you can still open the seed bag to choose a plant to plant!");
+                    MyBox.Say("Remember you can still open the seed bag to choose a plant to plant!");
                     myArrows.EnableArrow(ArrowScript.ArrowPurpose.SeedBox);
                     break;
                 case PlayerAction.TendPlant:
-                    myBox.Say("Your plants still some attention!");
-                    myBox.Say("You can drag items from the toolbox to attend to their needs!");
+                    MyBox.Say("Your plants still some attention!");
+                    MyBox.Say("You can drag items from the toolbox to attend to their needs!");
                     myArrows.EnableArrow(ArrowScript.ArrowPurpose.ToolBox);
                     break;
                 case PlayerAction.GiftPlant:
-                    myBox.Say("You can still give your partner a plant before you go!");
+                    MyBox.Say("You can still give your partner a plant before you go!");
                     myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
                     break;
                 case PlayerAction.EndTurn:
-                    myBox.Say("That's all we can do right now until your partner gets back...");
-                    myBox.Say("Be sure to hit that end turn button so they can play!");
+                    MyBox.Say("That's all we can do right now until your partner gets back...");
+                    MyBox.Say("Be sure to hit that end turn button so they can play!");
                     break;
                 case PlayerAction.WaitForYourTurn:
-                    myBox.Say("Your partner is taking thier turn, I'm sure they'll be done soon.");
-                    myBox.Say("Stick around if you like, or go check another garden and come back later!");
+                    MyBox.Say("Your partner is taking thier turn, I'm sure they'll be done soon.");
+                    MyBox.Say("Stick around if you like, or go check another garden and come back later!");
                     break;
                 default:
                     break;
@@ -316,7 +336,14 @@ namespace Tutorial
 
             if (condition == null || condition())
             {
-                myBox.gameObject.SetActive(true);
+                if(MyBox == null || MyBox.gameObject == null || MyBox.Equals(null) || MyBox.gameObject.Equals(null))
+                {
+                    Debug.LogWarning($"Cleaning up old event {tutorial.Method.Name}");
+                    ExhastTutorial(func, eventType, tutorial);
+                    return;
+                }
+
+                MyBox.gameObject.SetActive(true);
 
                 tutorial();
 
@@ -370,7 +397,14 @@ namespace Tutorial
 
             if (condition == null || condition())
             {
-                myBox.gameObject.SetActive(true);
+                if (MyBox == null || MyBox.gameObject == null || MyBox.Equals(null) || MyBox.gameObject.Equals(null))
+                {
+                    Debug.LogWarning($"Cleaning up old event {tutorial}");
+                    ExhastTutorial(func, eventType, tutorial);
+                    return;
+                }
+
+                MyBox.gameObject.SetActive(true);
 
                 tutorial(eventParams);
 
@@ -415,7 +449,7 @@ namespace Tutorial
         void StartTurnOne()
         {
 
-            myBox.Say("Hello there! Welcome to your garden!");
+            MyBox.Say("Hello there! Welcome to your garden!");
          
 
             string emotion = GoalEmotion().ToString();
@@ -423,68 +457,68 @@ namespace Tutorial
             switch (emotion)
             {
                 case "Loving":
-                    myBox.Say($"You're feeling {GetEmotionOutput(emotion)}? That's great!");
-                    myBox.Say($"Let's share that love! And as with all good things, we can say it with flowers!");
+                    MyBox.Say($"You're feeling {GetEmotionOutput(emotion)}? That's great!");
+                    MyBox.Say($"Let's share that love! And as with all good things, we can say it with flowers!");
                     break;
                 case "Lonely":
-                    myBox.Say($"I'm sorry to hear that you're feeling {GetEmotionOutput(emotion)}");
-                    myBox.Say($"Why not share that with your partner, too?");
-                    myBox.Say("We can have this garden communicate that feeling through the plants you choose!");
+                    MyBox.Say($"I'm sorry to hear that you're feeling {GetEmotionOutput(emotion)}");
+                    MyBox.Say($"Why not share that with your partner, too?");
+                    MyBox.Say("We can have this garden communicate that feeling through the plants you choose!");
                     break;
                 case "Stressed":
-                    myBox.Say($"You're {GetEmotionOutput(emotion)}? Then you've come to the right place!");
-                    myBox.Say($"Let's unwind by planting growing some plants that express that feeling!");
+                    MyBox.Say($"You're {GetEmotionOutput(emotion)}? Then you've come to the right place!");
+                    MyBox.Say($"Let's unwind by planting growing some plants that express that feeling!");
                     break;
                 case "Excited":
-                    myBox.Say($"I'm {GetEmotionOutput(emotion.ToString())} too! Let's get going then!");
-                    myBox.Say($"The goal of this garden is to communicate that feeling to your partner!");
-                    myBox.Say($"Hopefully they're as jazzed as us!");
+                    MyBox.Say($"I'm {GetEmotionOutput(emotion.ToString())} too! Let's get going then!");
+                    MyBox.Say($"The goal of this garden is to communicate that feeling to your partner!");
+                    MyBox.Say($"Hopefully they're as jazzed as us!");
                     break;
                 default:
                     break;
             }
 
   
-            myBox.Say("When you're ready, you can choose which seed to plant!");
+            MyBox.Say("When you're ready, you can choose which seed to plant!");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.SeedBox);
         }
 
         private string GetEmotionOutput(string emotion) => $"<b>{emotion}</b>";
 
         void StartedThirdTurn() {
-            myBox.Say("Hi there! did you know you and your partner can help each other out?");
-            myBox.Say("If you go to their garden, you can plant a plant just for them!");
-            myBox.Say("Remember that they're trying to communicate an emotion too!");
+            MyBox.Say("Hi there! did you know you and your partner can help each other out?");
+            MyBox.Say("If you go to their garden, you can plant a plant just for them!");
+            MyBox.Say("Remember that they're trying to communicate an emotion too!");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.SwapGarden);
         }
 
 
         void PlantedFirstPlant()
         {
-            myBox.Say("Wow, this place is looking beautiful already!");
+            MyBox.Say("Wow, this place is looking beautiful already!");
             ExplainTending();
         }
 
         void StartTurnTwoWithRelaventPlants()
         {
-            myBox.Say("Good morning!");
-            myBox.Say($"That last plant was super in sync with you...");
+            MyBox.Say("Good morning!");
+            MyBox.Say($"That last plant was super in sync with you...");
             ExplainTraits();
             
-            myBox.Say("Why not plant another with a different trait from your mood?");
+            MyBox.Say("Why not plant another with a different trait from your mood?");
 
         }
         void StartTurnTwoWithNoRelaventPlants()
         {
-            myBox.Say("Good morning!");
+            MyBox.Say("Good morning!");
             ExplainTraits();
-            myBox.Say("Why not try planting a plant with a trait from your mood?");
+            MyBox.Say("Why not try planting a plant with a trait from your mood?");
  
         }
 
         void ExplainTending()
         {
-            myBox.Say("Don't forget to water it by using the can in the toolbox!");
+            MyBox.Say("Don't forget to water it by using the can in the toolbox!");
             EventsManager.BindEvent(EventsManager.EventType.ToolBoxOpen, ActivateCanArrow);
         }
         void ActivateCanArrow()
@@ -498,27 +532,27 @@ namespace Tutorial
             EventsManager.InvokeEvent(EventsManager.EventType.MoodSlidersExplination);
             Emotion.Emotions emotion = GoalEmotion();
             var traits = Emotion.GetScalesInEmotion(emotion);
- //           myBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
-//            myBox.Say($"For example, when we started, you said you were {emotion}");
-            myBox.Say($"\'{emotion}\' consists of two traits. <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
+ //           MyBox.Say($"Did you know that <b>emotions</b> are comprised of <b>traits</b>?");
+//            MyBox.Say($"For example, when we started, you said you were {emotion}");
+            MyBox.Say($"\'{emotion}\' consists of two traits. <i>{traits.Item1}</i>{TraitValue.GetIconDisplay(traits.Item1)} and <i>{traits.Item2}</i>{TraitValue.GetIconDisplay(traits.Item2)}");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.MoodIndicator);
-            myBox.Say($"A fully grown plant will help your garden communicate its trait!");
-            //myBox.Say($"With a little help from your partner, your garden will be communicating {emotion} in no time!");
+            MyBox.Say($"A fully grown plant will help your garden communicate its trait!");
+            //MyBox.Say($"With a little help from your partner, your garden will be communicating {emotion} in no time!");
           
         }
 
 
         void PlantFullyTended()
         {
-            myBox.Say("Looks like that plant really needed that!");
-            myBox.Say("By the start of your next turn it will probably have grown!");
-            //myBox.Say("Plants will only grow if they have been well looked after, so make sure to keep an eye out for thier needs.");
-            //myBox.Say($"You can use the humane repellant to chase away any bugs and use the shears to trim extra leaves too!");
+            MyBox.Say("Looks like that plant really needed that!");
+            MyBox.Say("By the start of your next turn it will probably have grown!");
+            //MyBox.Say("Plants will only grow if they have been well looked after, so make sure to keep an eye out for thier needs.");
+            //MyBox.Say($"You can use the humane repellant to chase away any bugs and use the shears to trim extra leaves too!");
         }
 
         void MoodRelevantPlantReachesMaturity()
         {
-            myBox.Say("Now this garden is really getting going!");
+            MyBox.Say("Now this garden is really getting going!");
             myArrows.EnableArrow(ArrowScript.ArrowPurpose.MoodIndicator);
         }
 
@@ -527,10 +561,10 @@ namespace Tutorial
             switch ((TurnPoints.PointType)eventParams.EnumData1)
             {
                 case TurnPoints.PointType.SelfObjectPlace:
-                    myBox.Say("Whoa there! You can only plant one plant in your garden each turn!");  
+                    MyBox.Say("Whoa there! You can only plant one plant in your garden each turn!");  
                     break;
                 case TurnPoints.PointType.OtherObjectPlace:
-                    myBox.Say("You can't plant in your companion's garden again until your next turn, sorry.");
+                    MyBox.Say("You can't plant in your companion's garden again until your next turn, sorry.");
                     break;
                 default: throw new System.ArgumentException();
             }
@@ -541,7 +575,7 @@ namespace Tutorial
             if ((Player.PlayerEnum)eventParams.EnumData1 != player1)
                 return;
 
-            myBox.Say("You did it! Your garden now reflects your mood as well as you communicated it.");
+            MyBox.Say("You did it! Your garden now reflects your mood as well as you communicated it.");
 
 
             var goal = GameManager.Instance.EmotionTracker.EmotionGoal.enumValue;
@@ -549,20 +583,20 @@ namespace Tutorial
             switch (goal)
             {
                 case Emotion.Emotions.Loving:
-                       myBox.Say($"Do you feel the love in the air? Because I do!");
+                       MyBox.Say($"Do you feel the love in the air? Because I do!");
                     break;
                 case Emotion.Emotions.Excited:
-                       myBox.Say($"Wow! I can barely stay in one place. Thank you for sharing all your positive vibes with me!");
+                       MyBox.Say($"Wow! I can barely stay in one place. Thank you for sharing all your positive vibes with me!");
                     break;
                 case Emotion.Emotions.Stressed:
-                       myBox.Say($"Finding some time for yourself is a very hard thing to do while stressed. You did well, playing game is a form of self-care!");
+                       MyBox.Say($"Finding some time for yourself is a very hard thing to do while stressed. You did well, playing game is a form of self-care!");
                     break;
                 case Emotion.Emotions.Lonely:
-                       myBox.Say($"Thank you for sharing your loneliness with me and your gardening partner. Opening up about your feelings is so hard and I'm proud of you.");
+                       MyBox.Say($"Thank you for sharing your loneliness with me and your gardening partner. Opening up about your feelings is so hard and I'm proud of you.");
                     break;
             }
 
-            myBox.Say("You can carry on playing the game in an endless mode if you like");
+            MyBox.Say("You can carry on playing the game in an endless mode if you like");
 
         }
 

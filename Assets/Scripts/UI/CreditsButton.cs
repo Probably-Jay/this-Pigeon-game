@@ -7,16 +7,14 @@ public class CreditsButton : MonoBehaviour
 {
     public void OpenCreditsScene()
     {
-        SceneManager.LoadScene("CreditsScene");
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.Credits);
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneChangeController.Instance.ChangeScene(SceneChangeController.Scenes.MainMenu);
+
     }
 
-    public void BackToGame()
-    {
-        SceneManager.LoadScene("ComboScene3");
-    }
+  
 }

@@ -29,6 +29,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
     //    , MoodSelectScreen2
     //    , PersonalGarden
     //    , Tutorial
+        , Credits
         , Game
     }
 
@@ -41,6 +42,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
    // [SerializeField] int PersonalGardenBuildIndex;  
     //[SerializeField] int TutorialBuildIndex;
     [SerializeField] int GameBuildIndex;
+    [SerializeField] int CreditsBuildIndex;
 
 
     [SerializeReference] GameObject LoadingScreen;
@@ -78,6 +80,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
       //  sceneBuildIndexesDictionary.Add(Scenes.MoodSelectScreen2, MoodSelect2BuildIndex);
        // sceneBuildIndexesDictionary.Add(Scenes.PersonalGarden, PersonalGardenBuildIndex);
       //  sceneBuildIndexesDictionary.Add(Scenes.Tutorial, TutorialBuildIndex);
+        sceneBuildIndexesDictionary.Add(Scenes.Credits, CreditsBuildIndex);
         sceneBuildIndexesDictionary.Add(Scenes.Game, GameBuildIndex);
     }
 
@@ -155,6 +158,7 @@ public class SceneChangeController : Singleton<SceneChangeController>
 
     private void BeginLoad(int buildInxed)
     {
+        EventsManager.CleanEvents();
         LoadingScreen.SetActive(true);
         EventsManager.InvokeEvent(EventsManager.EventType.BeginSceneLoad);
         loadingScene = SceneManager.LoadSceneAsync(buildInxed);

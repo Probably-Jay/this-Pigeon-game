@@ -293,7 +293,11 @@ namespace NetSystem
         /// </summary>
         private void OnCreateGameFailure(FailureReason error, APIOperationCallbacks<NetworkGame> parentCallbacks)
         {
-            Debug.LogError(error);
+            if (error != FailureReason.AboveOpenGamesLimit)
+            {
+                Debug.LogError(error);
+            }           
+     
             parentCallbacks.OnFailure(error);
         }
 
