@@ -15,4 +15,8 @@ public class CreditsButton : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void BackToGame()
+    {
+        SceneManager.LoadScene("ComboScene3");
+    }
 }

@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 99603192}
   - component: {fileID: 99603191}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonQuit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,8 +232,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99603189}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
+  m_LocalScale: {x: 2.4460938, y: 1, z: 1}
   m_Children:
   - {fileID: 135249906}
   m_Father: {fileID: 1377992997}
@@ -241,7 +241,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -312.92, y: -639.65}
+  m_AnchoredPosition: {x: -245, y: -645.00006}
   m_SizeDelta: {x: 114.70053, y: 48.694183}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &99603191
@@ -375,15 +375,15 @@ RectTransform:
   m_GameObject: {fileID: 135249905}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.40881506, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 99603190}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.0000038146973, y: 0.4200096}
+  m_SizeDelta: {x: 131.12622, y: -0.8400879}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &135249907
 MonoBehaviour:
@@ -421,7 +421,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 9c0b3b4fa2b549f46812ca5148fec772, type: 3}
     m_FontSize: 31
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 4
@@ -430,7 +430,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: QUIT
+  m_Text: QUIT To Main
 --- !u!222 &135249909
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -628,8 +628,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'We would like to thanks Martin Lynagh, Hayley Brown, Kenneth Scott-brown
-    and Alison Duffy for their invaluable help and feedback throughout this project. '
+  m_text: 'We would like to thanks Devin Colyer for composing ''''Garden blues''''
+    and Martin Lynagh, Hayley Brown, Kenneth Scott-brown and Alison Duffy for their
+    invaluable help and feedback throughout this project. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
