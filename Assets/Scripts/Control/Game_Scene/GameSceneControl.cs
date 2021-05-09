@@ -24,7 +24,7 @@ public class GameSceneControl : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        //   GameCore.GameManager.Instance.SaveGame();
-        Debug.LogWarning("Quit game saving has been disabled for debugging");
+        GameCore.GameManager.Instance.SaveGame();
+        //Debug.LogWarning("Quit game saving has been disabled for debugging");
     }
 }
