@@ -62,7 +62,9 @@ namespace Audio
             EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxOpen, Tools);
             EventsManager.UnbindEvent(EventsManager.EventType.ToolBoxClose, Tools);
 
-            EventsManager.UnbindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
+            // EventsManager.UnbindEvent(EventsManager.EventType.OnDialogueOpen, PetSounds);
+            EventsManager.UnbindEvent(EventsManager.EventType.DialogueNext, PetSounds);
+            EventsManager.UnbindEvent(EventsManager.EventType.DialoguePrevious, PetSounds);
 
             EventsManager.UnbindEvent(EventsManager.EventType.PlacedSmallPlant, SmallPlant);
             EventsManager.UnbindEvent(EventsManager.EventType.PlacedTallPlant, TallPlant);

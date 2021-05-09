@@ -90,7 +90,11 @@ namespace GameCore
 
         private void OnDisable()
         {
-            EventsManager.UnbindEvent(EventsManager.EventType.EnterGameScene, EnterGame);
+            if (EventsManager.InstanceExists)
+            {
+                EventsManager.UnbindEvent(EventsManager.EventType.EnterGameScene, EnterGame);
+
+            }
         }
 
 
