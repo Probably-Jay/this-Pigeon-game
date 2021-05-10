@@ -19,19 +19,21 @@ namespace GameCore
     /// </summary>
     public class EmotionTracker : MonoBehaviour // re-named from DisplayManager
     {
-        private bool p1won;
-        private bool p2won;
+        
+        private bool otherPlayerHasWon;
 
         private void OnEnable()
         {
             EventsManager.BindEvent(EventsManager.EventType.GameLoaded, UpdateGardenStats);
             EventsManager.BindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
+            EventsManager.BindEvent(EventsManager.EventType.PlacedOwnObject, UpdateGardenStats);
         }
 
         private void OnDisable()
         {
             EventsManager.UnbindEvent(EventsManager.EventType.GameLoaded, UpdateGardenStats);
             EventsManager.UnbindEvent(EventsManager.EventType.PlantChangedStats, UpdateGardenStats);
+            EventsManager.UnbindEvent(EventsManager.EventType.PlacedOwnObject, UpdateGardenStats);
         }
 
         ///// <summary>
@@ -77,8 +79,19 @@ namespace GameCore
         {
             if (PlayerHasAcheivedGoal())
             {
+                Debug.LogError("Won");
                 EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData1 = GameManager.Instance.LocalPlayerEnumID });
+                switch (GameManager.Instance.LocalPlayerEnumID)
+                {
+                    case Player.PlayerEnum.Player1:
+                        GameManager.Instance.DataManager.SetPlayer1AchivedMood(true);
+                        break;
+                    case Player.PlayerEnum.Player2:
+                        GameManager.Instance.DataManager.SetPlayer2AchivedMood(true);
+                        break;
+                }
             }
+
             //if (HasAcheivedGoal(Player.PlayerEnum.Player1))
             //{
             //    EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData = Player.PlayerEnum.Player1 });
@@ -118,6 +131,7 @@ namespace GameCore
                     // set play 1s
                     var data = NetSystem.NetworkHandler.Instance.NetGame.CurrentNetworkGame.CurrentGameData.playerData;
                     GameManager.Instance.DataManager.SetPlayer1GoalMood(data.player1ChosenMood);
+                    otherPlayerHasWon = data.player1MoodAchieved;
                     break;
             }
     
@@ -141,8 +155,17 @@ namespace GameCore
             GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
             GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
 
-            p1won = data.player1MoodAchieved;
-            p2won = data.player2MoodAchieved;
+            // GameManager.Instance.LocalPlayer. = data.player1MoodAchieved;
+            switch (GameManager.Instance.LocalPlayerEnumID)
+            {
+                case Player.PlayerEnum.Player1:
+                    otherPlayerHasWon = data.player2MoodAchieved;
+                    break;
+                case Player.PlayerEnum.Player2:
+                    otherPlayerHasWon = data.player1MoodAchieved;
+                    break;
+            }
+
         }
 
 
@@ -157,47 +180,52 @@ namespace GameCore
             GameManager.Instance.DataManager.SetPlayer1AchivedMood(data.player1MoodAchieved);
             GameManager.Instance.DataManager.SetPlayer2AchivedMood(data.player2MoodAchieved);
 
-            p1won = data.player1MoodAchieved;
-            p2won = data.player2MoodAchieved;
+            // p1won = data.player1MoodAchieved;
+            switch (GameManager.Instance.LocalPlayerEnumID)
+            {
+                case Player.PlayerEnum.Player1:
+                    otherPlayerHasWon = data.player2MoodAchieved;
+                    break;
+                case Player.PlayerEnum.Player2:
+                    otherPlayerHasWon = data.player1MoodAchieved;
+                    break;
+            }
         }
 
         public void UpdateGardenStats()
         {
             var newGardenState = GetLocalGardenStats();
+
             if(CurrentGardenTraits == newGardenState)
             {
+                CheckForAcheivedGoal();
+                if ((GameManager.Instance.LocalPlayer.HasAcheivedGoal && otherPlayerHasWon))
+                {
+                    EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
+                }
                 return; // we do not need to signal update as this is already up to date
             }
 
+
             CurrentGardenTraits = newGardenState;
+            CheckForAcheivedGoal();
+
             EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
 
-            if (GameManager.Instance.LocalPlayer.HasAcheivedGoal) {
-                p1won = true;
-            }
 
-            if ((p1won && p2won))
+            if ((GameManager.Instance.LocalPlayer.HasAcheivedGoal && otherPlayerHasWon))
             {
                 EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
             }
-            //foreach (var player in Player.PlayerEnumValueList)
-            //{
-            //    var currentState = GetCurrentGardenStats(player);
-            //    if (GardenCurrentTraits[player] == currentState)
-            //    {
-            //        continue;
-            //    }
+   
 
-            //    GardenCurrentTraits[player] = currentState;
-            //    EventsManager.InvokeEvent(EventsManager.EventType.GardenStatsUpdated);
-            //}
         }
 
         private void Update() {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
-            }
+            //if (Input.GetKeyDown(KeyCode.P))
+            //{
+            //    EventsManager.InvokeEvent(EventsManager.EventType.GameOver);
+            //}
         }
 
         private TraitValue GetLocalGardenStats()

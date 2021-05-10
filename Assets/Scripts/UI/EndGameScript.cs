@@ -42,14 +42,13 @@ public class EndGameScript : MonoBehaviour
 
     void MakeVisible()
     {
-        if (!EndGameDisplay.activeSelf)
-        {
-            EndGameDisplay.SetActive(true);
-        }
-        if (EndGameDisplay.transform.rotation.x >= 0)
-        {
-            StartCoroutine(RotateIn());
-        }
+        
+         EndGameDisplay.SetActive(true);
+        
+        //if (EndGameDisplay.transform.rotation.x >= 0)
+        //{
+        //    StartCoroutine(RotateIn());
+        //}
 
         squadGoals.text =
          $"Garden 1 Goal: {(goals)GameManager.Instance.DataManager.GetPlayer1GoalMood()},\n" +
