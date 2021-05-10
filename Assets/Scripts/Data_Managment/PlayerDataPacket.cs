@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// Script created by Alexander Purvis 26/04/2021
 [System.Serializable]
 public class PlayerDataPacket
 {
  
+   
     public PlayerDataPacket()
     {
 
