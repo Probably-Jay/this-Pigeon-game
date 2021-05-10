@@ -79,7 +79,7 @@ namespace GameCore
         {
             if (PlayerHasAcheivedGoal())
             {
-                Debug.LogError("Won");
+                //Debug.LogError("Won");
                 EventsManager.InvokeEvent(EventsManager.ParameterEventType.AcheivedGoal, new EventsManager.EventParams() { EnumData1 = GameManager.Instance.LocalPlayerEnumID });
                 switch (GameManager.Instance.LocalPlayerEnumID)
                 {
